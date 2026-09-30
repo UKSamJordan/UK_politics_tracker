@@ -430,5 +430,340 @@
         "restore"
       ]
     }
+  ],
+  "leaderRatingsByPollster": [
+    {
+      "pollsterId": "poll-of-polls",
+      "pollsterName": "Aggregated Poll of Polls (Britain Elects)",
+      "date": "2026-09-28",
+      "sampleSize": 12500,
+      "methodology": "Weighted aggregate across all major British Polling Council (BPC) members",
+      "ratings": [
+        {
+          "partyId": "labour",
+          "leaderName": "Andy Burnham",
+          "role": "Prime Minister & Labour Leader",
+          "approvePct": 46,
+          "disapprovePct": 38,
+          "netRating": 8,
+          "dontKnowPct": 16,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-09-28",
+          "trend": "+4"
+        },
+        {
+          "partyId": "conservative",
+          "leaderName": "Kemi Badenoch",
+          "role": "Leader of the Opposition & Conservative Leader",
+          "approvePct": 27,
+          "disapprovePct": 46,
+          "netRating": -19,
+          "dontKnowPct": 27,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-09-28",
+          "trend": "+1"
+        },
+        {
+          "partyId": "reform",
+          "leaderName": "Nigel Farage",
+          "role": "Reform UK Leader & MP",
+          "approvePct": 29,
+          "disapprovePct": 54,
+          "netRating": -25,
+          "dontKnowPct": 17,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-09-28",
+          "trend": "+2"
+        },
+        {
+          "partyId": "libdem",
+          "leaderName": "Sir Ed Davey",
+          "role": "Liberal Democrat Leader & MP",
+          "approvePct": 34,
+          "disapprovePct": 31,
+          "netRating": 3,
+          "dontKnowPct": 35,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-09-28",
+          "trend": "+1"
+        },
+        {
+          "partyId": "green",
+          "leaderName": "Carla Denyer & Adrian Ramsay",
+          "role": "Green Party Co-Leaders & MPs",
+          "approvePct": 26,
+          "disapprovePct": 24,
+          "netRating": 2,
+          "dontKnowPct": 50,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-09-28",
+          "trend": "0"
+        },
+        {
+          "partyId": "snp",
+          "leaderName": "John Swinney",
+          "role": "First Minister of Scotland & SNP Leader",
+          "approvePct": 36,
+          "disapprovePct": 41,
+          "netRating": -5,
+          "dontKnowPct": 23,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-09-28",
+          "trend": "+2"
+        },
+        {
+          "partyId": "plaid",
+          "leaderName": "Rhun ap Iorwerth",
+          "role": "Plaid Cymru Leader & MS",
+          "approvePct": 33,
+          "disapprovePct": 27,
+          "netRating": 6,
+          "dontKnowPct": 40,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-09-28",
+          "trend": "+1"
+        }
+      ]
+    },
+    {
+      "pollsterId": "yougov",
+      "pollsterName": "YouGov Leader Tracker",
+      "date": "2026-09-28",
+      "sampleSize": 2150,
+      "methodology": "Nationally representative online panel of UK adults 18+",
+      "ratings": [
+        {
+          "partyId": "labour",
+          "leaderName": "Andy Burnham",
+          "role": "Prime Minister & Labour Leader",
+          "approvePct": 46,
+          "disapprovePct": 39,
+          "netRating": 7,
+          "dontKnowPct": 15,
+          "pollster": "YouGov",
+          "date": "2026-09-28",
+          "trend": "+4"
+        },
+        {
+          "partyId": "conservative",
+          "leaderName": "Kemi Badenoch",
+          "role": "Leader of the Opposition & Conservative Leader",
+          "approvePct": 27,
+          "disapprovePct": 47,
+          "netRating": -20,
+          "dontKnowPct": 26,
+          "pollster": "YouGov",
+          "date": "2026-09-28",
+          "trend": "-1"
+        },
+        {
+          "partyId": "reform",
+          "leaderName": "Nigel Farage",
+          "role": "Reform UK Leader & MP",
+          "approvePct": 28,
+          "disapprovePct": 56,
+          "netRating": -28,
+          "dontKnowPct": 16,
+          "pollster": "YouGov",
+          "date": "2026-09-28",
+          "trend": "+1"
+        },
+        {
+          "partyId": "libdem",
+          "leaderName": "Sir Ed Davey",
+          "role": "Liberal Democrat Leader & MP",
+          "approvePct": 33,
+          "disapprovePct": 31,
+          "netRating": 2,
+          "dontKnowPct": 36,
+          "pollster": "YouGov",
+          "date": "2026-09-28",
+          "trend": "+1"
+        },
+        {
+          "partyId": "green",
+          "leaderName": "Carla Denyer & Adrian Ramsay",
+          "role": "Green Party Co-Leaders & MPs",
+          "approvePct": 25,
+          "disapprovePct": 25,
+          "netRating": 0,
+          "dontKnowPct": 50,
+          "pollster": "YouGov",
+          "date": "2026-09-28",
+          "trend": "-1"
+        }
+      ]
+    },
+    {
+      "pollsterId": "ipsos",
+      "pollsterName": "Ipsos Political Monitor",
+      "date": "2026-09-26",
+      "sampleSize": 1050,
+      "methodology": "Telephone & online quota sample of UK adults 18+",
+      "ratings": [
+        {
+          "partyId": "labour",
+          "leaderName": "Andy Burnham",
+          "role": "Prime Minister & Labour Leader",
+          "approvePct": 48,
+          "disapprovePct": 38,
+          "netRating": 10,
+          "dontKnowPct": 14,
+          "pollster": "Ipsos",
+          "date": "2026-09-26",
+          "trend": "+5"
+        },
+        {
+          "partyId": "conservative",
+          "leaderName": "Kemi Badenoch",
+          "role": "Leader of the Opposition & Conservative Leader",
+          "approvePct": 28,
+          "disapprovePct": 45,
+          "netRating": -17,
+          "dontKnowPct": 27,
+          "pollster": "Ipsos",
+          "date": "2026-09-26",
+          "trend": "+2"
+        },
+        {
+          "partyId": "reform",
+          "leaderName": "Nigel Farage",
+          "role": "Reform UK Leader & MP",
+          "approvePct": 30,
+          "disapprovePct": 54,
+          "netRating": -24,
+          "dontKnowPct": 16,
+          "pollster": "Ipsos",
+          "date": "2026-09-26",
+          "trend": "+3"
+        },
+        {
+          "partyId": "libdem",
+          "leaderName": "Sir Ed Davey",
+          "role": "Liberal Democrat Leader & MP",
+          "approvePct": 35,
+          "disapprovePct": 30,
+          "netRating": 5,
+          "dontKnowPct": 35,
+          "pollster": "Ipsos",
+          "date": "2026-09-26",
+          "trend": "+2"
+        }
+      ]
+    },
+    {
+      "pollsterId": "savanta",
+      "pollsterName": "Savanta / Daily Telegraph Tracker",
+      "date": "2026-09-25",
+      "sampleSize": 2240,
+      "methodology": "Online interview panel weighted to UK demographic profile",
+      "ratings": [
+        {
+          "partyId": "labour",
+          "leaderName": "Andy Burnham",
+          "role": "Prime Minister & Labour Leader",
+          "approvePct": 44,
+          "disapprovePct": 38,
+          "netRating": 6,
+          "dontKnowPct": 18,
+          "pollster": "Savanta",
+          "date": "2026-09-25",
+          "trend": "+3"
+        },
+        {
+          "partyId": "conservative",
+          "leaderName": "Kemi Badenoch",
+          "role": "Leader of the Opposition & Conservative Leader",
+          "approvePct": 26,
+          "disapprovePct": 46,
+          "netRating": -20,
+          "dontKnowPct": 28,
+          "pollster": "Savanta",
+          "date": "2026-09-25",
+          "trend": "0"
+        },
+        {
+          "partyId": "reform",
+          "leaderName": "Nigel Farage",
+          "role": "Reform UK Leader & MP",
+          "approvePct": 29,
+          "disapprovePct": 55,
+          "netRating": -26,
+          "dontKnowPct": 16,
+          "pollster": "Savanta",
+          "date": "2026-09-25",
+          "trend": "+2"
+        },
+        {
+          "partyId": "libdem",
+          "leaderName": "Sir Ed Davey",
+          "role": "Liberal Democrat Leader & MP",
+          "approvePct": 32,
+          "disapprovePct": 29,
+          "netRating": 3,
+          "dontKnowPct": 39,
+          "pollster": "Savanta",
+          "date": "2026-09-25",
+          "trend": "0"
+        }
+      ]
+    },
+    {
+      "pollsterId": "redfield",
+      "pollsterName": "Redfield & Wilton Strategies",
+      "date": "2026-09-24",
+      "sampleSize": 2000,
+      "methodology": "Online panel of UK eligible voters",
+      "ratings": [
+        {
+          "partyId": "labour",
+          "leaderName": "Andy Burnham",
+          "role": "Prime Minister & Labour Leader",
+          "approvePct": 47,
+          "disapprovePct": 38,
+          "netRating": 9,
+          "dontKnowPct": 15,
+          "pollster": "Redfield & Wilton",
+          "date": "2026-09-24",
+          "trend": "+5"
+        },
+        {
+          "partyId": "conservative",
+          "leaderName": "Kemi Badenoch",
+          "role": "Leader of the Opposition & Conservative Leader",
+          "approvePct": 27,
+          "disapprovePct": 48,
+          "netRating": -21,
+          "dontKnowPct": 25,
+          "pollster": "Redfield & Wilton",
+          "date": "2026-09-24",
+          "trend": "-1"
+        },
+        {
+          "partyId": "reform",
+          "leaderName": "Nigel Farage",
+          "role": "Reform UK Leader & MP",
+          "approvePct": 31,
+          "disapprovePct": 53,
+          "netRating": -22,
+          "dontKnowPct": 16,
+          "pollster": "Redfield & Wilton",
+          "date": "2026-09-24",
+          "trend": "+3"
+        },
+        {
+          "partyId": "libdem",
+          "leaderName": "Sir Ed Davey",
+          "role": "Liberal Democrat Leader & MP",
+          "approvePct": 30,
+          "disapprovePct": 29,
+          "netRating": 1,
+          "dontKnowPct": 41,
+          "pollster": "Redfield & Wilton",
+          "date": "2026-09-24",
+          "trend": "-1"
+        }
+      ]
+    }
   ]
 }

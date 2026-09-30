@@ -131,6 +131,15 @@ export interface LeaderRating {
   trend: string;
 }
 
+export interface PollsterLeaderSet {
+  pollsterId: string;
+  pollsterName: string;
+  date: string;
+  sampleSize: number;
+  methodology: string;
+  ratings: LeaderRating[];
+}
+
 export interface BestPrimeMinisterPoll {
   date: string;
   pollster: string;

@@ -18,6 +18,7 @@ import {
   PolicyPopularityItem, 
   LeaderRating, 
   BestPrimeMinisterPoll,
+  PollsterLeaderSet,
   PartyId 
 } from '../types/politics';
 import { 
@@ -33,7 +34,11 @@ import {
   ArrowDownRight,
   Minus,
   Search,
-  Scale
+  Scale,
+  Layers,
+  Info,
+  SlidersHorizontal,
+  CheckCircle2
 } from 'lucide-react';
 import { SectionRefreshButton } from './SectionRefreshButton';
 
@@ -42,9 +47,12 @@ interface PollTrackerProps {
   timeSeries: PollPoint[];
   policyPopularity: PolicyPopularityItem[];
   leaderRatings?: LeaderRating[];
+  leaderRatingsByPollster?: PollsterLeaderSet[];
   bestPrimeMinister?: BestPrimeMinisterPoll;
   lastUpdated: string;
   onRefreshPolls?: () => Promise<void> | void;
+  initialSubTab?: 'voting' | 'leaders' | 'bestpm' | 'policies';
+  initialTargetLeader?: PartyId;
 }
 
 export const PollTracker: React.FC<PollTrackerProps> = ({
@@ -52,17 +60,51 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
   timeSeries,
   policyPopularity,
   leaderRatings = [],
+  leaderRatingsByPollster = [],
   bestPrimeMinister,
   lastUpdated,
   onRefreshPolls,
+  initialSubTab,
+  initialTargetLeader,
 }) => {
-  const [activeSubTab, setActiveSubTab] = useState<'voting' | 'leaders' | 'policies' | 'bestpm'>('voting');
+  const [activeSubTab, setActiveSubTab] = useState<'voting' | 'leaders' | 'policies' | 'bestpm'>(
+    initialSubTab || 'voting'
+  );
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   
   // Head to head leaders
-  const [compareLeaderA, setCompareLeaderA] = useState<PartyId>('labour');
+  const [compareLeaderA, setCompareLeaderA] = useState<PartyId>(initialTargetLeader || 'labour');
   const [compareLeaderB, setCompareLeaderB] = useState<PartyId>('conservative');
+
+  // Selected Pollster for Leader Ratings
+  const [selectedLeaderPollsterId, setSelectedLeaderPollsterId] = useState<string>('poll-of-polls');
+  // Selected Poll for Voting Intention
+  const [selectedVotingPollIndex, setSelectedVotingPollIndex] = useState<number>(timeSeries.length - 1);
+
+  // Sync when user navigates directly to a leader (e.g. from Andy Burnham's card)
+  React.useEffect(() => {
+    if (initialSubTab) {
+      setActiveSubTab(initialSubTab);
+    }
+  }, [initialSubTab]);
+
+  React.useEffect(() => {
+    if (initialTargetLeader) {
+      setCompareLeaderA(initialTargetLeader);
+    }
+  }, [initialTargetLeader]);
+
+  // Resolve active leader ratings set based on selected pollster
+  const activePollsterSet = leaderRatingsByPollster.find(
+    (p) => p.pollsterId === selectedLeaderPollsterId
+  );
+  const currentLeaderRatings: LeaderRating[] = 
+    (activePollsterSet && activePollsterSet.ratings.length > 0)
+      ? activePollsterSet.ratings
+      : leaderRatings;
+
+  const currentVotingPoll = timeSeries[selectedVotingPollIndex] || timeSeries[timeSeries.length - 1];
 
   const filteredPolicies = policyPopularity.filter((item) => {
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
@@ -81,10 +123,15 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
     return <Minus className="w-3.5 h-3.5 text-slate-400 inline" />;
   };
 
-  const leaderA = leaderRatings.find((l) => l.partyId === compareLeaderA);
-  const leaderB = leaderRatings.find((l) => l.partyId === compareLeaderB);
+  const leaderA = currentLeaderRatings.find((l) => l.partyId === compareLeaderA) || leaderRatings.find((l) => l.partyId === compareLeaderA);
+  const leaderB = currentLeaderRatings.find((l) => l.partyId === compareLeaderB) || leaderRatings.find((l) => l.partyId === compareLeaderB);
   const partyA = parties.find((p) => p.id === compareLeaderA);
   const partyB = parties.find((p) => p.id === compareLeaderB);
+
+  const getPollsterRating = (pollsterId: string, partyId: PartyId) => {
+    const set = leaderRatingsByPollster.find((p) => p.pollsterId === pollsterId);
+    return set?.ratings.find((r) => r.partyId === partyId);
+  };
 
   return (
     <div className="space-y-6">
@@ -110,7 +157,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
           />
           <div className="text-left md:text-right bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
             <span className="text-[10px] uppercase font-bold text-slate-400 block">Pollster Benchmark</span>
-            <span className="text-xs font-bold text-slate-800 block">YouGov • Ipsos • Savanta • Opinium</span>
+            <span className="text-xs font-bold text-slate-800 block">YouGov • Ipsos • Savanta • Opinium • Redfield</span>
           </div>
         </div>
       </div>
@@ -118,10 +165,10 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
       {/* Sub-Navigation Tabs */}
       <div className="flex items-center space-x-2 border-b border-slate-200 pb-3 overflow-x-auto scrollbar-none">
         {[
-          { id: 'voting', label: 'Voting Intention', icon: TrendingUp },
-          { id: 'leaders', label: 'Leader Approval Ratings & Comparison', icon: Users },
+          { id: 'voting', label: 'Party Voting Intention (Vote Share %)', icon: TrendingUp },
+          { id: 'leaders', label: 'Leader Personal Approval (Ratings)', icon: Users },
           { id: 'bestpm', label: 'Best Prime Minister Tracker', icon: Award },
-          { id: 'policies', label: `Policy Popularity (${policyPopularity.length} Polls)`, icon: Vote },
+          { id: 'policies', label: `Policy Public Support (${policyPopularity.length} Polls)`, icon: Vote },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeSubTab === tab.id;
@@ -129,7 +176,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
             <button
               key={tab.id}
               onClick={() => setActiveSubTab(tab.id as any)}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all ${
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer ${
                 isActive
                   ? 'bg-slate-900 text-white shadow-xs'
                   : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
@@ -142,18 +189,91 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
         })}
       </div>
 
+      {/* Distinction Banner: Party Voting Intention vs Leader Personal Approval */}
+      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white rounded-2xl p-4 sm:p-5 border border-slate-700 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-start space-x-3.5">
+          <div className="p-2.5 rounded-xl bg-white/10 shrink-0 mt-0.5">
+            <Scale className="w-5 h-5 text-rose-400" />
+          </div>
+          <div>
+            <div className="flex flex-wrap items-center gap-2 font-bold mb-1">
+              <span className="text-rose-400 uppercase tracking-wider text-[10px] bg-rose-500/20 px-2 py-0.5 rounded font-black">
+                Methodology Distinction
+              </span>
+              <span className="text-slate-200 text-xs sm:text-sm">
+                Party Approval (Vote Share) vs Leader Approval (Personal Ratings)
+              </span>
+            </div>
+            <p className="text-slate-300 text-xs leading-relaxed max-w-3xl">
+              <strong className="text-white font-semibold">1. Party Voting Intention (%):</strong> "If a General Election were held tomorrow, which party would you vote for?" (e.g. Labour 31%, Conservative 24%, Reform 20%). Measures party brand and national electoral strength.<br />
+              <strong className="text-white font-semibold">2. Leader Personal Approval (Net):</strong> "Do you approve or disapprove of Andy Burnham / Kemi Badenoch / Nigel Farage as leader?" (e.g. Andy Burnham +8 Net, Kemi Badenoch -19 Net, Nigel Farage -25 Net). Individual leaders routinely outpoll or underpoll their party baseline.
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 shrink-0 self-end md:self-center">
+          <button
+            onClick={() => setActiveSubTab('voting')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              activeSubTab === 'voting'
+                ? 'bg-rose-600 text-white shadow-xs'
+                : 'bg-white/10 text-slate-300 hover:bg-white/20'
+            }`}
+          >
+            Party Polls
+          </button>
+          <button
+            onClick={() => setActiveSubTab('leaders')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              activeSubTab === 'leaders'
+                ? 'bg-rose-600 text-white shadow-xs'
+                : 'bg-white/10 text-slate-300 hover:bg-white/20'
+            }`}
+          >
+            Leader Approval
+          </button>
+        </div>
+      </div>
+
       {/* ---------------- 1. VOTING INTENTION TAB ---------------- */}
       {activeSubTab === 'voting' && (
         <div className="space-y-6">
-          {/* Latest Polling Headline Cards */}
+          {/* Poll Selection Bar */}
+          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center space-x-2">
+              <SlidersHorizontal className="w-4 h-4 text-slate-500" />
+              <span className="text-xs font-bold text-slate-700">Displaying Vote Share From:</span>
+              <span className="text-xs font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">
+                {currentVotingPoll.pollster} ({currentVotingPoll.date})
+              </span>
+              <span className="text-xs text-rose-600 font-bold">
+                Lead: {currentVotingPoll.leadParty.toUpperCase()} (+{currentVotingPoll.leadMargin} pts)
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <label className="text-xs font-semibold text-slate-500 whitespace-nowrap">Change Poll:</label>
+              <select
+                value={selectedVotingPollIndex}
+                onChange={(e) => setSelectedVotingPollIndex(Number(e.target.value))}
+                className="bg-slate-50 text-slate-900 text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-300 focus:outline-hidden focus:ring-2 focus:ring-rose-500 cursor-pointer"
+              >
+                {timeSeries.map((poll, idx) => (
+                  <option key={idx} value={idx}>
+                    {poll.pollster} ({poll.date}) {poll.sampleSize ? `• ${poll.sampleSize.toLocaleString()} sample` : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Voting Headline Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {[
-              { partyId: 'labour', name: 'Labour', pct: latestPoll.labour, color: '#E4003B' },
-              { partyId: 'conservative', name: 'Conservative', pct: latestPoll.conservative, color: '#0087DC' },
-              { partyId: 'reform', name: 'Reform UK', pct: latestPoll.reform, color: '#12B6CF' },
-              { partyId: 'libdem', name: 'Lib Dem', pct: latestPoll.libdem, color: '#FAA61A' },
-              { partyId: 'green', name: 'Green', pct: latestPoll.green, color: '#528D22' },
-              { partyId: 'snp', name: 'SNP', pct: latestPoll.snp, color: '#D99B00' },
+              { partyId: 'labour', name: 'Labour', pct: currentVotingPoll.labour, color: '#E4003B' },
+              { partyId: 'conservative', name: 'Conservative', pct: currentVotingPoll.conservative, color: '#0087DC' },
+              { partyId: 'reform', name: 'Reform UK', pct: currentVotingPoll.reform, color: '#12B6CF' },
+              { partyId: 'libdem', name: 'Lib Dem', pct: currentVotingPoll.libdem, color: '#FAA61A' },
+              { partyId: 'green', name: 'Green', pct: currentVotingPoll.green, color: '#528D22' },
+              { partyId: 'snp', name: 'SNP', pct: currentVotingPoll.snp, color: '#D99B00' },
             ].map((item) => (
               <div
                 key={item.partyId}
@@ -170,7 +290,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                   </span>
                 </div>
                 <span className="text-[10px] text-slate-400 mt-2 block">
-                  National Average
+                  {currentVotingPoll.pollster}
                 </span>
               </div>
             ))}
@@ -224,11 +344,54 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
       {/* ---------------- 2. LEADER APPROVAL RATINGS TAB ---------------- */}
       {activeSubTab === 'leaders' && (
         <div className="space-y-6">
+          {/* Pollster Selection & Metadata Header */}
+          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex items-center space-x-3">
+              <div className="p-2.5 rounded-xl bg-rose-50 text-rose-600 shrink-0">
+                <Users className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                  Active Leader Pollster Selection
+                </span>
+                <h4 className="text-base font-extrabold text-slate-900 flex items-center space-x-2">
+                  <span>{activePollsterSet?.pollsterName || 'Aggregated Poll of Polls'}</span>
+                  <span className="text-xs font-normal text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
+                    {activePollsterSet?.date || lastUpdated}
+                  </span>
+                </h4>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  {activePollsterSet ? `${activePollsterSet.methodology} • Sample: ${activePollsterSet.sampleSize?.toLocaleString()} voters` : 'Comprehensive weighted average of British Polling Council members'}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-2 shrink-0">
+              <label className="text-xs font-bold text-slate-700 whitespace-nowrap">Select Pollster:</label>
+              <select
+                value={selectedLeaderPollsterId}
+                onChange={(e) => setSelectedLeaderPollsterId(e.target.value)}
+                className="bg-slate-50 text-slate-900 text-xs font-bold px-3 py-2 rounded-xl border border-slate-300 focus:outline-hidden focus:ring-2 focus:ring-rose-500 cursor-pointer"
+              >
+                {leaderRatingsByPollster.map((ps) => (
+                  <option key={ps.pollsterId} value={ps.pollsterId}>
+                    {ps.pollsterName} ({ps.date})
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           {/* Head-to-Head Comparison Card */}
           <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-7 shadow-xl">
-            <div className="flex items-center space-x-2 text-rose-400 font-bold text-xs uppercase tracking-wider mb-2">
-              <Scale className="w-4 h-4" />
-              <span>Interactive Leader Head-to-Head</span>
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center space-x-2 text-rose-400 font-bold text-xs uppercase tracking-wider">
+                <Scale className="w-4 h-4" />
+                <span>Interactive Leader Head-to-Head</span>
+              </div>
+              <span className="text-xs text-slate-400 bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">
+                Poll: {activePollsterSet?.pollsterName || 'Aggregated Poll of Polls'}
+              </span>
             </div>
             <h3 className="text-xl sm:text-2xl font-black mb-4">
               Compare Any Two Leaders
@@ -241,7 +404,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                 <select
                   value={compareLeaderA}
                   onChange={(e) => setCompareLeaderA(e.target.value as PartyId)}
-                  className="w-full bg-slate-800 text-white text-sm font-semibold rounded-xl px-3 py-2 border border-slate-700 focus:outline-hidden focus:ring-2 focus:ring-rose-500"
+                  className="w-full bg-slate-800 text-white text-sm font-semibold rounded-xl px-3 py-2 border border-slate-700 focus:outline-hidden focus:ring-2 focus:ring-rose-500 cursor-pointer"
                 >
                   {parties.map((p) => (
                     <option key={p.id} value={p.id}>{p.leader} ({p.shortName})</option>
@@ -254,7 +417,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                 <select
                   value={compareLeaderB}
                   onChange={(e) => setCompareLeaderB(e.target.value as PartyId)}
-                  className="w-full bg-slate-800 text-white text-sm font-semibold rounded-xl px-3 py-2 border border-slate-700 focus:outline-hidden focus:ring-2 focus:ring-rose-500"
+                  className="w-full bg-slate-800 text-white text-sm font-semibold rounded-xl px-3 py-2 border border-slate-700 focus:outline-hidden focus:ring-2 focus:ring-rose-500 cursor-pointer"
                 >
                   {parties.map((p) => (
                     <option key={p.id} value={p.id}>{p.leader} ({p.shortName})</option>
@@ -267,16 +430,19 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
             {leaderA && leaderB && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Leader A Card */}
-                <div className="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 space-y-3">
+                <div className={`bg-slate-800/80 rounded-2xl p-5 border space-y-3 ${compareLeaderA === 'labour' ? 'border-rose-500/60 ring-1 ring-rose-500/40' : 'border-slate-700'}`}>
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-xs font-bold text-slate-400">{partyA?.name}</span>
-                      <h4 className="text-lg font-bold text-white">{leaderA.leaderName}</h4>
+                      <span className="text-xs font-bold text-slate-400 flex items-center space-x-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: partyA?.color }} />
+                        <span>{partyA?.name}</span>
+                      </span>
+                      <h4 className="text-lg font-bold text-white mt-0.5">{leaderA.leaderName}</h4>
                       <p className="text-xs text-slate-300">{leaderA.role}</p>
                     </div>
                     <span 
                       className={`text-xl font-black px-3 py-1 rounded-xl ${
-                        leaderA.netRating >= 0 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
+                        leaderA.netRating >= 0 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-400 border border-rose-500/40'
                       }`}
                     >
                       {leaderA.netRating >= 0 ? `+${leaderA.netRating}` : leaderA.netRating} Net
@@ -302,16 +468,19 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                 </div>
 
                 {/* Leader B Card */}
-                <div className="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 space-y-3">
+                <div className={`bg-slate-800/80 rounded-2xl p-5 border space-y-3 ${compareLeaderB === 'conservative' ? 'border-blue-500/60 ring-1 ring-blue-500/40' : 'border-slate-700'}`}>
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-xs font-bold text-slate-400">{partyB?.name}</span>
-                      <h4 className="text-lg font-bold text-white">{leaderB.leaderName}</h4>
+                      <span className="text-xs font-bold text-slate-400 flex items-center space-x-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: partyB?.color }} />
+                        <span>{partyB?.name}</span>
+                      </span>
+                      <h4 className="text-lg font-bold text-white mt-0.5">{leaderB.leaderName}</h4>
                       <p className="text-xs text-slate-300">{leaderB.role}</p>
                     </div>
                     <span 
                       className={`text-xl font-black px-3 py-1 rounded-xl ${
-                        leaderB.netRating >= 0 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
+                        leaderB.netRating >= 0 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-rose-500/20 text-rose-400 border border-rose-500/40'
                       }`}
                     >
                       {leaderB.netRating >= 0 ? `+${leaderB.netRating}` : leaderB.netRating} Net
@@ -339,25 +508,163 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
             )}
           </div>
 
+          {/* Multi-Pollster Comparison Matrix Table */}
+          <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+              <div>
+                <div className="flex items-center space-x-2 text-rose-600 font-bold text-xs uppercase tracking-wider mb-0.5">
+                  <Layers className="w-4 h-4" />
+                  <span>Selection of Different Pollings</span>
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                  Cross-Pollster Comparison Matrix
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Side-by-side comparison of party leaders across YouGov, Ipsos, Savanta, and Redfield & Wilton
+                </p>
+              </div>
+              <span className="text-[11px] text-slate-500 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
+                Click any leader row to select in head-to-head comparison
+              </span>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 uppercase font-bold text-[11px]">
+                    <th className="py-3 px-3">Party Leader</th>
+                    <th className="py-3 px-3 text-center">YouGov Tracker</th>
+                    <th className="py-3 px-3 text-center">Ipsos Political</th>
+                    <th className="py-3 px-3 text-center">Savanta UK</th>
+                    <th className="py-3 px-3 text-center">Redfield & Wilton</th>
+                    <th className="py-3 px-3 text-center bg-slate-100 font-black">Poll of Polls Avg</th>
+                    <th className="py-3 px-3 text-right">Select</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {parties.map((p) => {
+                    const mainRating = leaderRatings.find((l) => l.partyId === p.id);
+                    if (!mainRating) return null;
+                    const yg = getPollsterRating('yougov', p.id);
+                    const ip = getPollsterRating('ipsos', p.id);
+                    const sa = getPollsterRating('savanta', p.id);
+                    const rw = getPollsterRating('redfield', p.id);
+                    const pop = getPollsterRating('poll-of-polls', p.id) || mainRating;
+                    const isSelected = compareLeaderA === p.id;
+
+                    return (
+                      <tr 
+                        key={p.id}
+                        onClick={() => setCompareLeaderA(p.id)}
+                        className={`hover:bg-slate-50/80 transition-colors cursor-pointer ${
+                          isSelected ? 'bg-rose-50/50' : ''
+                        }`}
+                      >
+                        <td className="py-3 px-3">
+                          <div className="flex items-center space-x-2.5">
+                            <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: p.color }} />
+                            <div>
+                              <div className="font-bold text-slate-900 flex items-center space-x-1.5">
+                                <span>{mainRating.leaderName}</span>
+                                {isSelected && (
+                                  <span className="text-[9px] bg-rose-600 text-white font-bold px-1.5 py-0.2 rounded">
+                                    Selected A
+                                  </span>
+                                )}
+                              </div>
+                              <span className="text-[11px] text-slate-500">{p.shortName} • {mainRating.role}</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-3 px-3 text-center">
+                          {yg ? (
+                            <span className={`inline-block px-2 py-0.5 rounded font-bold text-xs ${yg.netRating >= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                              {yg.netRating >= 0 ? `+${yg.netRating}` : yg.netRating}
+                              <span className="text-[10px] font-normal text-slate-500 block">({yg.approvePct}% App)</span>
+                            </span>
+                          ) : <span className="text-slate-300">—</span>}
+                        </td>
+                        <td className="py-3 px-3 text-center">
+                          {ip ? (
+                            <span className={`inline-block px-2 py-0.5 rounded font-bold text-xs ${ip.netRating >= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                              {ip.netRating >= 0 ? `+${ip.netRating}` : ip.netRating}
+                              <span className="text-[10px] font-normal text-slate-500 block">({ip.approvePct}% App)</span>
+                            </span>
+                          ) : <span className="text-slate-300">—</span>}
+                        </td>
+                        <td className="py-3 px-3 text-center">
+                          {sa ? (
+                            <span className={`inline-block px-2 py-0.5 rounded font-bold text-xs ${sa.netRating >= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                              {sa.netRating >= 0 ? `+${sa.netRating}` : sa.netRating}
+                              <span className="text-[10px] font-normal text-slate-500 block">({sa.approvePct}% App)</span>
+                            </span>
+                          ) : <span className="text-slate-300">—</span>}
+                        </td>
+                        <td className="py-3 px-3 text-center">
+                          {rw ? (
+                            <span className={`inline-block px-2 py-0.5 rounded font-bold text-xs ${rw.netRating >= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                              {rw.netRating >= 0 ? `+${rw.netRating}` : rw.netRating}
+                              <span className="text-[10px] font-normal text-slate-500 block">({rw.approvePct}% App)</span>
+                            </span>
+                          ) : <span className="text-slate-300">—</span>}
+                        </td>
+                        <td className="py-3 px-3 text-center bg-slate-50/50">
+                          <span className={`inline-block px-2.5 py-1 rounded-lg font-black text-xs ${pop.netRating >= 0 ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-rose-100 text-rose-900 border border-rose-300'}`}>
+                            {pop.netRating >= 0 ? `+${pop.netRating}` : pop.netRating} Net
+                            <span className="text-[10px] font-medium text-slate-500 block">({pop.approvePct}% / {pop.disapprovePct}%)</span>
+                          </span>
+                        </td>
+                        <td className="py-3 px-3 text-right">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setCompareLeaderA(p.id);
+                            }}
+                            className="text-[11px] font-bold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-lg transition-colors border border-rose-200 cursor-pointer"
+                          >
+                            Compare
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
           {/* Full Grid of All Leaders */}
           <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs">
-            <h3 className="text-base font-bold text-slate-900 mb-1">
-              National Leader Approval Rankings
-            </h3>
-            <p className="text-xs text-slate-500 mb-4">
-              Net approval score (% approve minus % disapprove) across UK party leaders
-            </p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+              <div>
+                <h3 className="text-base font-bold text-slate-900">
+                  National Leader Approval Rankings ({activePollsterSet?.pollsterName || 'Aggregated Poll of Polls'})
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Net approval score (% approve minus % disapprove) across UK party leaders
+                </p>
+              </div>
+              <span className="text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg">
+                Showing {currentLeaderRatings.length} leaders
+              </span>
+            </div>
 
             <div className="space-y-3">
-              {leaderRatings
+              {currentLeaderRatings
                 .sort((a, b) => b.netRating - a.netRating)
                 .map((leader) => {
                   const party = parties.find((p) => p.id === leader.partyId);
+                  const isSelected = compareLeaderA === leader.partyId;
 
                   return (
                     <div
                       key={leader.partyId}
-                      className="p-4 rounded-xl border border-slate-100 bg-slate-50/60 hover:bg-slate-50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      onClick={() => setCompareLeaderA(leader.partyId)}
+                      className={`p-4 rounded-xl border transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                        isSelected
+                          ? 'border-rose-400 bg-rose-50/40 ring-1 ring-rose-400 shadow-xs'
+                          : 'border-slate-100 bg-slate-50/60 hover:bg-slate-50'
+                      }`}
                     >
                       <div className="flex items-center space-x-3">
                         <span 
@@ -370,6 +677,12 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                             <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-slate-200 text-slate-700">
                               {party?.shortName}
                             </span>
+                            {isSelected && (
+                              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-rose-600 text-white flex items-center space-x-0.5">
+                                <CheckCircle2 className="w-2.5 h-2.5" />
+                                <span>Leader A</span>
+                              </span>
+                            )}
                           </div>
                           <span className="text-xs text-slate-500">{leader.role}</span>
                         </div>

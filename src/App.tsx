@@ -113,6 +113,17 @@ export const App: React.FC = () => {
 
   // State
   const [activeTab, setActiveTab] = useState<string>('compare');
+  const [pollSubTab, setPollSubTab] = useState<'voting' | 'leaders' | 'bestpm' | 'policies'>('voting');
+  const [pollTargetLeader, setPollTargetLeader] = useState<PartyId | undefined>(undefined);
+
+  const handleNavigateToPolls = (partyId?: PartyId, subTab: 'voting' | 'leaders' | 'bestpm' | 'policies' = 'leaders') => {
+    setActiveTab('polls');
+    setPollSubTab(subTab);
+    if (partyId) {
+      setPollTargetLeader(partyId);
+    }
+  };
+
   const [selectedParties, setSelectedParties] = useState<PartyId[]>([
     'labour',
     'conservative',
@@ -184,7 +195,7 @@ export const App: React.FC = () => {
             parties={parties}
             cabinetMembers={cabinets}
             leaderRatings={leaderRatings}
-            onNavigateToPolls={() => setActiveTab('polls')}
+            onNavigateToPolls={handleNavigateToPolls}
             onRefreshRoster={handleRefreshCabinets}
             onOpenSystemHealthModal={() => setIsSystemHealthModalOpen(true)}
           />
@@ -196,9 +207,12 @@ export const App: React.FC = () => {
             timeSeries={timeSeries}
             policyPopularity={policyPopularity}
             leaderRatings={leaderRatings}
+            leaderRatingsByPollster={polls.leaderRatingsByPollster || (pollsData as any).leaderRatingsByPollster}
             bestPrimeMinister={bestPrimeMinister}
             lastUpdated={lastUpdatedPolls}
             onRefreshPolls={handleRefreshPolls}
+            initialSubTab={pollSubTab}
+            initialTargetLeader={pollTargetLeader}
           />
         )}
 

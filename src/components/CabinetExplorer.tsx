@@ -26,7 +26,7 @@ interface CabinetExplorerProps {
   parties: Party[];
   cabinetMembers: CabinetMember[];
   leaderRatings?: LeaderRating[];
-  onNavigateToPolls?: () => void;
+  onNavigateToPolls?: (partyId?: PartyId, subTab?: 'voting' | 'leaders' | 'bestpm' | 'policies') => void;
   onRefreshRoster?: () => Promise<CabinetChangeReport | void> | void;
   onOpenSystemHealthModal?: () => void;
 }
@@ -253,8 +253,15 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
         </div>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
           {partyLeaderRating && (
-            <div className="bg-black/25 p-3 rounded-xl backdrop-blur-xs text-left">
-              <span className="text-[10px] block opacity-80 uppercase font-semibold">Leader Approval</span>
+            <div 
+              onClick={() => onNavigateToPolls && onNavigateToPolls(selectedPartyId, 'leaders')}
+              className={`bg-black/25 p-3 rounded-xl backdrop-blur-xs text-left ${onNavigateToPolls ? 'cursor-pointer hover:bg-black/35 transition-colors border border-white/10' : ''}`}
+              title="Click to view detailed multi-pollster leader approval ratings"
+            >
+              <span className="text-[10px] block opacity-80 uppercase font-semibold flex items-center justify-between">
+                <span>Leader Personal Approval</span>
+                {onNavigateToPolls && <span className="text-[9px] underline opacity-90">Compare ↗</span>}
+              </span>
               <span className="text-lg font-black block">
                 {partyLeaderRating.netRating >= 0 ? `+${partyLeaderRating.netRating}` : partyLeaderRating.netRating} Net
               </span>
@@ -531,11 +538,12 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 </span>
                 {onNavigateToPolls && isLeaderCard ? (
                   <button 
-                    onClick={onNavigateToPolls}
-                    className="font-bold text-rose-600 hover:text-rose-700 flex items-center space-x-1 cursor-pointer"
+                    onClick={() => onNavigateToPolls(member.partyId, 'leaders')}
+                    className="font-bold text-rose-600 hover:text-rose-700 flex items-center space-x-1.5 cursor-pointer bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-lg transition-colors border border-rose-200/80 shadow-2xs text-[11px]"
+                    title={`Compare ${member.name}'s personal approval ratings across YouGov, Ipsos & Savanta`}
                   >
-                    <BarChart3 className="w-3 h-3" />
-                    <span>Compare Approval</span>
+                    <BarChart3 className="w-3.5 h-3.5" />
+                    <span>Compare Leader Approval ↗</span>
                   </button>
                 ) : (
                   <span className="font-semibold text-slate-700">{selectedParty.shortName}</span>
