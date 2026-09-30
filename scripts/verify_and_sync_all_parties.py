@@ -170,6 +170,36 @@ def audit_all():
         else:
             print(f"  ✓ Polling Tracker: {len(polls.get('timeSeries', []))} poll records, {len(polls.get('leaderRatings', []))} leader ratings")
 
+        # 5. Fact checks audit & Recency verification
+        factchecks = load_json(f"{bdir}/factchecks.json")
+        if not isinstance(factchecks, list) or len(factchecks) < 5:
+            errors.append(f"{bdir}/factchecks.json must contain at least 5 fact checks (found {len(factchecks) if isinstance(factchecks, list) else 0})")
+        else:
+            valid_verdicts = {'accurate', 'misleading', 'disputed', 'needs context', 'false', 'unproven'}
+            c_2026 = 0
+            for idx, fc in enumerate(factchecks):
+                for req in ['id', 'partyId', 'speaker', 'date', 'claim', 'verdict', 'source', 'sourceUrl']:
+                    if not fc.get(req):
+                        errors.append(f"{bdir}/factchecks.json item #{idx} ({fc.get('id')}) missing field '{req}'")
+                v = fc.get('verdict', '').lower()
+                if v not in valid_verdicts:
+                    errors.append(f"{bdir}/factchecks.json item #{idx} has invalid verdict '{fc.get('verdict')}'")
+                if fc.get('date', '').startswith('2026'):
+                    c_2026 += 1
+            if c_2026 == 0:
+                errors.append(f"{bdir}/factchecks.json has 0 fact checks from 2026 (outdated archive)")
+            else:
+                print(f"  ✓ Fact-Checker: {len(factchecks)} investigations verified ({c_2026} recent 2026 checks, 100% cited)")
+
+    # Direct symmetry check between src/data and public/data
+    for fname in ['parties.json', 'cabinets.json', 'policies.json', 'polls.json', 'factchecks.json']:
+        src_raw = (Path('src/data') / fname).read_text(encoding='utf-8')
+        pub_raw = (Path('public/data') / fname).read_text(encoding='utf-8')
+        if src_raw != pub_raw:
+            errors.append(f"Desync detected between src/data/{fname} and public/data/{fname}")
+    if not any("Desync" in e for e in errors):
+        print("\n  ✓ 100% Symmetry: src/data/ and public/data/ live CDN endpoints are identical")
+
     # Summary
     print("\n" + "=" * 70)
     if errors:
@@ -178,7 +208,7 @@ def audit_all():
             print(f"   - {e}")
         sys.exit(1)
     else:
-        print("✅ ALL 8 PARTIES, ROSTERS, APPOINTMENT DATES, SEATS, POLICIES & POLLS 100% VERIFIED!")
+        print("✅ ALL 8 PARTIES, ROSTERS, APPOINTMENT DATES, SEATS, POLICIES, POLLS & FACT-CHECKS 100% VERIFIED!")
         if warnings:
             print(f"⚠️  {len(warnings)} minor warning(s)")
         print("=" * 70)

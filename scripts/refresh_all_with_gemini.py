@@ -305,6 +305,35 @@ def refresh_policies():
     else:
         print(f"   ⚠️ Warning: Gemini returned unexpected policy format. Keeping existing file.")
 
+def refresh_factchecks():
+    print("\n[🔍 4/4] Querying Gemini 3.8 Flash for Fact-Checking & Scrutiny...")
+    factchecks_prompt = """
+    You are an expert UK political fact-checker and researcher.
+    Provide the latest high-profile political claims and independent fact-checking investigations across UK political parties (Labour under PM Andy Burnham, Conservative under Kemi Badenoch, Reform UK under Nigel Farage, Lib Dems under Ed Davey, Green Party under Carla Denyer & Adrian Ramsay, SNP under John Swinney, Plaid Cymru under Rhun ap Iorwerth) as of late-2026.
+
+    GROUNDING & RECENCY RULES:
+    1. RECENCY FIRST:
+       - Provide the most recent 2026 investigations first. Dates MUST be formatted as 'YYYY-MM-DD' (e.g. 2026-09-26, 2026-09-24, etc.).
+       - Prioritise statements made by current key figures (Andy Burnham, Rachel Reeves, Kemi Badenoch, James Cartlidge, Nigel Farage, Zia Yusuf, Robert Jenrick, Sir Ed Davey, Helen Morgan, Carla Denyer, Adrian Ramsay, John Swinney, Rhun ap Iorwerth).
+    2. INDEPENDENT SOURCES ONLY:
+       - Citations must come from reputable fact-checking or non-partisan research institutions: Full Fact, BBC Reality Check, Channel 4 FactCheck, Institute for Fiscal Studies (IFS), Office for Budget Responsibility (OBR), National Audit Office (NAO), Fraser of Allander, or Royal United Services Institute (RUSI).
+       - Include valid sourceUrl and source name.
+    3. VERDICT TAXONOMY:
+       - verdict MUST be one of: 'False' | 'Misleading' | 'Disputed' | 'Needs Context' | 'Unproven' | 'Accurate'.
+    4. STRICT SCHEMA:
+       - partyId MUST be one of: 'labour' | 'conservative' | 'reform' | 'libdem' | 'green' | 'snp' | 'plaid' | 'restore'.
+       - category MUST be one of: 'defence' | 'economy' | 'welfare' | 'nhs' | 'immigration' | 'energy' | 'housing' | 'education' | 'governance'.
+
+    Return an exact JSON array of 10 to 14 FactCheckItem objects (ordered by newest date descending).
+    """
+    updated_checks = query_gemini_json(factchecks_prompt)
+    if isinstance(updated_checks, list) and len(updated_checks) >= 5:
+        updated_checks.sort(key=lambda x: x.get('date', ''), reverse=True)
+        save_and_sync("factchecks.json", updated_checks)
+        print(f"   ✓ Fact-checks ({len(updated_checks)} investigations) updated successfully.")
+    else:
+        print(f"   ⚠️ Warning: Gemini returned unexpected fact-checks format. Keeping existing file.")
+
 def run_verification_gate():
     print("\n[🛡️ GATEKEEPER] Executing Universal 8-Party Verification Suite...")
     import subprocess
@@ -316,7 +345,7 @@ def run_verification_gate():
 
 def main():
     parser = argparse.ArgumentParser(description="Refresh UK Politics Data Bank using Gemini 3.8 Flash")
-    parser.add_argument("--target", choices=["all", "polls", "cabinets", "policies"], default="polls",
+    parser.add_argument("--target", choices=["all", "polls", "cabinets", "policies", "factchecks"], default="polls",
                         help="Select which dataset to refresh (default: polls)")
     args = parser.parse_args()
 
@@ -330,6 +359,8 @@ def main():
         refresh_cabinets()
     if args.target in ["all", "policies"]:
         refresh_policies()
+    if args.target in ["all", "factchecks"]:
+        refresh_factchecks()
 
     # Always run the verification gatekeeper after any refresh
     run_verification_gate()

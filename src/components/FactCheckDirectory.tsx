@@ -26,17 +26,40 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
   const [selectedVerdict, setSelectedVerdict] = useState<string>('all');
   const [selectedParty, setSelectedParty] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [sortBy, setSortBy] = useState<'newest' | 'questionable_first' | 'oldest'>('newest');
 
-  const filteredChecks = factChecks.filter((fc) => {
-    const matchesVerdict = selectedVerdict === 'all' || fc.verdict.toLowerCase() === selectedVerdict.toLowerCase();
-    const matchesParty = selectedParty === 'all' || fc.partyId === selectedParty;
-    const matchesSearch = 
-      searchQuery.trim() === '' ||
-      fc.claim.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      fc.speaker.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      fc.explanation.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesVerdict && matchesParty && matchesSearch;
-  });
+  const filteredChecks = factChecks
+    .filter((fc) => {
+      const matchesVerdict = selectedVerdict === 'all' || fc.verdict.toLowerCase() === selectedVerdict.toLowerCase();
+      const matchesParty = selectedParty === 'all' || fc.partyId === selectedParty;
+      const matchesSearch = 
+        searchQuery.trim() === '' ||
+        fc.claim.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        fc.speaker.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        fc.explanation.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesVerdict && matchesParty && matchesSearch;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'questionable_first') {
+        const severityOrder: Record<string, number> = {
+          'false': 1,
+          'misleading': 2,
+          'disputed': 3,
+          'unproven': 4,
+          'needs context': 5,
+          'accurate': 6,
+        };
+        const sevA = severityOrder[a.verdict.toLowerCase()] || 99;
+        const sevB = severityOrder[b.verdict.toLowerCase()] || 99;
+        if (sevA !== sevB) return sevA - sevB;
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }
+      if (sortBy === 'oldest') {
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      }
+      // default: newest
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
 
   const getVerdictStyle = (verdict: string) => {
     switch (verdict.toLowerCase()) {
@@ -99,14 +122,14 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+      <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
         {/* Verdict filter chips */}
         <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 scrollbar-none">
           {['all', 'accurate', 'misleading', 'disputed', 'needs context', 'false'].map((verdict) => (
             <button
               key={verdict}
               onClick={() => setSelectedVerdict(verdict)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-semibold capitalize whitespace-nowrap transition-all ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold capitalize whitespace-nowrap transition-all cursor-pointer ${
                 selectedVerdict === verdict
                   ? 'bg-slate-900 text-white shadow-xs'
                   : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
@@ -117,12 +140,26 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
           ))}
         </div>
 
-        {/* Search & Party Filter */}
-        <div className="flex items-center space-x-2">
+        {/* Search, Party Filter, and Sort */}
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Sort Selector */}
+          <div className="flex items-center space-x-1.5">
+            <span className="text-xs font-semibold text-slate-500">Sort:</span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as any)}
+              className="text-xs sm:text-sm bg-white border border-slate-200 rounded-xl px-3 py-1.5 focus:outline-hidden focus:ring-2 focus:ring-slate-900 text-slate-700 font-semibold cursor-pointer"
+            >
+              <option value="newest">Most Recent First (2026)</option>
+              <option value="questionable_first">Most Questionable First (False/Misleading)</option>
+              <option value="oldest">Oldest First (2024 Archive)</option>
+            </select>
+          </div>
+
           <select
             value={selectedParty}
             onChange={(e) => setSelectedParty(e.target.value)}
-            className="text-xs sm:text-sm bg-white border border-slate-200 rounded-xl px-3 py-1.5 focus:outline-hidden focus:ring-2 focus:ring-slate-900 text-slate-700"
+            className="text-xs sm:text-sm bg-white border border-slate-200 rounded-xl px-3 py-1.5 focus:outline-hidden focus:ring-2 focus:ring-slate-900 text-slate-700 cursor-pointer"
           >
             <option value="all">All Parties</option>
             {parties.map((p) => (
@@ -130,7 +167,7 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
             ))}
           </select>
 
-          <div className="relative min-w-[200px]">
+          <div className="relative min-w-[180px] sm:min-w-[200px]">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
@@ -143,17 +180,26 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
         </div>
       </div>
 
+      {/* Results Count & Recency Notice */}
+      <div className="flex items-center justify-between text-xs text-slate-500 px-1">
+        <span>Showing {filteredChecks.length} fact check investigations (ordered by recency)</span>
+        <span className="font-semibold text-slate-700">Latest check: September 2026</span>
+      </div>
+
       {/* List of Fact Checks */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {filteredChecks.map((fc) => {
           const party = parties.find((p) => p.id === fc.partyId);
           const style = getVerdictStyle(fc.verdict);
           const Icon = style.icon;
+          const is2026 = fc.date.startsWith('2026');
 
           return (
             <div
               key={fc.id}
-              className={`rounded-2xl border p-5 shadow-xs flex flex-col justify-between transition-all bg-white hover:shadow-md`}
+              className={`rounded-2xl border p-5 shadow-xs flex flex-col justify-between transition-all bg-white hover:shadow-md ${
+                is2026 ? 'border-slate-300' : 'border-slate-200 opacity-90'
+              }`}
             >
               <div>
                 {/* Header: Party, Speaker, Date */}
@@ -170,7 +216,18 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
                     <span className="text-xs font-bold text-slate-800">{fc.speaker}</span>
                   </div>
 
-                  <span className="text-[11px] text-slate-400">{fc.date}</span>
+                  <div className="flex items-center space-x-1.5">
+                    {is2026 ? (
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-200">
+                        2026 Check
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">
+                        Archive
+                      </span>
+                    )}
+                    <span className="text-[11px] font-semibold text-slate-600">{fc.date}</span>
+                  </div>
                 </div>
 
                 {/* The Claim */}

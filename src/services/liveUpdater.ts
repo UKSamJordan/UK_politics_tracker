@@ -482,10 +482,63 @@ export async function refreshFactChecks(): Promise<{
   data: FactCheckItem[];
   source: string;
 }> {
+  const apiKey = getStoredApiKey();
+
+  if (apiKey) {
+    try {
+      const prompt = `You are an expert UK political fact-checker and researcher.
+Audit and retrieve the latest high-profile political claims and independent fact-checking investigations across all UK political parties (Labour, Conservative, Reform UK, Liberal Democrats, Green Party, SNP, Plaid Cymru, Restore Britain) as of late-2026.
+
+GROUNDING & VERIFICATION RULES:
+1. RECENCY FIRST:
+   - Provide the most recent 2026 fact-checks first. Dates MUST be formatted as 'YYYY-MM-DD' (e.g. 2026-09-26).
+   - Prioritise recent statements made by current key figures (e.g., Andy Burnham, Rachel Reeves, Kemi Badenoch, James Cartlidge, Nigel Farage, Zia Yusuf, Robert Jenrick, Sir Ed Davey, Helen Morgan, Carla Denyer, Adrian Ramsay, John Swinney, Rhun ap Iorwerth).
+2. INDEPENDENT SOURCES ONLY:
+   - Citations must come from reputable fact-checking or non-partisan research institutions: Full Fact, BBC Reality Check, Channel 4 FactCheck, Institute for Fiscal Studies (IFS), Office for Budget Responsibility (OBR), National Audit Office (NAO), Fraser of Allander, or Royal United Services Institute (RUSI).
+   - Include valid sourceUrl and source name.
+3. VERDICT TAXONOMY:
+   - verdict MUST be one of: 'False' | 'Misleading' | 'Disputed' | 'Needs Context' | 'Unproven' | 'Accurate'.
+4. STRICT SCHEMA:
+   - partyId MUST be one of: 'labour' | 'conservative' | 'reform' | 'libdem' | 'green' | 'snp' | 'plaid' | 'restore'.
+   - category MUST be one of: 'defence' | 'economy' | 'welfare' | 'nhs' | 'immigration' | 'energy' | 'housing' | 'education' | 'governance'.
+
+Return a JSON array of 10 to 14 FactCheckItem objects (ordered by newest date descending):
+Array<{
+  id: string;
+  partyId: "labour" | "conservative" | "reform" | "libdem" | "green" | "snp" | "plaid" | "restore";
+  speaker: string;
+  date: string;
+  claim: string;
+  verdict: "False" | "Misleading" | "Disputed" | "Needs Context" | "Unproven" | "Accurate";
+  explanation: string;
+  source: string;
+  sourceUrl: string;
+  category: "defence" | "economy" | "welfare" | "nhs" | "immigration" | "energy" | "housing" | "education" | "governance";
+}>`;
+
+      const liveData = await queryGemini(prompt, apiKey);
+      if (Array.isArray(liveData) && liveData.length > 0) {
+        const sorted = [...liveData].sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+        localStorage.setItem(STORAGE_KEYS.FACTCHECKS, JSON.stringify(sorted));
+        return {
+          data: sorted,
+          source: 'Gemini 3.8 Flash (Live Fact-Checking Grounding)',
+        };
+      }
+    } catch (err) {
+      console.warn('Gemini fact-check refresh failed, falling back to CDN:', err);
+    }
+  }
+
   const cdnData = await fetchLiveCdnData<FactCheckItem[]>('factchecks.json');
-  localStorage.setItem(STORAGE_KEYS.FACTCHECKS, JSON.stringify(cdnData));
+  const sorted = [...cdnData].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  localStorage.setItem(STORAGE_KEYS.FACTCHECKS, JSON.stringify(sorted));
   return {
-    data: cdnData,
+    data: sorted,
     source: 'Live CDN Data Bank (/data/factchecks.json)',
   };
 }

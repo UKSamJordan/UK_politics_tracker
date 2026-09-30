@@ -157,7 +157,7 @@ export interface FactCheckItem {
   speaker: string;
   date: string;
   claim: string;
-  verdict: 'Accurate' | 'Misleading' | 'Unproven' | 'Needs Context' | 'False';
+  verdict: 'Accurate' | 'Misleading' | 'Unproven' | 'Needs Context' | 'False' | 'Disputed';
   explanation: string;
   source: string;
   sourceUrl: string;
