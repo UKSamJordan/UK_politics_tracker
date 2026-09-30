@@ -1,0 +1,908 @@
+[
+  {
+    "id": "defence-spending-and-military",
+    "category": "defence",
+    "title": "Defence Spending & Armed Forces Size",
+    "description": "National defence investment as a percentage of GDP, military modernization, troop strength, and allied commitments.",
+    "officialFigureBenchmark": {
+      "label": "Current UK Defence Expenditure",
+      "value": "approx. 2.3% of GDP (£54.2bn in 2024/25)",
+      "source": "Ministry of Defence / NATO Defence Expenditure Report"
+    },
+    "publicOpinionQuestion": "Do you support increasing UK defence spending to at least 2.5% of GDP?",
+    "publicOpinionSupportOverall": 64,
+    "pledges": {
+      "labour": {
+        "partyId": "labour",
+        "headline": "Roadmap to 2.5% of GDP via Strategic Defence Review",
+        "summary": "Conducting a root-and-branch Strategic Defence Review (SDR) led by Lord Robertson to set out the pathway to 2.5% of GDP defence spending when economic conditions allow.",
+        "keyPoints": [
+          "Unshakeable commitment to NATO and UK's continuous-at-sea nuclear deterrent (Trident)",
+          "Establish an Armed Forces Commissioner to champion service personnel welfare",
+          "Prioritize British-made military procurement and supply-chain resilience",
+          "Deepen European security pacts, including the 2024 UK-Germany Trinity House Defence Agreement"
+        ],
+        "costEstimate": "Projected additional £6bn - £9bn per year when reaching 2.5%",
+        "targetTimeline": "Phased pathway over the 2024–2029 parliament",
+        "factCheckSnippet": "Full Fact notes: The timing for reaching 2.5% remains contingent on the SDR and fiscal headroom.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "Full Fact / MoD",
+        "publicSupport": 68
+      },
+      "conservative": {
+        "partyId": "conservative",
+        "headline": "Guaranteed 2.5% of GDP by 2030 funded by civil service cuts",
+        "summary": "Legislate for defence spending to reach 2.5% of GDP (£87bn/yr) by 2030, funded by shrinking Whitehall back-office civil service headcount to pre-pandemic levels.",
+        "keyPoints": [
+          "Ring-fenced funding for the Dreadnought nuclear submarine replacement",
+          "Increase stockpiles of precision-guided munitions and high-readiness brigades",
+          "Reinforce AUKUS nuclear submarine alliance and Global Combat Air Programme (Tempest)",
+          "Oppose any reduction in British regular Army numbers below 73,000"
+        ],
+        "costEstimate": "Additional £75bn in total over 6 years up to 2030",
+        "targetTimeline": "Fully legislated target of 2.5% by 2030",
+        "factCheckSnippet": "IFS assessment: Relying strictly on administrative headcount cuts to fund sustained defence uplift faces severe execution risks.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "Institute for Fiscal Studies (IFS)",
+        "publicSupport": 61
+      },
+      "reform": {
+        "partyId": "reform",
+        "headline": "Surge Defence to 3% of GDP within 6 Years",
+        "summary": "Aggressively expand defence spending to 3% of GDP (over £100bn/yr), expand British regular armed forces to 100,000, and introduce major veteran benefits.",
+        "keyPoints": [
+          "Increase regular Army from ~73,000 to 100,000 personnel with enhanced enlistment bonuses",
+          "Reinvigorate sovereign defence manufacturing and scrap European joint procurement delays",
+          "Full lifetime tax exemption for all military pensions and wounded veterans",
+          "Withdraw from foreign entanglements not directly serving UK national security"
+        ],
+        "costEstimate": "Estimated £20bn - £25bn annual increase over baseline",
+        "targetTimeline": "3% of GDP achieved within 6 years",
+        "factCheckSnippet": "Full Fact / IFS: Reaching 3% while simultaneously cutting personal taxes by £70bn+ leaves a massive uncosted fiscal gap.",
+        "factCheckVerdict": "unfunded",
+        "factCheckSource": "Institute for Fiscal Studies",
+        "publicSupport": 54
+      },
+      "libdem": {
+        "partyId": "libdem",
+        "headline": "Rebuild Conventional Army and Honour Armed Forces Covenant",
+        "summary": "Reverse troop reductions, maintaining the Army at a minimum of 73,000, invest in European interoperability, and provide a legally binding Armed Forces Covenant.",
+        "keyPoints": [
+          "Commit to 2.5% of GDP defence spending when public finances permit",
+          "Urgent recapitalization of military housing, veteran mental healthcare, and family support",
+          "Strengthen NATO joint air and maritime patrol in Baltic and High North",
+          "Strict parliamentary scrutiny before any foreign military deployments"
+        ],
+        "costEstimate": "Tied to economic recovery and standard NATO guidelines",
+        "targetTimeline": "Rolling parliamentary review",
+        "factCheckSnippet": "Independent Defence Review: Focuses strongly on personnel retention, but lacks specific funding formulas.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Royal United Services Institute (RUSI)",
+        "publicSupport": 59
+      },
+      "green": {
+        "partyId": "green",
+        "headline": "Defensive Posture, Diplomacy & Scrap Trident Nuclear Weapons",
+        "summary": "De-escalate international arms races, phase out the Trident nuclear deterrent, and redirect defence expenditure towards peacekeeping, cybersecurity, and climate resilience.",
+        "keyPoints": [
+          "Cancel the Trident nuclear replacement programme and sign the UN Nuclear Ban Treaty",
+          "Retain defence spending at standard defensive levels focused on territorial protection",
+          "Halt arms exports to countries with documented human rights violations",
+          "Support service personnel with full trade union representation rights"
+        ],
+        "costEstimate": "Projected net saving of over £30bn over lifecycle by cancelling Trident",
+        "targetTimeline": "Phased decommissioning over 10 years",
+        "factCheckSnippet": "House of Commons Library: Trident cancellation would reduce long-term capital liability, but involves costly decommissioning.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "House of Commons Library",
+        "publicSupport": 33
+      },
+      "snp": {
+        "partyId": "snp",
+        "headline": "Removal of Trident from Scotland & Conventional Defence Force",
+        "summary": "Demand the immediate removal of nuclear weapons from HMNB Clyde (Faslane) and transition Scotland to a conventional Nordic-model defence force within NATO.",
+        "keyPoints": [
+          "Ban nuclear weapons from Scottish sovereign soil and coastal waters",
+          "Retain Scottish maritime patrol vessels and shipbuilding contracts on the Clyde",
+          "Support NATO membership on conventional, non-nuclear terms (similar to Norway and Denmark)",
+          "Maintain total solidarity with Ukrainian self-defence against Russian aggression"
+        ],
+        "costEstimate": "Proportionate share of conventional UK defence budget (~£3.5bn - £4bn for Scotland)",
+        "targetTimeline": "Implemented upon Scottish independence",
+        "factCheckSnippet": "RUSI Analysis: Relocating Faslane nuclear facilities to an alternative UK base is estimated to take 10-15 years and £10bn+.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "RUSI / MoD",
+        "publicSupport": 41
+      },
+      "plaid": {
+        "partyId": "plaid",
+        "headline": "Peace-First Defence, Veteran Care & Welsh Base Retention",
+        "summary": "Oppose offensive foreign interventions, oppose nuclear renewal, and ensure fair defence infrastructure spending across Wales.",
+        "keyPoints": [
+          "Oppose renewal of Trident nuclear weapons; invest savings in public health and education",
+          "Support Welsh defence industry workers while transitioning to civilian technologies",
+          "Full statutory support and guaranteed housing for all Welsh veterans",
+          "Oppose overseas combat missions without explicit UN mandate and parliamentary vote"
+        ],
+        "costEstimate": "Redistributive savings from nuclear disarmament",
+        "targetTimeline": "Parliamentary term",
+        "factCheckSnippet": "UK Parliament Research: Wales hosts key training establishments (e.g. RAF Valley, Brecon) requiring sustained maintenance.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "House of Commons Library",
+        "publicSupport": 38
+      },
+      "restore": {
+        "partyId": "restore",
+        "headline": "Sovereign Re-Armament & Independent Homeland Defence",
+        "summary": "Rebuild British independent military power, expand naval fleet capacity, prioritize territorial defence, and end foreign nation-building missions.",
+        "keyPoints": [
+          "Guaranteed 3% GDP floor for military expenditure to ensure true strategic autonomy",
+          "Substantially expand Royal Navy surface fleet and attack submarines built in UK yards",
+          "Restore National Service options in engineering, cyber, and military reserves",
+          "Abolish diversity and political training in the Armed Forces to focus purely on combat readiness"
+        ],
+        "costEstimate": "Requires £20bn+ annually financed via quango abolition and foreign aid reprioritization",
+        "targetTimeline": "Immediate constitutional mandate",
+        "factCheckSnippet": "IFS / OBR: Eliminating overseas aid and quangos yields under £12bn, which does not cover a sustained 3% GDP expansion.",
+        "factCheckVerdict": "unfunded",
+        "factCheckSource": "IFS / OBR",
+        "publicSupport": 47
+      }
+    }
+  },
+  {
+    "id": "economy-tax-and-debt",
+    "category": "economy",
+    "title": "Taxation, National Debt & Fiscal Policy",
+    "description": "Tax thresholds, wealth taxation, National Insurance, business rates, and government borrowing rules.",
+    "officialFigureBenchmark": {
+      "label": "UK Total Tax-to-GDP Ratio",
+      "value": "approx. 36.5% (Highest since 1948)",
+      "source": "Office for Budget Responsibility (OBR)"
+    },
+    "publicOpinionQuestion": "Do you support increasing taxes on high earners and wealth to fund public services?",
+    "publicOpinionSupportOverall": 71,
+    "pledges": {
+      "labour": {
+        "partyId": "labour",
+        "headline": "Strict Fiscal Rules & Targeted Capital Investment",
+        "summary": "No increases to basic, higher, or additional rates of Income Tax, employee National Insurance, or VAT. Reforming fiscal rules to allow productive borrowing for capital projects.",
+        "keyPoints": [
+          "Balanced day-to-day budget funded strictly from tax revenue",
+          "Raised Employer National Insurance contributions to fund NHS and public services",
+          "VAT applied to private school fees and abolition of non-dom tax status",
+          "Creation of the National Wealth Fund and British Infrastructure Council"
+        ],
+        "costEstimate": "Autumn Budget raised approx. £40bn in annual revenues",
+        "targetTimeline": "5-year fiscal parliament plan",
+        "factCheckSnippet": "OBR confirmed: Employer NI changes and capital borrowing rule revisions provide headroom for public capital investment.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Office for Budget Responsibility",
+        "publicSupport": 58
+      },
+      "conservative": {
+        "partyId": "conservative",
+        "headline": "Tax Cuts, Civil Service Rollback & Enterprise Deregulation",
+        "summary": "Reverse tax burdens on businesses, cut administrative state costs, scrap the employer NI increase, and cut public spending waste.",
+        "keyPoints": [
+          "Reverse the increase in Employer National Insurance",
+          "Abolish inheritance tax for family homes and family-owned farms",
+          "Maintain freeze on corporation tax rate and expand full expensing for capital equipment",
+          "Cap welfare spending and force work-capable claimants into employment"
+        ],
+        "costEstimate": "Projected £15bn - £20bn in spending reductions",
+        "targetTimeline": "First parliamentary budget",
+        "factCheckSnippet": "IFS notes: Welfare savings of this magnitude historically face significant legal and delivery obstacles.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "IFS",
+        "publicSupport": 52
+      },
+      "reform": {
+        "partyId": "reform",
+        "headline": "Raise Personal Tax Allowance to £20,000",
+        "summary": "Lift 7 million people out of income tax by lifting personal allowance to £20,000; slash corporation tax to 15% to trigger rapid supply-side growth.",
+        "keyPoints": [
+          "Raise Income Tax personal allowance from £12,570 to £20,000",
+          "Cut Corporation Tax from 25% to 20%, then to 15% in year three",
+          "Abolish Inheritance Tax entirely for all estates valued under £2 million",
+          "Scrap Employer National Insurance for all businesses under 50 staff"
+        ],
+        "costEstimate": "Estimated gross revenue loss of £70bn - £80bn per year",
+        "targetTimeline": "Immediate implementation in Year 1",
+        "factCheckSnippet": "IFS & Institute for Government: Package creates an astronomical shortfall requiring severe, unspecified public service cuts.",
+        "factCheckVerdict": "unfunded",
+        "factCheckSource": "Institute for Fiscal Studies",
+        "publicSupport": 63
+      },
+      "libdem": {
+        "partyId": "libdem",
+        "headline": "Windfall Taxes on Banks & Tech Giants for Public Services",
+        "summary": "Restore fairness by raising taxes on big banks, energy super-profits, and tech monopolies, while reversing stealth income tax threshold freezes.",
+        "keyPoints": [
+          "Raise the Bank Surcharge and Bank Levy to pre-2016 levels",
+          "Introduce a permanent windfall tax on fossil fuel company super-profits",
+          "Digital Services Tax quadrupled on social media and global tech giants",
+          "Reform capital gains tax so investment income is taxed on par with labor income"
+        ],
+        "costEstimate": "Projected £27bn in targeted tax revenue",
+        "targetTimeline": "Rolled out across parliamentary term",
+        "factCheckSnippet": "IFS: Policy targets high earners and profitable corporations with clear costing, though bank tax changes risk financial city flight.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "IFS",
+        "publicSupport": 69
+      },
+      "green": {
+        "partyId": "green",
+        "headline": "Annual Wealth Tax on Multi-Millionaires & Carbon Tax",
+        "summary": "Introduce a 1% annual wealth tax on assets over £10m and 2% over £1bn, equalise capital gains with income tax, and institute a carbon border tax.",
+        "keyPoints": [
+          "1% annual tax on individual net wealth above £10m; 2% on wealth above £1bn",
+          "Abolish the upper earnings limit on National Insurance so high earners pay full rate",
+          "Introduce a comprehensive carbon tax starting at £120/tonne",
+          "Massive £40bn annual green transformation public investment"
+        ],
+        "costEstimate": "Anticipated £50bn - £70bn gross yield",
+        "targetTimeline": "Progressive introduction over 3 years",
+        "factCheckSnippet": "Tax Policy Associates / IFS: Wealth taxes yield revenue but risk capital flight and valuation administrative friction.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "Tax Policy Associates",
+        "publicSupport": 72
+      },
+      "snp": {
+        "partyId": "snp",
+        "headline": "Progressive Taxation & UK-Wide Austerity Reversal",
+        "summary": "Defend Scotland's progressive income tax tiers (higher rates for top 10%), push Westminster to end austerity and abolish the two-child benefit limit.",
+        "keyPoints": [
+          "Maintain progressive Scottish tax bands where top earners contribute more",
+          "Demand UK devolution of all tax powers including National Insurance and VAT",
+          "Scrap the two-child benefit limit immediately (lifting 250,000 children from poverty)",
+          "Reinvest oil and gas tax receipts into a national Scottish Sovereign Wealth Fund"
+        ],
+        "costEstimate": "Scottish tax changes generate ~£1.5bn in devolved revenue",
+        "targetTimeline": "Ongoing devolved administration",
+        "factCheckSnippet": "Scottish Fiscal Commission: Scottish progressive tax system generates positive net revenue with modest behavioural drag.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Scottish Fiscal Commission",
+        "publicSupport": 56
+      },
+      "plaid": {
+        "partyId": "plaid",
+        "headline": "Fair Funding Formula for Wales & Wealth Redistribution",
+        "summary": "Replace the Barnett formula with a needs-based funding settlement for Wales, worth an additional £1.2bn annually, and support UK-wide wealth taxes.",
+        "keyPoints": [
+          "Abolish the Barnett Formula; install an independent funding formula matching Welsh demographic need",
+          "Reclaim £4bn in rail consequentials owed from the HS2 project",
+          "Support UK-wide equalisation of capital gains tax with income tax",
+          "Devolution of Crown Estate land and natural resources to Wales"
+        ],
+        "costEstimate": "Targeted £1.2bn annual budget enhancement for Wales",
+        "targetTimeline": "Immediate constitutional negotiation",
+        "factCheckSnippet": "Holtham Commission & Welsh Governance Centre: Barnett formula consistently produces per-capita underfunding relative to Welsh health need.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Wales Governance Centre",
+        "publicSupport": 54
+      },
+      "restore": {
+        "partyId": "restore",
+        "headline": "Flat Tax Framework & Dismantling Government Waste",
+        "summary": "Dramatically lower marginal tax rates, replace complex tax loopholes with a streamlined flat tax rate, and cut government spending by 25%.",
+        "keyPoints": [
+          "Transition towards a simple 20% flat tax on earnings and business profits",
+          "Immediate abolition of all Stamp Duty and Inheritance Tax",
+          "Abolish 50+ regulatory quangos and halve central government department expenditure",
+          "Repatriate corporate profits with zero tax on domestic manufacturing reinvestment"
+        ],
+        "costEstimate": "Demands over £100bn in public spending contraction",
+        "targetTimeline": "Radical first-term restructuring",
+        "factCheckSnippet": "Economic Consensus: Flat tax schemes of this scale historically lead to severe short-term revenue contractions and borrowing spikes.",
+        "factCheckVerdict": "unfunded",
+        "factCheckSource": "Institute for Government",
+        "publicSupport": 42
+      }
+    }
+  },
+  {
+    "id": "nhs-and-healthcare",
+    "category": "nhs",
+    "title": "NHS Waiting Lists, Staffing & Social Care",
+    "description": "Strategies to eliminate the 7M+ patient backlog, address ambulance delays, recruit clinicians, and reform social care.",
+    "officialFigureBenchmark": {
+      "label": "NHS Waiting List in England",
+      "value": "approx. 7.5 million incomplete treatment pathways",
+      "source": "NHS England Statistical Work Area (2024/25)"
+    },
+    "publicOpinionQuestion": "Is the NHS heading in the wrong direction and in urgent need of major structural reform?",
+    "publicOpinionSupportOverall": 82,
+    "pledges": {
+      "labour": {
+        "partyId": "labour",
+        "headline": "40,000 Extra Appointments per Week & 10-Year Health Plan",
+        "summary": "Fund 40,000 more evening and weekend operations and scans each week, utilise private hospital beds for NHS patients for free, and shift healthcare from analogue to digital.",
+        "keyPoints": [
+          "Fund 40,000 more appointments a week by cracking down on tax avoidance",
+          "Double the number of MRI and CT scanners with modern AI triage",
+          "Shift care from hospitals into community health hubs and pharmacy-first prescribing",
+          "National Care Service plan with fair pay agreement for adult care workers"
+        ],
+        "costEstimate": "£1.6bn targeted front-line funding plus capital upgrades",
+        "targetTimeline": "Clear the 18-week backlog within 5 years",
+        "factCheckSnippet": "Full Fact: 40,000 appointments per week equates to ~2 million a year, which helps reduce backlog growth but requires sustained staff goodwill.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "Full Fact / King's Fund",
+        "publicSupport": 74
+      },
+      "conservative": {
+        "partyId": "conservative",
+        "headline": "NHS Long-Term Workforce Plan & 40 New Hospitals Programme",
+        "summary": "Deliver the Long-Term Workforce Plan to double medical school places, construct community diagnostic centres, and expand Pharmacy First.",
+        "keyPoints": [
+          "Expand Pharmacy First to free up 10 million GP appointments",
+          "Double medical school places to 15,000 a year and nurse training places",
+          "Build 100 new community diagnostic hubs across regional shopping centers",
+          "Cap social care lifetime costs at £86,000 (though delayed until 2025/26)"
+        ],
+        "costEstimate": "Funded within existing 2.4% baseline NHS real-terms settlement",
+        "targetTimeline": "15-year workforce delivery roadmap",
+        "factCheckSnippet": "National Audit Office (NAO): The 40 new hospitals programme suffered major delays, inflation overruns, and required redesign.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "National Audit Office",
+        "publicSupport": 51
+      },
+      "reform": {
+        "partyId": "reform",
+        "headline": "Zero Waiting Lists with Patient Choice Vouchers",
+        "summary": "Allow any NHS patient waiting more than 31 days for a consultation to receive an independent healthcare voucher paid by the state; offer 20% tax relief on private healthcare.",
+        "keyPoints": [
+          "Give patients the legal right to private treatment funded by NHS if waiting exceeds 31 days",
+          "Zero basic rate income tax for all front-line NHS nurses and doctors for 3 years",
+          "Scrap NHS diversity, equity, and bureaucratic management positions",
+          "20% tax relief on all private medical insurance and treatment costs"
+        ],
+        "costEstimate": "Estimated £17bn - £20bn cost per year",
+        "targetTimeline": "Zero waiting list target within 24 months",
+        "factCheckSnippet": "Nuffield Trust: Independent voucher system risks exacerbating NHS workforce drainage into private facilities without increasing total doctor supply.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "Nuffield Trust",
+        "publicSupport": 49
+      },
+      "libdem": {
+        "partyId": "libdem",
+        "headline": "Legal Right to See a GP in 7 Days & Free Personal Care",
+        "summary": "Introduce a legal right to see a GP within 7 days (24 hours in urgent cases), provide 8,000 more GPs, and implement free personal social care.",
+        "keyPoints": [
+          "Hire 8,000 more permanent full-time GPs funded by digital service taxes",
+          "Introduce free personal care for elderly and disabled adults (Scottish model)",
+          "Establish a dedicated 24/7 mental health emergency helpline and local walk-ins",
+          "National Carer's Minimum Wage set £2 above the standard minimum wage"
+        ],
+        "costEstimate": "Costed at £8.4bn per year funded by tax on banks and tech firms",
+        "targetTimeline": "Achieved within the parliament",
+        "factCheckSnippet": "King's Fund: Free personal care is widely regarded as transformative for freeing hospital discharge beds, though recruitment bottlenecks persist.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "The King's Fund",
+        "publicSupport": 79
+      },
+      "green": {
+        "partyId": "green",
+        "headline": "£50bn Health & Social Care Investment & End All Privatisation",
+        "summary": "Increase NHS funding by £30bn per year and social care by £20bn, bring all outsourced services back in-house, and provide immediate pay restoration for junior doctors.",
+        "keyPoints": [
+          "Inject £50bn annually funded by progressive wealth and carbon taxation",
+          "Repeal all legislation introducing private competition in the NHS",
+          "Full pay restoration for doctors, nurses, and allied healthcare professionals",
+          "Comprehensive free NHS dentistry for every UK resident"
+        ],
+        "costEstimate": "£50bn annual spending commitment",
+        "targetTimeline": "Immediate budget implementation",
+        "factCheckSnippet": "Health Foundation: Would fully solve NHS capital depreciation and staffing deficits, but relies on unprecedented wealth tax collection.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "The Health Foundation",
+        "publicSupport": 65
+      },
+      "snp": {
+        "partyId": "snp",
+        "headline": "Protect NHS Scotland & Enact 'Keep the NHS Public' Law",
+        "summary": "Protect Scotland's highest per-capita health spending in the UK, demand a UK-wide 'Keep the NHS in Public Hands' Act, and boost Scottish social care pay.",
+        "keyPoints": [
+          "Legislate to prevent future UK trade deals opening NHS procurement to US corporations",
+          "Maintain Scotland's free prescriptions and free personal care for over 65s",
+          "Increase minimum pay for Scottish adult care workers to £12.50+ an hour",
+          "Demand £1.6bn Barnett consequential uplift from UK health spending"
+        ],
+        "costEstimate": "Devolved Scottish health budget exceeds £19.5bn",
+        "targetTimeline": "Delivered across parliamentary session",
+        "factCheckSnippet": "Audit Scotland: NHS Scotland per capita spending is 7% higher than England, but waiting time pressures remain acute across acute trusts.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Audit Scotland",
+        "publicSupport": 60
+      },
+      "plaid": {
+        "partyId": "plaid",
+        "headline": "Welsh Health Rescue Plan & Rural Dental Services",
+        "summary": "Overhaul Welsh NHS management, restore dental services across rural Wales, recruit Welsh-speaking healthcare workers, and retain medical graduates.",
+        "keyPoints": [
+          "Full student debt forgiveness for medical and nursing graduates who work in Wales for 5 years",
+          "Establish an independent Welsh Medical Inspectorate to eliminate regional waiting disparities",
+          "Universal access to NHS dental registrations in every local authority",
+          "Urgent reform of Welsh ambulance service discharge and handovers"
+        ],
+        "costEstimate": "Funded through restructured Welsh devolved budget allocation",
+        "targetTimeline": "3-year phased implementation",
+        "factCheckSnippet": "Welsh NHS Confederation: Debt-forgiveness schemes prove effective for regional clinician retention in rural Welsh communities.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Welsh NHS Confederation",
+        "publicSupport": 58
+      },
+      "restore": {
+        "partyId": "restore",
+        "headline": "Decentralise NHS into Local Mutuals & Cut Non-Clinical Diversity Units",
+        "summary": "Break up the monolithic NHS central bureaucracy into locally governed mutual trusts, eliminate all non-clinical administrative overhead, and prioritize front-line clinical care.",
+        "keyPoints": [
+          "Transfer hospital ownership to local doctor-and-patient mutual co-operatives",
+          "Immediate dismissal of all diversity, inclusion, and political officers across all trusts",
+          "Prioritize British citizens for non-emergency medical treatment over medical tourism",
+          "Incentivise domestic medical training while reducing reliance on foreign staff poaching"
+        ],
+        "costEstimate": "Aims to save £5bn in administrative overhead to redirect into frontline beds",
+        "targetTimeline": "4-year structural transition",
+        "factCheckSnippet": "Kings Fund / NHS England: Non-clinical diversity roles account for less than 0.1% of the NHS £180bn budget.",
+        "factCheckVerdict": "misleading",
+        "factCheckSource": "Full Fact",
+        "publicSupport": 45
+      }
+    }
+  },
+  {
+    "id": "immigration-and-borders",
+    "category": "immigration",
+    "title": "Immigration, Border Security & Asylum",
+    "description": "Net migration levels, work and student visa salary thresholds, Channel small boats, and asylum processing.",
+    "officialFigureBenchmark": {
+      "label": "UK Net Migration (Year to Dec 2023 / June 2024)",
+      "value": "approx. 685,000 (Down from peak 764,000 in 2022)",
+      "source": "Office for National Statistics (ONS)"
+    },
+    "publicOpinionQuestion": "Should immigration into the UK be significantly reduced over the next 5 years?",
+    "publicOpinionSupportOverall": 66,
+    "pledges": {
+      "labour": {
+        "partyId": "labour",
+        "headline": "Border Security Command & Domestic Skills Linkage",
+        "summary": "Scrapped the unworkable Rwanda scheme; established an elite Border Security Command with counter-terror powers to smash smuggler gangs; linking visa sponsorship to domestic training.",
+        "keyPoints": [
+          "New Border Security Command equipped with anti-terror warrant and intelligence powers",
+          "End reliance on migrant labour by requiring sectors requesting visas to produce domestic training plans",
+          "Fast-track processing and returns agreements with safe European countries",
+          "End the use of costly asylum hotels, saving over £1bn a year"
+        ],
+        "costEstimate": "£75m initial Border Security Command fund plus redeployed Rwanda scheme reserves",
+        "targetTimeline": "Halve asylum backlog and close hotels within 3 years",
+        "factCheckSnippet": "Full Fact: Labour cancelled the Rwanda scheme on day one, re-allocating £290m unspent operational funds to border policing.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Home Office / Full Fact",
+        "publicSupport": 63
+      },
+      "conservative": {
+        "partyId": "conservative",
+        "headline": "Strict Legal Cap on Net Migration & Deterrent Flights",
+        "summary": "Introduce a legally binding annual cap on work and family visas that reduces year-on-year, restore third-country deportation deterrence, and increase visa fee surcharges.",
+        "keyPoints": [
+          "Annual legal cap on immigration set by Parliament based on local public service capacity",
+          "Raise skilled worker minimum salary thresholds above £38,700 and ban health/care worker dependants",
+          "Restore offshore processing partnerships to eliminate the incentive for small boat crossings",
+          "Willingness to reform or leave international conventions (like ECHR) if they obstruct deportations"
+        ],
+        "costEstimate": "Projected net positive revenue from higher visa fees and lower asylum accommodation costs",
+        "targetTimeline": "Immediate statutory cap in year one",
+        "factCheckSnippet": "Migration Observatory: Visa salary threshold increases enacted in early 2024 already caused student and healthcare visa grants to drop over 30%.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Oxford Migration Observatory",
+        "publicSupport": 62
+      },
+      "reform": {
+        "partyId": "reform",
+        "headline": "Freeze Non-Essential Immigration & Leave ECHR",
+        "summary": "Institute a complete freeze on non-essential immigration, pick up and immediately return all Channel boats to France, and leave the European Convention on Human Rights.",
+        "keyPoints": [
+          "Freeze non-essential immigration; strict one-in-one-out quota for skilled migrants",
+          "Leave the European Convention on Human Rights (ECHR) to eliminate judicial deportation delays",
+          "Bar illegal migrants from ever applying for British citizenship or claiming welfare benefits",
+          "Employer Immigration Tax: charge employers a 20% National Insurance surcharge for hiring foreign staff"
+        ],
+        "costEstimate": "Self-funding through reduced public service consumption and immigration surcharge",
+        "targetTimeline": "Legislate within first 100 days",
+        "factCheckSnippet": "Full Fact / Law Society: Leaving ECHR requires rewriting the Good Friday Agreement in Northern Ireland and faces severe bilateral legal hurdles with France.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "Full Fact / British Institute of International Law",
+        "publicSupport": 53
+      },
+      "libdem": {
+        "partyId": "libdem",
+        "headline": "Fair & Humane Asylum System & Restore Dependants for Carers",
+        "summary": "Transfer asylum decision-making from the Home Office to a new independent agency to clear backlogs, allow asylum seekers to work after 3 months, and fix care worker shortages.",
+        "keyPoints": [
+          "Create a dedicated, independent asylum processing agency to decide claims within 3 months",
+          "Grant asylum seekers the right to work if their claim has been pending for over 3 months",
+          "Repeal the Illegal Migration Act and create safe and legal humanitarian routes",
+          "Exempt vital care workers from restrictive dependant bans to prevent care home closures"
+        ],
+        "costEstimate": "Saves £4bn by closing emergency asylum hotels within 12 months",
+        "targetTimeline": "2-year institutional transition",
+        "factCheckSnippet": "Refugee Council / Home Office data: Allowing asylum seekers to work generates an estimated £300m in tax revenues and reduces state hotel dependency.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Refugee Council / LSE",
+        "publicSupport": 48
+      },
+      "green": {
+        "partyId": "green",
+        "headline": "Abolish Hostile Environment, Safe Routes & Climate Visas",
+        "summary": "Dismantle the 'Hostile Environment', create safe and legal routes for refugees, grant all asylum seekers the right to work, and introduce humanitarian visas for climate refugees.",
+        "keyPoints": [
+          "End all immigration detention centres and replace them with community-based support",
+          "Full right to work for asylum seekers from the day they arrive",
+          "Abolish the minimum income requirement for British citizens bringing foreign spouses (£29,000 threshold)",
+          "Lead global treaty on humanitarian protections for climate-displaced populations"
+        ],
+        "costEstimate": "Funded through redirection of immigration enforcement and detention budgets",
+        "targetTimeline": "Parliamentary legislative programme",
+        "factCheckSnippet": "Joint Council for the Welfare of Immigrants: Removing spouse income rules reunites thousands of British families, but would increase net migration numbers.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "JCWI / Home Office",
+        "publicSupport": 32
+      },
+      "snp": {
+        "partyId": "snp",
+        "headline": "Scottish Visa Scheme & Devolved Migration Powers",
+        "summary": "Demand full devolution of immigration powers to introduce a Scottish Visa tailored to Scotland's acute rural depopulation and workforce aging challenges.",
+        "keyPoints": [
+          "Create a Scottish Rural Visa Pilot to attract doctors, care workers, and engineers",
+          "Lower arbitrary UK salary thresholds that harm Scottish businesses and hospitality",
+          "End the hostile environment and close Dungavel Immigration Removal Centre",
+          "Re-establish free movement with the EU following Scottish independence"
+        ],
+        "costEstimate": "Funded within Scottish economic development allocations",
+        "targetTimeline": "Immediate transfer of powers request",
+        "factCheckSnippet": "National Records of Scotland: Scotland is the only UK nation where all projected population growth relies on inward net migration.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "National Records of Scotland",
+        "publicSupport": 52
+      },
+      "plaid": {
+        "partyId": "plaid",
+        "headline": "Wales as a Nation of Sanctuary & Devolved Work Visas",
+        "summary": "Establish Wales as an official Nation of Sanctuary, decentralise visa rules to address Welsh farming and NHS shortages, and provide comprehensive language integration.",
+        "keyPoints": [
+          "Devolve immigration quota powers to the Senedd to fill critical gaps in Welsh agriculture and social care",
+          "Immediate closure of inappropriate emergency asylum accommodation sites in Wales",
+          "Provide free Welsh and English language courses for all arriving refugees",
+          "Campaign for humane, safe, and legal asylum routes across the UK"
+        ],
+        "costEstimate": "Devolved Welsh integration grants",
+        "targetTimeline": "Immediate Welsh government policy",
+        "factCheckSnippet": "Welsh Refugee Council: Regional visa schemes exist successfully in Canada and Australia, providing tested international precedents.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Welsh Governance Centre",
+        "publicSupport": 46
+      },
+      "restore": {
+        "partyId": "restore",
+        "headline": "Complete Border Lockdown & Sovereign Repatriation",
+        "summary": "Seal UK territorial borders, deploy the Royal Navy to turn back illegal craft, enforce strict zero-net-migration, and conduct audits of illegal visa overstayers.",
+        "keyPoints": [
+          "Deploy the military and maritime forces to interdict and intercept all unauthorised vessels",
+          "Immediate repatriation of all illegal entrants without legal appeals",
+          "Moratorium on low-skilled foreign labor permits across all sectors",
+          "Mandatory biometric national identity card system to prevent illegal employment"
+        ],
+        "costEstimate": "Financed by immediate elimination of £4bn+ asylum accommodation contracts",
+        "targetTimeline": "Executive emergency order upon election",
+        "factCheckSnippet": "Maritime Law Experts: Forcible maritime pushbacks in the Channel violate the UN Convention on the Law of the Sea (UNCLOS) and require French territorial cooperation.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "Full Fact / UNCLOS",
+        "publicSupport": 48
+      }
+    }
+  },
+  {
+    "id": "energy-and-net-zero",
+    "category": "energy",
+    "title": "Energy Security, Net Zero & North Sea Oil",
+    "description": "2030 clean power targets, Great British Energy, North Sea oil and gas extraction, and heat pump mandates.",
+    "officialFigureBenchmark": {
+      "label": "UK Renewable Electricity Share",
+      "value": "approx. 47% of total generation (2024)",
+      "source": "Department for Energy Security and Net Zero (DESNZ)"
+    },
+    "publicOpinionQuestion": "Do you support the UK's legal target of reaching Net Zero greenhouse gas emissions by 2050?",
+    "publicOpinionSupportOverall": 68,
+    "pledges": {
+      "labour": {
+        "partyId": "labour",
+        "headline": "Great British Energy & Clean Power by 2030",
+        "summary": "Set up publicly owned Great British Energy with £8.3bn capital; double onshore wind, triple solar power, and quadruple offshore wind by 2030; end new North Sea drilling licenses.",
+        "keyPoints": [
+          "Capitalise Great British Energy headquartered in Aberdeen with £8.3bn",
+          "No new exploration licenses issued for North Sea oil and gas",
+          "Lift the de facto planning ban on onshore wind farms in England",
+          "Warm Homes Plan: £6.6bn to insulate 5 million homes and cut household energy bills"
+        ],
+        "costEstimate": "£8.3bn for GB Energy + £6.6bn for Warm Homes over parliament",
+        "targetTimeline": "Clean power grid achieved by 2030",
+        "factCheckSnippet": "National Grid ESO: Clean power by 2030 is technically possible but requires unprecedented speed in grid infrastructure connections.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "National Grid ESO",
+        "publicSupport": 65
+      },
+      "conservative": {
+        "partyId": "conservative",
+        "headline": "Pragmatic Net Zero, North Sea Licences & SMR Nuclear",
+        "summary": "Maintain the 2050 Net Zero target while preventing punitive consumer costs; mandate annual North Sea oil and gas licensing rounds; fast-track Small Modular Nuclear Reactors (SMRs).",
+        "keyPoints": [
+          "Annual statutory licensing rounds for domestic North Sea oil and gas production",
+          "Scrap boiler phase-out fines and delay electric vehicle sales mandates to 2035",
+          "Invest £1bn in Small Modular Nuclear Reactor development and nuclear fusion research",
+          "Protect consumers from sudden green levies added onto domestic electricity bills"
+        ],
+        "costEstimate": "Market-led capital expenditure with selective government loan guarantees",
+        "targetTimeline": "2050 Net Zero target with relaxed milestones",
+        "factCheckSnippet": "Climate Change Committee (CCC): Watering down interim deadlines makes achieving the legally binding 2050 target significantly harder.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Climate Change Committee",
+        "publicSupport": 57
+      },
+      "reform": {
+        "partyId": "reform",
+        "headline": "Scrap Net Zero Entirely & Fast-Track UK Shale Gas",
+        "summary": "Abolish the 2050 Net Zero legal target, scrap all green subsidies to lower consumer energy bills by £500/year, and aggressively expand North Sea oil, gas, and fracking.",
+        "keyPoints": [
+          "Repeal the Climate Change Act 2008 and abolish all Net Zero mandates",
+          "Fast-track domestic exploration for oil, gas, and onshore shale fracking",
+          "Scrap environmental levies and renewable subsidies on household energy bills",
+          "Keep coal-fired power stations available as national strategic standby reserves"
+        ],
+        "costEstimate": "Claims to save £30bn per year in subsidies and energy costs",
+        "targetTimeline": "Immediate statutory repeal",
+        "factCheckSnippet": "Full Fact / CCC: Gas is the primary driver of high electricity bills under the UK marginal pricing system; cutting green levies saves roughly £170, not £500.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "Full Fact / Ofgem",
+        "publicSupport": 38
+      },
+      "libdem": {
+        "partyId": "libdem",
+        "headline": "80% Renewable Electricity by 2030 & Ban Dirty Water Dumping",
+        "summary": "Drive 80% renewable electricity by 2030, launch an Emergency Home Energy Upgrade programme, hold water company bosses criminally accountable for sewage, and restore solar incentives.",
+        "keyPoints": [
+          "Cut VAT on domestic solar panels, battery storage, and heat pump installations to zero",
+          "Emergency insulation drive focused on low-income and fuel-poor households",
+          "Re-introduce the 2030 ban on new petrol and diesel cars",
+          "Transform water companies into public benefit corporations with strict environmental fines"
+        ],
+        "costEstimate": "£10bn over 5 years financed by permanent windfall taxes on fossil fuels",
+        "targetTimeline": "80% renewable grid by 2030",
+        "factCheckSnippet": "Energy UK: Zero VAT and grant subsidies have proven high uptake for heat pumps, though certified installer shortages remain a bottleneck.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Energy UK",
+        "publicSupport": 67
+      },
+      "green": {
+        "partyId": "green",
+        "headline": "Zero Carbon by 2040, Nationalise Energy & Stop All Fossil Fuels",
+        "summary": "Bring target date for Net Zero forward to 2040, bring Big 5 energy retail companies into public ownership, cancel all new fossil fuel projects, and ban domestic flights where train alternatives exist.",
+        "keyPoints": [
+          "Zero carbon emissions target by 2040 (a decade ahead of current UK law)",
+          "Nationalise the National Grid, water companies, and energy supply companies",
+          "Invest £40bn per year in wind, tidal, solar, and national grid energy storage",
+          "Comprehensive ban on all oil and gas exploration, extraction, and airport expansions"
+        ],
+        "costEstimate": "£40bn annual public green capital investment",
+        "targetTimeline": "Total decarbonisation by 2040",
+        "factCheckSnippet": "IFS: Full nationalisation of utilities requires substantial compensation outlays or major bond issuances under international investment treaties.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "Institute for Fiscal Studies",
+        "publicSupport": 45
+      },
+      "snp": {
+        "partyId": "snp",
+        "headline": "Scotland as European Green Powerhouse & Just Transition",
+        "summary": "Capitalise on Scotland's 25% of Europe's offshore wind potential, fund a Just Transition for North Sea oil and gas workers, and demand full devolution of energy powers.",
+        "keyPoints": [
+          "Ensure Scottish communities directly share revenue from the ScotWind leasing rounds",
+          "Oppose reckless cliff-edge cessation of oil licenses while prioritizing worker retraining",
+          "Reform the national grid transmission charging system that penalises Scottish renewable producers",
+          "Demands £500m Just Transition Fund for North East Scotland"
+        ],
+        "costEstimate": "Funded through Scottish energy revenues and ScotWind returns",
+        "targetTimeline": "Scottish Net Zero target by 2045",
+        "factCheckSnippet": "Ofgem / National Grid: Scottish energy generators currently pay higher transmission grid charges due to distance from southern population centres.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "House of Commons Scottish Affairs Committee",
+        "publicSupport": 58
+      },
+      "plaid": {
+        "partyId": "plaid",
+        "headline": "Welsh Renewable Wealth Retention & Crown Estate Devolution",
+        "summary": "Devolve the Crown Estate to Wales (as in Scotland) so that offshore wind revenues stay in Wales; create a 100% renewable Wales by 2035.",
+        "keyPoints": [
+          "Devolve management of Crown Estate seabed and mineral rights to Wales (£1bn+ value)",
+          "Ynni Cymru: Welsh publicly owned renewable energy developer",
+          "Target 100% of Welsh electricity demand from renewables by 2035",
+          "Ban all new opencast coal mining and oil drilling permits in Wales"
+        ],
+        "costEstimate": "Financed by retaining Welsh Crown Estate profits in the Senedd",
+        "targetTimeline": "Target 2035 for 100% renewable electricity",
+        "factCheckSnippet": "Welsh Government / Crown Estate data: Crown Estate in Scotland was successfully devolved under the Scotland Act 2016, generating direct revenue for Holyrood.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "House of Commons Library",
+        "publicSupport": 55
+      },
+      "restore": {
+        "partyId": "restore",
+        "headline": "Energy Independence, Coal & Gas Revival, End Green Taxes",
+        "summary": "Dismantle green subsidies, reopen British coal and gas reserves, achieve cheap and resilient base-load power, and withdraw from the Paris Climate Accord.",
+        "keyPoints": [
+          "Withdraw the United Kingdom from the Paris Climate Accord and COP treaties",
+          "Immediately decommission inefficient wind turbines relying on taxpayer subsidies",
+          "Drill for domestic oil and gas with zero green surcharge to deliver cheap industrial energy",
+          "Re-commission domestic coal-fired generation stations for continuous industrial manufacturing"
+        ],
+        "costEstimate": "Self-funding through elimination of £10bn+ annual green support schemes",
+        "targetTimeline": "Year 1 deregulation package",
+        "factCheckSnippet": "International Energy Agency (IEA): New solar and wind generation are now cheaper per megawatt-hour than building new coal or gas peaking plants.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "IEA / BloombergNEF",
+        "publicSupport": 34
+      }
+    }
+  },
+  {
+    "id": "housing-and-planning",
+    "category": "housing",
+    "title": "Housing Targets, Planning Reform & Renters' Rights",
+    "description": "Housebuilding targets, mandatory council quotas, brownfield vs greenbelt, and renters' rights legislation.",
+    "officialFigureBenchmark": {
+      "label": "Annual Net Additional UK Dwellings",
+      "value": "approx. 234,000 (Target: 300,000+)",
+      "source": "Ministry of Housing, Communities & Local Government (MHCLG)"
+    },
+    "publicOpinionQuestion": "Should the government build on 'grey belt' land to solve the national housing crisis?",
+    "publicOpinionSupportOverall": 59,
+    "pledges": {
+      "labour": {
+        "partyId": "labour",
+        "headline": "1.5 Million Homes Target & Release the 'Grey Belt'",
+        "summary": "Mandatory local housing targets restored; build 1.5 million homes over the parliament; release low-quality 'grey belt' greenbelt land; pass the Renters' Rights Bill abolishing Section 21 evictions.",
+        "keyPoints": [
+          "Build 1.5 million homes over the parliament with mandatory local targets",
+          "Prioritise brownfield and poor-quality 'grey belt' (e.g. neglected car parks on greenbelt)",
+          "Renters' Rights Bill: ban 'no-fault' Section 21 evictions and end bidding wars",
+          "Deliver the biggest boost to social and affordable housing in a generation"
+        ],
+        "costEstimate": "Private-sector driven via planning deregulation plus targeted social housing capital",
+        "targetTimeline": "1.5M homes by 2029",
+        "factCheckSnippet": "Planning Advisory Service: Reaching 300,000 homes a year requires massive expansion in bricklayers, electricians, and local planning officers.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "Royal Town Planning Institute (RTPI)",
+        "publicSupport": 64
+      },
+      "conservative": {
+        "partyId": "conservative",
+        "headline": "1.6 Million Homes on Brownfield & Protect the Green Belt",
+        "summary": "Build 1.6 million homes strictly on urban brownfield land while defending greenbelt open spaces; expand Help to Buy; abolish stamp duty for first-time buyers up to £425,000.",
+        "keyPoints": [
+          "Permanent stamp duty exemption for first-time buyers on homes up to £425,000",
+          "Introduce a new Help to Buy equity loan scheme for first-time purchasers",
+          "Protect the greenbelt from aggressive development by focusing density in city centres",
+          "Abolish EU legacy 'nutrient neutrality' laws to unlock 100,000 stalled builds"
+        ],
+        "costEstimate": "Help to Buy equity loans cost approx. £1bn - £2bn in revolving capital",
+        "targetTimeline": "1.6 million homes over 5 years",
+        "factCheckSnippet": "House of Commons Housing Committee: Brownfield sites alone in high-demand regions (London/South East) are insufficient to reach 1.6M homes.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "House of Commons Housing Committee",
+        "publicSupport": 58
+      },
+      "reform": {
+        "partyId": "reform",
+        "headline": "Fast-Track Planning for British Citizens & Brownfield Incentives",
+        "summary": "Dramatically streamline planning permissions, offer tax breaks for building on brownfield land, prioritize social housing for British nationals, and scrap environmental planning delays.",
+        "keyPoints": [
+          "Fast-track planning decisions within 4 weeks for approved residential developments",
+          "Substantial tax incentives and VAT relief for brownfield regeneration",
+          "Local connection and British citizenship requirements for all social housing allocations",
+          "Scrap Section 106 and infrastructure levies on smaller home builders"
+        ],
+        "costEstimate": "Financed by cutting planning bureaucracy",
+        "targetTimeline": "Immediate deregulatory measures",
+        "factCheckSnippet": "Local Government Association: Social housing allocation already strongly prioritises local connection rules across 90%+ of councils.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "Local Government Association",
+        "publicSupport": 57
+      },
+      "libdem": {
+        "partyId": "libdem",
+        "headline": "380,000 Homes a Year & 150,000 for Social Rent",
+        "summary": "Build 380,000 new homes annually including 150,000 social homes, give local communities 'first refusal' on developments, and introduce 'use-it-or-lose-it' rules for developers.",
+        "keyPoints": [
+          "Mandate 150,000 new social rent homes every year built to high environmental standards",
+          "Abolish 'no-fault' evictions and give tenants 3-year standard tenancies",
+          "Empower councils to enforce 'use-it-or-lose-it' land taxes on developers hoarding land",
+          "Require all new homes to feature solar panels and zero-carbon heat pumps"
+        ],
+        "costEstimate": "£6bn annual capital borrowing programme for social housing",
+        "targetTimeline": "380,000 per year by year 3",
+        "factCheckSnippet": "Shelter / Crisis: 150,000 social homes per year matches independent estimates needed to eradicate homelessness.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Shelter UK",
+        "publicSupport": 66
+      },
+      "green": {
+        "partyId": "green",
+        "headline": "150,000 Council Homes, Rent Caps & End Right to Buy",
+        "summary": "Build 150,000 council homes a year, empower local authorities to implement local rent controls, end the Right to Buy scheme, and retrofit all existing homes with insulation.",
+        "keyPoints": [
+          "Build 150,000 high-spec social rented council homes per year",
+          "End the 'Right to Buy' scheme to permanently safeguard council housing stock",
+          "Empower local councils to introduce rent control caps linked to local average wages",
+          "Massive national retrofit scheme to bring all UK homes to Energy Performance Band B"
+        ],
+        "costEstimate": "£12bn annual social housing grant funded by wealth tax",
+        "targetTimeline": "Full delivery across 5-year cycle",
+        "factCheckSnippet": "Institute of Economic Affairs / Centre for Cities: Strict rent controls in Berlin and Scotland historically reduced overall rental supply on the market.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "Centre for Cities",
+        "publicSupport": 54
+      },
+      "snp": {
+        "partyId": "snp",
+        "headline": "Deliver 110,000 Affordable Homes & Scottish Rent Caps",
+        "summary": "Target 110,000 affordable homes in Scotland by 2032 with 70% for social rent, maintain strong Scottish tenant protections, and reverse UK housing benefit cuts.",
+        "keyPoints": [
+          "Invest £3.5bn towards delivering 110,000 Scottish affordable homes by 2032",
+          "Maintain Scotland's pioneering permanent rent control frameworks for designated hotspots",
+          "Demand UK restoration of Local Housing Allowance rates to track real market rents",
+          "Full devolution of borrowing limits for Scottish municipal councils"
+        ],
+        "costEstimate": "Scottish housing capital programme ~£600m/year",
+        "targetTimeline": "110,000 homes delivered by 2032",
+        "factCheckSnippet": "Scottish Parliament Information Centre (SPICe): Scottish budget reductions in 2024 forced temporary slowing of the 110k target timeline.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "SPICe",
+        "publicSupport": 59
+      },
+      "plaid": {
+        "partyId": "plaid",
+        "headline": "Protect Welsh Rural Communities & Second Home Restrictions",
+        "summary": "Overhaul Welsh housing supply, empower councils to levy 300% council tax on empty second homes, build high-spec social housing, and prevent rural depopulation.",
+        "keyPoints": [
+          "Grant councils power to charge up to 300% council tax premiums on holiday and second homes",
+          "Introduce local community approval for converting family homes into holiday lets",
+          "Deliver 10,000 council and social homes across Wales over 5 years",
+          "End 'no fault' evictions and install rent control mechanisms in high-cost Welsh areas"
+        ],
+        "costEstimate": "Funded through second home council tax premiums",
+        "targetTimeline": "Ongoing Welsh local authority framework",
+        "factCheckSnippet": "Welsh Local Government Association: Second-home premiums in Gwynedd and Pembrokeshire raised tens of millions for local affordable home schemes.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "WLGA",
+        "publicSupport": 63
+      },
+      "restore": {
+        "partyId": "restore",
+        "headline": "Abolish Planning Permission for Brownfield & Traditional Architecture",
+        "summary": "Abolish the Town and Country Planning Act 1947, permit automatic right-to-build on brownfield land, mandate traditional British aesthetic design codes, and ban foreign corporate ownership of housing.",
+        "keyPoints": [
+          "Repeal restrictive planning laws and replace with simple property rights",
+          "Ban overseas non-resident individuals and international venture funds from buying British homes",
+          "Enforce traditional vernacular architectural design codes for all new developments",
+          "Full tax write-offs for building materials manufactured inside the UK"
+        ],
+        "costEstimate": "Market-driven deregulatory model",
+        "targetTimeline": "Legislated in Year 1",
+        "factCheckSnippet": "Royal Institute of British Architects (RIBA): Deregulating design and planning creates risk of substandard construction without proper building control oversight.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "RIBA",
+        "publicSupport": 44
+      }
+    }
+  }
+]

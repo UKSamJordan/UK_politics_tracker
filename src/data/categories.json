@@ -1,0 +1,44 @@
+[
+  {
+    "id": "defence",
+    "name": "Defence & Military",
+    "iconName": "Shield",
+    "description": "Defence spending % of GDP, NATO commitments, armed forces troop size, Trident nuclear deterrent, and veterans' covenant.",
+    "keyMetric": "Current UK spending: ~2.3% of GDP (£54.2bn)"
+  },
+  {
+    "id": "economy",
+    "name": "Economy & Taxation",
+    "iconName": "TrendingUp",
+    "description": "Income tax thresholds, VAT, National Insurance, wealth taxes, national debt, and capital borrowing rules.",
+    "keyMetric": "Tax burden: ~36.5% of GDP (70-year high)"
+  },
+  {
+    "id": "nhs",
+    "name": "NHS & Healthcare",
+    "iconName": "HeartPulse",
+    "description": "Waiting list backlogs, GP appointment guarantees, dentist shortages, staff pay restoration, and social care reform.",
+    "keyMetric": "Treatment backlog: ~7.5 million patients"
+  },
+  {
+    "id": "immigration",
+    "name": "Immigration & Borders",
+    "iconName": "Plane",
+    "description": "Net migration levels, skilled work visa salary thresholds, Channel small boat enforcement, and ECHR membership.",
+    "keyMetric": "Net migration: ~685,000 (Down from peak 764k)"
+  },
+  {
+    "id": "energy",
+    "name": "Energy & Net Zero",
+    "iconName": "Zap",
+    "description": "2030 clean grid, Great British Energy, North Sea oil and gas licensing, fracking, and heat pump subsidies.",
+    "keyMetric": "Renewables: 47% of UK electricity generation"
+  },
+  {
+    "id": "housing",
+    "name": "Housing & Planning",
+    "iconName": "Home",
+    "description": "1.5M - 1.6M housebuilding targets, mandatory council targets, greenbelt vs greybelt, and Section 21 evictions.",
+    "keyMetric": "New dwellings: ~234,000 / year (Target: 300,000+)"
+  }
+]

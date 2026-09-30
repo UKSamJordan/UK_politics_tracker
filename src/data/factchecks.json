@@ -1,0 +1,86 @@
+[
+  {
+    "id": "fc-1",
+    "partyId": "reform",
+    "speaker": "Nigel Farage",
+    "date": "2024-06-18",
+    "category": "energy",
+    "claim": "Scrapping Net Zero green levies will immediately knock £500 off average household energy bills.",
+    "verdict": "Misleading",
+    "explanation": "Ofgem price cap breakdowns show that environmental and social policy costs (green levies) on standard dual-fuel household bills amount to approximately £170 to £190 per year, not £500. The remaining bill fluctuations are predominantly driven by wholesale wholesale international gas prices.",
+    "source": "Full Fact / Ofgem",
+    "sourceUrl": "https://fullfact.org/economy/energy-bills-green-levies-reform-manifesto/"
+  },
+  {
+    "id": "fc-2",
+    "partyId": "labour",
+    "speaker": "Rachel Reeves",
+    "date": "2024-07-29",
+    "category": "economy",
+    "claim": "The incoming government discovered an unexpected £22 billion black hole in public finances left by the previous administration.",
+    "verdict": "Needs Context",
+    "explanation": "While the Treasury identified in-year unbudgeted pressures (including public sector pay recommendations and asylum accommodation costs) totalling approximately £21.9bn, the Office for Budget Responsibility and IFS noted that many spending pressures and unfunded commitments were already known or detectable in departmental departmental forecasts prior to the election.",
+    "source": "Institute for Fiscal Studies (IFS) / Full Fact",
+    "sourceUrl": "https://fullfact.org/economy/22-billion-black-hole-spending-audit/"
+  },
+  {
+    "id": "fc-3",
+    "partyId": "conservative",
+    "speaker": "Rishi Sunak & Shadow Ministers",
+    "date": "2024-06-04",
+    "category": "economy",
+    "claim": "Labour's policies will inevitably require a £2,000 tax hike on every working family in Britain.",
+    "verdict": "False",
+    "explanation": "The UK Statistics Authority and Full Fact censured this claim. The figure was calculated by summing unconfirmed policy costs over a cumulative four-year period (not one year) and dividing by total households rather than working families, with civil servants confirming the analysis did not represent official Treasury projections.",
+    "source": "UK Statistics Authority / Full Fact",
+    "sourceUrl": "https://fullfact.org/economy/labour-2000-tax-rise-claim/"
+  },
+  {
+    "id": "fc-4",
+    "partyId": "conservative",
+    "speaker": "Kemi Badenoch / CCHQ",
+    "date": "2024-05-15",
+    "category": "defence",
+    "claim": "Raising UK defence spending to 2.5% of GDP by 2030 can be fully funded simply by reducing the civil service by 72,000 staff back to pre-pandemic levels.",
+    "verdict": "Disputed",
+    "explanation": "The Institute for Fiscal Studies (IFS) analyzed this costing and concluded that achieving an ongoing saving of £3.9bn annually from back-office reductions is uncertain and carries high implementation risks, especially as civil servants deliver critical frontline passport, border, and tax collection functions.",
+    "source": "Institute for Fiscal Studies (IFS)",
+    "sourceUrl": "https://ifs.org.uk/articles/conservative-defence-spending-plan"
+  },
+  {
+    "id": "fc-5",
+    "partyId": "green",
+    "speaker": "Carla Denyer",
+    "date": "2024-06-12",
+    "category": "economy",
+    "claim": "An annual wealth tax of 1% on fortunes over £10m and 2% on fortunes over £1bn will effortlessly generate up to £70 billion with minimal tax avoidance.",
+    "verdict": "Needs Context",
+    "explanation": "Tax Policy Associates and the IFS note that while wealth taxes can generate billions, European nations (such as France, Sweden, and Norway) that operated wealth taxes saw behavioural reactions, capital flight, and valuation disputes that lowered net yields to between £5bn and £15bn annually unless backed by strict exit taxes.",
+    "source": "Tax Policy Associates / Full Fact",
+    "sourceUrl": "https://fullfact.org/economy/green-party-wealth-tax-manifesto/"
+  },
+  {
+    "id": "fc-6",
+    "partyId": "libdem",
+    "speaker": "Sir Ed Davey",
+    "date": "2024-06-10",
+    "category": "nhs",
+    "claim": "Water company executives paid themselves £54 million in bonuses and incentives while dumping record raw sewage into rivers and coastal waters.",
+    "verdict": "Accurate",
+    "explanation": "Analysis of water company annual financial accounts and Environment Agency Event Duration Monitoring records confirms that water firm executives received over £50m in bonuses and benefits over a three-year period during which storm overflow discharge hours reached historic highs in England and Wales.",
+    "source": "Environment Agency / Full Fact",
+    "sourceUrl": "https://fullfact.org/environment/water-executives-bonuses-sewage/"
+  },
+  {
+    "id": "fc-7",
+    "partyId": "reform",
+    "speaker": "Party Campaign Releases",
+    "date": "2024-06-17",
+    "category": "immigration",
+    "claim": "Taxpayers are spending £8 million every single day on luxury hotel accommodation for illegal immigrants.",
+    "verdict": "Needs Context",
+    "explanation": "Home Office figures confirm hotel accommodation for asylum seekers peaked at around £8.2m per day in early 2023. However, calling all residents 'illegal immigrants' conflates asylum seekers (who have a legal right under the 1951 UN Refugee Convention to have their claims processed) with convicted illegal entrants. The figure has also since dropped as dispersal accommodation increased.",
+    "source": "National Audit Office / Full Fact",
+    "sourceUrl": "https://fullfact.org/immigration/asylum-hotel-costs-home-office/"
+  }
+]
