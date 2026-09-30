@@ -8,6 +8,7 @@ import { CabinetExplorer } from './components/CabinetExplorer';
 import { PollTracker } from './components/PollTracker';
 import { FactCheckDirectory } from './components/FactCheckDirectory';
 import { PolicyQuiz } from './components/PolicyQuiz';
+import { LiveAIFeed } from './components/LiveAIFeed';
 import { DataBankModal } from './components/DataBankModal';
 
 // Load Data Bank JSON files
@@ -108,6 +109,12 @@ export const App: React.FC = () => {
             leaderRatings={leaderRatings}
             bestPrimeMinister={bestPrimeMinister}
             lastUpdated={pollsData.lastUpdated}
+          />
+        )}
+
+        {activeTab === 'live' && (
+          <LiveAIFeed
+            parties={parties}
           />
         )}
 
