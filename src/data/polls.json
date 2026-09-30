@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-28",
+  "lastUpdated": "2026-09-30",
   "average": {
     "labour": 31,
     "conservative": 24,
@@ -10,7 +10,7 @@
     "others": 1
   },
   "bestPrimeMinister": {
-    "date": "2026-09-25",
+    "date": "2026-09-28",
     "pollster": "YouGov Best PM Tracker",
     "starmer": 31,
     "badenoch": 23,
@@ -23,48 +23,48 @@
       "partyId": "labour",
       "leaderName": "Sir Keir Starmer",
       "role": "Prime Minister & Labour Leader",
-      "approvePct": 33,
-      "disapprovePct": 52,
-      "netRating": -19,
-      "dontKnowPct": 15,
+      "approvePct": 32,
+      "disapprovePct": 54,
+      "netRating": -22,
+      "dontKnowPct": 14,
       "pollster": "YouGov Leader Approval Tracker",
-      "date": "2026-09-24",
+      "date": "2026-09-28",
       "trend": "-2"
     },
     {
       "partyId": "conservative",
       "leaderName": "Kemi Badenoch",
       "role": "Leader of the Opposition & Conservative Leader",
-      "approvePct": 27,
-      "disapprovePct": 46,
-      "netRating": -19,
+      "approvePct": 28,
+      "disapprovePct": 45,
+      "netRating": -17,
       "dontKnowPct": 27,
       "pollster": "Ipsos Political Monitor",
-      "date": "2026-09-22",
+      "date": "2026-09-26",
       "trend": "+1"
     },
     {
       "partyId": "reform",
       "leaderName": "Nigel Farage",
       "role": "Reform UK Leader & MP",
-      "approvePct": 28,
-      "disapprovePct": 56,
-      "netRating": -28,
+      "approvePct": 29,
+      "disapprovePct": 55,
+      "netRating": -26,
       "dontKnowPct": 16,
       "pollster": "Savanta / Daily Telegraph",
-      "date": "2026-09-20",
-      "trend": "+3"
+      "date": "2026-09-25",
+      "trend": "+2"
     },
     {
       "partyId": "libdem",
       "leaderName": "Sir Ed Davey",
       "role": "Liberal Democrat Leader & MP",
       "approvePct": 34,
-      "disapprovePct": 32,
-      "netRating": 2,
-      "dontKnowPct": 34,
+      "disapprovePct": 31,
+      "netRating": 3,
+      "dontKnowPct": 35,
       "pollster": "YouGov Leader Tracker",
-      "date": "2026-09-24",
+      "date": "2026-09-28",
       "trend": "+1"
     },
     {
@@ -76,7 +76,7 @@
       "netRating": 2,
       "dontKnowPct": 50,
       "pollster": "More in Common",
-      "date": "2026-09-18",
+      "date": "2026-09-20",
       "trend": "0"
     },
     {
@@ -84,23 +84,23 @@
       "leaderName": "John Swinney",
       "role": "First Minister of Scotland & SNP Leader",
       "approvePct": 36,
-      "disapprovePct": 42,
-      "netRating": -6,
-      "dontKnowPct": 22,
+      "disapprovePct": 41,
+      "netRating": -5,
+      "dontKnowPct": 23,
       "pollster": "Survation (Scotland Sample)",
-      "date": "2026-09-15",
+      "date": "2026-09-22",
       "trend": "+2"
     },
     {
       "partyId": "plaid",
       "leaderName": "Rhun ap Iorwerth",
       "role": "Plaid Cymru Leader & MS",
-      "approvePct": 32,
-      "disapprovePct": 28,
-      "netRating": 4,
+      "approvePct": 33,
+      "disapprovePct": 27,
+      "netRating": 6,
       "dontKnowPct": 40,
       "pollster": "YouGov Wales / ITV Cymru",
-      "date": "2026-09-10",
+      "date": "2026-09-15",
       "trend": "+1"
     }
   ],
@@ -227,7 +227,10 @@
       "unsurePct": 8,
       "pollster": "Ipsos Political Monitor",
       "date": "2026-09",
-      "partiesSupporting": ["libdem", "labour"]
+      "partiesSupporting": [
+        "libdem",
+        "labour"
+      ]
     },
     {
       "policy": "Re-nationalise passenger train operators as contracts expire",
@@ -237,7 +240,12 @@
       "unsurePct": 11,
       "pollster": "YouGov Public Ownership Tracker",
       "date": "2026-09",
-      "partiesSupporting": ["labour", "green", "snp", "plaid"]
+      "partiesSupporting": [
+        "labour",
+        "green",
+        "snp",
+        "plaid"
+      ]
     },
     {
       "policy": "Nationalise water companies to eliminate sewage dumping",
@@ -247,17 +255,26 @@
       "unsurePct": 11,
       "pollster": "YouGov Issue Tracker",
       "date": "2026-08",
-      "partiesSupporting": ["green", "snp", "plaid"]
+      "partiesSupporting": [
+        "green",
+        "snp",
+        "plaid"
+      ]
     },
     {
-      "policy": "Introduce an annual 1-2% wealth tax on assets over £10 million",
+      "policy": "Introduce an annual 1-2% wealth tax on assets over \u00a310 million",
       "category": "economy",
       "supportPct": 74,
       "opposePct": 14,
       "unsurePct": 12,
       "pollster": "Survation / Tax Justice UK",
       "date": "2026-07",
-      "partiesSupporting": ["green", "snp", "plaid", "libdem"]
+      "partiesSupporting": [
+        "green",
+        "snp",
+        "plaid",
+        "libdem"
+      ]
     },
     {
       "policy": "Abolish 'no fault' Section 21 evictions for private renters",
@@ -267,7 +284,13 @@
       "unsurePct": 16,
       "pollster": "YouGov / Shelter",
       "date": "2026-06",
-      "partiesSupporting": ["labour", "libdem", "green", "snp", "plaid"]
+      "partiesSupporting": [
+        "labour",
+        "libdem",
+        "green",
+        "snp",
+        "plaid"
+      ]
     },
     {
       "policy": "Apply standard 20% VAT to private school fees",
@@ -277,7 +300,12 @@
       "unsurePct": 10,
       "pollster": "YouGov / Sunday Times",
       "date": "2026-08",
-      "partiesSupporting": ["labour", "green", "snp", "plaid"]
+      "partiesSupporting": [
+        "labour",
+        "green",
+        "snp",
+        "plaid"
+      ]
     },
     {
       "policy": "Phased generational ban on tobacco sales (raising smoking age each year)",
@@ -287,7 +315,11 @@
       "unsurePct": 12,
       "pollster": "YouGov Health Monitor",
       "date": "2026-07",
-      "partiesSupporting": ["labour", "conservative", "libdem"]
+      "partiesSupporting": [
+        "labour",
+        "conservative",
+        "libdem"
+      ]
     },
     {
       "policy": "Introduce a legally binding annual cap on net migration",
@@ -297,7 +329,11 @@
       "unsurePct": 13,
       "pollster": "More in Common",
       "date": "2026-08",
-      "partiesSupporting": ["conservative", "reform", "restore"]
+      "partiesSupporting": [
+        "conservative",
+        "reform",
+        "restore"
+      ]
     },
     {
       "policy": "Increase UK defence spending to at least 2.5% of GDP",
@@ -307,7 +343,13 @@
       "unsurePct": 18,
       "pollster": "YouGov / RUSI Tracker",
       "date": "2026-08",
-      "partiesSupporting": ["labour", "conservative", "reform", "libdem", "restore"]
+      "partiesSupporting": [
+        "labour",
+        "conservative",
+        "reform",
+        "libdem",
+        "restore"
+      ]
     },
     {
       "policy": "Build 1.5M homes by easing planning on low-quality 'grey belt'",
@@ -317,7 +359,9 @@
       "unsurePct": 15,
       "pollster": "Savanta / RTPI",
       "date": "2026-07",
-      "partiesSupporting": ["labour"]
+      "partiesSupporting": [
+        "labour"
+      ]
     },
     {
       "policy": "Legalise assisted dying for terminally ill adults with mental capacity",
@@ -327,7 +371,9 @@
       "unsurePct": 15,
       "pollster": "Ipsos UK Social Trends",
       "date": "2026-09",
-      "partiesSupporting": ["free_vote"]
+      "partiesSupporting": [
+        "free_vote"
+      ]
     },
     {
       "policy": "Scrap the two-child benefit cap to reduce child poverty",
@@ -337,7 +383,12 @@
       "unsurePct": 12,
       "pollster": "YouGov Welfare Tracker",
       "date": "2026-08",
-      "partiesSupporting": ["snp", "plaid", "green", "libdem"]
+      "partiesSupporting": [
+        "snp",
+        "plaid",
+        "green",
+        "libdem"
+      ]
     },
     {
       "policy": "Means-test the Winter Fuel Allowance (restricting to pension credit recipients)",
@@ -347,7 +398,9 @@
       "unsurePct": 11,
       "pollster": "Ipsos / Evening Standard",
       "date": "2026-09",
-      "partiesSupporting": ["labour"]
+      "partiesSupporting": [
+        "labour"
+      ]
     },
     {
       "policy": "UK rejoining the European Union Single Market and Customs Union",
@@ -357,7 +410,12 @@
       "unsurePct": 13,
       "pollster": "YouGov Brexit Tracker",
       "date": "2026-09",
-      "partiesSupporting": ["libdem", "green", "snp", "plaid"]
+      "partiesSupporting": [
+        "libdem",
+        "green",
+        "snp",
+        "plaid"
+      ]
     },
     {
       "policy": "Abolish the 2050 Net Zero greenhouse gas target",
@@ -367,7 +425,10 @@
       "unsurePct": 12,
       "pollster": "YouGov Climate Tracker",
       "date": "2026-08",
-      "partiesSupporting": ["reform", "restore"]
+      "partiesSupporting": [
+        "reform",
+        "restore"
+      ]
     }
   ]
 }

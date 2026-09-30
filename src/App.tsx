@@ -91,13 +91,6 @@ export const App: React.FC = () => {
           />
         )}
 
-        {activeTab === 'defence' && (
-          <DefenceSpecial
-            parties={parties}
-            defencePolicyTopic={defenceTopic}
-          />
-        )}
-
         {activeTab === 'cabinets' && (
           <CabinetExplorer
             parties={parties}

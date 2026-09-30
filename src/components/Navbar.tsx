@@ -33,7 +33,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const navItems: NavItem[] = [
     { id: 'compare', label: 'Compare Policies', icon: Scale },
-    { id: 'defence', label: 'Military & Defence', icon: Shield },
     { id: 'cabinets', label: 'Cabinets & Leaders', icon: Users },
     { id: 'polls', label: 'Polls & Public Opinion', icon: BarChart3 },
     { id: 'factchecks', label: 'Fact Checkers', icon: CheckCircle2 },
