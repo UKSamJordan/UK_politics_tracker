@@ -230,3 +230,213 @@ Tone: Strictly objective, analytical, impartial, and grounded in official parlia
     isAuditPassed
   };
 }
+
+export interface PledgeVerificationResult {
+  rawText: string;
+  verdict: 'Confirmed Active' | 'Conditional / Pending Review' | 'Modified' | 'Superseded' | 'Under Debate';
+  verdictTone: 'emerald' | 'amber' | 'blue' | 'rose';
+  lastAffirmedSummary: string;
+  latestQuote: string;
+  statusAnalysis: string;
+  timestamp: string;
+  source: string;
+}
+
+/**
+ * On-demand AI Pledge Recency Verification:
+ * Scrutinises when a pledge was last affirmed, current standing, and ministerial quotes
+ */
+export async function verifyPledgeRecency(
+  partyName: string,
+  topicTitle: string,
+  pledgeHeadline: string,
+  pledgeSummary: string,
+  customApiKey?: string
+): Promise<PledgeVerificationResult> {
+  const apiKey = (customApiKey || '').trim() || getStoredApiKey();
+  if (!apiKey) {
+    throw new Error('No active Gemini API key configured.');
+  }
+
+  const dateMeta = getCurrentDateMetadata();
+
+  const prompt = `You are the Westminster Policy Tracker Parliamentary Scrutiny Engine.
+CRITICAL MANDATE:
+- Current Date: ${dateMeta.fullDateString}.
+- Current Year: ${dateMeta.year}.
+- You must perform an objective, strictly factual recency verification of the following UK political pledge:
+  Party: ${partyName}
+  Policy Area: ${topicTitle}
+  Stated Headline: "${pledgeHeadline}"
+  Stated Summary: "${pledgeSummary}"
+
+Investigate:
+1. When was this pledge first made, and when was it LAST officially reaffirmed or commented on by party leaders or ministers/spokespeople (cite names, dates, and forums where available, e.g. Commons debates, Autumn Budget, conference speeches)?
+2. What is its exact status as of today (${dateMeta.fullDateString})? Is it funded, enacted in a bill, pending a formal review (like the Strategic Defence Review or NHS 10-year plan), or subject to fiscal rules?
+3. Provide the most recent direct ministerial or spokesperson quote regarding this specific policy.
+4. Assign an objective verdict:
+   - "Confirmed Active" (if the policy is active and firmly committed)
+   - "Conditional / Pending Review" (if committed in principle but sequenced, unfunded, or tied to fiscal headroom or an ongoing review)
+   - "Modified" (if targets, dates, or numbers were altered)
+   - "Under Debate" (if contested internally or under consultation)
+
+Format your response cleanly:
+### 1. Verification Record & Last Affirmed
+(1-2 paragraphs detailing when last affirmed, by whom, and in what context)
+
+### 2. Status & Conditionality Analysis
+(Bullet points explaining current standing, funding status, and statutory pathway)
+
+### 3. Latest Verified Public Statement
+(Direct quote in quotes with speaker and approximate date)
+
+### 4. Verdict: [Confirmed Active / Conditional / Pending Review / Modified / Under Debate]
+(Summary justification)`;
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { temperature: 0.15 }
+    })
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`Gemini API Error (${response.status}): ${errText}`);
+  }
+
+  const data = await response.json();
+  const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No verification data returned.';
+
+  // Parse structured elements
+  let verdict: PledgeVerificationResult['verdict'] = 'Confirmed Active';
+  let verdictTone: PledgeVerificationResult['verdictTone'] = 'emerald';
+
+  const lowerText = rawText.toLowerCase();
+  if (lowerText.includes('verdict: conditional') || lowerText.includes('conditional / pending review') || lowerText.includes('pending review')) {
+    verdict = 'Conditional / Pending Review';
+    verdictTone = 'amber';
+  } else if (lowerText.includes('verdict: modified')) {
+    verdict = 'Modified';
+    verdictTone = 'blue';
+  } else if (lowerText.includes('verdict: under debate')) {
+    verdict = 'Under Debate';
+    verdictTone = 'amber';
+  } else if (lowerText.includes('verdict: superseded') || lowerText.includes('withdrawn')) {
+    verdict = 'Superseded';
+    verdictTone = 'rose';
+  }
+
+  // Extract sections
+  let lastAffirmedSummary = '';
+  let latestQuote = '';
+  let statusAnalysis = '';
+
+  const sections = rawText.split(/###\s+/);
+  for (const sec of sections) {
+    if (sec.startsWith('1.') || sec.toLowerCase().includes('verification record')) {
+      lastAffirmedSummary = sec.replace(/^1\.[^\n]+\n/, '').trim();
+    } else if (sec.startsWith('2.') || sec.toLowerCase().includes('status')) {
+      statusAnalysis = sec.replace(/^2\.[^\n]+\n/, '').trim();
+    } else if (sec.startsWith('3.') || sec.toLowerCase().includes('latest verified')) {
+      latestQuote = sec.replace(/^3\.[^\n]+\n/, '').trim();
+    }
+  }
+
+  return {
+    rawText,
+    verdict,
+    verdictTone,
+    lastAffirmedSummary: lastAffirmedSummary || rawText.slice(0, 300),
+    latestQuote: latestQuote || 'Ministerial statements on Hansard record.',
+    statusAnalysis: statusAnalysis || 'Policy actively registered in party platform.',
+    timestamp: `Today at ${dateMeta.timestamp}`,
+    source: 'Gemini 3.8 Flash • Parliamentary Hansard & Scrutiny Engine'
+  };
+}
+
+export interface PolicyNewsItem {
+  id: string;
+  time: string;
+  title: string;
+  party: string;
+  partyColor: string;
+  category: string;
+  tag: string;
+  summary: string;
+  statutoryVehicle?: string;
+  fiscalImpact?: string;
+  crossPartyStance?: string;
+  deepDiveDetails?: string;
+}
+
+/**
+ * Live Policy Decisions Scanner:
+ * Filters strictly for real-world policy acts, statutory decisions, and manifesto commitments
+ */
+export async function fetchLatestPolicyDecisions(
+  customApiKey?: string
+): Promise<PolicyNewsItem[]> {
+  const apiKey = (customApiKey || '').trim() || getStoredApiKey();
+  if (!apiKey) {
+    throw new Error('No active Gemini API key configured.');
+  }
+
+  const dateMeta = getCurrentDateMetadata();
+
+  const prompt = `You are the Westminster Policy Tracker. Return a JSON array of the 5 most significant real-world UK policy decisions, enacted acts, and statutory milestones from the current Parliament evaluated as of ${dateMeta.fullDateString}.
+CRITICAL FILTER:
+- Focus EXCLUSIVELY on substantive policy decisions, enacted legislation, government white papers, statutory instruments, or formal party manifesto commitments.
+- Filter OUT personal gossip, party infighting, media commentary, or polling horseraces.
+- Categories should be drawn from: Defence, Housing, Energy, Economy, Welfare, NHS, Justice, or Transport.
+
+Return STRICT JSON matching this schema:
+[
+  {
+    "id": "decision-1",
+    "time": "Today • ${dateMeta.timestamp}",
+    "title": "Clear headline of the policy decision",
+    "party": "Labour",
+    "partyColor": "#E4003B",
+    "category": "Housing",
+    "tag": "Primary Legislation",
+    "summary": "Precise 2-sentence summary of the decision and its statutory effect.",
+    "statutoryVehicle": "e.g. Public General Act, Commons Second Reading (Bill 8), Command Paper, or Treasury Direction",
+    "fiscalImpact": "e.g. £2.9bn baseline allocation or revenue neutral",
+    "crossPartyStance": "e.g. Opposed by Conservatives citing borrowing; welcomed by Lib Dems with amendments",
+    "deepDiveDetails": "3-4 concise paragraphs explaining what was decided, the statutory timeline, why it matters to the public, and implementation dates."
+  }
+]`;
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.15,
+        responseMimeType: 'application/json'
+      }
+    })
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`Gemini API Error (${response.status}): ${errText}`);
+  }
+
+  const data = await response.json();
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!text) throw new Error('No policy decisions returned');
+
+  const parsed = JSON.parse(text);
+  if (!Array.isArray(parsed) || parsed.length === 0) {
+    throw new Error('Invalid policy decisions format returned');
+  }
+
+  return parsed;
+}

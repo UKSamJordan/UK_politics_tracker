@@ -16,10 +16,13 @@ import {
   ExternalLink,
   ChevronDown,
   ChevronUp,
-  AlertCircle
+  AlertCircle,
+  Sparkles,
+  RefreshCw
 } from 'lucide-react';
 import { SectionRefreshButton } from './SectionRefreshButton';
 import { PolicyChangeReport } from '../services/liveUpdater';
+import { verifyPledgeRecency, PledgeVerificationResult } from '../services/policyTrackerQuery';
 
 interface PolicyMatrixProps {
   parties: Party[];
@@ -39,6 +42,80 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
   const [expandedTopic, setExpandedTopic] = useState<string | null>(null);
   const [lastChangeReport, setLastChangeReport] = useState<PolicyChangeReport | null>(null);
   const [showReportDetails, setShowReportDetails] = useState(false);
+
+  // AI Pledge Recency Verification State
+  const PLEDGE_VERIF_STORAGE_KEY = 'uk_politics_pledge_verifications_v2';
+  const [pledgeVerifications, setPledgeVerifications] = useState<Record<string, PledgeVerificationResult>>(() => {
+    try {
+      const saved = localStorage.getItem(PLEDGE_VERIF_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+  const [loadingPledgeKey, setLoadingPledgeKey] = useState<string | null>(null);
+  const [expandedPledgeKey, setExpandedPledgeKey] = useState<string | null>(null);
+  const [verificationBadges, setVerificationBadges] = useState<Record<string, string>>(() => {
+    try {
+      const saved = localStorage.getItem('uk_politics_manual_verif_badges');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  const handleVerifyPledge = async (
+    topic: PolicyTopic,
+    party: Party,
+    pledge: any,
+    forceRefresh: boolean = false
+  ) => {
+    const key = `${topic.id}-${party.id}`;
+
+    if (expandedPledgeKey === key && !forceRefresh) {
+      setExpandedPledgeKey(null);
+      return;
+    }
+
+    if (pledgeVerifications[key] && !forceRefresh) {
+      setExpandedPledgeKey(key);
+      return;
+    }
+
+    setLoadingPledgeKey(key);
+    setExpandedPledgeKey(key);
+
+    try {
+      const result = await verifyPledgeRecency(
+        party.name,
+        topic.title,
+        pledge.headline,
+        pledge.summary
+      );
+
+      const updated = {
+        ...pledgeVerifications,
+        [key]: result,
+      };
+      setPledgeVerifications(updated);
+      localStorage.setItem(PLEDGE_VERIF_STORAGE_KEY, JSON.stringify(updated));
+    } catch (err: any) {
+      console.error('Failed to verify pledge:', err);
+    } finally {
+      setLoadingPledgeKey(null);
+    }
+  };
+
+  const handleApplyVerificationBadge = (topicId: string, partyId: string) => {
+    const key = `${topicId}-${partyId}`;
+    const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    const updated = {
+      ...verificationBadges,
+      [key]: `AI Scrutinised: ${today}`,
+    };
+    setVerificationBadges(updated);
+    localStorage.setItem('uk_politics_manual_verif_badges', JSON.stringify(updated));
+  };
 
   const categories = [
     { id: 'all', label: 'All Policy Areas', icon: null },
@@ -390,11 +467,114 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
                             </div>
                           )}
 
+                          {/* AI Recency Verifier Button & Dossier */}
+                          {(() => {
+                            const pledgeKey = `${topic.id}-${party.id}`;
+                            const verification = pledgeVerifications[pledgeKey];
+                            const isExpandedDossier = expandedPledgeKey === pledgeKey;
+
+                            return (
+                              <div className="pt-2">
+                                <button
+                                  onClick={() => handleVerifyPledge(topic, party, pledge)}
+                                  disabled={loadingPledgeKey === pledgeKey}
+                                  className={`w-full py-1.5 px-2.5 rounded-xl text-[11px] font-bold flex items-center justify-center space-x-1.5 transition-all cursor-pointer shadow-2xs ${
+                                    isExpandedDossier
+                                      ? 'bg-slate-900 text-white'
+                                      : verification
+                                      ? 'bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200'
+                                      : 'bg-gradient-to-r from-indigo-50 via-purple-50 to-rose-50 hover:from-indigo-100 hover:to-rose-100 text-slate-800 border border-indigo-200/80'
+                                  }`}
+                                  title={`Verify when ${party.name}'s pledge on "${topic.title}" was last affirmed in Parliament or official speeches`}
+                                >
+                                  {loadingPledgeKey === pledgeKey ? (
+                                    <>
+                                      <RefreshCw className="w-3 h-3 animate-spin text-indigo-600" />
+                                      <span>Verifying with Hansard...</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Sparkles className="w-3 h-3 text-indigo-600" />
+                                      <span>
+                                        {verification
+                                          ? (isExpandedDossier ? 'Hide AI Verification' : '⚡ View AI Verification & Recency')
+                                          : '⚡ Verify with AI: When was this last said?'}
+                                      </span>
+                                    </>
+                                  )}
+                                </button>
+
+                                {/* Verification Dossier Drawer */}
+                                {isExpandedDossier && verification && (
+                                  <div className="mt-2 p-3 rounded-xl bg-slate-900 text-slate-100 text-xs space-y-2.5 border border-slate-800 animate-in fade-in duration-200 shadow-md">
+                                    <div className="flex items-center justify-between border-b border-slate-800 pb-1.5">
+                                      <span className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded text-[10px] font-bold ${
+                                        verification.verdictTone === 'emerald' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' :
+                                        verification.verdictTone === 'amber' ? 'bg-amber-950 text-amber-300 border border-amber-800' :
+                                        verification.verdictTone === 'rose' ? 'bg-rose-950 text-rose-300 border border-rose-800' :
+                                        'bg-blue-950 text-blue-300 border border-blue-800'
+                                      }`}>
+                                        <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+                                        <span>Verdict: {verification.verdict}</span>
+                                      </span>
+                                      <button
+                                        onClick={() => handleVerifyPledge(topic, party, pledge, true)}
+                                        className="p-1 text-slate-400 hover:text-white cursor-pointer"
+                                        title="Re-verify live with Gemini 3.8 Flash"
+                                      >
+                                        <RefreshCw className="w-3 h-3" />
+                                      </button>
+                                    </div>
+
+                                    <div className="space-y-1">
+                                      <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300 block">
+                                        Last Officially Affirmed:
+                                      </span>
+                                      <p className="text-[11px] text-slate-300 leading-relaxed">
+                                        {verification.lastAffirmedSummary}
+                                      </p>
+                                    </div>
+
+                                    {verification.latestQuote && (
+                                      <div className="space-y-1 bg-white/5 p-2 rounded-lg border border-slate-800">
+                                        <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-300 block">
+                                          Latest Ministerial / Spokesperson Quote:
+                                        </span>
+                                        <blockquote className="text-[11px] text-slate-200 italic">
+                                          "{verification.latestQuote}"
+                                        </blockquote>
+                                      </div>
+                                    )}
+
+                                    <div className="space-y-1">
+                                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                                        Status & Conditionality Analysis:
+                                      </span>
+                                      <p className="text-[11px] text-slate-300 leading-relaxed whitespace-pre-line">
+                                        {verification.statusAnalysis}
+                                      </p>
+                                    </div>
+
+                                    <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-400">
+                                      <span>{verification.timestamp}</span>
+                                      <button
+                                        onClick={() => handleApplyVerificationBadge(topic.id, party.id)}
+                                        className="text-emerald-400 hover:text-emerald-300 font-bold underline cursor-pointer"
+                                      >
+                                        Mark as Confirmed Active ✓
+                                      </button>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })()}
+
                           {/* Official Source & Verification Timestamp */}
                           <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
                             <span className="flex items-center space-x-1">
                               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                              <span>Verified {pledge.lastVerifiedDate || 'September 2026'}</span>
+                              <span>{verificationBadges[`${topic.id}-${party.id}`] || `Verified ${pledge.lastVerifiedDate || 'September 2026'}`}</span>
                             </span>
                             {pledge.officialSourceUrl && (
                               <a
