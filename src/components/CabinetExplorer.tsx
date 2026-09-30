@@ -8,6 +8,7 @@ interface CabinetExplorerProps {
   cabinetMembers: CabinetMember[];
   leaderRatings?: LeaderRating[];
   onNavigateToPolls?: () => void;
+  onRefreshRoster?: () => Promise<void> | void;
 }
 
 export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
@@ -15,6 +16,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
   cabinetMembers,
   leaderRatings = [],
   onNavigateToPolls,
+  onRefreshRoster,
 }) => {
   const [selectedPartyId, setSelectedPartyId] = useState<PartyId>('labour');
   const [roleFilter, setRoleFilter] = useState<string>('all');
@@ -57,7 +59,11 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
         </div>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-3 border-t border-slate-100">
-          <SectionRefreshButton sectionName="Cabinet Roster" defaultDate="September 2026 • Verified Public Record" />
+          <SectionRefreshButton
+            sectionName="Cabinet Roster"
+            defaultDate="September 2026 • Verified Public Record"
+            onRefresh={onRefreshRoster}
+          />
 
           {/* Quick Role Filter */}
           <div className="flex items-center space-x-1.5 self-start sm:self-auto bg-slate-50 p-1.5 rounded-xl border border-slate-200">

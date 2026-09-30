@@ -15,11 +15,13 @@ import { SectionRefreshButton } from './SectionRefreshButton';
 interface FactCheckDirectoryProps {
   parties: Party[];
   factChecks: FactCheckItem[];
+  onRefreshFactChecks?: () => Promise<void> | void;
 }
 
 export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
   parties,
   factChecks,
+  onRefreshFactChecks,
 }) => {
   const [selectedVerdict, setSelectedVerdict] = useState<string>('all');
   const [selectedParty, setSelectedParty] = useState<string>('all');
@@ -84,7 +86,11 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
           </p>
         </div>
         <div className="flex flex-col items-start md:items-end gap-2 shrink-0">
-          <SectionRefreshButton sectionName="Fact Checks" defaultDate="September 2026 Audit" />
+          <SectionRefreshButton
+            sectionName="Fact Checks"
+            defaultDate="September 2026 Audit"
+            onRefresh={onRefreshFactChecks}
+          />
           <div className="flex items-center space-x-2 text-xs text-slate-500 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
             <span className="font-semibold text-slate-700">Standards:</span>
             <span>Full Fact • IFS • ONS</span>

@@ -44,6 +44,7 @@ interface PollTrackerProps {
   leaderRatings?: LeaderRating[];
   bestPrimeMinister?: BestPrimeMinisterPoll;
   lastUpdated: string;
+  onRefreshPolls?: () => Promise<void> | void;
 }
 
 export const PollTracker: React.FC<PollTrackerProps> = ({
@@ -53,6 +54,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
   leaderRatings = [],
   bestPrimeMinister,
   lastUpdated,
+  onRefreshPolls,
 }) => {
   const [activeSubTab, setActiveSubTab] = useState<'voting' | 'leaders' | 'policies' | 'bestpm'>('voting');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -101,7 +103,11 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
           </p>
         </div>
         <div className="flex flex-col items-start md:items-end gap-2 shrink-0">
-          <SectionRefreshButton sectionName="Polls & Ratings" defaultDate={`Synced: ${lastUpdated}`} />
+          <SectionRefreshButton
+            sectionName="Polls & Ratings"
+            defaultDate={`Synced: ${lastUpdated}`}
+            onRefresh={onRefreshPolls}
+          />
           <div className="text-left md:text-right bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
             <span className="text-[10px] uppercase font-bold text-slate-400 block">Pollster Benchmark</span>
             <span className="text-xs font-bold text-slate-800 block">YouGov • Ipsos • Savanta • Opinium</span>

@@ -6,11 +6,13 @@ import { SectionRefreshButton } from './SectionRefreshButton';
 interface DefenceSpecialProps {
   parties: Party[];
   defencePolicyTopic?: PolicyTopic;
+  onRefreshDefence?: () => Promise<void> | void;
 }
 
 export const DefenceSpecial: React.FC<DefenceSpecialProps> = ({ 
   parties, 
-  defencePolicyTopic 
+  defencePolicyTopic,
+  onRefreshDefence,
 }) => {
   const [calcGdpPct, setCalcGdpPct] = useState<number>(2.5);
 
@@ -90,7 +92,11 @@ export const DefenceSpecial: React.FC<DefenceSpecialProps> = ({
               <Shield className="w-4 h-4" />
               <span>National Security & Armed Forces</span>
             </div>
-            <SectionRefreshButton sectionName="Defence Brief" defaultDate="September 2026 Review" />
+            <SectionRefreshButton
+              sectionName="Defence Brief"
+              defaultDate="September 2026 Review"
+              onRefresh={onRefreshDefence}
+            />
           </div>
           <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight mb-3">
             UK Military & Defence Policy Tracker

@@ -22,12 +22,14 @@ interface PolicyMatrixProps {
   parties: Party[];
   selectedParties: PartyId[];
   policies: PolicyTopic[];
+  onRefreshPolicies?: () => Promise<void> | void;
 }
 
 export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
   parties,
   selectedParties,
   policies,
+  onRefreshPolicies,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -104,7 +106,11 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
           <h2 className="text-lg font-bold text-slate-900">Compare Party Policies & Manifestos</h2>
           <p className="text-xs text-slate-500">Cross-reference verified pledges, cost estimates, and independent fact checks</p>
         </div>
-        <SectionRefreshButton sectionName="Policy Matrix" defaultDate="September 2026 Party Conferences" />
+        <SectionRefreshButton
+          sectionName="Policy Matrix"
+          defaultDate="September 2026 Party Conferences"
+          onRefresh={onRefreshPolicies}
+        />
       </div>
 
       {/* Category Pills & Search Bar */}

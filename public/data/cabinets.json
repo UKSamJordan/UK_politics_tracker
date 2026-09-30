@@ -1,0 +1,333 @@
+[
+  {
+    "id": "lab-1",
+    "partyId": "labour",
+    "name": "Andy Burnham",
+    "role": "Prime Minister & First Lord of the Treasury",
+    "isLeader": true,
+    "constituency": "Makerfield",
+    "bio": "Former Mayor of Greater Manchester (2017–2026) and cabinet minister. Elected Labour Leader on July 16, 2026, and took office as Prime Minister on July 20, 2026, following Keir Starmer's resignation.",
+    "keyStance": "Establishing a National Care Service, regional devolution and Northern powerhouse investment, public ownership of water and energy, reforming long-term pension structures with a 2030 double lock."
+  },
+  {
+    "id": "lab-2",
+    "partyId": "labour",
+    "name": "Louise Haigh",
+    "role": "First Secretary of State, Chancellor of the Duchy of Lancaster & Minister for the Cabinet Office",
+    "constituency": "Sheffield Heeley",
+    "bio": "Senior minister and de facto deputy to the Prime Minister, overseeing civil service reform, delivery of cross-government priorities, and constitutional affairs.",
+    "keyStance": "Cabinet coordination, public sector productivity, transport integration, and strengthening regional devolved authorities."
+  },
+  {
+    "id": "lab-3",
+    "partyId": "labour",
+    "name": "John Healey",
+    "role": "Chancellor of the Exchequer",
+    "constituency": "Rawmarsh and Conisbrough",
+    "bio": "Appointed Chancellor by Andy Burnham in July 2026 to lead fiscal and economic policy, transitioning from his previous Defence brief.",
+    "keyStance": "Balancing fiscal discipline with long-term infrastructure investment, protecting low-income pensioners from personal allowance tax drag, and securing funding for the National Care Service."
+  },
+  {
+    "id": "lab-4",
+    "partyId": "labour",
+    "name": "Ed Miliband",
+    "role": "Secretary of State for Foreign, Commonwealth and Development Affairs",
+    "constituency": "Doncaster North",
+    "bio": "Experienced former party leader appointed Foreign Secretary in July 2026, spearheading international climate diplomacy and resetting European security partnerships.",
+    "keyStance": "Global climate pacts, strengthening European security cooperation and NATO alignment, diplomatic conflict resolution, and green export promotion."
+  },
+  {
+    "id": "lab-5",
+    "partyId": "labour",
+    "name": "Shabana Mahmood",
+    "role": "Home Secretary",
+    "constituency": "Birmingham Ladywood",
+    "bio": "Promoted to Home Secretary in July 2026 to lead law enforcement, border security, counter-terrorism, and policing integrity.",
+    "keyStance": "Expanding the Border Security Command, modernizing neighbourhood policing, tackling organized immigration crime, and expediting judicial case processing."
+  },
+  {
+    "id": "lab-6",
+    "partyId": "labour",
+    "name": "Wes Streeting",
+    "role": "Secretary of State for Defence",
+    "constituency": "Ilford North",
+    "bio": "Appointed Defence Secretary in July 2026, leading the Strategic Defence Review implementation, armed forces modernization, and NATO commitments.",
+    "keyStance": "Meeting the 2.5% of GDP defence spending trajectory, domestic sovereign defence industrial strategy, and deepening allied defense pacts."
+  },
+  {
+    "id": "lab-7",
+    "partyId": "labour",
+    "name": "Yvette Cooper",
+    "role": "Secretary of State for Health and Social Care",
+    "constituency": "Pontefract, Castleford and Knottingley",
+    "bio": "Veteran cabinet minister leading the health brief to integrate social care with the NHS and implement Burnham's National Care Service.",
+    "keyStance": "Founding the National Care Service, slashing NHS elective waiting times, community preventative care, and workforce retention."
+  },
+  {
+    "id": "lab-8",
+    "partyId": "labour",
+    "name": "Lucy Powell",
+    "role": "Secretary of State for Education",
+    "constituency": "Manchester Central",
+    "bio": "Key Manchester ally and long-serving education policy architect, driving early years investment and technical skills reform.",
+    "keyStance": "Expanding funded early years childcare, establishing high-quality apprenticeships and vocational pathways, and funding primary school breakfast clubs."
+  },
+  {
+    "id": "lab-9",
+    "partyId": "labour",
+    "name": "Angela Rayner",
+    "role": "Secretary of State for Housing, Communities and Local Government",
+    "constituency": "Ashton-under-Lyne",
+    "bio": "Grassroots leader spearheading regional housing delivery, workers' rights legislation, and devolution to metro mayors.",
+    "keyStance": "Building 1.5M new homes, ending Section 21 no-fault evictions, local planning reform, and empowering regional mayors."
+  },
+
+  {
+    "id": "con-1",
+    "partyId": "conservative",
+    "name": "Kemi Badenoch",
+    "role": "Leader of the Opposition & Conservative Leader",
+    "isLeader": true,
+    "constituency": "North West Essex",
+    "bio": "Elected Conservative Party leader in November 2024. Former Business and Trade Secretary and Equalities Minister, emphasizing institutional reform, free enterprise, and rebuilding trust.",
+    "keyStance": "Roll back state intervention, defend family enterprise and farming inheritance reliefs, dismantle civil service quangos, reduce welfare dependency."
+  },
+  {
+    "id": "con-2",
+    "partyId": "conservative",
+    "name": "Mel Stride",
+    "role": "Shadow Chancellor of the Exchequer",
+    "constituency": "Central Devon",
+    "bio": "Former Treasury Select Committee Chair and Work and Pensions Secretary, leading forensic economic scrutiny of government budgets.",
+    "keyStance": "Oppose employer National Insurance tax hikes, defend pensions triple lock, demand strict spending reductions across Whitehall departments."
+  },
+  {
+    "id": "con-3",
+    "partyId": "conservative",
+    "name": "Chris Philp",
+    "role": "Shadow Home Secretary",
+    "constituency": "Croydon South",
+    "bio": "Former Policing and Crime Minister, focusing on border security, immigration deterrence, and visible neighbourhood law enforcement.",
+    "keyStance": "Demand legal caps on net migration, tough custodial sentences for knife crime, restore third-country deportation deterrence."
+  },
+  {
+    "id": "con-4",
+    "partyId": "conservative",
+    "name": "Dame Priti Patel",
+    "role": "Shadow Foreign Secretary",
+    "constituency": "Witham",
+    "bio": "Former Home Secretary and International Development Secretary, championing bilateral global trade and robust international deterrence.",
+    "keyStance": "Strong deterrent posture against hostile authoritarian states, defend Atlantic security alliance, resist EU institutional realignment."
+  },
+  {
+    "id": "con-5",
+    "partyId": "conservative",
+    "name": "James Cartlidge",
+    "role": "Shadow Secretary of State for Defence",
+    "constituency": "South Suffolk",
+    "bio": "Former Defence Procurement Minister with deep insight into military supply chains and frontline equipment modernization.",
+    "keyStance": "Legislate 2.5% of GDP defence spending by 2030, ring-fence Dreadnought nuclear submarine replacement, protect British Army headcount floor."
+  },
+  {
+    "id": "con-6",
+    "partyId": "conservative",
+    "name": "Robert Jenrick",
+    "role": "Shadow Secretary of State for Justice",
+    "constituency": "Newark",
+    "bio": "Leadership runner-up and former Immigration Minister, vocal advocate for leaving the ECHR and tough justice sentencing.",
+    "keyStance": "Leave the European Convention on Human Rights (ECHR) to expedite foreign criminal deportations, expand prison capacity."
+  },
+  {
+    "id": "con-7",
+    "partyId": "conservative",
+    "name": "Claire Coutinho",
+    "role": "Shadow Secretary of State for Energy Security and Net Zero",
+    "constituency": "East Surrey",
+    "bio": "Former Energy Secretary, leading the Conservative critique of Great British Energy and green levies on household bills.",
+    "keyStance": "Annual North Sea oil and gas licensing, Small Modular Nuclear Reactors (SMRs), oppose rapid green mandates that inflate domestic bills."
+  },
+
+  {
+    "id": "ref-1",
+    "partyId": "reform",
+    "name": "Nigel Farage",
+    "role": "Party Leader & MP",
+    "isLeader": true,
+    "constituency": "Clacton",
+    "bio": "Leader of Reform UK and MP for Clacton, who unveiled the party's first official 'Shadow Cabinet' team in February 2026 to signal readiness for government.",
+    "keyStance": "Freeze non-essential immigration, leave the ECHR, raise personal income tax allowance to £20,000, scrap Net Zero subsidies, and introduce private-public healthcare competition."
+  },
+  {
+    "id": "ref-2",
+    "partyId": "reform",
+    "name": "Richard Tice",
+    "role": "Deputy Leader & Shadow Secretary of State for Business, Trade and Energy",
+    "constituency": "Boston and Skegness",
+    "bio": "Deputy Leader appointed to the Business, Trade and Energy brief in February 2026, leading deregulation and industrial economic policy.",
+    "keyStance": "Cut corporation tax to 15%, lift employer National Insurance thresholds, fast-track North Sea gas and UK shale extraction, and scrap all green levies."
+  },
+  {
+    "id": "ref-3",
+    "partyId": "reform",
+    "name": "Robert Jenrick",
+    "role": "Shadow Chancellor of the Exchequer",
+    "constituency": "Newark",
+    "bio": "Former Conservative leadership contender and immigration minister who defected to Reform UK, appointed Shadow Chancellor by Nigel Farage in February 2026.",
+    "keyStance": "Aggressive government spending restraint, abolition of family farm and business inheritance tax, reversing employer National Insurance rises, and lowering fuel duties."
+  },
+  {
+    "id": "ref-4",
+    "partyId": "reform",
+    "name": "Zia Yusuf",
+    "role": "Shadow Home Secretary",
+    "constituency": "National Spokesperson",
+    "bio": "Tech entrepreneur and Reform UK Party Chairman appointed Shadow Home Secretary in February 2026 to lead border enforcement and immigration policy.",
+    "keyStance": "Immediate offshore processing and returns for illegal arrivals, leaving the ECHR and Refugee Convention, mass deportations of foreign offenders, and strict work visa quotas."
+  },
+  {
+    "id": "ref-5",
+    "partyId": "reform",
+    "name": "Suella Braverman",
+    "role": "Shadow Secretary of State for Education, Skills and Equalities",
+    "constituency": "Fareham and Waterlooville",
+    "bio": "Former Home Secretary and Attorney General who defected to Reform UK, appointed to lead education, skills, and institutional reform in Farage's frontbench team.",
+    "keyStance": "Scrapping diversity and equality civil service mandates, defending traditional curriculum standards, promoting technical trade apprenticeships, and protecting freedom of speech."
+  },
+  {
+    "id": "ref-6",
+    "partyId": "reform",
+    "name": "Lee Anderson",
+    "role": "Chief Whip & Working Class Champion",
+    "constituency": "Ashfield",
+    "bio": "Former coal miner and deputy party chairman serving as Parliamentary Chief Whip, spearheading working-class voter mobilization and party discipline.",
+    "keyStance": "Zero tolerance on illegal channel crossings, defunding migrant hotel contracts, tough criminal sentencing, and protecting red-wall industrial jobs."
+  },
+  {
+    "id": "ref-7",
+    "partyId": "reform",
+    "name": "Danny Kruger",
+    "role": "Head of Preparation for Government & Policy",
+    "constituency": "East Wiltshire",
+    "bio": "Leading conservative intellectual and author who joined Reform UK's parliamentary apparatus to head preparations for executive government and legislative drafting.",
+    "keyStance": "Systemic civil service restructuring, restoring parliamentary sovereignty, institutional reform of regulatory bodies, and local community revitalization."
+  },
+  {
+    "id": "ref-8",
+    "partyId": "reform",
+    "name": "Rupert Lowe",
+    "role": "Spokesperson for Business, Agriculture & Deregulation",
+    "constituency": "Great Yarmouth",
+    "bio": "Businessman and former football club chairman campaigning against Whitehall red tape and the regulatory burden on British farming and fishing.",
+    "keyStance": "Cutting Whitehall administrative staffing by 50%, full protection for agricultural inheritance reliefs, and restoring British coastal fishing rights."
+  },
+
+  {
+    "id": "ld-1",
+    "partyId": "libdem",
+    "name": "Sir Ed Davey",
+    "role": "Party Leader & MP",
+    "isLeader": true,
+    "constituency": "Kingston and Surbiton",
+    "bio": "Former Energy Secretary who led the Liberal Democrats to a historic 72 MPs in 2024, focusing on health, social care, and local services.",
+    "keyStance": "Universal access to GP appointments within 7 days, £5bn free personal adult care package, ban water executive bonuses, rejoin EU Single Market."
+  },
+  {
+    "id": "ld-2",
+    "partyId": "libdem",
+    "name": "Daisy Cooper",
+    "role": "Deputy Leader & Treasury Spokesperson",
+    "constituency": "St Albans",
+    "bio": "Deputy Leader and former Health Spokesperson, leading the Lib Dem economic push on fair taxation and public service reinvestment.",
+    "keyStance": "Tax big tech monopolies and bank super-profits, reverse threshold stealth taxes, support small high-street businesses."
+  },
+  {
+    "id": "ld-3",
+    "partyId": "libdem",
+    "name": "Helen Morgan",
+    "role": "Spokesperson for Health and Social Care",
+    "constituency": "North Shropshire",
+    "bio": "Chartered accountant and by-election victor, leading the party's campaigns on rural ambulance wait times and dental deserts.",
+    "keyStance": "Dedicated fund for ambulance waiting times, mental health parity in all NHS trusts, free personal social care."
+  },
+  {
+    "id": "ld-4",
+    "partyId": "libdem",
+    "name": "Calum Miller",
+    "role": "Spokesperson for Defence and Foreign Affairs",
+    "constituency": "Bicester and Woodstock",
+    "bio": "Former senior civil servant with extensive foreign policy and defence background.",
+    "keyStance": "Meet 2.5% GDP defence spending responsibly, strengthen NATO European pillar, uphold international humanitarian law."
+  },
+
+  {
+    "id": "grn-1",
+    "partyId": "green",
+    "name": "Carla Denyer",
+    "role": "Co-Leader & MP",
+    "isLeader": true,
+    "constituency": "Bristol Central",
+    "bio": "Renewable energy engineer elected MP for Bristol Central; prominent voice on social housing, wealth taxation, and NHS restoration.",
+    "keyStance": "1% to 2% annual wealth tax on fortunes over £10m, local rent controls, scrap Trident nuclear weapons, end NHS privatisation."
+  },
+  {
+    "id": "grn-2",
+    "partyId": "green",
+    "name": "Adrian Ramsay",
+    "role": "Co-Leader & MP",
+    "isLeader": true,
+    "constituency": "Waveney Valley",
+    "bio": "Environmental strategist and co-leader elected MP for rural Waveney Valley.",
+    "keyStance": "Protect British biodiversity, nationalise water and railway utilities, halt all new oil and gas exploration."
+  },
+
+  {
+    "id": "snp-1",
+    "partyId": "snp",
+    "name": "John Swinney",
+    "role": "Party Leader & First Minister of Scotland",
+    "isLeader": true,
+    "constituency": "Perthshire North",
+    "bio": "First Minister of Scotland and veteran statesman leading the Scottish Government with focus on child poverty reduction and public services.",
+    "keyStance": "Scottish self-determination, scrap the two-child benefit cap across the UK, remove Trident nuclear weapons from Scotland, rejoin EU."
+  },
+  {
+    "id": "snp-2",
+    "partyId": "snp",
+    "name": "Stephen Flynn",
+    "role": "Westminster Parliamentary Group Leader & MP",
+    "constituency": "Aberdeen South",
+    "bio": "Leading SNP parliamentarian driving parliamentary scrutiny of energy transition and Scottish budget consequentials.",
+    "keyStance": "Just transition for North Sea energy workers without cliff-edges, demand full devolution of employment and migration powers."
+  },
+
+  {
+    "id": "pc-1",
+    "partyId": "plaid",
+    "name": "Rhun ap Iorwerth",
+    "role": "Party Leader & Member of the Senedd",
+    "isLeader": true,
+    "constituency": "Ynys Môn",
+    "bio": "Former BBC journalist and Plaid Cymru leader, uniting the party around fair funding formulas, Welsh NHS renewal, and independence.",
+    "keyStance": "Replace Barnett formula with needs-based funding (+£1.2bn/yr), reclaim £4bn HS2 rail consequentials, devolve Crown Estate to Wales."
+  },
+  {
+    "id": "pc-2",
+    "partyId": "plaid",
+    "name": "Liz Saville Roberts",
+    "role": "Westminster Group Leader & MP",
+    "constituency": "Dwyfor Meirionnydd",
+    "bio": "Privy Councillor and Westminster leader campaigning for judicial devolution and equal treatment of Wales.",
+    "keyStance": "Devolution of policing and criminal justice to Wales, renewable wealth retention for Welsh communities."
+  },
+
+  {
+    "id": "res-1",
+    "partyId": "restore",
+    "name": "Movement Council Spokesperson",
+    "role": "Convenor & Constitutional Campaigner",
+    "isLeader": true,
+    "constituency": "National",
+    "bio": "Civic assembly representing traditionalist British restoration, civil liberties, and free-market constitutionalism.",
+    "keyStance": "Abolish Net Zero statutes, repeal legislation eroding free speech, constitutional referendums, national industrial revival."
+  }
+]

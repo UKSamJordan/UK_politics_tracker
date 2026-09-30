@@ -18,15 +18,88 @@ import policiesData from './data/policies.json';
 import pollsData from './data/polls.json';
 import factchecksData from './data/factchecks.json';
 
+// Live Updater Engine
+import { 
+  refreshCabinetRoster, 
+  refreshPollData, 
+  refreshPolicyMatrix, 
+  refreshFactChecks 
+} from './services/liveUpdater';
+
 export const App: React.FC = () => {
-  const parties: Party[] = partiesData as Party[];
-  const cabinets: CabinetMember[] = cabinetsData as CabinetMember[];
-  const policies: PolicyTopic[] = policiesData as PolicyTopic[];
-  const factChecks: FactCheckItem[] = factchecksData as FactCheckItem[];
-  const timeSeries: PollPoint[] = pollsData.timeSeries as PollPoint[];
-  const policyPopularity: PolicyPopularityItem[] = pollsData.policyPopularity as PolicyPopularityItem[];
-  const leaderRatings = (pollsData as any).leaderRatings || [];
-  const bestPrimeMinister = (pollsData as any).bestPrimeMinister;
+  const [parties] = useState<Party[]>(partiesData as Party[]);
+
+  const [cabinets, setCabinets] = useState<CabinetMember[]>(() => {
+    try {
+      const cached = localStorage.getItem('uk_politics_cabinets_v2');
+      return cached ? JSON.parse(cached) : (cabinetsData as CabinetMember[]);
+    } catch {
+      return cabinetsData as CabinetMember[];
+    }
+  });
+
+  const [policies, setPolicies] = useState<PolicyTopic[]>(() => {
+    try {
+      const cached = localStorage.getItem('uk_politics_policies_v2');
+      return cached ? JSON.parse(cached) : (policiesData as PolicyTopic[]);
+    } catch {
+      return policiesData as PolicyTopic[];
+    }
+  });
+
+  const [factChecks, setFactChecks] = useState<FactCheckItem[]>(() => {
+    try {
+      const cached = localStorage.getItem('uk_politics_factchecks_v2');
+      return cached ? JSON.parse(cached) : (factchecksData as FactCheckItem[]);
+    } catch {
+      return factchecksData as FactCheckItem[];
+    }
+  });
+
+  const [polls, setPolls] = useState<any>(() => {
+    try {
+      const cached = localStorage.getItem('uk_politics_polls_v2');
+      return cached ? JSON.parse(cached) : pollsData;
+    } catch {
+      return pollsData;
+    }
+  });
+
+  const timeSeries: PollPoint[] = (polls.timeSeries || pollsData.timeSeries) as PollPoint[];
+  const policyPopularity: PolicyPopularityItem[] = (polls.policyPopularity || pollsData.policyPopularity) as PolicyPopularityItem[];
+  const leaderRatings = polls.leaderRatings || (pollsData as any).leaderRatings || [];
+  const bestPrimeMinister = polls.bestPrimeMinister || (pollsData as any).bestPrimeMinister;
+  const lastUpdatedPolls = polls.lastUpdated || pollsData.lastUpdated;
+
+  // Real Refresh Handlers
+  const handleRefreshCabinets = async () => {
+    const res = await refreshCabinetRoster(cabinets);
+    setCabinets(res.data);
+  };
+
+  const handleRefreshPolls = async () => {
+    const res = await refreshPollData();
+    setPolls(res.data);
+  };
+
+  const handleRefreshPolicies = async () => {
+    const res = await refreshPolicyMatrix();
+    setPolicies(res.data);
+  };
+
+  const handleRefreshFactChecks = async () => {
+    const res = await refreshFactChecks();
+    setFactChecks(res.data);
+  };
+
+  const handleSyncAll = async () => {
+    await Promise.all([
+      handleRefreshCabinets(),
+      handleRefreshPolls(),
+      handleRefreshPolicies(),
+      handleRefreshFactChecks(),
+    ]);
+  };
 
   // State
   const [activeTab, setActiveTab] = useState<string>('compare');
@@ -89,6 +162,7 @@ export const App: React.FC = () => {
             parties={parties}
             selectedParties={selectedParties}
             policies={policies}
+            onRefreshPolicies={handleRefreshPolicies}
           />
         )}
 
@@ -98,6 +172,7 @@ export const App: React.FC = () => {
             cabinetMembers={cabinets}
             leaderRatings={leaderRatings}
             onNavigateToPolls={() => setActiveTab('polls')}
+            onRefreshRoster={handleRefreshCabinets}
           />
         )}
 
@@ -108,7 +183,8 @@ export const App: React.FC = () => {
             policyPopularity={policyPopularity}
             leaderRatings={leaderRatings}
             bestPrimeMinister={bestPrimeMinister}
-            lastUpdated={pollsData.lastUpdated}
+            lastUpdated={lastUpdatedPolls}
+            onRefreshPolls={handleRefreshPolls}
           />
         )}
 
@@ -122,6 +198,7 @@ export const App: React.FC = () => {
           <FactCheckDirectory
             parties={parties}
             factChecks={factChecks}
+            onRefreshFactChecks={handleRefreshFactChecks}
           />
         )}
 
@@ -136,6 +213,7 @@ export const App: React.FC = () => {
       <DataBankModal
         isOpen={isDataBankModalOpen}
         onClose={() => setIsDataBankModalOpen(false)}
+        onSyncAll={handleSyncAll}
       />
 
       {/* Footer */}
