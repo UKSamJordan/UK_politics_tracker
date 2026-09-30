@@ -219,6 +219,8 @@ export const App: React.FC = () => {
         {activeTab === 'live' && (
           <LiveAIFeed
             parties={parties}
+            policies={policies}
+            cabinets={cabinets}
           />
         )}
 

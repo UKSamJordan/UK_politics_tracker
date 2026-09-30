@@ -38,7 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'compare', label: 'Compare Policies', icon: Scale },
     { id: 'cabinets', label: 'Cabinets & Leaders', icon: Users },
     { id: 'polls', label: 'Polls & Public Opinion', icon: BarChart3 },
-    { id: 'live', label: 'Live AI Feed', icon: Radio, badge: 'Live' },
+    { id: 'live', label: 'Live Policy Tracker', icon: Radio, badge: 'Live' },
     { id: 'factchecks', label: 'Fact Checkers', icon: CheckCircle2 },
     { id: 'quiz', label: 'Where Do You Stand?', icon: HelpCircle },
   ];

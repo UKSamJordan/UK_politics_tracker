@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
-import { Party } from '../types/politics';
+import { Party, PolicyTopic, CabinetMember } from '../types/politics';
 import { 
   Radio, 
   Sparkles, 
   Send, 
   RefreshCw, 
-  ExternalLink, 
   Clock, 
   Key, 
   CheckCircle2, 
-  AlertCircle,
-  HelpCircle,
-  TrendingUp,
-  ShieldAlert
+  Copy,
+  Check
 } from 'lucide-react';
 import { getStoredApiKey, setStoredApiKey } from '../services/liveUpdater';
+import { 
+  queryWestminsterPolicyTracker, 
+  getCurrentDateMetadata 
+} from '../services/policyTrackerQuery';
 
 interface LiveAIFeedProps {
   parties: Party[];
+  policies?: PolicyTopic[];
+  cabinets?: CabinetMember[];
 }
 
 interface NewsItem {
@@ -31,7 +34,11 @@ interface NewsItem {
   tag: string;
 }
 
-export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
+export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ 
+  parties, 
+  policies = [], 
+  cabinets = [] 
+}) => {
   // Stored API key (reads from unified persistent storage and built-in configured key)
   const [apiKey, setApiKey] = useState(() => getStoredApiKey());
   const [showKeyInput, setShowKeyInput] = useState(false);
@@ -39,9 +46,22 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
   const [isQuerying, setIsQuerying] = useState(false);
   const [aiAnswer, setAiAnswer] = useState<string | null>(null);
   const [answerSource, setAnswerSource] = useState<string>('');
+  const [verifiedDate, setVerifiedDate] = useState<string>('');
+  const [matchedTopic, setMatchedTopic] = useState<string | undefined>(undefined);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const currentDateMeta = getCurrentDateMetadata();
+
+  const quickSuggestions = [
+    { label: "Triple Lock & 2026/27 Pension Uprating", query: "What is the latest on the State Pension Triple Lock and how will it be uprated?" },
+    { label: "Defence Spending: 2.5% vs 3.0% of GDP", query: "Compare party commitments on UK defence spending as a percentage of GDP." },
+    { label: "Renters' Rights Bill & Section 21 Abolition", query: "What is the current status of the Renters' Rights Bill and no-fault evictions?" },
+    { label: "Tax Thresholds & Frozen Personal Allowance", query: "Where do parties stand on the £12,570 income tax personal allowance and fiscal drag?" },
+    { label: "Wealth Tax Proposals (Greens vs Labour)", query: "Compare Green Party and Labour positions on an annual wealth tax on multi-millionaires." }
+  ];
 
   // Live feed items
-  const [feedItems, setFeedItems] = useState<NewsItem[]>([
+  const [feedItems] = useState<NewsItem[]>([
     {
       id: 'item-1',
       time: 'Today • 08:30 GMT',
@@ -60,7 +80,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
       partyColor: '#0087DC',
       category: 'Cabinet',
       tag: 'Leadership',
-      summary: 'Following her election as Conservative leader, Kemi Badenoch completes her Shadow Cabinet appointments, with Mel Stride as Shadow Chancellor, Chris Philp at Home Affairs, Priti Patel at Foreign Affairs, and Robert Jenrick at Justice.'
+      summary: 'Following her election as Conservative leader, Kemi Badenoch completes her Shadow Cabinet appointments, with Mel Stride as Shadow Chancellor, Chris Philp at Home Affairs, Priti Patel at Foreign Affairs, and Nick Timothy at Justice.'
     },
     {
       id: 'item-3',
@@ -100,58 +120,105 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
     setShowKeyInput(false);
   };
 
-  const handleAskGemini = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!question.trim()) return;
-
-    const keyToUse = apiKey.trim() || getStoredApiKey();
-    if (!keyToUse) {
-      setShowKeyInput(true);
-      setAiAnswer('Please enter your Gemini API key to activate live AI queries.');
-      return;
-    }
+  const handleAskTracker = async (e?: React.FormEvent, customQuestion?: string) => {
+    if (e) e.preventDefault();
+    const queryToUse = customQuestion || question;
+    if (!queryToUse.trim()) return;
 
     setIsQuerying(true);
     setAiAnswer(null);
 
-    const prompt = `
-    You are an expert UK political analyst with deep knowledge of UK party manifestos, parliamentary actions, Cabinet appointments, and polling.
-    Answer this user query accurately, neutrally, and with concrete facts and figures:
-    "${question}"
-
-    Instructions:
-    - Compare relevant party stances (Labour, Conservative, Reform UK, Lib Dems, Greens, SNP, Plaid Cymru, Restore Britain).
-    - Quote verified figures or official legislation wherever possible.
-    - Keep tone strictly impartial and fact-grounded.
-    `;
-
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${keyToUse}`;
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.2 }
-        })
+      const result = await queryWestminsterPolicyTracker(queryToUse, {
+        policies,
+        cabinets,
+        parties,
+        customApiKey: apiKey,
       });
 
-      if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(`Gemini API Error (${response.status}): ${errText}`);
-      }
-
-      const data = await response.json();
-      const parts = data.candidates?.[0]?.content?.parts || [];
-      const answer = parts.map((p: any) => p.text || '').filter(Boolean).join('\n\n') || 'No response returned from model.';
-      setAiAnswer(answer);
-      setAnswerSource('Generated live via Gemini 3.8 Flash');
+      setAiAnswer(result.answer);
+      setAnswerSource(result.source);
+      setVerifiedDate(result.verifiedDate);
+      setMatchedTopic(result.matchedTopicTitle);
     } catch (err: any) {
       console.error(err);
+      if (err.message?.includes('No active Gemini API key')) {
+        setShowKeyInput(true);
+      }
       setAiAnswer(`Could not complete query: ${err.message}. If using your custom API key, ensure it has Generative Language API access.`);
     } finally {
       setIsQuerying(false);
     }
+  };
+
+  const handleCopyAnswer = () => {
+    if (!aiAnswer) return;
+    navigator.clipboard.writeText(aiAnswer);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
+
+  const renderMarkdownBriefing = (text: string) => {
+    const lines = text.split('\n');
+    return lines.map((line, idx) => {
+      const trimmed = line.trim();
+      if (!trimmed) return <div key={idx} className="h-2" />;
+
+      if (trimmed.startsWith('###')) {
+        const title = trimmed.replace(/^#+\s*/, '').replace(/^\*\*|\*\*$/g, '');
+        return (
+          <h4 key={idx} className="text-sm font-bold text-amber-300 mt-4 mb-1.5 flex items-center space-x-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+            <span>{title}</span>
+          </h4>
+        );
+      }
+
+      if (trimmed.startsWith('**') && trimmed.endsWith('**') && trimmed.length < 80) {
+        return (
+          <h5 key={idx} className="text-xs font-bold text-indigo-300 mt-3 mb-1">
+            {trimmed.replace(/^\*\*|\*\*$/g, '')}
+          </h5>
+        );
+      }
+
+      if (trimmed.startsWith('* ') || trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
+        const bulletText = trimmed.replace(/^[\*\-•]\s*/, '');
+        return (
+          <div key={idx} className="flex items-start space-x-2 text-xs sm:text-[13px] text-slate-200 pl-1.5 my-1">
+            <span className="text-rose-400 font-bold text-sm leading-none mt-0.5">•</span>
+            <span className="flex-1 leading-relaxed">
+              {renderInlineFormatting(bulletText)}
+            </span>
+          </div>
+        );
+      }
+
+      if (trimmed.startsWith('>')) {
+        return (
+          <blockquote key={idx} className="border-l-2 border-indigo-400 pl-3 my-2 text-xs italic text-indigo-100 bg-white/5 py-1.5 rounded-r">
+            {trimmed.replace(/^>\s*/, '')}
+          </blockquote>
+        );
+      }
+
+      return (
+        <p key={idx} className="text-xs sm:text-[13px] text-slate-300 leading-relaxed my-1">
+          {renderInlineFormatting(trimmed)}
+        </p>
+      );
+    });
+  };
+
+  const renderInlineFormatting = (text: string) => {
+    // Basic parser for **bold** within strings
+    const parts = text.split(/(\*\*[^*]+\*\*)/g);
+    return parts.map((part, i) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={i} className="text-white font-semibold">{part.slice(2, -2)}</strong>;
+      }
+      return part;
+    });
   };
 
   return (
@@ -162,13 +229,13 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
           <div>
             <div className="flex items-center space-x-2 text-rose-400 font-bold text-xs uppercase tracking-wider mb-2">
               <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping inline-block" />
-              <span>Live Westminster Feed • Powered by Gemini 3.8 Flash</span>
+              <span>Westminster Intelligence & Live Policy Wire</span>
             </div>
             <h2 className="text-xl sm:text-3xl font-extrabold tracking-tight">
-              Live Political Intelligence & AI Q&A
+              Westminster Live Intelligence
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl leading-relaxed">
-              Real-time feed of major policy white papers, cabinet statements, and polling trends, with on-demand interactive analysis powered by Google Gemini 3.8 Flash.
+              Real-time parliamentary scrutiny, legislative progress, party policy shifts, and verified intelligence updated to today, {currentDateMeta.fullDateString}.
             </p>
           </div>
 
@@ -178,7 +245,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
               className="flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold border border-slate-700 text-slate-200 transition-colors cursor-pointer"
             >
               <Key className="w-3.5 h-3.5 text-amber-400" />
-              <span>{apiKey || getStoredApiKey() ? 'Gemini 3.8 Connected ✓' : 'Set Admin API Key'}</span>
+              <span>{apiKey || getStoredApiKey() ? 'API Key Active ✓' : 'Set Admin API Key'}</span>
             </button>
           </div>
         </div>
@@ -216,40 +283,64 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
         )}
       </div>
 
-      {/* Interactive Ask Gemini 3.8 Flash Search */}
+      {/* Interactive Ask Westminster Policy Tracker Search */}
       <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
-        <div className="flex items-center space-x-2">
-          <Sparkles className="w-5 h-5 text-purple-600" />
-          <h3 className="font-bold text-base text-slate-900">
-            Ask Gemini 3.8 Flash About Any Policy or Politician
-          </h3>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="flex items-center space-x-2">
+            <Sparkles className="w-5 h-5 text-indigo-600" />
+            <h3 className="font-extrabold text-base text-slate-900">
+              Ask the Westminster Policy Tracker
+            </h3>
+          </div>
+          <span className="inline-flex items-center space-x-1.5 text-[11px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200/80 px-2.5 py-1 rounded-full self-start sm:self-auto">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Anchored to Today: {currentDateMeta.shortDateString}</span>
+          </span>
         </div>
         <p className="text-xs text-slate-500">
-          Query current government white papers, opposition positions, or leadership comparisons. Instant, non-partisan analysis.
+          Query current government white papers, opposition positions, legislative bills, or leadership comparisons. Evaluated strictly as of today with zero outdated legacy cutoffs.
         </p>
 
-        <form onSubmit={handleAskGemini} className="flex gap-2">
+        {/* Quick Suggestion Chips */}
+        <div className="flex flex-wrap gap-1.5 pt-1">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 self-center mr-1">Trending:</span>
+          {quickSuggestions.map((item, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => {
+                setQuestion(item.query);
+                handleAskTracker(undefined, item.query);
+              }}
+              className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-slate-100 hover:bg-indigo-50 hover:text-indigo-800 hover:border-indigo-200 border border-slate-200/80 text-slate-700 transition-all cursor-pointer"
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        <form onSubmit={(e) => handleAskTracker(e)} className="flex gap-2 pt-1">
           <input
             type="text"
-            placeholder="e.g. 'What is Angela Rayner's housing target?' or 'Compare Labour and Tory farm inheritance tax'..."
+            placeholder="Ask about any policy, bill, pledge, or politician (e.g. 'What is the latest on the triple lock?')..."
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            className="flex-1 px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-slate-900"
+            className="flex-1 px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-indigo-600 transition-all"
           />
           <button
             type="submit"
             disabled={isQuerying || !question.trim()}
-            className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center space-x-1.5 transition-colors shrink-0"
+            className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center space-x-1.5 transition-colors shrink-0 cursor-pointer shadow-xs hover:shadow-sm"
           >
             {isQuerying ? (
               <>
                 <RefreshCw className="w-4 h-4 animate-spin" />
-                <span>Thinking...</span>
+                <span>Scrutinising...</span>
               </>
             ) : (
               <>
                 <Send className="w-4 h-4" />
-                <span>Ask AI</span>
+                <span>Ask Policy Tracker</span>
               </>
             )}
           </button>
@@ -257,16 +348,42 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
 
         {/* AI Answer Box */}
         {aiAnswer && (
-          <div className="p-4 sm:p-5 rounded-2xl bg-purple-50/60 border border-purple-200 text-slate-900 space-y-2 mt-4 animate-in fade-in duration-200">
-            <div className="flex items-center justify-between text-xs text-purple-900 font-bold">
-              <span className="flex items-center space-x-1">
-                <Sparkles className="w-3.5 h-3.5 text-purple-600" />
-                <span>Gemini 3.8 Flash Analysis:</span>
-              </span>
-              <span className="text-[10px] text-purple-600 font-medium">{answerSource}</span>
+          <div className="p-5 rounded-2xl bg-slate-900 text-slate-100 border border-slate-800 space-y-3.5 mt-4 shadow-lg animate-in fade-in duration-200">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+              <div className="flex items-center space-x-2">
+                <Sparkles className="w-4 h-4 text-amber-300" />
+                <span className="font-bold text-xs sm:text-sm text-slate-100">
+                  Westminster Policy Tracker Intelligence
+                </span>
+                {matchedTopic && (
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                    {matchedTopic}
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center space-x-2 text-[11px]">
+                <span className="inline-flex items-center space-x-1 text-emerald-400 bg-emerald-950/80 border border-emerald-800/80 px-2 py-0.5 rounded-md font-mono text-[10px]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Verified: {verifiedDate || currentDateMeta.fullDateString}</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={handleCopyAnswer}
+                  className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors cursor-pointer"
+                  title="Copy briefing to clipboard"
+                >
+                  {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                </button>
+              </div>
             </div>
-            <div className="text-xs sm:text-sm leading-relaxed whitespace-pre-line text-slate-800">
-              {aiAnswer}
+
+            <div className="text-xs sm:text-sm leading-relaxed text-slate-200 space-y-2 font-sans">
+              {renderMarkdownBriefing(aiAnswer)}
+            </div>
+
+            <div className="pt-2.5 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[10px] text-slate-400">
+              <span>Grounded in UK Parliamentary & 2026 Party Manifesto Records</span>
+              <span className="font-mono text-indigo-400">{answerSource}</span>
             </div>
           </div>
         )}
