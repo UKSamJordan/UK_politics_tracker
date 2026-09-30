@@ -396,6 +396,74 @@ export async function refreshPolicyMatrix(currentPolicies: PolicyTopic[] = []): 
   source: string;
   changeReport: PolicyChangeReport;
 }> {
+  const apiKey = getStoredApiKey();
+
+  if (apiKey) {
+    try {
+      const prompt = `You are an expert UK political policy researcher and fact-checker.
+Provide the latest official policy platforms for all 8 UK political parties (Labour, Conservative, Reform UK, Liberal Democrats, Green Party, SNP, Plaid Cymru, Restore Britain) as of September 2026.
+
+GROUNDING & DYNAMIC VERIFICATION RULES:
+1. PRIMARY SOURCE GROUNDING:
+   - Audit the latest official policy platforms, manifestos, and press releases published by each party's official leadership (conservatives.com, labour.org.uk, reformparty.uk, libdems.org.uk, greenparty.org.uk, snp.org, plaid.cymru, restorebritain.org.uk).
+   - Do NOT assume static past targets if policy has evolved. Verify current official commitments (e.g. defence % of GDP target and timeline, state pension triple lock / triple lock plus stances, adult social care funding, NHS targets, net zero timelines, and immigration policies).
+2. CITATION MANDATE:
+   - 100% of pledges MUST include:
+     * officialSourceTitle: exact document/manifesto title (e.g. 'Conservative Party Plan', 'Labour 2026 Programme')
+     * officialSourceUrl: direct link to the party's official domain
+     * lastVerifiedDate: 'September 2026'
+3. INDEPENDENT SCRUTINY:
+   - Pair each policy with independent analysis or costing (e.g. Institute for Fiscal Studies, Full Fact, OBR, Commons Library).
+   - factCheckVerdict must be one of: 'verified' | 'disputed' | 'unfunded' | 'clarified'.
+
+Return an updated JSON array of PolicyTopic objects strictly matching this TypeScript structure:
+Array<{
+  id: "defence-spending-and-military" | "taxation-and-public-spending" | "pensions-triple-lock-and-national-care" | "nhs-waiting-lists-and-funding" | "immigration-and-border-control" | "energy-transition-and-net-zero" | "housing-delivery-and-planning";
+  category: "defence" | "economy" | "welfare" | "nhs" | "immigration" | "energy" | "housing";
+  title: string;
+  description: string;
+  officialFigureBenchmark?: {
+    label: string;
+    value: string;
+    source: string;
+  };
+  publicOpinionQuestion?: string;
+  publicOpinionSupportOverall?: number;
+  pledges: {
+    [partyId in "labour" | "conservative" | "reform" | "libdem" | "green" | "snp" | "plaid" | "restore"]: {
+      partyId: string;
+      headline: string;
+      summary: string;
+      keyPoints: string[];
+      costEstimate?: string;
+      targetTimeline?: string;
+      factCheckSnippet?: string;
+      factCheckVerdict?: "verified" | "disputed" | "unfunded" | "clarified";
+      factCheckSource?: string;
+      factCheckUrl?: string;
+      publicSupport?: number;
+      officialSourceTitle: string;
+      officialSourceUrl: string;
+      lastVerifiedDate: string;
+    }
+  }
+}>`;
+
+      const liveData = await queryGemini(prompt, apiKey);
+      if (Array.isArray(liveData) && liveData.length > 0) {
+        localStorage.setItem(STORAGE_KEYS.POLICIES, JSON.stringify(liveData));
+        const changeReport = detectPolicyChanges(currentPolicies, liveData);
+        return {
+          data: liveData,
+          source: 'Gemini 3.8 Flash (Live Policy Grounding)',
+          changeReport,
+        };
+      }
+    } catch (err) {
+      console.warn('Gemini policy update failed, falling back to CDN:', err);
+    }
+  }
+
   const cdnData = await fetchLiveCdnData<PolicyTopic[]>('policies.json');
   localStorage.setItem(STORAGE_KEYS.POLICIES, JSON.stringify(cdnData));
   const changeReport = detectPolicyChanges(currentPolicies, cdnData);
