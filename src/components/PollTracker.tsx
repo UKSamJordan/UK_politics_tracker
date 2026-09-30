@@ -38,9 +38,13 @@ import {
   Layers,
   Info,
   SlidersHorizontal,
-  CheckCircle2
+  CheckCircle2,
+  Calendar,
+  ExternalLink
 } from 'lucide-react';
 import { SectionRefreshButton } from './SectionRefreshButton';
+
+export type TimeRange = 'all' | '1y' | '6m' | '3m' | '2026';
 
 interface PollTrackerProps {
   parties: Party[];
@@ -79,8 +83,49 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
 
   // Selected Pollster for Leader Ratings
   const [selectedLeaderPollsterId, setSelectedLeaderPollsterId] = useState<string>('poll-of-polls');
-  // Selected Poll for Voting Intention
-  const [selectedVotingPollIndex, setSelectedVotingPollIndex] = useState<number>(timeSeries.length - 1);
+
+  // Time Range Filter for National Voting Intention
+  const [selectedTimeRange, setSelectedTimeRange] = useState<TimeRange>('all');
+
+  const filteredTimeSeries = React.useMemo(() => {
+    if (selectedTimeRange === 'all') return timeSeries;
+
+    const sorted = [...timeSeries].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    if (sorted.length === 0) return timeSeries;
+
+    const latestDateStr = sorted[sorted.length - 1].date;
+    const latestDate = new Date(latestDateStr);
+
+    return sorted.filter((p) => {
+      const pDate = new Date(p.date);
+      if (selectedTimeRange === '2026') {
+        return p.date.startsWith('2026');
+      }
+      if (selectedTimeRange === '1y') {
+        const d = new Date(latestDate);
+        d.setFullYear(d.getFullYear() - 1);
+        return pDate >= d;
+      }
+      if (selectedTimeRange === '6m') {
+        const d = new Date(latestDate);
+        d.setMonth(d.getMonth() - 6);
+        return pDate >= d;
+      }
+      if (selectedTimeRange === '3m') {
+        const d = new Date(latestDate);
+        d.setMonth(d.getMonth() - 3);
+        return pDate >= d;
+      }
+      return true;
+    });
+  }, [timeSeries, selectedTimeRange]);
+
+  // Selected Poll for Voting Intention (clamped to filteredTimeSeries)
+  const [selectedVotingPollIndex, setSelectedVotingPollIndex] = useState<number>(filteredTimeSeries.length - 1);
+
+  React.useEffect(() => {
+    setSelectedVotingPollIndex(filteredTimeSeries.length - 1);
+  }, [selectedTimeRange, filteredTimeSeries.length]);
 
   // Sync when user navigates directly to a leader (e.g. from Andy Burnham's card)
   React.useEffect(() => {
@@ -104,7 +149,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
       ? activePollsterSet.ratings
       : leaderRatings;
 
-  const currentVotingPoll = timeSeries[selectedVotingPollIndex] || timeSeries[timeSeries.length - 1];
+  const currentVotingPoll = filteredTimeSeries[selectedVotingPollIndex] || filteredTimeSeries[filteredTimeSeries.length - 1] || timeSeries[timeSeries.length - 1];
 
   const filteredPolicies = policyPopularity.filter((item) => {
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
@@ -256,7 +301,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                 onChange={(e) => setSelectedVotingPollIndex(Number(e.target.value))}
                 className="bg-slate-50 text-slate-900 text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-300 focus:outline-hidden focus:ring-2 focus:ring-rose-500 cursor-pointer"
               >
-                {timeSeries.map((poll, idx) => (
+                {filteredTimeSeries.map((poll, idx) => (
                   <option key={idx} value={idx}>
                     {poll.pollster} ({poll.date}) {poll.sampleSize ? `• ${poll.sampleSize.toLocaleString()} sample` : ''}
                   </option>
@@ -268,9 +313,9 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
           {/* Voting Headline Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {[
+              { partyId: 'reform', name: 'Reform UK', pct: currentVotingPoll.reform, color: '#12B6CF' },
               { partyId: 'labour', name: 'Labour', pct: currentVotingPoll.labour, color: '#E4003B' },
               { partyId: 'conservative', name: 'Conservative', pct: currentVotingPoll.conservative, color: '#0087DC' },
-              { partyId: 'reform', name: 'Reform UK', pct: currentVotingPoll.reform, color: '#12B6CF' },
               { partyId: 'libdem', name: 'Lib Dem', pct: currentVotingPoll.libdem, color: '#FAA61A' },
               { partyId: 'green', name: 'Green', pct: currentVotingPoll.green, color: '#528D22' },
               { partyId: 'snp', name: 'SNP', pct: currentVotingPoll.snp, color: '#D99B00' },
@@ -297,25 +342,68 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
           </div>
 
           {/* Voting Intention Recharts Line Chart */}
-          <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+          <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
               <div>
                 <h3 className="text-base font-bold text-slate-900 flex items-center space-x-2">
                   <TrendingUp className="w-4 h-4 text-blue-600" />
                   <span>National Voting Intention Trend Line</span>
                 </h3>
-                <p className="text-xs text-slate-500">
-                  Aggregated polling trajectory from the 2024 General Election through late 2026
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Aggregated trajectory grounded in British Polling Council & Wikipedia polling archives ({filteredTimeSeries.length} polls in view)
                 </p>
               </div>
-              <span className="text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg">
-                Source: British Polling Council members
-              </span>
+
+              {/* Time Range Pills */}
+              <div className="flex flex-wrap items-center gap-1 bg-slate-100 p-1.5 rounded-xl border border-slate-200 shrink-0">
+                <span className="text-[10px] uppercase font-bold text-slate-500 px-1.5 flex items-center gap-1">
+                  <Calendar className="w-3.5 h-3.5 text-slate-500" />
+                  <span>Timeframe:</span>
+                </span>
+                {[
+                  { id: 'all', label: 'All (Since 2024 GE)' },
+                  { id: '1y', label: 'Past 12M' },
+                  { id: '6m', label: 'Past 6M' },
+                  { id: '3m', label: 'Past 3M' },
+                  { id: '2026', label: '2026 Only' },
+                ].map((range) => (
+                  <button
+                    key={range.id}
+                    onClick={() => setSelectedTimeRange(range.id as TimeRange)}
+                    className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                      selectedTimeRange === range.id
+                        ? 'bg-white text-slate-900 shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                    }`}
+                  >
+                    {range.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            <div className="h-72 sm:h-84 w-full">
+            {/* Wikipedia & BPC Grounding Notice */}
+            <div className="bg-amber-50/80 border border-amber-200/80 rounded-xl p-3 text-xs text-amber-900 flex items-start space-x-2.5">
+              <Info className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+              <div className="leading-relaxed text-[11px] sm:text-xs">
+                <span className="font-bold text-amber-950">Wikipedia & British Polling Council Verified Grounding:</span>{' '}
+                Reflects verified national polling recorded on{' '}
+                <a
+                  href="https://en.wikipedia.org/wiki/Opinion_polling_for_the_next_United_Kingdom_general_election"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center underline font-bold hover:text-amber-950 text-indigo-700"
+                >
+                  <span>Wikipedia: Opinion polling for the next UK general election</span>
+                  <ExternalLink className="w-3 h-3 ml-0.5" />
+                </a>{' '}
+                (YouGov, More in Common, Savanta, Ipsos, Deltapoll, Opinium). From February 2025 through May 2026, Reform UK led the majority of national polls (reaching 32–33% in MRP projections). Following Andy Burnham assuming the premiership in summer 2026, Labour surged back into contention, leading to a tight statistical race heading into autumn 2026.
+              </div>
+            </div>
+
+            <div className="h-72 sm:h-84 w-full pt-2">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={timeSeries} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
+                <LineChart data={filteredTimeSeries} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                   <XAxis 
                     dataKey="date" 
@@ -354,11 +442,11 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                     }} 
                   />
                   <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                  <Line type="monotone" dataKey="labour" name="Labour" stroke="#E4003B" strokeWidth={3} dot={{ r: 2 }} activeDot={{ r: 5 }} />
-                  <Line type="monotone" dataKey="conservative" name="Conservative" stroke="#0087DC" strokeWidth={2.5} dot={{ r: 2 }} activeDot={{ r: 5 }} />
-                  <Line type="monotone" dataKey="reform" name="Reform UK" stroke="#12B6CF" strokeWidth={2.5} dot={{ r: 2 }} activeDot={{ r: 5 }} />
-                  <Line type="monotone" dataKey="libdem" name="Lib Dem" stroke="#FAA61A" strokeWidth={2} dot={{ r: 2 }} activeDot={{ r: 4 }} />
-                  <Line type="monotone" dataKey="green" name="Green" stroke="#528D22" strokeWidth={2} dot={{ r: 2 }} activeDot={{ r: 4 }} />
+                  <Line type="monotone" dataKey="reform" name="Reform UK" stroke="#12B6CF" strokeWidth={2.8} dot={{ r: 2 }} activeDot={{ r: 5 }} />
+                  <Line type="monotone" dataKey="labour" name="Labour" stroke="#E4003B" strokeWidth={2.8} dot={{ r: 2 }} activeDot={{ r: 5 }} />
+                  <Line type="monotone" dataKey="conservative" name="Conservative" stroke="#0087DC" strokeWidth={2.2} dot={{ r: 2 }} activeDot={{ r: 5 }} />
+                  <Line type="monotone" dataKey="libdem" name="Lib Dem" stroke="#FAA61A" strokeWidth={1.8} dot={{ r: 2 }} activeDot={{ r: 4 }} />
+                  <Line type="monotone" dataKey="green" name="Green" stroke="#528D22" strokeWidth={1.8} dot={{ r: 2 }} activeDot={{ r: 4 }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
