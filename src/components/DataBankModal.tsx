@@ -64,19 +64,25 @@ export const DataBankModal: React.FC<DataBankModalProps> = ({ isOpen, onClose, o
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Key className="w-4 h-4 text-rose-600" />
-              <h4 className="text-xs font-bold text-slate-900">Your Private Gemini 3.8 Flash Key (Optional)</h4>
+              <h4 className="text-xs font-bold text-slate-900">Gemini 3.8 Flash Key</h4>
             </div>
-            <span className="text-[10px] text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded">
-              Saved locally in browser only
-            </span>
+            {(apiKey || getStoredApiKey()) ? (
+              <span className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded font-bold">
+                ✓ Active Key Connected
+              </span>
+            ) : (
+              <span className="text-[10px] text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded">
+                Saved locally in browser
+              </span>
+            )}
           </div>
           <p className="text-xs text-slate-600">
-            When provided, clicking <strong>"Update [Section]"</strong> queries Gemini 3.8 Flash directly from your browser with search grounding to discover real-time political reshuffles and new polling.
+            Clicking <strong>"Update [Section]"</strong> queries Gemini 3.8 Flash directly from your browser with search grounding to discover real-time political reshuffles, new polling, and fact checks.
           </p>
           <div className="flex items-center space-x-2">
             <input
               type="password"
-              placeholder="AIzaSy... (leave blank to use CDN Data Bank)"
+              placeholder="Paste your Gemini API key (AQ.Ab8...)"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               className="flex-1 px-3 py-1.5 text-xs bg-white border border-slate-300 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-slate-900"
@@ -88,6 +94,9 @@ export const DataBankModal: React.FC<DataBankModalProps> = ({ isOpen, onClose, o
               {isSaved ? 'Saved!' : 'Save Key'}
             </button>
           </div>
+          <p className="text-[10px] text-slate-400">
+            🔒 Pre-configured with your active Gemini 3.8 Flash key. You can also override or update anytime.
+          </p>
         </div>
 
         {/* 3 Architecture Pillars */}

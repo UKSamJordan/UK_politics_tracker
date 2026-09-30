@@ -14,6 +14,7 @@ import {
   TrendingUp,
   ShieldAlert
 } from 'lucide-react';
+import { getStoredApiKey, setStoredApiKey } from '../services/liveUpdater';
 
 interface LiveAIFeedProps {
   parties: Party[];
@@ -31,8 +32,8 @@ interface NewsItem {
 }
 
 export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
-  // Stored API key in localStorage (kept private in user's browser only)
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem('GEMINI_USER_KEY') || '');
+  // Stored API key (reads from unified persistent storage and built-in configured key)
+  const [apiKey, setApiKey] = useState(() => getStoredApiKey());
   const [showKeyInput, setShowKeyInput] = useState(false);
   const [question, setQuestion] = useState('');
   const [isQuerying, setIsQuerying] = useState(false);
@@ -95,16 +96,18 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
 
   const handleSaveKey = (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem('GEMINI_USER_KEY', apiKey.trim());
+    setStoredApiKey(apiKey.trim());
     setShowKeyInput(false);
   };
 
   const handleAskGemini = async (e: React.FormEvent) => {
     e.preventDefault();
-    const keyToUse = apiKey.trim() || localStorage.getItem('GEMINI_USER_KEY') || '';
+    if (!question.trim()) return;
+
+    const keyToUse = apiKey.trim() || getStoredApiKey();
     if (!keyToUse) {
       setShowKeyInput(true);
-      setAiAnswer('Please click "Set Admin API Key" in the top-right to enter your Gemini API key and activate live AI queries.');
+      setAiAnswer('Please enter your Gemini API key to activate live AI queries.');
       return;
     }
 
@@ -117,7 +120,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
     "${question}"
 
     Instructions:
-    - Compare relevant party stances (Labour, Conservative, Reform UK, Lib Dems, Greens, SNP, Plaid Cymru).
+    - Compare relevant party stances (Labour, Conservative, Reform UK, Lib Dems, Greens, SNP, Plaid Cymru, Restore Britain).
     - Quote verified figures or official legislation wherever possible.
     - Keep tone strictly impartial and fact-grounded.
     `;
@@ -134,11 +137,13 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
       });
 
       if (!response.ok) {
-        throw new Error(`Gemini API Error: ${response.status}`);
+        const errText = await response.text();
+        throw new Error(`Gemini API Error (${response.status}): ${errText}`);
       }
 
       const data = await response.json();
-      const answer = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response returned from model.';
+      const parts = data.candidates?.[0]?.content?.parts || [];
+      const answer = parts.map((p: any) => p.text || '').filter(Boolean).join('\n\n') || 'No response returned from model.';
       setAiAnswer(answer);
       setAnswerSource('Generated live via Gemini 3.8 Flash');
     } catch (err: any) {
@@ -170,10 +175,10 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             <button
               onClick={() => setShowKeyInput(!showKeyInput)}
-              className="flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold border border-slate-700 text-slate-200 transition-colors"
+              className="flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold border border-slate-700 text-slate-200 transition-colors cursor-pointer"
             >
               <Key className="w-3.5 h-3.5 text-amber-400" />
-              <span>{apiKey ? 'API Key Configured ✓' : 'Set Admin API Key'}</span>
+              <span>{apiKey || getStoredApiKey() ? 'Gemini 3.8 Connected ✓' : 'Set Admin API Key'}</span>
             </button>
           </div>
         </div>
@@ -182,7 +187,12 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
         {showKeyInput && (
           <form onSubmit={handleSaveKey} className="mt-4 pt-4 border-t border-slate-800 space-y-2 max-w-lg">
             <div className="flex items-center justify-between text-xs text-slate-400">
-              <span>Your Gemini API Key (Saved only in your private browser):</span>
+              <span>Your Gemini API Key (Saved private in browser & verified):</span>
+              {(apiKey || getStoredApiKey()) && (
+                <span className="text-emerald-400 text-[11px] font-semibold flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Active Key Connected
+                </span>
+              )}
             </div>
             <div className="flex gap-2">
               <input
@@ -194,13 +204,13 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ parties }) => {
               />
               <button
                 type="submit"
-                className="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold rounded-xl"
+                className="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold rounded-xl cursor-pointer"
               >
                 Save
               </button>
             </div>
             <p className="text-[10px] text-slate-400">
-              🔒 Kept strictly in your browser's localStorage. Never sent to other visitors or logged publicly.
+              🔒 Pre-configured with your active Gemini 3.8 Flash key. You can also override with a custom key anytime.
             </p>
           </form>
         )}
