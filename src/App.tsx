@@ -278,7 +278,7 @@ export const App: React.FC = () => {
               Cloudflare Pages Ready
             </span>
             <span className="px-2.5 py-1 rounded-md bg-purple-50 text-purple-700 font-medium">
-              Gemini Flash 3.8 Synced
+              Live Intelligence Synced
             </span>
           </div>
         </div>

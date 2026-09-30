@@ -633,7 +633,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                   </p>
                 </div>
 
-                {/* Gemini Live Intelligence Dossier */}
+                {/* Live Intelligence Dossier */}
                 <div className="mt-3.5 pt-3 border-t border-slate-100">
                   <div className="flex items-center justify-between gap-1.5">
                     <button
@@ -646,20 +646,20 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                           ? 'bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200'
                           : 'bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 hover:from-indigo-100 hover:via-purple-100 hover:to-pink-100 text-indigo-900 border border-indigo-200/90'
                       }`}
-                      title={`Fetch live Gemini intelligence dossier on ${member.name}'s latest actions, statements, and policy stances`}
+                      title={`Scan for most recent updates on ${member.name}'s latest actions, statements, and policy stances`}
                     >
                       {isLoadingBriefing ? (
                         <>
                           <RefreshCw className="w-3.5 h-3.5 animate-spin text-indigo-600" />
-                          <span>Gemini Briefing...</span>
+                          <span>Scanning Recent Record...</span>
                         </>
                       ) : (
                         <>
                           <Sparkles className={`w-3.5 h-3.5 ${isExpanded ? 'text-amber-300' : 'text-indigo-600'}`} />
                           <span>
                             {hasBriefing 
-                              ? (isExpanded ? 'Hide Live Dossier' : '⚡ View Live Dossier') 
-                              : '⚡ Live Gemini Intelligence'}
+                              ? (isExpanded ? 'Hide Intelligence Dossier' : '⚡ View Live Intelligence Dossier') 
+                              : '⚡ Live Intelligence Report'}
                           </span>
                           {hasBriefing && (
                             isExpanded ? <ChevronUp className="w-3.5 h-3.5 ml-0.5" /> : <ChevronDown className="w-3.5 h-3.5 ml-0.5" />
@@ -676,7 +676,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                         }}
                         disabled={isLoadingBriefing}
                         className="p-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border border-slate-200 transition-colors cursor-pointer"
-                        title="Re-query Gemini live for latest statements & actions"
+                        title="Scan for most recent updates"
                       >
                         <RefreshCw className={`w-3.5 h-3.5 ${isLoadingBriefing ? 'animate-spin' : ''}`} />
                       </button>
@@ -689,7 +689,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                       <div className="flex items-center justify-between border-b border-slate-800 pb-2 text-[11px] text-slate-400">
                         <div className="flex items-center space-x-1.5">
                           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                          <span className="font-semibold text-slate-200">Gemini 3.8 Flash Dossier</span>
+                          <span className="font-semibold text-slate-200">Live Parliamentary Intelligence</span>
                         </div>
                         <span className="font-mono text-[10px] text-slate-400">
                           {briefing.timestamp}
@@ -716,7 +716,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                           onClick={() => handleFetchBriefing(member, true)}
                           className="mt-1 font-bold text-rose-700 underline cursor-pointer"
                         >
-                          Retry with Gemini
+                          Retry Scan
                         </button>
                       </div>
                     </div>

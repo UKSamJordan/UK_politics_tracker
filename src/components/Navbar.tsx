@@ -105,7 +105,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={onOpenDataBankModal}
               className="flex items-center space-x-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
-              title="How the Data Bank and Gemini API work"
+              title="How the Data Bank and Live Intelligence work"
             >
               <Database className="w-3.5 h-3.5 text-emerald-600" />
               <span>Data Bank</span>
@@ -186,7 +186,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 rounded-lg"
             >
               <Database className="w-4 h-4 text-emerald-600" />
-              <span>Data Bank & Gemini Architecture</span>
+              <span>Data Bank & Live Intelligence Architecture</span>
             </button>
           </div>
         </div>

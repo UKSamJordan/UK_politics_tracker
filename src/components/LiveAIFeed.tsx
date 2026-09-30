@@ -318,7 +318,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
         {showKeyInput && (
           <form onSubmit={handleSaveKey} className="mt-4 pt-4 border-t border-slate-800 space-y-2 max-w-lg">
             <div className="flex items-center justify-between text-xs text-slate-400">
-              <span>Your Gemini API Key (Saved private in browser & verified):</span>
+              <span>Live Intelligence API Key (Saved private in browser & verified):</span>
               {(apiKey || getStoredApiKey()) && (
                 <span className="text-emerald-400 text-[11px] font-semibold flex items-center gap-1">
                   <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Active Key Connected
@@ -328,7 +328,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
             <div className="flex gap-2">
               <input
                 type="password"
-                placeholder="Paste your Gemini API key (AQ.Ab8...)"
+                placeholder="Enter Live Intelligence API key..."
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
                 className="flex-1 px-3 py-1.5 text-xs bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-hidden focus:ring-2 focus:ring-rose-500"
@@ -341,7 +341,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
               </button>
             </div>
             <p className="text-[10px] text-slate-400">
-              🔒 Pre-configured with your active Gemini 3.8 Flash key. You can also override with a custom key anytime.
+              🔒 Pre-configured with active parliamentary intelligence service. You can also override with a custom key anytime.
             </p>
           </form>
         )}
@@ -472,7 +472,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
             onClick={handleRefreshPolicyDecisions}
             disabled={isFetchingDecisions}
             className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 hover:bg-indigo-50 hover:text-indigo-800 text-slate-700 rounded-xl text-xs font-bold border border-slate-200 transition-colors cursor-pointer shrink-0 self-start md:self-auto"
-            title="Scan Parliament with Gemini 3.8 Flash for latest policy actions"
+            title="Scan Parliament for latest policy actions and statutory decisions"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isFetchingDecisions ? 'animate-spin text-indigo-600' : ''}`} />
             <span>{isFetchingDecisions ? 'Scanning Parliament...' : '⚡ Scan Parliament for Policy Decisions'}</span>

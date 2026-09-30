@@ -317,9 +317,34 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={timeSeries} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                  <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#64748b' }} />
+                  <XAxis 
+                    dataKey="date" 
+                    tick={{ fontSize: 10, fill: '#64748b' }} 
+                    tickFormatter={(dateStr: string) => {
+                      try {
+                        const parts = dateStr.split('-');
+                        if (parts.length >= 2) {
+                          const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                          const mIdx = parseInt(parts[1], 10) - 1;
+                          return `${monthNames[mIdx] || parts[1]} '${parts[0].slice(2)}`;
+                        }
+                        return dateStr;
+                      } catch {
+                        return dateStr;
+                      }
+                    }}
+                    interval="preserveStartEnd"
+                    minTickGap={25}
+                  />
                   <YAxis domain={[0, 40]} tick={{ fontSize: 11, fill: '#64748b' }} unit="%" />
                   <Tooltip 
+                    labelFormatter={(label, payload) => {
+                      const item = payload?.[0]?.payload;
+                      if (item) {
+                        return `${item.pollster} • ${item.date} (${item.leadParty?.toUpperCase()} +${item.leadMargin}%)`;
+                      }
+                      return label;
+                    }}
                     contentStyle={{ 
                       backgroundColor: '#ffffff', 
                       borderRadius: '12px', 
@@ -329,11 +354,11 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                     }} 
                   />
                   <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                  <Line type="monotone" dataKey="labour" name="Labour" stroke="#E4003B" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
-                  <Line type="monotone" dataKey="conservative" name="Conservative" stroke="#0087DC" strokeWidth={2.5} dot={{ r: 3 }} />
-                  <Line type="monotone" dataKey="reform" name="Reform UK" stroke="#12B6CF" strokeWidth={2.5} dot={{ r: 3 }} />
-                  <Line type="monotone" dataKey="libdem" name="Lib Dem" stroke="#FAA61A" strokeWidth={2} dot={{ r: 3 }} />
-                  <Line type="monotone" dataKey="green" name="Green" stroke="#528D22" strokeWidth={2} dot={{ r: 3 }} />
+                  <Line type="monotone" dataKey="labour" name="Labour" stroke="#E4003B" strokeWidth={3} dot={{ r: 2 }} activeDot={{ r: 5 }} />
+                  <Line type="monotone" dataKey="conservative" name="Conservative" stroke="#0087DC" strokeWidth={2.5} dot={{ r: 2 }} activeDot={{ r: 5 }} />
+                  <Line type="monotone" dataKey="reform" name="Reform UK" stroke="#12B6CF" strokeWidth={2.5} dot={{ r: 2 }} activeDot={{ r: 5 }} />
+                  <Line type="monotone" dataKey="libdem" name="Lib Dem" stroke="#FAA61A" strokeWidth={2} dot={{ r: 2 }} activeDot={{ r: 4 }} />
+                  <Line type="monotone" dataKey="green" name="Green" stroke="#528D22" strokeWidth={2} dot={{ r: 2 }} activeDot={{ r: 4 }} />
                 </LineChart>
               </ResponsiveContainer>
             </div>

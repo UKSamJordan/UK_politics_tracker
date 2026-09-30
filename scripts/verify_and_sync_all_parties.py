@@ -185,10 +185,13 @@ def audit_all():
         if 'average' not in polls or 'timeSeries' not in polls or 'leaderRatings' not in polls:
             errors.append(f"{bdir}/polls.json malformed structure")
         else:
+            ts_len = len(polls.get('timeSeries', []))
+            if ts_len < 20:
+                errors.append(f"{bdir}/polls.json timeSeries has only {ts_len} records (expected >= 20 high-resolution Politico Poll of Polls trajectory points)")
             green_poll = next((l for l in polls.get('leaderRatings', []) if l['partyId'] == 'green'), None)
             if not green_poll or 'Polanski' not in green_poll.get('leaderName', ''):
                 errors.append(f"{bdir}/polls.json Green leader in leaderRatings is '{green_poll.get('leaderName') if green_poll else 'None'}' (expected 'Zack Polanski')")
-            print(f"  ✓ Polling Tracker: {len(polls.get('timeSeries', []))} poll records, {len(polls.get('leaderRatings', []))} leader ratings (Green: Zack Polanski)")
+            print(f"  ✓ Polling Tracker: {ts_len} high-resolution poll records, {len(polls.get('leaderRatings', []))} leader ratings (Green: Zack Polanski)")
 
         # 5. Fact checks audit & Recency verification
         factchecks = load_json(f"{bdir}/factchecks.json")

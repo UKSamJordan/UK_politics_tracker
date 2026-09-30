@@ -520,7 +520,7 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
                                       <button
                                         onClick={() => handleVerifyPledge(topic, party, pledge, true)}
                                         className="p-1 text-slate-400 hover:text-white cursor-pointer"
-                                        title="Re-verify live with Gemini 3.8 Flash"
+                                        title="Scan for most recent updates"
                                       >
                                         <RefreshCw className="w-3 h-3" />
                                       </button>
