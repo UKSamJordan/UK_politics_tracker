@@ -228,8 +228,8 @@
     "role": "Party Leader & MP",
     "isLeader": true,
     "constituency": "Kingston and Surbiton",
-    "bio": "Former Energy Secretary who led the Liberal Democrats to a historic 72 MPs in 2024, focusing on health, social care, and local services.",
-    "keyStance": "Universal access to GP appointments within 7 days, £5bn free personal adult care package, ban water executive bonuses, rejoin EU Single Market."
+    "bio": "Former Energy Secretary who led the Liberal Democrats to a historic 72 MPs in 2024, focusing on health, social care, carer support, and public service renewal.",
+    "keyStance": "Universal access to GP appointments within 7 days, £5bn free personal adult social care package, ban water executive bonuses, and establish a long-term pathway back to the EU Single Market."
   },
   {
     "id": "ld-2",
@@ -237,8 +237,8 @@
     "name": "Daisy Cooper",
     "role": "Deputy Leader & Treasury Spokesperson",
     "constituency": "St Albans",
-    "bio": "Deputy Leader and former Health Spokesperson, leading the Lib Dem economic push on fair taxation and public service reinvestment.",
-    "keyStance": "Tax big tech monopolies and bank super-profits, reverse threshold stealth taxes, support small high-street businesses."
+    "bio": "Deputy Leader and former Health Spokesperson, leading the Lib Dem economic scrutiny on equitable taxation and public service reinvestment.",
+    "keyStance": "Windfall tax on energy super-profits, higher levies on big tech monopolies, unfreezing tax allowances, and targeted support for high street small businesses."
   },
   {
     "id": "ld-3",
@@ -246,17 +246,80 @@
     "name": "Helen Morgan",
     "role": "Spokesperson for Health and Social Care",
     "constituency": "North Shropshire",
-    "bio": "Chartered accountant and by-election victor, leading the party's campaigns on rural ambulance wait times and dental deserts.",
-    "keyStance": "Dedicated fund for ambulance waiting times, mental health parity in all NHS trusts, free personal social care."
+    "bio": "Chartered accountant and by-election victor leading parliamentary campaigns against rural ambulance wait times, hospital corridor care, and dental deserts.",
+    "keyStance": "Dedicated emergency funding for ambulance response times, mental health parity across all NHS trusts, and free personal social care for all adults."
   },
   {
     "id": "ld-4",
     "partyId": "libdem",
     "name": "Calum Miller",
-    "role": "Spokesperson for Defence and Foreign Affairs",
+    "role": "Spokesperson for Foreign Affairs",
     "constituency": "Bicester and Woodstock",
-    "bio": "Former senior civil servant with extensive foreign policy and defence background.",
-    "keyStance": "Meet 2.5% GDP defence spending responsibly, strengthen NATO European pillar, uphold international humanitarian law."
+    "bio": "Former senior civil servant with deep international diplomacy and foreign policy background, leading scrutiny of international treaties.",
+    "keyStance": "Rebuilding UK-EU institutional partnerships, steadfast support for Ukraine, upholding international law, and restoring the 0.7% foreign aid budget."
+  },
+  {
+    "id": "ld-5",
+    "partyId": "libdem",
+    "name": "Munira Wilson",
+    "role": "Spokesperson for Education, Children and Families",
+    "constituency": "Twickenham",
+    "bio": "Leading national voice on education and child welfare, championing free school meals and youth mental health support in all schools.",
+    "keyStance": "Extend free school meals to all primary school pupils living in poverty, fund a qualified mental health specialist in every school, and reform special educational needs (SEND) provision."
+  },
+  {
+    "id": "ld-6",
+    "partyId": "libdem",
+    "name": "Tim Farron",
+    "role": "Spokesperson for Environment, Food and Rural Affairs",
+    "constituency": "Westmorland and Lonsdale",
+    "bio": "Former party leader and veteran rural champion leading the national campaign against raw sewage dumping in British lakes and rivers.",
+    "keyStance": "Transform water companies into public benefit entities, legally ban water executive bonuses until sewage dumping ends, and protect British family farmers."
+  },
+  {
+    "id": "ld-7",
+    "partyId": "libdem",
+    "name": "Sarah Olney",
+    "role": "Spokesperson for Business and Trade",
+    "constituency": "Richmond Park",
+    "bio": "Former accountant leading scrutiny on industrial policy, regulatory barriers, and high street revitalization.",
+    "keyStance": "Scrap and replace the broken business rates system with a commercial landowner levy, negotiate veterinary and trade pacts with Europe, and boost green export finance."
+  },
+  {
+    "id": "ld-8",
+    "partyId": "libdem",
+    "name": "Max Wilkinson",
+    "role": "Spokesperson for Home Affairs",
+    "constituency": "Cheltenham",
+    "bio": "Elected in 2024 to lead home affairs, police accountability, and community safety policy.",
+    "keyStance": "Restore dedicated community neighbourhood policing, clear the asylum backlog with faster case-processing units, and reform drug enforcement laws."
+  },
+  {
+    "id": "ld-9",
+    "partyId": "libdem",
+    "name": "James MacCleary",
+    "role": "Spokesperson for Defence",
+    "constituency": "Lewes",
+    "bio": "Experienced local leader elected in 2024 leading defence procurement scrutiny and Armed Forces personnel welfare.",
+    "keyStance": "Reach 2.5% of GDP defence spending responsibly, strengthen European NATO pillar, reverse troop cuts, and legally enshrine the Armed Forces Covenant."
+  },
+  {
+    "id": "ld-10",
+    "partyId": "libdem",
+    "name": "Pippa Heylings",
+    "role": "Spokesperson for Energy Security and Net Zero",
+    "constituency": "South Cambridgeshire",
+    "bio": "International environmental expert leading the Lib Dem transition roadmap to clean renewable power.",
+    "keyStance": "Accelerate community rooftop solar, upgrade national grid infrastructure, insulate millions of fuel-poor homes, and ban new fossil fuel extraction."
+  },
+  {
+    "id": "ld-11",
+    "partyId": "libdem",
+    "name": "Wendy Chamberlain",
+    "role": "Chief Whip & Spokesperson for Scotland",
+    "constituency": "North East Fife",
+    "bio": "Former police officer and long-serving parliamentary leader managing party discipline and parliamentary procedure.",
+    "keyStance": "Strict parliamentary standards, banning MP second jobs, electoral reform via proportional representation, and stronger Scottish devolution."
   },
 
   {
