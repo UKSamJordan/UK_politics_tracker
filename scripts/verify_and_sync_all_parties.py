@@ -80,6 +80,11 @@ def audit_all():
                 if not p.get('seatsLastVerified'):
                     errors.append(f"{bdir} party {rp} missing seatsLastVerified timestamp")
 
+        if party_map.get('green', {}).get('leader') != 'Zack Polanski':
+            errors.append(f"{bdir}/parties.json Green party leader is '{party_map.get('green', {}).get('leader')}' (expected 'Zack Polanski')")
+        if party_map.get('labour', {}).get('leader') != 'Andy Burnham':
+            errors.append(f"{bdir}/parties.json Labour party leader is '{party_map.get('labour', {}).get('leader')}' (expected 'Andy Burnham')")
+
         print(f"  ✓ Parties & MP Seats: {len(parties)}/8 registered & verified with official Commons register")
 
         # 2. Cabinets audit & Appointment Dates verification
@@ -131,6 +136,18 @@ def audit_all():
         else:
             print("  ✓ Leadership Check: Andy Burnham confirmed as Prime Minister (July 2026)")
 
+        polanski_leader = any(m['partyId'] == 'green' and 'Polanski' in m['name'] and m.get('isLeader') for m in cabinets)
+        if not polanski_leader:
+            errors.append(f"{bdir}/cabinets.json missing Zack Polanski as Green Party Leader (elected September 2025)")
+        else:
+            print("  ✓ Leadership Check: Zack Polanski confirmed as Green Party Leader (Sept 2025)")
+
+        denyer_parl = any(m['partyId'] == 'green' and 'Denyer' in m['name'] for m in cabinets)
+        if not denyer_parl:
+            errors.append(f"{bdir}/cabinets.json missing Carla Denyer as Parliamentary Leader & MP")
+        else:
+            print("  ✓ Parliamentary Check: Carla Denyer confirmed as Green Parliamentary Leader & MP")
+
         # 3. Dynamic Policy Guardrails
         policies = load_json(f"{bdir}/policies.json")
         print(f"  ✓ Policy Sectors: {len(policies)} categories loaded")
@@ -168,7 +185,10 @@ def audit_all():
         if 'average' not in polls or 'timeSeries' not in polls or 'leaderRatings' not in polls:
             errors.append(f"{bdir}/polls.json malformed structure")
         else:
-            print(f"  ✓ Polling Tracker: {len(polls.get('timeSeries', []))} poll records, {len(polls.get('leaderRatings', []))} leader ratings")
+            green_poll = next((l for l in polls.get('leaderRatings', []) if l['partyId'] == 'green'), None)
+            if not green_poll or 'Polanski' not in green_poll.get('leaderName', ''):
+                errors.append(f"{bdir}/polls.json Green leader in leaderRatings is '{green_poll.get('leaderName') if green_poll else 'None'}' (expected 'Zack Polanski')")
+            print(f"  ✓ Polling Tracker: {len(polls.get('timeSeries', []))} poll records, {len(polls.get('leaderRatings', []))} leader ratings (Green: Zack Polanski)")
 
         # 5. Fact checks audit & Recency verification
         factchecks = load_json(f"{bdir}/factchecks.json")

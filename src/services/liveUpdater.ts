@@ -250,7 +250,7 @@ Verify:
 2. Reform UK's official Shadow Cabinet formed by Nigel Farage in February 2026 (including Richard Tice, Robert Jenrick as Shadow Chancellor, Zia Yusuf as Shadow Home Sec, Suella Braverman as Shadow Education, Lee Anderson as Chief Whip).
 3. The Conservative Official Opposition under Kemi Badenoch (Shadow Chancellor Mel Stride, Shadow Justice Nick Timothy, Shadow Health Victoria Atkins).
 4. Liberal Democrats frontbench (Ed Davey, Daisy Cooper, Helen Morgan, Munira Wilson, Tim Farron, etc.).
-5. Green Party all 4 MPs (Denyer, Ramsay, Chowns, Berry).
+5. Green Party leadership and frontbench: Zack Polanski (Party Leader, elected Sept 2025), Carla Denyer (Parliamentary Leader & MP for Bristol Central), Adrian Ramsay (MP for Waveney Valley), Ellie Chowns (MP for North Herefordshire), Siân Berry (MP for Brighton Pavilion), Mothin Ali (Deputy Leader), Rachel Millward (Deputy Leader).
 6. SNP frontbench (Swinney, Flynn, Blackman, Doogan).
 7. Plaid Cymru frontbench (ap Iorwerth, Saville Roberts, Lake, Davies, Medi).
 
@@ -551,5 +551,67 @@ Array<{
   return {
     data: sorted,
     source: 'Live CDN Data Bank (/data/factchecks.json)',
+  };
+}
+
+/**
+ * Live Intelligence Dossier: Fetch on-demand summary of recent statements & actions for a specific person
+ */
+export async function fetchPersonIntelligence(
+  personName: string,
+  role: string,
+  partyName: string,
+  constituency?: string
+): Promise<{
+  personName: string;
+  summaryText: string;
+  timestamp: string;
+  source: string;
+}> {
+  const apiKey = getStoredApiKey();
+  if (!apiKey) {
+    throw new Error('No active Gemini API key configured.');
+  }
+
+  const prompt = `You are an expert UK parliamentary researcher and political intelligence analyst.
+Provide an up-to-the-minute factual intelligence dossier on:
+- Name: ${personName}
+- Current Role: ${role}
+- Party: ${partyName}
+${constituency ? `- Constituency / Base: ${constituency}` : ''}
+- Context Date: September 2026
+
+Provide a comprehensive, strictly factual, and non-partisan summary covering:
+1. RECENT KEY ACTIONS & POLICY MOVES (3-4 bullet points detailing specific bills introduced, parliamentary speeches, departmental decisions, committee appearances, or campaign launches).
+2. LATEST PUBLIC STATEMENTS & QUOTES (2 concrete statements or stances on national policy issues like the economy, public services, defence, energy, or party strategy).
+3. CURRENT STRATEGIC CONTEXT (1-2 sentences on their current political influence, standing within their party, or upcoming parliamentary priorities).
+
+Format cleanly with markdown bold headers and bullet points. Be specific with figures, names of initiatives, and dates where known. Keep tone strictly objective and factual.`;
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { temperature: 0.2 },
+    }),
+  });
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`Gemini API Error (${response.status}): ${errText}`);
+  }
+
+  const data = await response.json();
+  const parts = data.candidates?.[0]?.content?.parts || [];
+  const text = parts.map((p: any) => p.text || '').filter(Boolean).join('\n\n') || 'No intelligence dossier returned.';
+
+  const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  return {
+    personName,
+    summaryText: text,
+    timestamp: `Today at ${timestamp} GMT`,
+    source: 'Gemini 3.8 Flash • Real-Time Parliamentary Scrutiny',
   };
 }

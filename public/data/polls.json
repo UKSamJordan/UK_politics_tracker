@@ -69,15 +69,15 @@
     },
     {
       "partyId": "green",
-      "leaderName": "Carla Denyer & Adrian Ramsay",
-      "role": "Green Party Co-Leaders & MPs",
+      "leaderName": "Zack Polanski",
+      "role": "Green Party Leader",
       "approvePct": 26,
       "disapprovePct": 24,
       "netRating": 2,
       "dontKnowPct": 50,
       "pollster": "More in Common",
       "date": "2026-09-20",
-      "trend": "0"
+      "trend": "+1"
     },
     {
       "partyId": "snp",
@@ -489,15 +489,15 @@
         },
         {
           "partyId": "green",
-          "leaderName": "Carla Denyer & Adrian Ramsay",
-          "role": "Green Party Co-Leaders & MPs",
+          "leaderName": "Zack Polanski",
+          "role": "Green Party Leader",
           "approvePct": 26,
           "disapprovePct": 24,
           "netRating": 2,
           "dontKnowPct": 50,
           "pollster": "Aggregated Poll of Polls",
           "date": "2026-09-28",
-          "trend": "0"
+          "trend": "+1"
         },
         {
           "partyId": "snp",
@@ -582,15 +582,15 @@
         },
         {
           "partyId": "green",
-          "leaderName": "Carla Denyer & Adrian Ramsay",
-          "role": "Green Party Co-Leaders & MPs",
+          "leaderName": "Zack Polanski",
+          "role": "Green Party Leader",
           "approvePct": 25,
           "disapprovePct": 25,
           "netRating": 0,
           "dontKnowPct": 50,
           "pollster": "YouGov",
           "date": "2026-09-28",
-          "trend": "-1"
+          "trend": "0"
         }
       ]
     },

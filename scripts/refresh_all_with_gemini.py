@@ -161,15 +161,15 @@ def refresh_polls():
         },
         {
           "partyId": "green",
-          "leaderName": "Carla Denyer & Adrian Ramsay",
-          "role": "Green Party Co-Leaders & MPs",
+          "leaderName": "Zack Polanski",
+          "role": "Green Party Leader",
           "approvePct": 26,
           "disapprovePct": 24,
           "netRating": 2,
           "dontKnowPct": 50,
           "pollster": "More in Common",
           "date": "2026-09-20",
-          "trend": "0"
+          "trend": "+1"
         },
         {
           "partyId": "snp",
@@ -235,20 +235,20 @@ def refresh_cabinets():
     You are an expert UK parliamentary researcher.
     Provide the complete official UK Government Cabinet and Opposition Frontbench rosters across all 8 political parties as of September 2026.
 
-    ROSTER REQUIRING COMPLETE COVERAGE (52 frontbenchers across 8 parties):
+    ROSTER REQUIRING COMPLETE COVERAGE (55 frontbenchers across 8 parties):
     1. Labour Government: Andy Burnham (PM, July 2026), Louise Haigh (First Sec/Dep PM), John Healey (Chancellor), Wes Streeting (Defence), Yvette Cooper (Health), Shabana Mahmood (Home), Ed Miliband (Foreign), Bridget Phillipson (Education), Pat McFadden (Cabinet Office).
     2. Conservative Opposition: Kemi Badenoch (Leader), Mel Stride (Shadow Chancellor), Nick Timothy (Shadow Justice - Feb 2026), Victoria Atkins (Shadow Health), James Cartlidge (Shadow Defence), Priti Patel (Shadow Foreign), Chris Philp (Shadow Home), Andrew Griffith (Shadow Business), Kevin Hollinrake (Shadow Housing).
     3. Reform UK Shadow Cabinet: Nigel Farage (Leader), Richard Tice (Dep Leader), Robert Jenrick (Shadow Chancellor - defected/joined), Zia Yusuf (Shadow Home), Suella Braverman (Shadow Education - joined), Lee Anderson (Chief Whip), Rupert Lowe (spokesperson), James McMurdock (Economic spokesperson).
     4. Liberal Democrats Frontbench: Sir Ed Davey (Leader), Daisy Cooper (Dep Leader & Health), Helen Morgan (Shadow Chancellor/Treasury), Munira Wilson (Education), Tim Farron (Environment), Sarah Olney (Business), Layla Moran (Foreign), Christine Jardine (Home), Josh Babarinde (Housing), Calum Miller (Cabinet Office), Pippa Heylings (Energy).
-    5. Green Party (All 4 MPs): Carla Denyer (Co-Leader), Adrian Ramsay (Co-Leader), Ellie Chowns (Housing & Planning), Siân Berry (Transport & Climate).
+    5. Green Party Leadership & Frontbench (7 Members): Zack Polanski (Party Leader, elected Sept 2025), Carla Denyer (Parliamentary Leader & MP for Bristol Central), Adrian Ramsay (MP for Waveney Valley), Ellie Chowns (MP for North Herefordshire), Siân Berry (MP for Brighton Pavilion), Mothin Ali (Deputy Leader, Aug 2025), Rachel Millward (Deputy Leader, Aug 2025).
     6. SNP Frontbench: John Swinney (Party Leader & FM), Stephen Flynn (Westminster Leader), Kirsty Blackman (Economy & Social Justice), Dave Doogan (Foreign & Defence).
     7. Plaid Cymru Frontbench: Rhun ap Iorwerth (Leader), Liz Saville Roberts (Westminster Leader), Ben Lake (Treasury & Defence), Ann Davies (Environment & Rural Affairs), Llinos Medi (Health & Welfare).
     8. Restore Britain: Rupert Lowe (Co-Founder & Spokesperson), Ben Habib (Co-Founder & Spokesperson).
 
     GROUNDING & INTEGRITY RULES:
-    - Every member MUST have an appointedDate (e.g. 'July 2026', 'February 2026', 'July 2024') and portfolioStatus ('Active' | 'Reshuffled' | 'New Appointment').
+    - Every member MUST have an appointedDate (e.g. 'September 2025', 'July 2026', 'February 2026', 'July 2024') and portfolioStatus ('Active' | 'Reshuffled' | 'New Appointment').
     - Strictly ensure no MP appears in more than one party. (Robert Jenrick and Suella Braverman must appear ONLY in Reform UK).
-    - Return an exact JSON array of 52 CabinetMember objects matching:
+    - Return an exact JSON array of 55 CabinetMember objects matching:
       {
         "id": "person-slug-role",
         "partyId": "labour" | "conservative" | "reform" | "libdem" | "green" | "snp" | "plaid" | "restore",

@@ -17,10 +17,19 @@ import {
   Clock,
   ChevronDown,
   ChevronUp,
-  GraduationCap
+  GraduationCap,
+  RefreshCw
 } from 'lucide-react';
 import { SectionRefreshButton } from './SectionRefreshButton';
-import { CabinetChangeReport } from '../services/liveUpdater';
+import { CabinetChangeReport, fetchPersonIntelligence } from '../services/liveUpdater';
+
+interface BriefingItem {
+  summaryText: string;
+  timestamp: string;
+  source: string;
+}
+
+const BRIEFINGS_STORAGE_KEY = 'uk_politics_person_briefings_v2';
 
 interface CabinetExplorerProps {
   parties: Party[];
@@ -44,8 +53,99 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
   const [lastChangeReport, setLastChangeReport] = useState<CabinetChangeReport | null>(null);
   const [showReportDetails, setShowReportDetails] = useState(false);
 
+  // Gemini Person Intelligence Briefings
+  const [memberBriefings, setMemberBriefings] = useState<Record<string, BriefingItem>>(() => {
+    try {
+      const saved = localStorage.getItem(BRIEFINGS_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+  const [loadingMemberId, setLoadingMemberId] = useState<string | null>(null);
+  const [expandedBriefingId, setExpandedBriefingId] = useState<string | null>(null);
+  const [briefingError, setBriefingError] = useState<string | null>(null);
+
   const selectedParty = parties.find((p) => p.id === selectedPartyId) || parties[0];
   const partyLeaderRating = leaderRatings.find((l) => l.partyId === selectedPartyId);
+
+  const handleFetchBriefing = async (member: CabinetMember, forceRefresh: boolean = false) => {
+    if (expandedBriefingId === member.id && !forceRefresh) {
+      setExpandedBriefingId(null);
+      return;
+    }
+
+    if (memberBriefings[member.id] && !forceRefresh) {
+      setExpandedBriefingId(member.id);
+      return;
+    }
+
+    setLoadingMemberId(member.id);
+    setExpandedBriefingId(member.id);
+    setBriefingError(null);
+
+    try {
+      const result = await fetchPersonIntelligence(
+        member.name,
+        member.role,
+        selectedParty.name,
+        member.constituency
+      );
+
+      const updated = {
+        ...memberBriefings,
+        [member.id]: {
+          summaryText: result.summaryText,
+          timestamp: result.timestamp,
+          source: result.source,
+        },
+      };
+
+      setMemberBriefings(updated);
+      localStorage.setItem(BRIEFINGS_STORAGE_KEY, JSON.stringify(updated));
+    } catch (err: any) {
+      console.error('Failed to fetch person briefing:', err);
+      setBriefingError(`Could not generate intelligence dossier: ${err.message || 'Network error'}`);
+    } finally {
+      setLoadingMemberId(null);
+    }
+  };
+
+  const renderDossierContent = (text: string) => {
+    const lines = text.split('\n');
+    return lines.map((line, idx) => {
+      const trimmed = line.trim();
+      if (!trimmed) return <div key={idx} className="h-1.5" />;
+      if (trimmed.startsWith('###') || (trimmed.startsWith('**') && trimmed.endsWith('**'))) {
+        return (
+          <h5 key={idx} className="text-xs font-bold text-amber-300 mt-2 mb-1">
+            {trimmed.replace(/^#+\s*/, '').replace(/^\*\*|\*\*$/g, '')}
+          </h5>
+        );
+      }
+      if (trimmed.startsWith('* ') || trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
+        const bulletText = trimmed.replace(/^[\*\-•]\s*/, '');
+        return (
+          <div key={idx} className="flex items-start space-x-1.5 text-xs text-slate-200 pl-1">
+            <span className="text-rose-400 mt-0.5">•</span>
+            <span>{bulletText}</span>
+          </div>
+        );
+      }
+      if (trimmed.startsWith('>')) {
+        return (
+          <blockquote key={idx} className="border-l-2 border-indigo-400 pl-2.5 my-1.5 text-xs italic text-indigo-100/90 bg-white/5 py-1 rounded-r">
+            {trimmed.replace(/^>\s*/, '')}
+          </blockquote>
+        );
+      }
+      return (
+        <p key={idx} className="text-xs text-slate-300">
+          {trimmed}
+        </p>
+      );
+    });
+  };
 
   const filteredMembers = cabinetMembers.filter((m) => {
     const matchesParty = m.partyId === selectedPartyId;
@@ -374,15 +474,15 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
             </div>
             <div>
               <span className="font-bold text-emerald-900 block text-sm">
-                Green Party Parliamentary Frontbench (All 4 MPs)
+                Green Party Leadership & Parliamentary Team (7 Verified Figures)
               </span>
               <p className="text-emerald-700 mt-0.5">
-                Full 100% parliamentary coverage: Co-Leaders <strong>Carla Denyer</strong> (Bristol Central) & <strong>Adrian Ramsay</strong> (Waveney Valley), alongside <strong>Ellie Chowns</strong> (North Herefordshire - Economy & Food, July 2024) and <strong>Siân Berry</strong> (Brighton Pavilion - Transport & Housing, July 2024).
+                Full verified leadership roster: <strong>Zack Polanski</strong> (Party Leader, elected September 2025) and <strong>Carla Denyer</strong> (Parliamentary Leader & MP for Bristol Central), alongside <strong>Adrian Ramsay</strong> (MP for Waveney Valley), <strong>Ellie Chowns</strong> (MP for North Herefordshire), <strong>Siân Berry</strong> (MP for Brighton Pavilion), and Deputy Leaders <strong>Mothin Ali</strong> & <strong>Rachel Millward</strong> (elected August 2025).
               </p>
             </div>
           </div>
           <span className="shrink-0 font-bold bg-emerald-200/70 text-emerald-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            July 2024 Frontbench
+            September 2025 Leadership
           </span>
         </div>
       )}
@@ -436,6 +536,10 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           const isLeaderCard = member.isLeader;
           const leaderRating = isLeaderCard ? partyLeaderRating : null;
           const is2026 = member.appointedDate && member.appointedDate.includes('2026');
+          const briefing = memberBriefings[member.id];
+          const hasBriefing = Boolean(briefing);
+          const isExpanded = expandedBriefingId === member.id;
+          const isLoadingBriefing = loadingMemberId === member.id;
 
           return (
             <div
@@ -447,7 +551,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 style={{ backgroundColor: selectedParty.color }}
               />
 
-              <div className="pl-1">
+              <div className="pl-1 flex-1 flex flex-col">
                 {/* Header: Role and Icon */}
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded flex items-center space-x-1">
@@ -527,6 +631,96 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                   <p className="text-xs text-slate-800 font-medium italic">
                     "{member.keyStance}"
                   </p>
+                </div>
+
+                {/* Gemini Live Intelligence Dossier */}
+                <div className="mt-3.5 pt-3 border-t border-slate-100">
+                  <div className="flex items-center justify-between gap-1.5">
+                    <button
+                      onClick={() => handleFetchBriefing(member)}
+                      disabled={isLoadingBriefing}
+                      className={`flex-1 inline-flex items-center justify-center space-x-1.5 py-1.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs ${
+                        isExpanded
+                          ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-200'
+                          : hasBriefing
+                          ? 'bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200'
+                          : 'bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 hover:from-indigo-100 hover:via-purple-100 hover:to-pink-100 text-indigo-900 border border-indigo-200/90'
+                      }`}
+                      title={`Fetch live Gemini intelligence dossier on ${member.name}'s latest actions, statements, and policy stances`}
+                    >
+                      {isLoadingBriefing ? (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin text-indigo-600" />
+                          <span>Gemini Briefing...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className={`w-3.5 h-3.5 ${isExpanded ? 'text-amber-300' : 'text-indigo-600'}`} />
+                          <span>
+                            {hasBriefing 
+                              ? (isExpanded ? 'Hide Live Dossier' : '⚡ View Live Dossier') 
+                              : '⚡ Live Gemini Intelligence'}
+                          </span>
+                          {hasBriefing && (
+                            isExpanded ? <ChevronUp className="w-3.5 h-3.5 ml-0.5" /> : <ChevronDown className="w-3.5 h-3.5 ml-0.5" />
+                          )}
+                        </>
+                      )}
+                    </button>
+
+                    {hasBriefing && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleFetchBriefing(member, true);
+                        }}
+                        disabled={isLoadingBriefing}
+                        className="p-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border border-slate-200 transition-colors cursor-pointer"
+                        title="Re-query Gemini live for latest statements & actions"
+                      >
+                        <RefreshCw className={`w-3.5 h-3.5 ${isLoadingBriefing ? 'animate-spin' : ''}`} />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Expanded Dossier Box */}
+                  {isExpanded && briefing && (
+                    <div className="mt-2.5 rounded-xl bg-slate-900 text-slate-100 p-3.5 border border-slate-800 shadow-md animate-fade-in text-xs space-y-2.5">
+                      <div className="flex items-center justify-between border-b border-slate-800 pb-2 text-[11px] text-slate-400">
+                        <div className="flex items-center space-x-1.5">
+                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className="font-semibold text-slate-200">Gemini 3.8 Flash Dossier</span>
+                        </div>
+                        <span className="font-mono text-[10px] text-slate-400">
+                          {briefing.timestamp}
+                        </span>
+                      </div>
+
+                      <div className="space-y-1.5 max-h-64 overflow-y-auto pr-1 text-slate-200 leading-relaxed font-sans">
+                        {renderDossierContent(briefing.summaryText)}
+                      </div>
+
+                      <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-400">
+                        <span>Grounded in recent UK politics</span>
+                        <span className="font-mono text-indigo-400 font-semibold">{briefing.source}</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {briefingError && expandedBriefingId === member.id && (
+                    <div className="mt-2 p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-start space-x-2">
+                      <AlertCircle className="w-4 h-4 shrink-0 text-rose-600 mt-0.5" />
+                      <div className="flex-1">
+                        <p className="font-semibold">{briefingError}</p>
+                        <button
+                          onClick={() => handleFetchBriefing(member, true)}
+                          className="mt-1 font-bold text-rose-700 underline cursor-pointer"
+                        >
+                          Retry with Gemini
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
