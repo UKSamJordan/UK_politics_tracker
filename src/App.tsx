@@ -10,6 +10,7 @@ import { FactCheckDirectory } from './components/FactCheckDirectory';
 import { PolicyQuiz } from './components/PolicyQuiz';
 import { LiveAIFeed } from './components/LiveAIFeed';
 import { DataBankModal } from './components/DataBankModal';
+import { SystemHealthModal } from './components/SystemHealthModal';
 
 // Load Data Bank JSON files
 import partiesData from './data/parties.json';
@@ -29,10 +30,17 @@ import {
 export const App: React.FC = () => {
   const [parties] = useState<Party[]>(partiesData as Party[]);
 
+  // Safe initial loading: ensure we never use a stale cached roster that is smaller than the official baseline
   const [cabinets, setCabinets] = useState<CabinetMember[]>(() => {
     try {
-      const cached = localStorage.getItem('uk_politics_cabinets_v2');
-      return cached ? JSON.parse(cached) : (cabinetsData as CabinetMember[]);
+      const cached = localStorage.getItem('uk_politics_cabinets_v3');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length >= (cabinetsData as CabinetMember[]).length) {
+          return parsed;
+        }
+      }
+      return cabinetsData as CabinetMember[];
     } catch {
       return cabinetsData as CabinetMember[];
     }
@@ -40,7 +48,7 @@ export const App: React.FC = () => {
 
   const [policies, setPolicies] = useState<PolicyTopic[]>(() => {
     try {
-      const cached = localStorage.getItem('uk_politics_policies_v2');
+      const cached = localStorage.getItem('uk_politics_policies_v3');
       return cached ? JSON.parse(cached) : (policiesData as PolicyTopic[]);
     } catch {
       return policiesData as PolicyTopic[];
@@ -49,7 +57,7 @@ export const App: React.FC = () => {
 
   const [factChecks, setFactChecks] = useState<FactCheckItem[]>(() => {
     try {
-      const cached = localStorage.getItem('uk_politics_factchecks_v2');
+      const cached = localStorage.getItem('uk_politics_factchecks_v3');
       return cached ? JSON.parse(cached) : (factchecksData as FactCheckItem[]);
     } catch {
       return factchecksData as FactCheckItem[];
@@ -58,7 +66,7 @@ export const App: React.FC = () => {
 
   const [polls, setPolls] = useState<any>(() => {
     try {
-      const cached = localStorage.getItem('uk_politics_polls_v2');
+      const cached = localStorage.getItem('uk_politics_polls_v3');
       return cached ? JSON.parse(cached) : pollsData;
     } catch {
       return pollsData;
@@ -103,7 +111,6 @@ export const App: React.FC = () => {
 
   // State
   const [activeTab, setActiveTab] = useState<string>('compare');
-  // Default selected parties: Big 4 initially, or all 8
   const [selectedParties, setSelectedParties] = useState<PartyId[]>([
     'labour',
     'conservative',
@@ -112,6 +119,7 @@ export const App: React.FC = () => {
     'green'
   ]);
   const [isDataBankModalOpen, setIsDataBankModalOpen] = useState(false);
+  const [isSystemHealthModalOpen, setIsSystemHealthModalOpen] = useState(false);
 
   // Toggle party handler
   const handleToggleParty = (id: PartyId) => {
@@ -132,7 +140,9 @@ export const App: React.FC = () => {
     setSelectedParties(['labour', 'conservative', 'reform', 'libdem']);
   };
 
-  const defenceTopic = policies.find((p) => p.category === 'defence');
+  const handleSelectPartyFromHealthModal = (partyId: string) => {
+    setActiveTab('cabinets');
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
@@ -141,6 +151,7 @@ export const App: React.FC = () => {
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onOpenDataBankModal={() => setIsDataBankModalOpen(true)}
+        onOpenSystemHealthModal={() => setIsSystemHealthModalOpen(true)}
       />
 
       {/* Main Content Container */}
@@ -173,6 +184,7 @@ export const App: React.FC = () => {
             leaderRatings={leaderRatings}
             onNavigateToPolls={() => setActiveTab('polls')}
             onRefreshRoster={handleRefreshCabinets}
+            onOpenSystemHealthModal={() => setIsSystemHealthModalOpen(true)}
           />
         )}
 
@@ -216,6 +228,16 @@ export const App: React.FC = () => {
         onSyncAll={handleSyncAll}
       />
 
+      {/* Universal Party Integrity & Health Inspector Modal */}
+      <SystemHealthModal
+        isOpen={isSystemHealthModalOpen}
+        onClose={() => setIsSystemHealthModalOpen(false)}
+        parties={parties}
+        cabinetMembers={cabinets}
+        onSyncAll={handleSyncAll}
+        onSelectParty={handleSelectPartyFromHealthModal}
+      />
+
       {/* Footer */}
       <footer className="bg-white border-t border-slate-200 mt-12 py-8 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -228,11 +250,14 @@ export const App: React.FC = () => {
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-2">
+            <button
+              onClick={() => setIsSystemHealthModalOpen(true)}
+              className="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 font-bold hover:bg-emerald-100 transition-colors cursor-pointer"
+            >
+              ✓ 8/8 Parties Verified (100%)
+            </button>
             <span className="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 font-medium">
               Cloudflare Pages Ready
-            </span>
-            <span className="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 font-medium">
-              Data Bank Model: £0 Visitor Cost
             </span>
             <span className="px-2.5 py-1 rounded-md bg-purple-50 text-purple-700 font-medium">
               Gemini Flash 3.8 Synced

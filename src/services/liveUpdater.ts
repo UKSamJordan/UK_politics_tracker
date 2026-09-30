@@ -1,5 +1,5 @@
 /**
- * UK Politics Comparator - Live Update Engine
+ * UK Politics Comparator - Live Update Engine (v3)
  * ----------------------------------------------------
  * Performs real network requests to keep political rosters, polling,
  * and policy matrices up to date:
@@ -7,16 +7,16 @@
  * 1. Cache-busting HTTP fetch from the live CDN (/data/*.json?t=...)
  * 2. Optional direct in-browser query to Gemini 3.8 Flash if an API key is stored,
  *    allowing live verification and automated discovery of reshuffles or new polls.
- * 3. Persists fresh records in browser localStorage so the app remains up to date.
+ * 3. Persists fresh records in browser localStorage (v3) so the app remains up to date.
  */
 
 import { CabinetMember, PolicyTopic, FactCheckItem } from '../types/politics';
 
 const STORAGE_KEYS = {
-  CABINETS: 'uk_politics_cabinets_v2',
-  POLICIES: 'uk_politics_policies_v2',
-  POLLS: 'uk_politics_polls_v2',
-  FACTCHECKS: 'uk_politics_factchecks_v2',
+  CABINETS: 'uk_politics_cabinets_v3',
+  POLICIES: 'uk_politics_policies_v3',
+  POLLS: 'uk_politics_polls_v3',
+  FACTCHECKS: 'uk_politics_factchecks_v3',
   API_KEY: 'uk_politics_gemini_api_key',
 };
 
@@ -106,7 +106,11 @@ Check the current official UK Cabinet and Opposition Frontbench rosters as of Se
 Verify:
 1. His Majesty's Government under Prime Minister Andy Burnham (who succeeded Keir Starmer in July 2026), including Louise Haigh (First Sec), John Healey (Chancellor), Wes Streeting (Defence), Yvette Cooper (Health), Shabana Mahmood (Home), Ed Miliband (Foreign).
 2. Reform UK's official Shadow Cabinet formed by Nigel Farage in February 2026 (including Richard Tice, Robert Jenrick as Shadow Chancellor, Zia Yusuf as Shadow Home Sec, Suella Braverman as Shadow Education, Lee Anderson as Chief Whip).
-3. The Conservative Official Opposition under Kemi Badenoch.
+3. The Conservative Official Opposition under Kemi Badenoch (Shadow Chancellor Mel Stride, Shadow Justice Nick Timothy, Shadow Health Victoria Atkins).
+4. Liberal Democrats frontbench (Ed Davey, Daisy Cooper, Helen Morgan, Munira Wilson, Tim Farron, etc.).
+5. Green Party all 4 MPs (Denyer, Ramsay, Chowns, Berry).
+6. SNP frontbench (Swinney, Flynn, Blackman, Doogan).
+7. Plaid Cymru frontbench (ap Iorwerth, Saville Roberts, Lake, Davies, Medi).
 
 Return an updated JSON array of CabinetMember objects matching this TypeScript interface:
 Array<{

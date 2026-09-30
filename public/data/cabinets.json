@@ -81,7 +81,6 @@
     "bio": "Grassroots leader spearheading regional housing delivery, workers' rights legislation, and devolution to metro mayors.",
     "keyStance": "Building 1.5M new homes, ending Section 21 no-fault evictions, local planning reform, and empowering regional mayors."
   },
-
   {
     "id": "con-1",
     "partyId": "conservative",
@@ -131,11 +130,11 @@
   {
     "id": "con-6",
     "partyId": "conservative",
-    "name": "Robert Jenrick",
+    "name": "Nick Timothy",
     "role": "Shadow Secretary of State for Justice",
-    "constituency": "Newark",
-    "bio": "Leadership runner-up and former Immigration Minister, vocal advocate for leaving the ECHR and tough justice sentencing.",
-    "keyStance": "Leave the European Convention on Human Rights (ECHR) to expedite foreign criminal deportations, expand prison capacity."
+    "constituency": "West Suffolk",
+    "bio": "Former Downing Street Chief of Staff and prominent policy architect appointed Shadow Justice Secretary by Kemi Badenoch, succeeding Robert Jenrick following the latter's defection.",
+    "keyStance": "Defending British judicial sovereignty, reforming legal aid bureaucracy, strengthening criminal sentencing guidelines, and expanding custodial capacity."
   },
   {
     "id": "con-7",
@@ -146,7 +145,24 @@
     "bio": "Former Energy Secretary, leading the Conservative critique of Great British Energy and green levies on household bills.",
     "keyStance": "Annual North Sea oil and gas licensing, Small Modular Nuclear Reactors (SMRs), oppose rapid green mandates that inflate domestic bills."
   },
-
+  {
+    "id": "con-8",
+    "partyId": "conservative",
+    "name": "Victoria Atkins",
+    "role": "Shadow Secretary of State for Health and Social Care",
+    "constituency": "Louth and Horncastle",
+    "bio": "Former Secretary of State for Health and Financial Secretary to the Treasury, leading the opposition's scrutiny of NHS productivity and hospital modernization.",
+    "keyStance": "Demanding operational NHS productivity audits, opposing unfunded public sector union pay awards, and expanding community pharmacy services."
+  },
+  {
+    "id": "con-9",
+    "partyId": "conservative",
+    "name": "Laura Trott",
+    "role": "Shadow Secretary of State for Education",
+    "constituency": "Sevenoaks",
+    "bio": "Former Chief Secretary to the Treasury and Pensions Minister, spearheading scrutiny of school standards, apprenticeship funding, and university finance.",
+    "keyStance": "Protecting rigorous academic standards, opposing VAT on independent school fees, and redirecting underperforming degree funds to technical colleges."
+  },
   {
     "id": "ref-1",
     "partyId": "reform",
@@ -220,7 +236,6 @@
     "bio": "Businessman and former football club chairman campaigning against Whitehall red tape and the regulatory burden on British farming and fishing.",
     "keyStance": "Cutting Whitehall administrative staffing by 50%, full protection for agricultural inheritance reliefs, and restoring British coastal fishing rights."
   },
-
   {
     "id": "ld-1",
     "partyId": "libdem",
@@ -321,7 +336,6 @@
     "bio": "Former police officer and long-serving parliamentary leader managing party discipline and parliamentary procedure.",
     "keyStance": "Strict parliamentary standards, banning MP second jobs, electoral reform via proportional representation, and stronger Scottish devolution."
   },
-
   {
     "id": "grn-1",
     "partyId": "green",
@@ -339,10 +353,27 @@
     "role": "Co-Leader & MP",
     "isLeader": true,
     "constituency": "Waveney Valley",
-    "bio": "Environmental strategist and co-leader elected MP for rural Waveney Valley.",
-    "keyStance": "Protect British biodiversity, nationalise water and railway utilities, halt all new oil and gas exploration."
+    "bio": "Environmental strategist and co-leader elected MP for rural Waveney Valley, focusing on rural public transport, nature conservation, and river protections.",
+    "keyStance": "Protect British biodiversity, nationalise water and railway utilities, halt all new oil and gas exploration, and expand rural transit."
   },
-
+  {
+    "id": "grn-3",
+    "partyId": "green",
+    "name": "Ellie Chowns",
+    "role": "Parliamentary Spokesperson for Economy, Food & Agriculture",
+    "constituency": "North Herefordshire",
+    "bio": "Former MEP and international development lecturer elected MP for North Herefordshire in 2024, leading Green parliamentary scrutiny on trade, farm subsidies, and rural river health.",
+    "keyStance": "Transform agricultural subsidies to reward nature-friendly regenerative farming, curb river phosphate pollution, and implement progressive ecological tax reform."
+  },
+  {
+    "id": "grn-4",
+    "partyId": "green",
+    "name": "Siân Berry",
+    "role": "Parliamentary Spokesperson for Transport, Housing & Democracy",
+    "constituency": "Brighton Pavilion",
+    "bio": "Former London Assembly Member and veteran green campaigner elected MP for Brighton Pavilion, succeeding Caroline Lucas in 2024.",
+    "keyStance": "Universal rent controls, major council home building programmes, public ownership of buses and railways, and lowering voting age to 16 with proportional representation."
+  },
   {
     "id": "snp-1",
     "partyId": "snp",
@@ -359,10 +390,27 @@
     "name": "Stephen Flynn",
     "role": "Westminster Parliamentary Group Leader & MP",
     "constituency": "Aberdeen South",
-    "bio": "Leading SNP parliamentarian driving parliamentary scrutiny of energy transition and Scottish budget consequentials.",
+    "bio": "Leading SNP parliamentarian driving parliamentary scrutiny of energy transition, Scottish budget consequentials, and cost of living.",
     "keyStance": "Just transition for North Sea energy workers without cliff-edges, demand full devolution of employment and migration powers."
   },
-
+  {
+    "id": "snp-3",
+    "partyId": "snp",
+    "name": "Kirsty Blackman",
+    "role": "Westminster Spokesperson for Work, Pensions & Cabinet Office",
+    "constituency": "Aberdeen North",
+    "bio": "Experienced Westminster frontbencher holding the UK government to account on welfare reform, pensions indexation, and civil service oversight.",
+    "keyStance": "Defend the pensions triple lock, repeal punitive universal credit sanctions, and protect disability welfare entitlements from arbitrary cuts."
+  },
+  {
+    "id": "snp-4",
+    "partyId": "snp",
+    "name": "Dave Doogan",
+    "role": "Westminster Spokesperson for Foreign Affairs, Defence & Trade",
+    "constituency": "Angus and Perthshire Glens",
+    "bio": "Prominent defence and foreign policy spokesperson championing international humanitarian law, Scottish export industries, and armed forces accommodation standards.",
+    "keyStance": "Re-entry into European single market arrangements, opposing overseas military escalation without parliamentary votes, and safeguarding Scottish Scotch and food exports."
+  },
   {
     "id": "pc-1",
     "partyId": "plaid",
@@ -379,10 +427,36 @@
     "name": "Liz Saville Roberts",
     "role": "Westminster Group Leader & MP",
     "constituency": "Dwyfor Meirionnydd",
-    "bio": "Privy Councillor and Westminster leader campaigning for judicial devolution and equal treatment of Wales.",
-    "keyStance": "Devolution of policing and criminal justice to Wales, renewable wealth retention for Welsh communities."
+    "bio": "Privy Councillor and Westminster leader campaigning for judicial devolution and equal constitutional status for Wales.",
+    "keyStance": "Devolution of policing and criminal justice to Wales, renewable energy wealth retention for Welsh communities, and constitutional fairness."
   },
-
+  {
+    "id": "pc-3",
+    "partyId": "plaid",
+    "name": "Ben Lake",
+    "role": "Westminster Spokesperson for Treasury, Energy & Rural Affairs",
+    "constituency": "Ceredigion Preseli",
+    "bio": "Respected parliamentary orator and committee member leading Plaid Cymru's financial and agricultural policy in Westminster.",
+    "keyStance": "Fair agricultural funding guaranteed post-Brexit, targeted energy bill support for off-gas grid rural households, and reforming UK fiscal rules."
+  },
+  {
+    "id": "pc-4",
+    "partyId": "plaid",
+    "name": "Ann Davies",
+    "role": "Westminster Spokesperson for Environment, Food & Farming",
+    "constituency": "Caerfyrddin",
+    "bio": "Farmer and local government leader elected MP for Caerfyrddin in 2024, championing family farming communities and Welsh agricultural produce.",
+    "keyStance": "Protecting family farm inheritance reliefs, imposing strict origin labelling on supermarket meat and dairy, and securing clean river standards."
+  },
+  {
+    "id": "pc-5",
+    "partyId": "plaid",
+    "name": "Llinos Medi",
+    "role": "Westminster Spokesperson for Health, Social Care & Communities",
+    "constituency": "Ynys Môn",
+    "bio": "Former Council Leader elected MP for Ynys Môn in 2024, focusing on rural health inequalities, community regeneration, and youth retention in Welsh heartlands.",
+    "keyStance": "Targeted funding to recruit rural NHS specialists, community housing trusts for local families, and expanding Welsh language educational provision."
+  },
   {
     "id": "res-1",
     "partyId": "restore",
@@ -392,5 +466,14 @@
     "constituency": "National",
     "bio": "Civic assembly representing traditionalist British restoration, civil liberties, and free-market constitutionalism.",
     "keyStance": "Abolish Net Zero statutes, repeal legislation eroding free speech, constitutional referendums, national industrial revival."
+  },
+  {
+    "id": "res-2",
+    "partyId": "restore",
+    "name": "Rupert Lowe (Grassroots Movement Patron)",
+    "role": "Campaign Patron & Enterprise Advocate",
+    "constituency": "Great Yarmouth",
+    "bio": "Independent-minded enterprise advocate campaigning across civic forums for constitutional reform, British sovereign fishing, and deregulation.",
+    "keyStance": "Radical Whitehall downsizing, dismantling regulatory quangos, repealing onerous Net Zero mandates, and defending family businesses."
   }
 ]

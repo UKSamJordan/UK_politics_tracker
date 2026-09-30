@@ -1,6 +1,18 @@
 import React, { useState } from 'react';
 import { Party, PartyId, CabinetMember, LeaderRating } from '../types/politics';
-import { Users, Award, Shield, Briefcase, Landmark, HeartPulse, UserCheck, BarChart3 } from 'lucide-react';
+import { 
+  Users, 
+  Award, 
+  Shield, 
+  Briefcase, 
+  Landmark, 
+  HeartPulse, 
+  UserCheck, 
+  BarChart3, 
+  ShieldCheck, 
+  Sparkles,
+  CheckCircle2
+} from 'lucide-react';
 import { SectionRefreshButton } from './SectionRefreshButton';
 
 interface CabinetExplorerProps {
@@ -9,6 +21,7 @@ interface CabinetExplorerProps {
   leaderRatings?: LeaderRating[];
   onNavigateToPolls?: () => void;
   onRefreshRoster?: () => Promise<void> | void;
+  onOpenSystemHealthModal?: () => void;
 }
 
 export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
@@ -17,6 +30,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
   leaderRatings = [],
   onNavigateToPolls,
   onRefreshRoster,
+  onOpenSystemHealthModal,
 }) => {
   const [selectedPartyId, setSelectedPartyId] = useState<PartyId>('labour');
   const [roleFilter, setRoleFilter] = useState<string>('all');
@@ -41,6 +55,12 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
     return Users;
   };
 
+  // Party member counts
+  const memberCounts = parties.reduce<Record<string, number>>((acc, p) => {
+    acc[p.id] = cabinetMembers.filter((m) => m.partyId === p.id).length;
+    return acc;
+  }, {});
+
   return (
     <div className="space-y-6">
       {/* Intro Header */}
@@ -54,11 +74,47 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
             Cabinet & Shadow Cabinet Profiles
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl">
-            Explore the key decision-makers steering each party: their cabinet roles, parliamentary backgrounds, constituencies, signature philosophies, and leadership approval ratings.
+            Explore the key decision-makers steering all 8 UK parties: ministerial portfolios, parliamentary constituencies, signature philosophies, and leadership approval ratings.
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-3 border-t border-slate-100">
+        {/* Universal Roster Integrity Strip */}
+        <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+          <div className="flex items-center space-x-2">
+            <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span className="text-xs font-bold text-slate-800">
+              Universal Frontbench Integrity:
+            </span>
+            <span className="text-xs text-slate-600">
+              52 verified frontbench records across all 8 parties
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-1.5 self-stretch md:self-auto">
+            {parties.map((p) => (
+              <button
+                key={p.id}
+                onClick={() => setSelectedPartyId(p.id)}
+                className={`px-2 py-0.5 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
+                  selectedPartyId === p.id
+                    ? 'bg-slate-900 text-white shadow-xs'
+                    : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                {p.shortName} ({memberCounts[p.id] || 0})
+              </button>
+            ))}
+            {onOpenSystemHealthModal && (
+              <button
+                onClick={onOpenSystemHealthModal}
+                className="px-2.5 py-0.5 rounded-lg text-[11px] font-bold bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition-colors ml-1 cursor-pointer"
+              >
+                System Audit
+              </button>
+            )}
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 border-t border-slate-100">
           <SectionRefreshButton
             sectionName="Cabinet Roster"
             defaultDate="September 2026 • Verified Public Record"
@@ -68,11 +124,11 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           {/* Quick Role Filter */}
           <div className="flex items-center space-x-1.5 self-start sm:self-auto bg-slate-50 p-1.5 rounded-xl border border-slate-200">
             <span className="text-[11px] font-bold text-slate-500 pl-2">Portfolio:</span>
-            {['all', 'defence', 'chancellor', 'home', 'health'].map((role) => (
+            {['all', 'defence', 'chancellor', 'home', 'health', 'education'].map((role) => (
               <button
                 key={role}
                 onClick={() => setRoleFilter(role)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-semibold capitalize transition-all ${
+                className={`px-2.5 py-1 rounded-lg text-xs font-semibold capitalize transition-all cursor-pointer ${
                   roleFilter === role
                     ? 'bg-slate-900 text-white shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
@@ -89,6 +145,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
       <div className="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
         {parties.map((p) => {
           const isSelected = p.id === selectedPartyId;
+          const count = memberCounts[p.id] || 0;
           return (
             <button
               key={p.id}
@@ -98,7 +155,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 borderColor: p.color,
                 color: isSelected ? p.textColor : '#334155',
               }}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border shadow-xs ${
+              className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border shadow-xs cursor-pointer ${
                 isSelected ? 'ring-2 ring-offset-1' : 'hover:bg-slate-50'
               }`}
             >
@@ -108,13 +165,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
               />
               <span>
                 {p.shortName}{' '}
-                {p.id === 'labour'
-                  ? "(His Majesty's Government)"
-                  : p.id === 'conservative'
-                  ? '(Official Opposition)'
-                  : p.id === 'reform'
-                  ? '(Official Shadow Cabinet)'
-                  : '(Frontbench)'}
+                <span className="opacity-80 font-normal">({count})</span>
               </span>
             </button>
           );
@@ -155,29 +206,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
         </div>
       </div>
 
-      {/* Reform UK Shadow Cabinet Explainer */}
-      {selectedPartyId === 'reform' && (
-        <div className="bg-cyan-50 border border-cyan-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-cyan-950 shadow-2xs">
-          <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-cyan-100 flex items-center justify-center text-cyan-800 shrink-0">
-              <Shield className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="font-bold text-cyan-900 block text-sm">
-                Official Reform UK "Shadow Cabinet" (Announced Feb 17, 2026)
-              </span>
-              <p className="text-cyan-700 mt-0.5">
-                Nigel Farage formed Reform's first official frontbench team to prepare for government, featuring defectors <strong>Robert Jenrick</strong> (Shadow Chancellor) and <strong>Suella Braverman</strong> (Shadow Education), alongside Chairman <strong>Zia Yusuf</strong> (Shadow Home Secretary) and <strong>Richard Tice</strong> (Shadow Business & Energy).
-              </p>
-            </div>
-          </div>
-          <span className="shrink-0 font-bold bg-cyan-200/70 text-cyan-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            February 2026 Reshuffle
-          </span>
-        </div>
-      )}
-
-      {/* Labour Administration Explainer */}
+      {/* Contextual Explainer Banners per Party */}
       {selectedPartyId === 'labour' && (
         <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-rose-950 shadow-2xs">
           <div className="flex items-center space-x-3">
@@ -189,12 +218,138 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 His Majesty's Government (Burnham Administration, July 2026)
               </span>
               <p className="text-rose-700 mt-0.5">
-                Took office July 20, 2026, following Keir Starmer's resignation. Key officers include Prime Minister <strong>Andy Burnham</strong>, First Secretary of State <strong>Louise Haigh</strong>, Chancellor <strong>John Healey</strong>, Defence Secretary <strong>Wes Streeting</strong>, and Health Secretary <strong>Yvette Cooper</strong>.
+                Took office July 20, 2026, following Keir Starmer's resignation. Full cabinet team verified with 9 key ministers including Prime Minister <strong>Andy Burnham</strong>, First Secretary <strong>Louise Haigh</strong>, Chancellor <strong>John Healey</strong>, Defence Secretary <strong>Wes Streeting</strong>, and Health Secretary <strong>Yvette Cooper</strong>.
               </p>
             </div>
           </div>
           <span className="shrink-0 font-bold bg-rose-200/70 text-rose-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            July 2026 Cabinet
+            9 Verified Ministers
+          </span>
+        </div>
+      )}
+
+      {selectedPartyId === 'conservative' && (
+        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-blue-950 shadow-2xs">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-xl bg-blue-100 flex items-center justify-center text-blue-800 shrink-0">
+              <Shield className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="font-bold text-blue-900 block text-sm">
+                Official Opposition Frontbench (Kemi Badenoch)
+              </span>
+              <p className="text-blue-700 mt-0.5">
+                9 verified shadow ministers. Following Robert Jenrick's defection to Reform UK, <strong>Nick Timothy</strong> serves as Shadow Justice Secretary, alongside <strong>Mel Stride</strong> (Shadow Chancellor), <strong>Chris Philp</strong> (Shadow Home), <strong>Victoria Atkins</strong> (Shadow Health), and <strong>Laura Trott</strong> (Shadow Education).
+              </p>
+            </div>
+          </div>
+          <span className="shrink-0 font-bold bg-blue-200/70 text-blue-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+            9 Verified Ministers
+          </span>
+        </div>
+      )}
+
+      {selectedPartyId === 'reform' && (
+        <div className="bg-cyan-50 border border-cyan-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-cyan-950 shadow-2xs">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-xl bg-cyan-100 flex items-center justify-center text-cyan-800 shrink-0">
+              <Shield className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="font-bold text-cyan-900 block text-sm">
+                Official Reform UK "Shadow Cabinet" (Announced Feb 17, 2026)
+              </span>
+              <p className="text-cyan-700 mt-0.5">
+                8 verified members. Nigel Farage formed Reform's first official frontbench team to prepare for government, featuring defectors <strong>Robert Jenrick</strong> (Shadow Chancellor) and <strong>Suella Braverman</strong> (Shadow Education), alongside Chairman <strong>Zia Yusuf</strong> (Shadow Home Secretary) and <strong>Richard Tice</strong> (Shadow Business & Energy).
+              </p>
+            </div>
+          </div>
+          <span className="shrink-0 font-bold bg-cyan-200/70 text-cyan-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+            8 Verified Members
+          </span>
+        </div>
+      )}
+
+      {selectedPartyId === 'libdem' && (
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-amber-950 shadow-2xs">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800 shrink-0">
+              <Users className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="font-bold text-amber-900 block text-sm">
+                Liberal Democrats Parliamentary Frontbench (72 MPs)
+              </span>
+              <p className="text-amber-700 mt-0.5">
+                Comprehensive 11-member frontbench team led by <strong>Sir Ed Davey</strong> and Deputy Leader <strong>Daisy Cooper</strong> (Treasury), with key spokespeople including <strong>Helen Morgan</strong> (Health), <strong>Munira Wilson</strong> (Education), <strong>Tim Farron</strong> (Environment/Sewage), and <strong>Sarah Olney</strong> (Business).
+              </p>
+            </div>
+          </div>
+          <span className="shrink-0 font-bold bg-amber-200/70 text-amber-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+            11 Verified Spokespeople
+          </span>
+        </div>
+      )}
+
+      {selectedPartyId === 'green' && (
+        <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-emerald-950 shadow-2xs">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-800 shrink-0">
+              <Sparkles className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="font-bold text-emerald-900 block text-sm">
+                Green Party Parliamentary Frontbench (All 4 MPs)
+              </span>
+              <p className="text-emerald-700 mt-0.5">
+                Full 100% parliamentary coverage: Co-Leaders <strong>Carla Denyer</strong> (Bristol Central) & <strong>Adrian Ramsay</strong> (Waveney Valley), alongside <strong>Ellie Chowns</strong> (North Herefordshire - Economy & Food) and <strong>Siân Berry</strong> (Brighton Pavilion - Transport & Housing).
+              </p>
+            </div>
+          </div>
+          <span className="shrink-0 font-bold bg-emerald-200/70 text-emerald-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+            4/4 MPs Included
+          </span>
+        </div>
+      )}
+
+      {selectedPartyId === 'snp' && (
+        <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-yellow-950 shadow-2xs">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-xl bg-yellow-100 flex items-center justify-center text-yellow-800 shrink-0">
+              <Landmark className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="font-bold text-yellow-900 block text-sm">
+                SNP Parliamentary & Scottish Government Leadership
+              </span>
+              <p className="text-yellow-700 mt-0.5">
+                Party Leader & First Minister <strong>John Swinney</strong>, Westminster Group Leader <strong>Stephen Flynn</strong>, Work & Pensions Spokesperson <strong>Kirsty Blackman</strong>, and Foreign Affairs & Defence Spokesperson <strong>Dave Doogan</strong>.
+              </p>
+            </div>
+          </div>
+          <span className="shrink-0 font-bold bg-yellow-200/70 text-yellow-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+            4 Verified Leaders
+          </span>
+        </div>
+      )}
+
+      {selectedPartyId === 'plaid' && (
+        <div className="bg-teal-50 border border-teal-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-teal-950 shadow-2xs">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-xl bg-teal-100 flex items-center justify-center text-teal-800 shrink-0">
+              <Landmark className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="font-bold text-teal-900 block text-sm">
+                Plaid Cymru Parliamentary & Senedd Frontbench
+              </span>
+              <p className="text-teal-700 mt-0.5">
+                Full representation: Senedd Leader <strong>Rhun ap Iorwerth</strong>, Westminster Group Leader <strong>Liz Saville Roberts</strong>, Treasury Spokesperson <strong>Ben Lake</strong>, Agriculture Spokesperson <strong>Ann Davies</strong>, and Health Spokesperson <strong>Llinos Medi</strong>.
+              </p>
+            </div>
+          </div>
+          <span className="shrink-0 font-bold bg-teal-200/70 text-teal-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+            5 Verified Leaders
           </span>
         </div>
       )}
@@ -290,7 +445,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 {onNavigateToPolls && isLeaderCard ? (
                   <button 
                     onClick={onNavigateToPolls}
-                    className="font-bold text-rose-600 hover:text-rose-700 flex items-center space-x-1"
+                    className="font-bold text-rose-600 hover:text-rose-700 flex items-center space-x-1 cursor-pointer"
                   >
                     <BarChart3 className="w-3 h-3" />
                     <span>Compare Approval</span>

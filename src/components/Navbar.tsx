@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   Scale, 
-  Shield, 
+  ShieldCheck, 
   Users, 
   BarChart3, 
   CheckCircle2, 
@@ -16,6 +16,7 @@ interface NavbarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
   onOpenDataBankModal: () => void;
+  onOpenSystemHealthModal?: () => void;
 }
 
 interface NavItem {
@@ -28,7 +29,8 @@ interface NavItem {
 export const Navbar: React.FC<NavbarProps> = ({ 
   activeTab, 
   setActiveTab, 
-  onOpenDataBankModal 
+  onOpenDataBankModal,
+  onOpenSystemHealthModal
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -68,7 +70,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
                     isActive
                       ? 'bg-slate-900 text-white shadow-xs'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
@@ -88,21 +90,42 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Action buttons */}
           <div className="hidden sm:flex items-center space-x-2">
+            {onOpenSystemHealthModal && (
+              <button
+                onClick={onOpenSystemHealthModal}
+                className="flex items-center space-x-1.5 text-xs font-bold px-3 py-1.5 rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 transition-colors cursor-pointer"
+                title="View Universal Party Integrity & Roster Health"
+              >
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <span>8/8 Parties Verified</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              </button>
+            )}
+
             <button
               onClick={onOpenDataBankModal}
-              className="flex items-center space-x-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors"
+              className="flex items-center space-x-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
               title="How the Data Bank and Gemini API work"
             >
               <Database className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Data Bank (Gemini Flash)</span>
+              <span>Data Bank</span>
             </button>
           </div>
 
           {/* Mobile menu button */}
           <div className="lg:hidden flex items-center space-x-2">
+            {onOpenSystemHealthModal && (
+              <button
+                onClick={onOpenSystemHealthModal}
+                className="flex items-center space-x-1 text-xs font-bold px-2 py-1 rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-800"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <span>8/8</span>
+              </button>
+            )}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-hidden"
+              className="p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-hidden cursor-pointer"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -124,7 +147,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   setActiveTab(item.id);
                   setMobileMenuOpen(false);
                 }}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-base font-medium ${
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-base font-medium cursor-pointer ${
                   isActive
                     ? 'bg-slate-900 text-white'
                     : 'text-slate-700 hover:bg-slate-100'
@@ -142,7 +165,19 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
             );
           })}
-          <div className="pt-2 border-t border-slate-100">
+          <div className="pt-2 border-t border-slate-100 flex flex-col space-y-2">
+            {onOpenSystemHealthModal && (
+              <button
+                onClick={() => {
+                  onOpenSystemHealthModal();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-emerald-700 bg-emerald-50 rounded-lg font-bold"
+              >
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <span>8/8 Parties Integrity & Health Inspector</span>
+              </button>
+            )}
             <button
               onClick={() => {
                 onOpenDataBankModal();

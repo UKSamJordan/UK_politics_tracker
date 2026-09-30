@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "audit": "python3 scripts/verify_and_sync_all_parties.py",
+    "build": "python3 scripts/verify_and_sync_all_parties.py && tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
