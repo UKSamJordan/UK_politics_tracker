@@ -101,7 +101,14 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 style={{ backgroundColor: isSelected ? p.textColor : p.color }}
               />
               <span>
-                {p.shortName} {p.id === 'labour' ? '(His Majesty\'s Government)' : '(Opposition / Leadership)'}
+                {p.shortName}{' '}
+                {p.id === 'labour'
+                  ? "(His Majesty's Government)"
+                  : p.id === 'conservative'
+                  ? '(Official Opposition)'
+                  : p.id === 'reform'
+                  ? '(Official Shadow Cabinet)'
+                  : '(Frontbench)'}
               </span>
             </button>
           );
@@ -141,6 +148,50 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Reform UK Shadow Cabinet Explainer */}
+      {selectedPartyId === 'reform' && (
+        <div className="bg-cyan-50 border border-cyan-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-cyan-950 shadow-2xs">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-xl bg-cyan-100 flex items-center justify-center text-cyan-800 shrink-0">
+              <Shield className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="font-bold text-cyan-900 block text-sm">
+                Official Reform UK "Shadow Cabinet" (Announced Feb 17, 2026)
+              </span>
+              <p className="text-cyan-700 mt-0.5">
+                Nigel Farage formed Reform's first official frontbench team to prepare for government, featuring defectors <strong>Robert Jenrick</strong> (Shadow Chancellor) and <strong>Suella Braverman</strong> (Shadow Education), alongside Chairman <strong>Zia Yusuf</strong> (Shadow Home Secretary) and <strong>Richard Tice</strong> (Shadow Business & Energy).
+              </p>
+            </div>
+          </div>
+          <span className="shrink-0 font-bold bg-cyan-200/70 text-cyan-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+            February 2026 Reshuffle
+          </span>
+        </div>
+      )}
+
+      {/* Labour Administration Explainer */}
+      {selectedPartyId === 'labour' && (
+        <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-rose-950 shadow-2xs">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-xl bg-rose-100 flex items-center justify-center text-rose-800 shrink-0">
+              <Landmark className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="font-bold text-rose-900 block text-sm">
+                His Majesty's Government (Burnham Administration, July 2026)
+              </span>
+              <p className="text-rose-700 mt-0.5">
+                Took office July 20, 2026, following Keir Starmer's resignation. Key officers include Prime Minister <strong>Andy Burnham</strong>, First Secretary of State <strong>Louise Haigh</strong>, Chancellor <strong>John Healey</strong>, Defence Secretary <strong>Wes Streeting</strong>, and Health Secretary <strong>Yvette Cooper</strong>.
+              </p>
+            </div>
+          </div>
+          <span className="shrink-0 font-bold bg-rose-200/70 text-rose-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+            July 2026 Cabinet
+          </span>
+        </div>
+      )}
 
       {/* Grid of Ministers / Spokespeople */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

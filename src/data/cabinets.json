@@ -154,35 +154,71 @@
     "role": "Party Leader & MP",
     "isLeader": true,
     "constituency": "Clacton",
-    "bio": "Brexit architect, broadcaster, and Reform UK leader elected to Parliament in 2024, spearheading populist challenge to traditional parties.",
-    "keyStance": "Freeze non-essential immigration, leave ECHR, raise income tax threshold to £20,000, scrap Net Zero targets, independent patient healthcare choice."
+    "bio": "Leader of Reform UK and MP for Clacton, who unveiled the party's first official 'Shadow Cabinet' team in February 2026 to signal readiness for government.",
+    "keyStance": "Freeze non-essential immigration, leave the ECHR, raise personal income tax allowance to £20,000, scrap Net Zero subsidies, and introduce private-public healthcare competition."
   },
   {
     "id": "ref-2",
     "partyId": "reform",
     "name": "Richard Tice",
-    "role": "Deputy Leader & MP",
+    "role": "Deputy Leader & Shadow Secretary of State for Business, Trade and Energy",
     "constituency": "Boston and Skegness",
-    "bio": "Businessman and property entrepreneur serving as Reform UK's deputy leader and economic spokesperson.",
-    "keyStance": "Cut corporation tax to 15%, lift employer National Insurance thresholds, unleash UK shale and North Sea gas, abolish IR35."
+    "bio": "Deputy Leader appointed to the Business, Trade and Energy brief in February 2026, leading deregulation and industrial economic policy.",
+    "keyStance": "Cut corporation tax to 15%, lift employer National Insurance thresholds, fast-track North Sea gas and UK shale extraction, and scrap all green levies."
   },
   {
     "id": "ref-3",
     "partyId": "reform",
-    "name": "Lee Anderson",
-    "role": "Chief Whip & Spokesperson for Working Class Issues",
-    "constituency": "Ashfield",
-    "bio": "Former coal miner and former Conservative Deputy Chairman, widely followed for blunt populist commentary and working-class representation.",
-    "keyStance": "Zero tolerance on illegal boat crossings, immediate detention and removal, stop taxpayer funding of hotel accommodations for migrants."
+    "name": "Robert Jenrick",
+    "role": "Shadow Chancellor of the Exchequer",
+    "constituency": "Newark",
+    "bio": "Former Conservative leadership contender and immigration minister who defected to Reform UK, appointed Shadow Chancellor by Nigel Farage in February 2026.",
+    "keyStance": "Aggressive government spending restraint, abolition of family farm and business inheritance tax, reversing employer National Insurance rises, and lowering fuel duties."
   },
   {
     "id": "ref-4",
     "partyId": "reform",
+    "name": "Zia Yusuf",
+    "role": "Shadow Home Secretary",
+    "constituency": "National Spokesperson",
+    "bio": "Tech entrepreneur and Reform UK Party Chairman appointed Shadow Home Secretary in February 2026 to lead border enforcement and immigration policy.",
+    "keyStance": "Immediate offshore processing and returns for illegal arrivals, leaving the ECHR and Refugee Convention, mass deportations of foreign offenders, and strict work visa quotas."
+  },
+  {
+    "id": "ref-5",
+    "partyId": "reform",
+    "name": "Suella Braverman",
+    "role": "Shadow Secretary of State for Education, Skills and Equalities",
+    "constituency": "Fareham and Waterlooville",
+    "bio": "Former Home Secretary and Attorney General who defected to Reform UK, appointed to lead education, skills, and institutional reform in Farage's frontbench team.",
+    "keyStance": "Scrapping diversity and equality civil service mandates, defending traditional curriculum standards, promoting technical trade apprenticeships, and protecting freedom of speech."
+  },
+  {
+    "id": "ref-6",
+    "partyId": "reform",
+    "name": "Lee Anderson",
+    "role": "Chief Whip & Working Class Champion",
+    "constituency": "Ashfield",
+    "bio": "Former coal miner and deputy party chairman serving as Parliamentary Chief Whip, spearheading working-class voter mobilization and party discipline.",
+    "keyStance": "Zero tolerance on illegal channel crossings, defunding migrant hotel contracts, tough criminal sentencing, and protecting red-wall industrial jobs."
+  },
+  {
+    "id": "ref-7",
+    "partyId": "reform",
+    "name": "Danny Kruger",
+    "role": "Head of Preparation for Government & Policy",
+    "constituency": "East Wiltshire",
+    "bio": "Leading conservative intellectual and author who joined Reform UK's parliamentary apparatus to head preparations for executive government and legislative drafting.",
+    "keyStance": "Systemic civil service restructuring, restoring parliamentary sovereignty, institutional reform of regulatory bodies, and local community revitalization."
+  },
+  {
+    "id": "ref-8",
+    "partyId": "reform",
     "name": "Rupert Lowe",
-    "role": "Spokesperson for Business & Agriculture",
+    "role": "Spokesperson for Business, Agriculture & Deregulation",
     "constituency": "Great Yarmouth",
-    "bio": "Former football chairman and businessman campaigning against excessive civil service bureaucracy and farm inheritance taxes.",
-    "keyStance": "Slash Whitehall staffing by 50%, protect family farms from inheritance tax, scrap green subsidies inflating energy costs."
+    "bio": "Businessman and former football club chairman campaigning against Whitehall red tape and the regulatory burden on British farming and fishing.",
+    "keyStance": "Cutting Whitehall administrative staffing by 50%, full protection for agricultural inheritance reliefs, and restoring British coastal fishing rights."
   },
 
   {
