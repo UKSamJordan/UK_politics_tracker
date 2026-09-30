@@ -83,6 +83,7 @@ export const App: React.FC = () => {
   const handleRefreshCabinets = async () => {
     const res = await refreshCabinetRoster(cabinets);
     setCabinets(res.data);
+    return res.changeReport;
   };
 
   const handleRefreshPolls = async () => {

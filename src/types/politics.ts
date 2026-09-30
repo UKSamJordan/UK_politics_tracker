@@ -24,6 +24,7 @@ export interface Party {
   description: string;
   avatarText: string;
   website: string;
+  seatsLastVerified?: string;
 }
 
 export interface CabinetMember {
@@ -36,6 +37,8 @@ export interface CabinetMember {
   bio: string;
   keyStance: string;
   photoUrl?: string;
+  appointedDate: string;
+  portfolioStatus?: 'Active' | 'Reshuffled' | 'New Appointment';
 }
 
 export type PolicyCategory = 

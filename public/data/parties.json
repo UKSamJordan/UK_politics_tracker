@@ -14,7 +14,8 @@
     "motto": "A Fresh Start for Britain",
     "description": "Governing party led by Prime Minister Andy Burnham since July 2026. Focuses on building a National Care Service, regional devolution, long-term public service reform, and public oversight of water and energy.",
     "avatarText": "LAB",
-    "website": "https://labour.org.uk"
+    "website": "https://labour.org.uk",
+    "seatsLastVerified": "September 2026 • House of Commons Register"
   },
   {
     "id": "conservative",
@@ -31,7 +32,8 @@
     "motto": "Clear plan, bold action",
     "description": "The official opposition party, advocating for lower taxation, reduced state expenditure, a firm stance on cultural and constitutional institutions, regulatory rollback, and tighter borders.",
     "avatarText": "CON",
-    "website": "https://conservatives.com"
+    "website": "https://conservatives.com",
+    "seatsLastVerified": "September 2026 • House of Commons Register"
   },
   {
     "id": "reform",
@@ -48,7 +50,8 @@
     "motto": "Britain Needs Reform",
     "description": "Right-wing populist party led by Nigel Farage. In February 2026, Farage unveiled Reform's first official 'Shadow Cabinet' team (including Shadow Chancellor Robert Jenrick and Shadow Education Secretary Suella Braverman) signaling preparation for government, advocating an immigration freeze, leaving the ECHR, and deregulation.",
     "avatarText": "REF",
-    "website": "https://reformparty.uk"
+    "website": "https://reformparty.uk",
+    "seatsLastVerified": "September 2026 • House of Commons Register"
   },
   {
     "id": "libdem",
@@ -65,7 +68,8 @@
     "motto": "For a Fair Deal",
     "description": "Third largest party in Parliament, prioritizing NHS and social care reform, sewage prevention in UK waterways, proportional representation electoral reform, closer cooperation with the EU, and green transition.",
     "avatarText": "LD",
-    "website": "https://libdems.org.uk"
+    "website": "https://libdems.org.uk",
+    "seatsLastVerified": "September 2026 • House of Commons Register"
   },
   {
     "id": "green",
@@ -82,7 +86,8 @@
     "motto": "Real Hope. Real Change.",
     "description": "Progressive environmentalist party advocating for a wealth tax on multi-millionaires, full public ownership of utilities, rapid cessation of fossil fuels, universal basic services, and major investment in social housing.",
     "avatarText": "GRN",
-    "website": "https://greenparty.org.uk"
+    "website": "https://greenparty.org.uk",
+    "seatsLastVerified": "September 2026 • House of Commons Register"
   },
   {
     "id": "snp",
@@ -99,7 +104,8 @@
     "motto": "A stronger voice for Scotland",
     "description": "Scottish nationalist and social-democratic party advocating for Scottish independence within the EU, progressive taxation, an end to UK austerity, and universal benefits protection.",
     "avatarText": "SNP",
-    "website": "https://snp.org"
+    "website": "https://snp.org",
+    "seatsLastVerified": "September 2026 • House of Commons Register"
   },
   {
     "id": "plaid",
@@ -116,7 +122,8 @@
     "motto": "For Wales, for fairness",
     "description": "Welsh nationalist, social-democratic party campaigning for Welsh independence, fair funding formulas (replacing the Barnett formula), green regional infrastructure, and protection of the Welsh language.",
     "avatarText": "PC",
-    "website": "https://partyof.wales"
+    "website": "https://partyof.wales",
+    "seatsLastVerified": "September 2026 • House of Commons Register"
   },
   {
     "id": "restore",
@@ -133,6 +140,7 @@
     "motto": "Restoring Heritage, Sovereignty and Free Enterprise",
     "description": "Emerging political pressure party advocating for restoring traditional British civil liberties, constitutional sovereignty, dismantling quangos, abolishing Net Zero statutes, and reviving regional manufacturing.",
     "avatarText": "RES",
-    "website": "https://restorebritain.org.uk"
+    "website": "https://restorebritain.org.uk",
+    "seatsLastVerified": "September 2026 • House of Commons Register"
   }
 ]

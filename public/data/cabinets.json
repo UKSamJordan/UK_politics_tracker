@@ -7,7 +7,9 @@
     "isLeader": true,
     "constituency": "Makerfield",
     "bio": "Former Mayor of Greater Manchester (2017–2026) and cabinet minister. Elected Labour Leader on July 16, 2026, and took office as Prime Minister on July 20, 2026, following Keir Starmer's resignation.",
-    "keyStance": "Establishing a National Care Service, regional devolution and Northern powerhouse investment, public ownership of water and energy, reforming long-term pension structures with a 2030 double lock."
+    "keyStance": "Establishing a National Care Service, regional devolution and Northern powerhouse investment, public ownership of water and energy, reforming long-term pension structures with a 2030 double lock.",
+    "appointedDate": "July 2026",
+    "portfolioStatus": "Active"
   },
   {
     "id": "lab-2",
@@ -16,7 +18,9 @@
     "role": "First Secretary of State, Chancellor of the Duchy of Lancaster & Minister for the Cabinet Office",
     "constituency": "Sheffield Heeley",
     "bio": "Senior minister and de facto deputy to the Prime Minister, overseeing civil service reform, delivery of cross-government priorities, and constitutional affairs.",
-    "keyStance": "Cabinet coordination, public sector productivity, transport integration, and strengthening regional devolved authorities."
+    "keyStance": "Cabinet coordination, public sector productivity, transport integration, and strengthening regional devolved authorities.",
+    "appointedDate": "July 2026",
+    "portfolioStatus": "Active"
   },
   {
     "id": "lab-3",
@@ -25,7 +29,9 @@
     "role": "Chancellor of the Exchequer",
     "constituency": "Rawmarsh and Conisbrough",
     "bio": "Appointed Chancellor by Andy Burnham in July 2026 to lead fiscal and economic policy, transitioning from his previous Defence brief.",
-    "keyStance": "Balancing fiscal discipline with long-term infrastructure investment, protecting low-income pensioners from personal allowance tax drag, and securing funding for the National Care Service."
+    "keyStance": "Balancing fiscal discipline with long-term infrastructure investment, protecting low-income pensioners from personal allowance tax drag, and securing funding for the National Care Service.",
+    "appointedDate": "July 2026",
+    "portfolioStatus": "Active"
   },
   {
     "id": "lab-4",
@@ -34,7 +40,9 @@
     "role": "Secretary of State for Foreign, Commonwealth and Development Affairs",
     "constituency": "Doncaster North",
     "bio": "Experienced former party leader appointed Foreign Secretary in July 2026, spearheading international climate diplomacy and resetting European security partnerships.",
-    "keyStance": "Global climate pacts, strengthening European security cooperation and NATO alignment, diplomatic conflict resolution, and green export promotion."
+    "keyStance": "Global climate pacts, strengthening European security cooperation and NATO alignment, diplomatic conflict resolution, and green export promotion.",
+    "appointedDate": "July 2026",
+    "portfolioStatus": "Active"
   },
   {
     "id": "lab-5",
@@ -43,7 +51,9 @@
     "role": "Home Secretary",
     "constituency": "Birmingham Ladywood",
     "bio": "Promoted to Home Secretary in July 2026 to lead law enforcement, border security, counter-terrorism, and policing integrity.",
-    "keyStance": "Expanding the Border Security Command, modernizing neighbourhood policing, tackling organized immigration crime, and expediting judicial case processing."
+    "keyStance": "Expanding the Border Security Command, modernizing neighbourhood policing, tackling organized immigration crime, and expediting judicial case processing.",
+    "appointedDate": "July 2026",
+    "portfolioStatus": "Active"
   },
   {
     "id": "lab-6",
@@ -52,7 +62,9 @@
     "role": "Secretary of State for Defence",
     "constituency": "Ilford North",
     "bio": "Appointed Defence Secretary in July 2026, leading the Strategic Defence Review implementation, armed forces modernization, and NATO commitments.",
-    "keyStance": "Meeting the 2.5% of GDP defence spending trajectory, domestic sovereign defence industrial strategy, and deepening allied defense pacts."
+    "keyStance": "Meeting the 2.5% of GDP defence spending trajectory, domestic sovereign defence industrial strategy, and deepening allied defense pacts.",
+    "appointedDate": "July 2026",
+    "portfolioStatus": "Active"
   },
   {
     "id": "lab-7",
@@ -61,7 +73,9 @@
     "role": "Secretary of State for Health and Social Care",
     "constituency": "Pontefract, Castleford and Knottingley",
     "bio": "Veteran cabinet minister leading the health brief to integrate social care with the NHS and implement Burnham's National Care Service.",
-    "keyStance": "Founding the National Care Service, slashing NHS elective waiting times, community preventative care, and workforce retention."
+    "keyStance": "Founding the National Care Service, slashing NHS elective waiting times, community preventative care, and workforce retention.",
+    "appointedDate": "July 2026",
+    "portfolioStatus": "Active"
   },
   {
     "id": "lab-8",
@@ -70,7 +84,9 @@
     "role": "Secretary of State for Education",
     "constituency": "Manchester Central",
     "bio": "Key Manchester ally and long-serving education policy architect, driving early years investment and technical skills reform.",
-    "keyStance": "Expanding funded early years childcare, establishing high-quality apprenticeships and vocational pathways, and funding primary school breakfast clubs."
+    "keyStance": "Expanding funded early years childcare, establishing high-quality apprenticeships and vocational pathways, and funding primary school breakfast clubs.",
+    "appointedDate": "July 2026",
+    "portfolioStatus": "Active"
   },
   {
     "id": "lab-9",
@@ -79,7 +95,9 @@
     "role": "Secretary of State for Housing, Communities and Local Government",
     "constituency": "Ashton-under-Lyne",
     "bio": "Grassroots leader spearheading regional housing delivery, workers' rights legislation, and devolution to metro mayors.",
-    "keyStance": "Building 1.5M new homes, ending Section 21 no-fault evictions, local planning reform, and empowering regional mayors."
+    "keyStance": "Building 1.5M new homes, ending Section 21 no-fault evictions, local planning reform, and empowering regional mayors.",
+    "appointedDate": "July 2024 (Re-appointed July 2026)",
+    "portfolioStatus": "Active"
   },
   {
     "id": "con-1",
@@ -89,7 +107,9 @@
     "isLeader": true,
     "constituency": "North West Essex",
     "bio": "Elected Conservative Party leader in November 2024. Former Business and Trade Secretary and Equalities Minister, emphasizing institutional reform, free enterprise, and rebuilding trust.",
-    "keyStance": "Roll back state intervention, defend family enterprise and farming inheritance reliefs, dismantle civil service quangos, reduce welfare dependency."
+    "keyStance": "Roll back state intervention, defend family enterprise and farming inheritance reliefs, dismantle civil service quangos, reduce welfare dependency.",
+    "appointedDate": "November 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "con-2",
@@ -98,7 +118,9 @@
     "role": "Shadow Chancellor of the Exchequer",
     "constituency": "Central Devon",
     "bio": "Former Treasury Select Committee Chair and Work and Pensions Secretary, leading forensic economic scrutiny of government budgets.",
-    "keyStance": "Oppose employer National Insurance tax hikes, defend pensions triple lock, demand strict spending reductions across Whitehall departments."
+    "keyStance": "Oppose employer National Insurance tax hikes, defend pensions triple lock, demand strict spending reductions across Whitehall departments.",
+    "appointedDate": "November 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "con-3",
@@ -107,7 +129,9 @@
     "role": "Shadow Home Secretary",
     "constituency": "Croydon South",
     "bio": "Former Policing and Crime Minister, focusing on border security, immigration deterrence, and visible neighbourhood law enforcement.",
-    "keyStance": "Demand legal caps on net migration, tough custodial sentences for knife crime, restore third-country deportation deterrence."
+    "keyStance": "Demand legal caps on net migration, tough custodial sentences for knife crime, restore third-country deportation deterrence.",
+    "appointedDate": "November 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "con-4",
@@ -116,7 +140,9 @@
     "role": "Shadow Foreign Secretary",
     "constituency": "Witham",
     "bio": "Former Home Secretary and International Development Secretary, championing bilateral global trade and robust international deterrence.",
-    "keyStance": "Strong deterrent posture against hostile authoritarian states, defend Atlantic security alliance, resist EU institutional realignment."
+    "keyStance": "Strong deterrent posture against hostile authoritarian states, defend Atlantic security alliance, resist EU institutional realignment.",
+    "appointedDate": "November 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "con-5",
@@ -125,7 +151,9 @@
     "role": "Shadow Secretary of State for Defence",
     "constituency": "South Suffolk",
     "bio": "Former Defence Procurement Minister with deep insight into military supply chains and frontline equipment modernization.",
-    "keyStance": "Legislate 2.5% of GDP defence spending by 2030, ring-fence Dreadnought nuclear submarine replacement, protect British Army headcount floor."
+    "keyStance": "Legislate 2.5% of GDP defence spending by 2030, ring-fence Dreadnought nuclear submarine replacement, protect British Army headcount floor.",
+    "appointedDate": "November 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "con-6",
@@ -134,7 +162,9 @@
     "role": "Shadow Secretary of State for Justice",
     "constituency": "West Suffolk",
     "bio": "Former Downing Street Chief of Staff and prominent policy architect appointed Shadow Justice Secretary by Kemi Badenoch, succeeding Robert Jenrick following the latter's defection.",
-    "keyStance": "Defending British judicial sovereignty, reforming legal aid bureaucracy, strengthening criminal sentencing guidelines, and expanding custodial capacity."
+    "keyStance": "Defending British judicial sovereignty, reforming legal aid bureaucracy, strengthening criminal sentencing guidelines, and expanding custodial capacity.",
+    "appointedDate": "February 2026",
+    "portfolioStatus": "New Appointment"
   },
   {
     "id": "con-7",
@@ -143,7 +173,9 @@
     "role": "Shadow Secretary of State for Energy Security and Net Zero",
     "constituency": "East Surrey",
     "bio": "Former Energy Secretary, leading the Conservative critique of Great British Energy and green levies on household bills.",
-    "keyStance": "Annual North Sea oil and gas licensing, Small Modular Nuclear Reactors (SMRs), oppose rapid green mandates that inflate domestic bills."
+    "keyStance": "Annual North Sea oil and gas licensing, Small Modular Nuclear Reactors (SMRs), oppose rapid green mandates that inflate domestic bills.",
+    "appointedDate": "November 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "con-8",
@@ -152,7 +184,9 @@
     "role": "Shadow Secretary of State for Health and Social Care",
     "constituency": "Louth and Horncastle",
     "bio": "Former Secretary of State for Health and Financial Secretary to the Treasury, leading the opposition's scrutiny of NHS productivity and hospital modernization.",
-    "keyStance": "Demanding operational NHS productivity audits, opposing unfunded public sector union pay awards, and expanding community pharmacy services."
+    "keyStance": "Demanding operational NHS productivity audits, opposing unfunded public sector union pay awards, and expanding community pharmacy services.",
+    "appointedDate": "November 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "con-9",
@@ -161,7 +195,9 @@
     "role": "Shadow Secretary of State for Education",
     "constituency": "Sevenoaks",
     "bio": "Former Chief Secretary to the Treasury and Pensions Minister, spearheading scrutiny of school standards, apprenticeship funding, and university finance.",
-    "keyStance": "Protecting rigorous academic standards, opposing VAT on independent school fees, and redirecting underperforming degree funds to technical colleges."
+    "keyStance": "Protecting rigorous academic standards, opposing VAT on independent school fees, and redirecting underperforming degree funds to technical colleges.",
+    "appointedDate": "November 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "ref-1",
@@ -171,7 +207,9 @@
     "isLeader": true,
     "constituency": "Clacton",
     "bio": "Leader of Reform UK and MP for Clacton, who unveiled the party's first official 'Shadow Cabinet' team in February 2026 to signal readiness for government.",
-    "keyStance": "Freeze non-essential immigration, leave the ECHR, raise personal income tax allowance to £20,000, scrap Net Zero subsidies, and introduce private-public healthcare competition."
+    "keyStance": "Freeze non-essential immigration, leave the ECHR, raise personal income tax allowance to £20,000, scrap Net Zero subsidies, and introduce private-public healthcare competition.",
+    "appointedDate": "June 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "ref-2",
@@ -180,7 +218,9 @@
     "role": "Deputy Leader & Shadow Secretary of State for Business, Trade and Energy",
     "constituency": "Boston and Skegness",
     "bio": "Deputy Leader appointed to the Business, Trade and Energy brief in February 2026, leading deregulation and industrial economic policy.",
-    "keyStance": "Cut corporation tax to 15%, lift employer National Insurance thresholds, fast-track North Sea gas and UK shale extraction, and scrap all green levies."
+    "keyStance": "Cut corporation tax to 15%, lift employer National Insurance thresholds, fast-track North Sea gas and UK shale extraction, and scrap all green levies.",
+    "appointedDate": "February 2026",
+    "portfolioStatus": "New Appointment"
   },
   {
     "id": "ref-3",
@@ -189,7 +229,9 @@
     "role": "Shadow Chancellor of the Exchequer",
     "constituency": "Newark",
     "bio": "Former Conservative leadership contender and immigration minister who defected to Reform UK, appointed Shadow Chancellor by Nigel Farage in February 2026.",
-    "keyStance": "Aggressive government spending restraint, abolition of family farm and business inheritance tax, reversing employer National Insurance rises, and lowering fuel duties."
+    "keyStance": "Aggressive government spending restraint, abolition of family farm and business inheritance tax, reversing employer National Insurance rises, and lowering fuel duties.",
+    "appointedDate": "February 2026",
+    "portfolioStatus": "New Appointment"
   },
   {
     "id": "ref-4",
@@ -198,7 +240,9 @@
     "role": "Shadow Home Secretary",
     "constituency": "National Spokesperson",
     "bio": "Tech entrepreneur and Reform UK Party Chairman appointed Shadow Home Secretary in February 2026 to lead border enforcement and immigration policy.",
-    "keyStance": "Immediate offshore processing and returns for illegal arrivals, leaving the ECHR and Refugee Convention, mass deportations of foreign offenders, and strict work visa quotas."
+    "keyStance": "Immediate offshore processing and returns for illegal arrivals, leaving the ECHR and Refugee Convention, mass deportations of foreign offenders, and strict work visa quotas.",
+    "appointedDate": "February 2026",
+    "portfolioStatus": "New Appointment"
   },
   {
     "id": "ref-5",
@@ -207,7 +251,9 @@
     "role": "Shadow Secretary of State for Education, Skills and Equalities",
     "constituency": "Fareham and Waterlooville",
     "bio": "Former Home Secretary and Attorney General who defected to Reform UK, appointed to lead education, skills, and institutional reform in Farage's frontbench team.",
-    "keyStance": "Scrapping diversity and equality civil service mandates, defending traditional curriculum standards, promoting technical trade apprenticeships, and protecting freedom of speech."
+    "keyStance": "Scrapping diversity and equality civil service mandates, defending traditional curriculum standards, promoting technical trade apprenticeships, and protecting freedom of speech.",
+    "appointedDate": "February 2026",
+    "portfolioStatus": "New Appointment"
   },
   {
     "id": "ref-6",
@@ -216,7 +262,9 @@
     "role": "Chief Whip & Working Class Champion",
     "constituency": "Ashfield",
     "bio": "Former coal miner and deputy party chairman serving as Parliamentary Chief Whip, spearheading working-class voter mobilization and party discipline.",
-    "keyStance": "Zero tolerance on illegal channel crossings, defunding migrant hotel contracts, tough criminal sentencing, and protecting red-wall industrial jobs."
+    "keyStance": "Zero tolerance on illegal channel crossings, defunding migrant hotel contracts, tough criminal sentencing, and protecting red-wall industrial jobs.",
+    "appointedDate": "March 2024 (Chief Whip Feb 2026)",
+    "portfolioStatus": "Active"
   },
   {
     "id": "ref-7",
@@ -225,7 +273,9 @@
     "role": "Head of Preparation for Government & Policy",
     "constituency": "East Wiltshire",
     "bio": "Leading conservative intellectual and author who joined Reform UK's parliamentary apparatus to head preparations for executive government and legislative drafting.",
-    "keyStance": "Systemic civil service restructuring, restoring parliamentary sovereignty, institutional reform of regulatory bodies, and local community revitalization."
+    "keyStance": "Systemic civil service restructuring, restoring parliamentary sovereignty, institutional reform of regulatory bodies, and local community revitalization.",
+    "appointedDate": "February 2026",
+    "portfolioStatus": "New Appointment"
   },
   {
     "id": "ref-8",
@@ -234,7 +284,9 @@
     "role": "Spokesperson for Business, Agriculture & Deregulation",
     "constituency": "Great Yarmouth",
     "bio": "Businessman and former football club chairman campaigning against Whitehall red tape and the regulatory burden on British farming and fishing.",
-    "keyStance": "Cutting Whitehall administrative staffing by 50%, full protection for agricultural inheritance reliefs, and restoring British coastal fishing rights."
+    "keyStance": "Cutting Whitehall administrative staffing by 50%, full protection for agricultural inheritance reliefs, and restoring British coastal fishing rights.",
+    "appointedDate": "February 2026",
+    "portfolioStatus": "New Appointment"
   },
   {
     "id": "ld-1",
@@ -244,7 +296,9 @@
     "isLeader": true,
     "constituency": "Kingston and Surbiton",
     "bio": "Former Energy Secretary who led the Liberal Democrats to a historic 72 MPs in 2024, focusing on health, social care, carer support, and public service renewal.",
-    "keyStance": "Universal access to GP appointments within 7 days, £5bn free personal adult social care package, ban water executive bonuses, and establish a long-term pathway back to the EU Single Market."
+    "keyStance": "Universal access to GP appointments within 7 days, £5bn free personal adult social care package, ban water executive bonuses, and establish a long-term pathway back to the EU Single Market.",
+    "appointedDate": "August 2020 (Re-confirmed July 2024)",
+    "portfolioStatus": "Active"
   },
   {
     "id": "ld-2",
@@ -253,7 +307,9 @@
     "role": "Deputy Leader & Treasury Spokesperson",
     "constituency": "St Albans",
     "bio": "Deputy Leader and former Health Spokesperson, leading the Lib Dem economic scrutiny on equitable taxation and public service reinvestment.",
-    "keyStance": "Windfall tax on energy super-profits, higher levies on big tech monopolies, unfreezing tax allowances, and targeted support for high street small businesses."
+    "keyStance": "Windfall tax on energy super-profits, higher levies on big tech monopolies, unfreezing tax allowances, and targeted support for high street small businesses.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "ld-3",
@@ -262,7 +318,9 @@
     "role": "Spokesperson for Health and Social Care",
     "constituency": "North Shropshire",
     "bio": "Chartered accountant and by-election victor leading parliamentary campaigns against rural ambulance wait times, hospital corridor care, and dental deserts.",
-    "keyStance": "Dedicated emergency funding for ambulance response times, mental health parity across all NHS trusts, and free personal social care for all adults."
+    "keyStance": "Dedicated emergency funding for ambulance response times, mental health parity across all NHS trusts, and free personal social care for all adults.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "ld-4",
@@ -271,7 +329,9 @@
     "role": "Spokesperson for Foreign Affairs",
     "constituency": "Bicester and Woodstock",
     "bio": "Former senior civil servant with deep international diplomacy and foreign policy background, leading scrutiny of international treaties.",
-    "keyStance": "Rebuilding UK-EU institutional partnerships, steadfast support for Ukraine, upholding international law, and restoring the 0.7% foreign aid budget."
+    "keyStance": "Rebuilding UK-EU institutional partnerships, steadfast support for Ukraine, upholding international law, and restoring the 0.7% foreign aid budget.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "ld-5",
@@ -280,7 +340,9 @@
     "role": "Spokesperson for Education, Children and Families",
     "constituency": "Twickenham",
     "bio": "Leading national voice on education and child welfare, championing free school meals and youth mental health support in all schools.",
-    "keyStance": "Extend free school meals to all primary school pupils living in poverty, fund a qualified mental health specialist in every school, and reform special educational needs (SEND) provision."
+    "keyStance": "Extend free school meals to all primary school pupils living in poverty, fund a qualified mental health specialist in every school, and reform special educational needs (SEND) provision.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "ld-6",
@@ -289,7 +351,9 @@
     "role": "Spokesperson for Environment, Food and Rural Affairs",
     "constituency": "Westmorland and Lonsdale",
     "bio": "Former party leader and veteran rural champion leading the national campaign against raw sewage dumping in British lakes and rivers.",
-    "keyStance": "Transform water companies into public benefit entities, legally ban water executive bonuses until sewage dumping ends, and protect British family farmers."
+    "keyStance": "Transform water companies into public benefit entities, legally ban water executive bonuses until sewage dumping ends, and protect British family farmers.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "ld-7",
@@ -298,7 +362,9 @@
     "role": "Spokesperson for Business and Trade",
     "constituency": "Richmond Park",
     "bio": "Former accountant leading scrutiny on industrial policy, regulatory barriers, and high street revitalization.",
-    "keyStance": "Scrap and replace the broken business rates system with a commercial landowner levy, negotiate veterinary and trade pacts with Europe, and boost green export finance."
+    "keyStance": "Scrap and replace the broken business rates system with a commercial landowner levy, negotiate veterinary and trade pacts with Europe, and boost green export finance.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "ld-8",
@@ -307,7 +373,9 @@
     "role": "Spokesperson for Home Affairs",
     "constituency": "Cheltenham",
     "bio": "Elected in 2024 to lead home affairs, police accountability, and community safety policy.",
-    "keyStance": "Restore dedicated community neighbourhood policing, clear the asylum backlog with faster case-processing units, and reform drug enforcement laws."
+    "keyStance": "Restore dedicated community neighbourhood policing, clear the asylum backlog with faster case-processing units, and reform drug enforcement laws.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "ld-9",
@@ -316,7 +384,9 @@
     "role": "Spokesperson for Defence",
     "constituency": "Lewes",
     "bio": "Experienced local leader elected in 2024 leading defence procurement scrutiny and Armed Forces personnel welfare.",
-    "keyStance": "Reach 2.5% of GDP defence spending responsibly, strengthen European NATO pillar, reverse troop cuts, and legally enshrine the Armed Forces Covenant."
+    "keyStance": "Reach 2.5% of GDP defence spending responsibly, strengthen European NATO pillar, reverse troop cuts, and legally enshrine the Armed Forces Covenant.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "ld-10",
@@ -325,7 +395,9 @@
     "role": "Spokesperson for Energy Security and Net Zero",
     "constituency": "South Cambridgeshire",
     "bio": "International environmental expert leading the Lib Dem transition roadmap to clean renewable power.",
-    "keyStance": "Accelerate community rooftop solar, upgrade national grid infrastructure, insulate millions of fuel-poor homes, and ban new fossil fuel extraction."
+    "keyStance": "Accelerate community rooftop solar, upgrade national grid infrastructure, insulate millions of fuel-poor homes, and ban new fossil fuel extraction.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "ld-11",
@@ -334,7 +406,9 @@
     "role": "Chief Whip & Spokesperson for Scotland",
     "constituency": "North East Fife",
     "bio": "Former police officer and long-serving parliamentary leader managing party discipline and parliamentary procedure.",
-    "keyStance": "Strict parliamentary standards, banning MP second jobs, electoral reform via proportional representation, and stronger Scottish devolution."
+    "keyStance": "Strict parliamentary standards, banning MP second jobs, electoral reform via proportional representation, and stronger Scottish devolution.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "grn-1",
@@ -344,7 +418,9 @@
     "isLeader": true,
     "constituency": "Bristol Central",
     "bio": "Renewable energy engineer elected MP for Bristol Central; prominent voice on social housing, wealth taxation, and NHS restoration.",
-    "keyStance": "1% to 2% annual wealth tax on fortunes over £10m, local rent controls, scrap Trident nuclear weapons, end NHS privatisation."
+    "keyStance": "1% to 2% annual wealth tax on fortunes over £10m, local rent controls, scrap Trident nuclear weapons, end NHS privatisation.",
+    "appointedDate": "October 2021 (Elected MP July 2024)",
+    "portfolioStatus": "Active"
   },
   {
     "id": "grn-2",
@@ -354,7 +430,9 @@
     "isLeader": true,
     "constituency": "Waveney Valley",
     "bio": "Environmental strategist and co-leader elected MP for rural Waveney Valley, focusing on rural public transport, nature conservation, and river protections.",
-    "keyStance": "Protect British biodiversity, nationalise water and railway utilities, halt all new oil and gas exploration, and expand rural transit."
+    "keyStance": "Protect British biodiversity, nationalise water and railway utilities, halt all new oil and gas exploration, and expand rural transit.",
+    "appointedDate": "October 2021 (Elected MP July 2024)",
+    "portfolioStatus": "Active"
   },
   {
     "id": "grn-3",
@@ -363,7 +441,9 @@
     "role": "Parliamentary Spokesperson for Economy, Food & Agriculture",
     "constituency": "North Herefordshire",
     "bio": "Former MEP and international development lecturer elected MP for North Herefordshire in 2024, leading Green parliamentary scrutiny on trade, farm subsidies, and rural river health.",
-    "keyStance": "Transform agricultural subsidies to reward nature-friendly regenerative farming, curb river phosphate pollution, and implement progressive ecological tax reform."
+    "keyStance": "Transform agricultural subsidies to reward nature-friendly regenerative farming, curb river phosphate pollution, and implement progressive ecological tax reform.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "grn-4",
@@ -372,7 +452,9 @@
     "role": "Parliamentary Spokesperson for Transport, Housing & Democracy",
     "constituency": "Brighton Pavilion",
     "bio": "Former London Assembly Member and veteran green campaigner elected MP for Brighton Pavilion, succeeding Caroline Lucas in 2024.",
-    "keyStance": "Universal rent controls, major council home building programmes, public ownership of buses and railways, and lowering voting age to 16 with proportional representation."
+    "keyStance": "Universal rent controls, major council home building programmes, public ownership of buses and railways, and lowering voting age to 16 with proportional representation.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "snp-1",
@@ -382,7 +464,9 @@
     "isLeader": true,
     "constituency": "Perthshire North",
     "bio": "First Minister of Scotland and veteran statesman leading the Scottish Government with focus on child poverty reduction and public services.",
-    "keyStance": "Scottish self-determination, scrap the two-child benefit cap across the UK, remove Trident nuclear weapons from Scotland, rejoin EU."
+    "keyStance": "Scottish self-determination, scrap the two-child benefit cap across the UK, remove Trident nuclear weapons from Scotland, rejoin EU.",
+    "appointedDate": "May 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "snp-2",
@@ -391,7 +475,9 @@
     "role": "Westminster Parliamentary Group Leader & MP",
     "constituency": "Aberdeen South",
     "bio": "Leading SNP parliamentarian driving parliamentary scrutiny of energy transition, Scottish budget consequentials, and cost of living.",
-    "keyStance": "Just transition for North Sea energy workers without cliff-edges, demand full devolution of employment and migration powers."
+    "keyStance": "Just transition for North Sea energy workers without cliff-edges, demand full devolution of employment and migration powers.",
+    "appointedDate": "December 2022 (Re-elected July 2024)",
+    "portfolioStatus": "Active"
   },
   {
     "id": "snp-3",
@@ -400,7 +486,9 @@
     "role": "Westminster Spokesperson for Work, Pensions & Cabinet Office",
     "constituency": "Aberdeen North",
     "bio": "Experienced Westminster frontbencher holding the UK government to account on welfare reform, pensions indexation, and civil service oversight.",
-    "keyStance": "Defend the pensions triple lock, repeal punitive universal credit sanctions, and protect disability welfare entitlements from arbitrary cuts."
+    "keyStance": "Defend the pensions triple lock, repeal punitive universal credit sanctions, and protect disability welfare entitlements from arbitrary cuts.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "snp-4",
@@ -409,7 +497,9 @@
     "role": "Westminster Spokesperson for Foreign Affairs, Defence & Trade",
     "constituency": "Angus and Perthshire Glens",
     "bio": "Prominent defence and foreign policy spokesperson championing international humanitarian law, Scottish export industries, and armed forces accommodation standards.",
-    "keyStance": "Re-entry into European single market arrangements, opposing overseas military escalation without parliamentary votes, and safeguarding Scottish Scotch and food exports."
+    "keyStance": "Re-entry into European single market arrangements, opposing overseas military escalation without parliamentary votes, and safeguarding Scottish Scotch and food exports.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "pc-1",
@@ -419,7 +509,9 @@
     "isLeader": true,
     "constituency": "Ynys Môn",
     "bio": "Former BBC journalist and Plaid Cymru leader, uniting the party around fair funding formulas, Welsh NHS renewal, and independence.",
-    "keyStance": "Replace Barnett formula with needs-based funding (+£1.2bn/yr), reclaim £4bn HS2 rail consequentials, devolve Crown Estate to Wales."
+    "keyStance": "Replace Barnett formula with needs-based funding (+£1.2bn/yr), reclaim £4bn HS2 rail consequentials, devolve Crown Estate to Wales.",
+    "appointedDate": "June 2023",
+    "portfolioStatus": "Active"
   },
   {
     "id": "pc-2",
@@ -428,7 +520,9 @@
     "role": "Westminster Group Leader & MP",
     "constituency": "Dwyfor Meirionnydd",
     "bio": "Privy Councillor and Westminster leader campaigning for judicial devolution and equal constitutional status for Wales.",
-    "keyStance": "Devolution of policing and criminal justice to Wales, renewable energy wealth retention for Welsh communities, and constitutional fairness."
+    "keyStance": "Devolution of policing and criminal justice to Wales, renewable energy wealth retention for Welsh communities, and constitutional fairness.",
+    "appointedDate": "June 2017 (Re-elected July 2024)",
+    "portfolioStatus": "Active"
   },
   {
     "id": "pc-3",
@@ -437,7 +531,9 @@
     "role": "Westminster Spokesperson for Treasury, Energy & Rural Affairs",
     "constituency": "Ceredigion Preseli",
     "bio": "Respected parliamentary orator and committee member leading Plaid Cymru's financial and agricultural policy in Westminster.",
-    "keyStance": "Fair agricultural funding guaranteed post-Brexit, targeted energy bill support for off-gas grid rural households, and reforming UK fiscal rules."
+    "keyStance": "Fair agricultural funding guaranteed post-Brexit, targeted energy bill support for off-gas grid rural households, and reforming UK fiscal rules.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "pc-4",
@@ -446,7 +542,9 @@
     "role": "Westminster Spokesperson for Environment, Food & Farming",
     "constituency": "Caerfyrddin",
     "bio": "Farmer and local government leader elected MP for Caerfyrddin in 2024, championing family farming communities and Welsh agricultural produce.",
-    "keyStance": "Protecting family farm inheritance reliefs, imposing strict origin labelling on supermarket meat and dairy, and securing clean river standards."
+    "keyStance": "Protecting family farm inheritance reliefs, imposing strict origin labelling on supermarket meat and dairy, and securing clean river standards.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "pc-5",
@@ -455,7 +553,9 @@
     "role": "Westminster Spokesperson for Health, Social Care & Communities",
     "constituency": "Ynys Môn",
     "bio": "Former Council Leader elected MP for Ynys Môn in 2024, focusing on rural health inequalities, community regeneration, and youth retention in Welsh heartlands.",
-    "keyStance": "Targeted funding to recruit rural NHS specialists, community housing trusts for local families, and expanding Welsh language educational provision."
+    "keyStance": "Targeted funding to recruit rural NHS specialists, community housing trusts for local families, and expanding Welsh language educational provision.",
+    "appointedDate": "July 2024",
+    "portfolioStatus": "Active"
   },
   {
     "id": "res-1",
@@ -465,7 +565,9 @@
     "isLeader": true,
     "constituency": "National",
     "bio": "Civic assembly representing traditionalist British restoration, civil liberties, and free-market constitutionalism.",
-    "keyStance": "Abolish Net Zero statutes, repeal legislation eroding free speech, constitutional referendums, national industrial revival."
+    "keyStance": "Abolish Net Zero statutes, repeal legislation eroding free speech, constitutional referendums, national industrial revival.",
+    "appointedDate": "February 2026",
+    "portfolioStatus": "Active"
   },
   {
     "id": "res-2",
@@ -474,6 +576,8 @@
     "role": "Campaign Patron & Enterprise Advocate",
     "constituency": "Great Yarmouth",
     "bio": "Independent-minded enterprise advocate campaigning across civic forums for constitutional reform, British sovereign fishing, and deregulation.",
-    "keyStance": "Radical Whitehall downsizing, dismantling regulatory quangos, repealing onerous Net Zero mandates, and defending family businesses."
+    "keyStance": "Radical Whitehall downsizing, dismantling regulatory quangos, repealing onerous Net Zero mandates, and defending family businesses.",
+    "appointedDate": "February 2026",
+    "portfolioStatus": "Active"
   }
 ]

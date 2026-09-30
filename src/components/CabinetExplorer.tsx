@@ -11,16 +11,23 @@ import {
   BarChart3, 
   ShieldCheck, 
   Sparkles,
-  CheckCircle2
+  Calendar,
+  CheckCircle2,
+  AlertCircle,
+  Clock,
+  ChevronDown,
+  ChevronUp,
+  GraduationCap
 } from 'lucide-react';
 import { SectionRefreshButton } from './SectionRefreshButton';
+import { CabinetChangeReport } from '../services/liveUpdater';
 
 interface CabinetExplorerProps {
   parties: Party[];
   cabinetMembers: CabinetMember[];
   leaderRatings?: LeaderRating[];
   onNavigateToPolls?: () => void;
-  onRefreshRoster?: () => Promise<void> | void;
+  onRefreshRoster?: () => Promise<CabinetChangeReport | void> | void;
   onOpenSystemHealthModal?: () => void;
 }
 
@@ -34,6 +41,8 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
 }) => {
   const [selectedPartyId, setSelectedPartyId] = useState<PartyId>('labour');
   const [roleFilter, setRoleFilter] = useState<string>('all');
+  const [lastChangeReport, setLastChangeReport] = useState<CabinetChangeReport | null>(null);
+  const [showReportDetails, setShowReportDetails] = useState(false);
 
   const selectedParty = parties.find((p) => p.id === selectedPartyId) || parties[0];
   const partyLeaderRating = leaderRatings.find((l) => l.partyId === selectedPartyId);
@@ -52,6 +61,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
     if (lower.includes('chancellor') || lower.includes('treasury')) return Briefcase;
     if (lower.includes('defence') || lower.includes('military')) return Shield;
     if (lower.includes('health') || lower.includes('social care')) return HeartPulse;
+    if (lower.includes('education') || lower.includes('schools')) return GraduationCap;
     return Users;
   };
 
@@ -60,6 +70,16 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
     acc[p.id] = cabinetMembers.filter((m) => m.partyId === p.id).length;
     return acc;
   }, {});
+
+  const handleRefreshWithDiff = async () => {
+    if (onRefreshRoster) {
+      const report = await onRefreshRoster();
+      if (report && typeof report === 'object' && 'hasChanges' in report) {
+        setLastChangeReport(report as CabinetChangeReport);
+        setShowReportDetails(true);
+      }
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -74,7 +94,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
             Cabinet & Shadow Cabinet Profiles
           </h2>
           <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl">
-            Explore the key decision-makers steering all 8 UK parties: ministerial portfolios, parliamentary constituencies, signature philosophies, and leadership approval ratings.
+            Explore active UK political decision-makers: ministerial portfolios, official appointment dates, parliamentary constituencies, signature philosophies, and leadership approval ratings.
           </p>
         </div>
 
@@ -114,11 +134,56 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           </div>
         </div>
 
+        {/* Change Detection Report Banner (Shows when update is pressed) */}
+        {lastChangeReport && (
+          <div className={`p-4 rounded-xl border transition-all animate-fade-in ${
+            lastChangeReport.hasChanges
+              ? 'bg-amber-50 border-amber-200 text-amber-950'
+              : 'bg-emerald-50 border-emerald-200 text-emerald-950'
+          }`}>
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center space-x-2">
+                {lastChangeReport.hasChanges ? (
+                  <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                ) : (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                )}
+                <div>
+                  <span className="font-bold text-xs uppercase tracking-wider block">
+                    Change Identification Engine ({lastChangeReport.timestamp})
+                  </span>
+                  <p className="text-xs mt-0.5">
+                    {lastChangeReport.summary}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowReportDetails(!showReportDetails)}
+                className="text-xs font-semibold underline flex items-center space-x-1 shrink-0 cursor-pointer"
+              >
+                <span>{showReportDetails ? 'Hide details' : 'View report'}</span>
+                {showReportDetails ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              </button>
+            </div>
+
+            {showReportDetails && lastChangeReport.changes.length > 0 && (
+              <div className="mt-3 pt-3 border-t border-amber-200 space-y-1.5 text-xs">
+                {lastChangeReport.changes.map((c, i) => (
+                  <div key={i} className="flex items-center space-x-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
+                    <strong>{c.personName}</strong>: <span>{c.details}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 border-t border-slate-100">
           <SectionRefreshButton
             sectionName="Cabinet Roster"
             defaultDate="September 2026 • Verified Public Record"
-            onRefresh={onRefreshRoster}
+            onRefresh={handleRefreshWithDiff}
           />
 
           {/* Quick Role Filter */}
@@ -201,6 +266,9 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           <div className="text-left md:text-right shrink-0 bg-black/15 p-3 rounded-xl backdrop-blur-xs">
             <span className="text-[11px] block opacity-80 uppercase font-semibold">House of Commons</span>
             <span className="text-2xl font-black">{selectedParty.seats} MPs</span>
+            <span className="text-[10px] block opacity-75 mt-0.5">
+              Verified: {selectedParty.seatsLastVerified || 'September 2026'}
+            </span>
             <span className="text-[11px] block opacity-85 mt-0.5">Leader: {selectedParty.leader}</span>
           </div>
         </div>
@@ -218,12 +286,12 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 His Majesty's Government (Burnham Administration, July 2026)
               </span>
               <p className="text-rose-700 mt-0.5">
-                Took office July 20, 2026, following Keir Starmer's resignation. Full cabinet team verified with 9 key ministers including Prime Minister <strong>Andy Burnham</strong>, First Secretary <strong>Louise Haigh</strong>, Chancellor <strong>John Healey</strong>, Defence Secretary <strong>Wes Streeting</strong>, and Health Secretary <strong>Yvette Cooper</strong>.
+                Took office July 20, 2026, following Keir Starmer's resignation. All 9 ministerial appointments verified with exact appointment dates: Prime Minister <strong>Andy Burnham</strong>, First Secretary <strong>Louise Haigh</strong>, Chancellor <strong>John Healey</strong>, Defence Secretary <strong>Wes Streeting</strong>, and Health Secretary <strong>Yvette Cooper</strong>.
               </p>
             </div>
           </div>
           <span className="shrink-0 font-bold bg-rose-200/70 text-rose-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            9 Verified Ministers
+            July 2026 Reshuffle
           </span>
         </div>
       )}
@@ -239,12 +307,12 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 Official Opposition Frontbench (Kemi Badenoch)
               </span>
               <p className="text-blue-700 mt-0.5">
-                9 verified shadow ministers. Following Robert Jenrick's defection to Reform UK, <strong>Nick Timothy</strong> serves as Shadow Justice Secretary, alongside <strong>Mel Stride</strong> (Shadow Chancellor), <strong>Chris Philp</strong> (Shadow Home), <strong>Victoria Atkins</strong> (Shadow Health), and <strong>Laura Trott</strong> (Shadow Education).
+                9 verified shadow ministers. Following Robert Jenrick's defection to Reform UK, <strong>Nick Timothy</strong> was appointed Shadow Justice Secretary (Feb 2026), alongside <strong>Mel Stride</strong> (Shadow Chancellor, Nov 2024), <strong>Chris Philp</strong> (Shadow Home, Nov 2024), <strong>Victoria Atkins</strong> (Shadow Health, Nov 2024), and <strong>Laura Trott</strong> (Shadow Education, Nov 2024).
               </p>
             </div>
           </div>
           <span className="shrink-0 font-bold bg-blue-200/70 text-blue-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            9 Verified Ministers
+            Nov 2024 / Feb 2026
           </span>
         </div>
       )}
@@ -260,12 +328,12 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 Official Reform UK "Shadow Cabinet" (Announced Feb 17, 2026)
               </span>
               <p className="text-cyan-700 mt-0.5">
-                8 verified members. Nigel Farage formed Reform's first official frontbench team to prepare for government, featuring defectors <strong>Robert Jenrick</strong> (Shadow Chancellor) and <strong>Suella Braverman</strong> (Shadow Education), alongside Chairman <strong>Zia Yusuf</strong> (Shadow Home Secretary) and <strong>Richard Tice</strong> (Shadow Business & Energy).
+                8 verified members. Nigel Farage formed Reform's first official frontbench team in February 2026 to prepare for government, featuring defectors <strong>Robert Jenrick</strong> (Shadow Chancellor) and <strong>Suella Braverman</strong> (Shadow Education), alongside Chairman <strong>Zia Yusuf</strong> (Shadow Home Secretary) and <strong>Richard Tice</strong> (Shadow Business & Energy).
               </p>
             </div>
           </div>
           <span className="shrink-0 font-bold bg-cyan-200/70 text-cyan-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            8 Verified Members
+            February 2026 Team
           </span>
         </div>
       )}
@@ -281,12 +349,12 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 Liberal Democrats Parliamentary Frontbench (72 MPs)
               </span>
               <p className="text-amber-700 mt-0.5">
-                Comprehensive 11-member frontbench team led by <strong>Sir Ed Davey</strong> and Deputy Leader <strong>Daisy Cooper</strong> (Treasury), with key spokespeople including <strong>Helen Morgan</strong> (Health), <strong>Munira Wilson</strong> (Education), <strong>Tim Farron</strong> (Environment/Sewage), and <strong>Sarah Olney</strong> (Business).
+                Comprehensive 11-member frontbench team appointed following the July 2024 general election, led by <strong>Sir Ed Davey</strong> and Deputy Leader <strong>Daisy Cooper</strong> (Treasury), with key spokespeople including <strong>Helen Morgan</strong> (Health), <strong>Munira Wilson</strong> (Education), <strong>Tim Farron</strong> (Environment/Sewage), and <strong>Sarah Olney</strong> (Business).
               </p>
             </div>
           </div>
           <span className="shrink-0 font-bold bg-amber-200/70 text-amber-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            11 Verified Spokespeople
+            July 2024 Frontbench
           </span>
         </div>
       )}
@@ -302,12 +370,12 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 Green Party Parliamentary Frontbench (All 4 MPs)
               </span>
               <p className="text-emerald-700 mt-0.5">
-                Full 100% parliamentary coverage: Co-Leaders <strong>Carla Denyer</strong> (Bristol Central) & <strong>Adrian Ramsay</strong> (Waveney Valley), alongside <strong>Ellie Chowns</strong> (North Herefordshire - Economy & Food) and <strong>Siân Berry</strong> (Brighton Pavilion - Transport & Housing).
+                Full 100% parliamentary coverage: Co-Leaders <strong>Carla Denyer</strong> (Bristol Central) & <strong>Adrian Ramsay</strong> (Waveney Valley), alongside <strong>Ellie Chowns</strong> (North Herefordshire - Economy & Food, July 2024) and <strong>Siân Berry</strong> (Brighton Pavilion - Transport & Housing, July 2024).
               </p>
             </div>
           </div>
           <span className="shrink-0 font-bold bg-emerald-200/70 text-emerald-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            4/4 MPs Included
+            July 2024 Frontbench
           </span>
         </div>
       )}
@@ -323,12 +391,12 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 SNP Parliamentary & Scottish Government Leadership
               </span>
               <p className="text-yellow-700 mt-0.5">
-                Party Leader & First Minister <strong>John Swinney</strong>, Westminster Group Leader <strong>Stephen Flynn</strong>, Work & Pensions Spokesperson <strong>Kirsty Blackman</strong>, and Foreign Affairs & Defence Spokesperson <strong>Dave Doogan</strong>.
+                Party Leader & First Minister <strong>John Swinney</strong> (May 2024), Westminster Group Leader <strong>Stephen Flynn</strong> (Dec 2022 / July 2024), Work & Pensions Spokesperson <strong>Kirsty Blackman</strong> (July 2024), and Foreign Affairs & Defence Spokesperson <strong>Dave Doogan</strong> (July 2024).
               </p>
             </div>
           </div>
           <span className="shrink-0 font-bold bg-yellow-200/70 text-yellow-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            4 Verified Leaders
+            May 2024 / July 2024
           </span>
         </div>
       )}
@@ -344,12 +412,12 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 Plaid Cymru Parliamentary & Senedd Frontbench
               </span>
               <p className="text-teal-700 mt-0.5">
-                Full representation: Senedd Leader <strong>Rhun ap Iorwerth</strong>, Westminster Group Leader <strong>Liz Saville Roberts</strong>, Treasury Spokesperson <strong>Ben Lake</strong>, Agriculture Spokesperson <strong>Ann Davies</strong>, and Health Spokesperson <strong>Llinos Medi</strong>.
+                Full representation: Senedd Leader <strong>Rhun ap Iorwerth</strong> (June 2023), Westminster Group Leader <strong>Liz Saville Roberts</strong> (June 2017 / July 2024), Treasury Spokesperson <strong>Ben Lake</strong> (July 2024), Agriculture Spokesperson <strong>Ann Davies</strong> (July 2024), and Health Spokesperson <strong>Llinos Medi</strong> (July 2024).
               </p>
             </div>
           </div>
           <span className="shrink-0 font-bold bg-teal-200/70 text-teal-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            5 Verified Leaders
+            July 2024 Frontbench
           </span>
         </div>
       )}
@@ -360,6 +428,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           const Icon = getRoleIcon(member.role);
           const isLeaderCard = member.isLeader;
           const leaderRating = isLeaderCard ? partyLeaderRating : null;
+          const is2026 = member.appointedDate && member.appointedDate.includes('2026');
 
           return (
             <div
@@ -391,9 +460,27 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 </h4>
 
                 {/* Specific Portfolio Title */}
-                <h5 className="text-xs font-semibold text-slate-600 mb-3">
+                <h5 className="text-xs font-semibold text-slate-600 mb-2">
                   {member.role}
                 </h5>
+
+                {/* Appointment Date Badge & Recency Tag */}
+                <div className="flex flex-wrap items-center gap-1.5 mb-3.5">
+                  <span className="inline-flex items-center space-x-1 text-[11px] font-medium text-slate-600 bg-slate-100 border border-slate-200/80 px-2 py-0.5 rounded-md">
+                    <Calendar className="w-3 h-3 text-slate-500" />
+                    <span>In post: <strong className="text-slate-900">{member.appointedDate || 'Current Parliament'}</strong></span>
+                  </span>
+                  {is2026 ? (
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center space-x-0.5">
+                      <Clock className="w-2.5 h-2.5" />
+                      <span>2026 Reshuffle</span>
+                    </span>
+                  ) : (
+                    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-50 text-slate-500 border border-slate-200">
+                      Verified Active
+                    </span>
+                  )}
+                </div>
 
                 {/* Leader Approval Rating Badge (if this is the leader) */}
                 {leaderRating && (

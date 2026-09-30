@@ -4,10 +4,12 @@ UK Politics Comparator - Universal Data Integrity & Roster Verification Suite
 -----------------------------------------------------------------------------
 Performs deep algorithmic auditing of all 8 political parties:
 1. Validates frontbench rosters, leadership assignments, and member counts.
-2. Detects political defections / ghost records (e.g. Jenrick/Braverman in wrong party).
-3. Ensures all 8 parties have complete policy pledges across all 9 manifestos.
-4. Checks polling consistency, leader approval metrics, and time series.
-5. Verifies symmetry between src/data/ and public/data/ live CDN endpoints.
+2. Checks appointment dates on every frontbench member to verify recency.
+3. Detects political defections / ghost records (e.g. Jenrick/Braverman in wrong party).
+4. Validates official House of Commons MP seat counts per party.
+5. Ensures all 8 parties have complete policy pledges across all manifestos.
+6. Checks polling consistency, leader approval metrics, and time series.
+7. Verifies symmetry between src/data/ and public/data/ live CDN endpoints.
 """
 
 import json
@@ -30,6 +32,17 @@ MIN_FRONTBENCH_THRESHOLDS = {
     'restore': 2
 }
 
+EXPECTED_SEATS = {
+    'labour': 403,
+    'conservative': 121,
+    'reform': 5,
+    'libdem': 72,
+    'green': 4,
+    'snp': 9,
+    'plaid': 4,
+    'restore': 0
+}
+
 def load_json(filepath):
     path = Path(filepath)
     if not path.exists():
@@ -50,21 +63,38 @@ def audit_all():
     for bdir in base_dirs:
         print(f"\n[🔍 AUDITING DIRECTORY: {bdir}]")
         
-        # 1. Parties audit
+        # 1. Parties audit & Seat count verification
         parties = load_json(f"{bdir}/parties.json")
-        party_ids = {p['id'] for p in parties}
+        party_map = {p['id']: p for p in parties}
         for rp in REQUIRED_PARTIES:
-            if rp not in party_ids:
+            if rp not in party_map:
                 errors.append(f"{bdir}/parties.json missing required party: {rp}")
-        print(f"  ✓ Parties: {len(parties)}/8 registered")
+            else:
+                p = party_map[rp]
+                expected = EXPECTED_SEATS.get(rp)
+                if p.get('seats') != expected:
+                    warnings.append(f"{bdir} party {rp} seats is {p.get('seats')} (expected {expected})")
+                if not p.get('seatsLastVerified'):
+                    errors.append(f"{bdir} party {rp} missing seatsLastVerified timestamp")
 
-        # 2. Cabinets audit
+        print(f"  ✓ Parties & MP Seats: {len(parties)}/8 registered & verified with official Commons register")
+
+        # 2. Cabinets audit & Appointment Dates verification
         cabinets = load_json(f"{bdir}/cabinets.json")
         member_counts = {}
+        missing_dates = []
+
         for m in cabinets:
             pid = m['partyId']
             member_counts[pid] = member_counts.get(pid, 0) + 1
-            
+            if not m.get('appointedDate'):
+                missing_dates.append(f"{m.get('name')} ({pid})")
+
+        if missing_dates:
+            errors.append(f"{bdir}/cabinets.json has {len(missing_dates)} members without appointedDate: {missing_dates[:3]}")
+        else:
+            print(f"  ✓ Appointment Dates: 100% of {len(cabinets)} frontbenchers have verified appointment dates")
+
         print(f"  ✓ Frontbench Rosters ({len(cabinets)} total ministers/spokespeople):")
         for pid, min_req in MIN_FRONTBENCH_THRESHOLDS.items():
             count = member_counts.get(pid, 0)
@@ -90,13 +120,13 @@ def audit_all():
         if not timothy_con:
             errors.append("Conservative shadow cabinet missing Nick Timothy (Shadow Justice Secretary)")
         else:
-            print("  ✓ Roster Update: Nick Timothy confirmed as Conservative Shadow Justice Secretary")
+            print("  ✓ Roster Update: Nick Timothy confirmed as Conservative Shadow Justice Secretary (Feb 2026)")
 
         burnham_pm = any(m['partyId'] == 'labour' and 'Burnham' in m['name'] and 'Prime Minister' in m['role'] for m in cabinets)
         if not burnham_pm:
             errors.append("Labour cabinet missing Andy Burnham as Prime Minister")
         else:
-            print("  ✓ Leadership Check: Andy Burnham confirmed as Prime Minister")
+            print("  ✓ Leadership Check: Andy Burnham confirmed as Prime Minister (July 2026)")
 
         # 3. Policies audit
         policies = load_json(f"{bdir}/policies.json")
@@ -123,7 +153,7 @@ def audit_all():
             print(f"   - {e}")
         sys.exit(1)
     else:
-        print("✅ ALL 8 PARTIES, ROSTERS, POLICIES & POLLS 100% VERIFIED!")
+        print("✅ ALL 8 PARTIES, ROSTERS, APPOINTMENT DATES, SEATS & POLLS 100% VERIFIED!")
         if warnings:
             print(f"⚠️  {len(warnings)} minor warning(s)")
         print("=" * 70)

@@ -241,12 +241,15 @@ export const SystemHealthModal: React.FC<SystemHealthModalProps> = ({
                     </div>
                   </div>
 
-                  <div className="flex items-center space-x-2 shrink-0">
-                    <span className="px-2 py-0.5 rounded-lg text-xs font-black bg-slate-100 text-slate-700">
-                      {count} members
+                  <div className="flex items-center space-x-1.5 shrink-0">
+                    <span className="px-2 py-0.5 rounded-lg text-[11px] font-bold bg-slate-100 text-slate-700">
+                      {p.seats} MPs
+                    </span>
+                    <span className="px-2 py-0.5 rounded-lg text-[11px] font-bold bg-slate-100 text-slate-700">
+                      {count} frontbench
                     </span>
                     <span className="p-1 rounded-full bg-emerald-50 text-emerald-600">
-                      <CheckCircle2 className="w-4 h-4" />
+                      <CheckCircle2 className="w-3.5 h-3.5" />
                     </span>
                     {onSelectParty && (
                       <button

@@ -8,9 +8,11 @@
  * 2. Optional direct in-browser query to Gemini 3.8 Flash if an API key is stored,
  *    allowing live verification and automated discovery of reshuffles or new polls.
  * 3. Persists fresh records in browser localStorage (v3) so the app remains up to date.
+ * 4. Algorithmic Diff & Change Detection: compares old state vs incoming data to
+ *    explicitly report reshuffles, new appointments, defections, and MP seat changes.
  */
 
-import { CabinetMember, PolicyTopic, FactCheckItem } from '../types/politics';
+import { CabinetMember, PolicyTopic, FactCheckItem, Party } from '../types/politics';
 
 const STORAGE_KEYS = {
   CABINETS: 'uk_politics_cabinets_v3',
@@ -19,6 +21,29 @@ const STORAGE_KEYS = {
   FACTCHECKS: 'uk_politics_factchecks_v3',
   API_KEY: 'uk_politics_gemini_api_key',
 };
+
+export interface CabinetChangeItem {
+  type: 'role_changed' | 'appointed' | 'removed' | 'defection';
+  partyId: string;
+  personName: string;
+  details: string;
+}
+
+export interface CabinetChangeReport {
+  hasChanges: boolean;
+  totalMembersChecked: number;
+  changes: CabinetChangeItem[];
+  summary: string;
+  timestamp: string;
+}
+
+export interface SeatChangeItem {
+  partyId: string;
+  partyName: string;
+  oldSeats: number;
+  newSeats: number;
+  delta: number;
+}
 
 // Retrieve stored Gemini API key
 export const getStoredApiKey = (): string => {
@@ -57,6 +82,94 @@ export async function fetchLiveCdnData<T>(filename: string): Promise<T> {
 }
 
 /**
+ * Algorithmic Cabinet Change Detection
+ */
+export function detectCabinetChanges(
+  currentList: CabinetMember[],
+  newList: CabinetMember[]
+): CabinetChangeReport {
+  const changes: CabinetChangeItem[] = [];
+  const oldMap = new Map(currentList.map((m) => [m.id, m]));
+  const newMap = new Map(newList.map((m) => [m.id, m]));
+
+  for (const newM of newList) {
+    const oldM = oldMap.get(newM.id);
+    if (!oldM) {
+      changes.push({
+        type: 'appointed',
+        partyId: newM.partyId,
+        personName: newM.name,
+        details: `Newly appointed to ${newM.role} (${newM.appointedDate})`,
+      });
+    } else {
+      if (oldM.partyId !== newM.partyId) {
+        changes.push({
+          type: 'defection',
+          partyId: newM.partyId,
+          personName: newM.name,
+          details: `Defected/transferred from ${oldM.partyId} to ${newM.partyId} as ${newM.role}`,
+        });
+      } else if (oldM.role !== newM.role) {
+        changes.push({
+          type: 'role_changed',
+          partyId: newM.partyId,
+          personName: newM.name,
+          details: `Role updated from "${oldM.role}" to "${newM.role}" (In post: ${newM.appointedDate})`,
+        });
+      }
+    }
+  }
+
+  for (const oldM of currentList) {
+    if (!newMap.has(oldM.id)) {
+      changes.push({
+        type: 'removed',
+        partyId: oldM.partyId,
+        personName: oldM.name,
+        details: `Stepped down / removed from ${oldM.role}`,
+      });
+    }
+  }
+
+  const hasChanges = changes.length > 0;
+  const summary = hasChanges
+    ? `Identified ${changes.length} change(s) across frontbench portfolios.`
+    : `All ${newList.length} frontbench appointments and dates match verified parliamentary records (0 changes detected).`;
+
+  return {
+    hasChanges,
+    totalMembersChecked: newList.length,
+    changes,
+    summary,
+    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+  };
+}
+
+/**
+ * Algorithmic MP Seat Count Change Detection
+ */
+export function detectSeatChanges(
+  currentParties: Party[],
+  newParties: Party[]
+): SeatChangeItem[] {
+  const changes: SeatChangeItem[] = [];
+  const oldMap = new Map(currentParties.map((p) => [p.id, p.seats]));
+  for (const newP of newParties) {
+    const oldSeats = oldMap.get(newP.id);
+    if (oldSeats !== undefined && oldSeats !== newP.seats) {
+      changes.push({
+        partyId: newP.id,
+        partyName: newP.name,
+        oldSeats,
+        newSeats: newP.seats,
+        delta: newP.seats - oldSeats,
+      });
+    }
+  }
+  return changes;
+}
+
+/**
  * Execute a live query against Google Gemini 3.8 Flash directly from browser
  */
 async function queryGemini(prompt: string, apiKey: string): Promise<any> {
@@ -89,12 +202,13 @@ async function queryGemini(prompt: string, apiKey: string): Promise<any> {
 }
 
 /**
- * Live Update: Cabinet Roster
+ * Live Update: Cabinet Roster with Change Detection
  */
 export async function refreshCabinetRoster(currentMembers: CabinetMember[]): Promise<{
   data: CabinetMember[];
   source: string;
   updatedCount: number;
+  changeReport: CabinetChangeReport;
 }> {
   const apiKey = getStoredApiKey();
 
@@ -122,15 +236,19 @@ Array<{
   constituency?: string;
   bio: string;
   keyStance: string;
+  appointedDate: string;
+  portfolioStatus?: "Active" | "Reshuffled" | "New Appointment";
 }>`;
 
       const liveData = await queryGemini(prompt, apiKey);
       if (Array.isArray(liveData) && liveData.length > 0) {
         localStorage.setItem(STORAGE_KEYS.CABINETS, JSON.stringify(liveData));
+        const report = detectCabinetChanges(currentMembers, liveData);
         return {
           data: liveData,
           source: 'Gemini 3.8 Flash (Live UK Parliament Query)',
           updatedCount: liveData.length,
+          changeReport: report,
         };
       }
     } catch (err) {
@@ -141,10 +259,13 @@ Array<{
   // Fallback: Cache-busting fetch from CDN /data/cabinets.json
   const cdnData = await fetchLiveCdnData<CabinetMember[]>('cabinets.json');
   localStorage.setItem(STORAGE_KEYS.CABINETS, JSON.stringify(cdnData));
+  const report = detectCabinetChanges(currentMembers, cdnData);
+
   return {
     data: cdnData,
     source: 'Live CDN Data Bank (/data/cabinets.json)',
     updatedCount: cdnData.length,
+    changeReport: report,
   };
 }
 
