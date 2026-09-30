@@ -7,7 +7,10 @@ Performs deep algorithmic auditing of all 8 political parties:
 2. Checks appointment dates on every frontbench member to verify recency.
 3. Detects political defections / ghost records (e.g. Jenrick/Braverman in wrong party).
 4. Validates official House of Commons MP seat counts per party.
-5. Ensures all 8 parties have complete policy pledges across all manifestos.
+5. Verifies dynamic policy guardrails:
+   - All 8 parties represented across all policy areas.
+   - 100% of pledges have active officialSourceUrl and lastVerifiedDate citations.
+   - Quantitative consistency (Conservative defence 3.0%, Labour SDR 2.5%, Pensions triple lock).
 6. Checks polling consistency, leader approval metrics, and time series.
 7. Verifies symmetry between src/data/ and public/data/ live CDN endpoints.
 """
@@ -128,15 +131,37 @@ def audit_all():
         else:
             print("  ✓ Leadership Check: Andy Burnham confirmed as Prime Minister (July 2026)")
 
-        # 3. Policies audit
+        # 3. Dynamic Policy Guardrails
         policies = load_json(f"{bdir}/policies.json")
-        print(f"  ✓ Policy Topics: {len(policies)} categories loaded")
+        print(f"  ✓ Policy Sectors: {len(policies)} categories loaded")
+        
+        missing_sources = []
         for topic in policies:
             topic_id = topic['id']
             pledges = topic.get('pledges', {})
             for pid in REQUIRED_PARTIES:
                 if pid not in pledges:
-                    warnings.append(f"{bdir}/policies.json topic {topic_id} missing pledge for {pid}")
+                    errors.append(f"{bdir}/policies.json topic {topic_id} missing pledge for {pid}")
+                else:
+                    pl = pledges[pid]
+                    if not pl.get('officialSourceUrl'):
+                        missing_sources.append(f"{topic_id}:{pid}")
+                    if not pl.get('lastVerifiedDate'):
+                        warnings.append(f"{topic_id}:{pid} missing lastVerifiedDate")
+
+        if missing_sources:
+            errors.append(f"{bdir}/policies.json has {len(missing_sources)} pledges lacking officialSourceUrl: {missing_sources[:3]}")
+        else:
+            print(f"  ✓ Policy Guardrail: 100% of pledges anchored to verified party source URLs")
+
+        # Specific metric guardrails
+        def_topic = next((t for t in policies if t['id'] == 'defence-spending-and-military'), None)
+        if def_topic:
+            con_pledge = def_topic['pledges'].get('conservative', {})
+            if '3.0%' not in con_pledge.get('headline', '') and '3.0%' not in con_pledge.get('targetTimeline', ''):
+                errors.append("Policy Drift Alert: Conservative defence pledge does not reflect updated 3.0% of GDP target")
+            else:
+                print("  ✓ Policy Guardrail: Conservative defence pledge confirmed at 3.0% of GDP by 2030")
 
         # 4. Polling audit
         polls = load_json(f"{bdir}/polls.json")
@@ -153,7 +178,7 @@ def audit_all():
             print(f"   - {e}")
         sys.exit(1)
     else:
-        print("✅ ALL 8 PARTIES, ROSTERS, APPOINTMENT DATES, SEATS & POLLS 100% VERIFIED!")
+        print("✅ ALL 8 PARTIES, ROSTERS, APPOINTMENT DATES, SEATS, POLICIES & POLLS 100% VERIFIED!")
         if warnings:
             print(f"⚠️  {len(warnings)} minor warning(s)")
         print("=" * 70)

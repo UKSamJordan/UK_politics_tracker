@@ -12,7 +12,7 @@
  *    explicitly report reshuffles, new appointments, defections, and MP seat changes.
  */
 
-import { CabinetMember, PolicyTopic, FactCheckItem, Party } from '../types/politics';
+import { CabinetMember, PolicyTopic, FactCheckItem, Party, PartyId } from '../types/politics';
 
 const STORAGE_KEYS = {
   CABINETS: 'uk_politics_cabinets_v3',
@@ -33,6 +33,23 @@ export interface CabinetChangeReport {
   hasChanges: boolean;
   totalMembersChecked: number;
   changes: CabinetChangeItem[];
+  summary: string;
+  timestamp: string;
+}
+
+export interface PolicyChangeItem {
+  category: string;
+  partyId: string;
+  topicTitle: string;
+  oldHeadline?: string;
+  newHeadline: string;
+  details: string;
+}
+
+export interface PolicyChangeReport {
+  hasChanges: boolean;
+  totalTopicsChecked: number;
+  changes: PolicyChangeItem[];
   summary: string;
   timestamp: string;
 }
@@ -310,17 +327,83 @@ Return JSON matching:
 }
 
 /**
- * Live Update: Policy Matrix
+ * Algorithmic Policy Change Detection
  */
-export async function refreshPolicyMatrix(): Promise<{
+export function detectPolicyChanges(
+  currentList: PolicyTopic[],
+  newList: PolicyTopic[]
+): PolicyChangeReport {
+  const changes: PolicyChangeItem[] = [];
+  const oldTopicMap = new Map(currentList.map((t) => [t.id, t]));
+
+  for (const newT of newList) {
+    const oldT = oldTopicMap.get(newT.id);
+    if (!oldT) {
+      changes.push({
+        category: newT.category,
+        partyId: 'all',
+        topicTitle: newT.title,
+        newHeadline: newT.title,
+        details: `New policy sector added: ${newT.title}`,
+      });
+    } else {
+      for (const [pid, newPledge] of Object.entries(newT.pledges)) {
+        const oldPledge = oldT.pledges[pid as PartyId];
+        if (!oldPledge) {
+          changes.push({
+            category: newT.category,
+            partyId: pid,
+            topicTitle: newT.title,
+            newHeadline: newPledge.headline,
+            details: `New pledge recorded for ${pid.toUpperCase()}: "${newPledge.headline}"`,
+          });
+        } else if (
+          oldPledge.headline !== newPledge.headline ||
+          oldPledge.summary !== newPledge.summary
+        ) {
+          changes.push({
+            category: newT.category,
+            partyId: pid,
+            topicTitle: newT.title,
+            oldHeadline: oldPledge.headline,
+            newHeadline: newPledge.headline,
+            details: `Pledge updated: "${oldPledge.headline}" -> "${newPledge.headline}" (Source: ${newPledge.officialSourceTitle || 'Official Platform'})`,
+          });
+        }
+      }
+    }
+  }
+
+  const hasChanges = changes.length > 0;
+  const summary = hasChanges
+    ? `Identified ${changes.length} policy evolution(s) across official party platforms.`
+    : `All ${newList.length} policy sectors and official party sources match current verified records (0 changes detected).`;
+
+  return {
+    hasChanges,
+    totalTopicsChecked: newList.length,
+    changes,
+    summary,
+    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+  };
+}
+
+/**
+ * Live Update: Policy Matrix with Change Detection
+ */
+export async function refreshPolicyMatrix(currentPolicies: PolicyTopic[] = []): Promise<{
   data: PolicyTopic[];
   source: string;
+  changeReport: PolicyChangeReport;
 }> {
   const cdnData = await fetchLiveCdnData<PolicyTopic[]>('policies.json');
   localStorage.setItem(STORAGE_KEYS.POLICIES, JSON.stringify(cdnData));
+  const changeReport = detectPolicyChanges(currentPolicies, cdnData);
+
   return {
     data: cdnData,
     source: 'Live CDN Data Bank (/data/policies.json)',
+    changeReport,
   };
 }
 

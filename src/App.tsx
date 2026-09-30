@@ -92,8 +92,9 @@ export const App: React.FC = () => {
   };
 
   const handleRefreshPolicies = async () => {
-    const res = await refreshPolicyMatrix();
+    const res = await refreshPolicyMatrix(policies);
     setPolicies(res.data);
+    return res.changeReport;
   };
 
   const handleRefreshFactChecks = async () => {

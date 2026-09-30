@@ -27,24 +27,30 @@
         "factCheckSnippet": "Full Fact notes: The timing for reaching 2.5% remains contingent on the SDR and fiscal headroom.",
         "factCheckVerdict": "clarified",
         "factCheckSource": "Full Fact / MoD",
-        "publicSupport": 68
+        "publicSupport": 68,
+        "officialSourceTitle": "Labour Party Policy Platform",
+        "officialSourceUrl": "https://labour.org.uk/change",
+        "lastVerifiedDate": "September 2026"
       },
       "conservative": {
         "partyId": "conservative",
-        "headline": "Guaranteed 2.5% of GDP by 2030 funded by civil service cuts",
-        "summary": "Legislate for defence spending to reach 2.5% of GDP (£87bn/yr) by 2030, funded by shrinking Whitehall back-office civil service headcount to pre-pandemic levels.",
+        "headline": "Commitment to 3.0% of GDP on Defence by 2030",
+        "summary": "Officially pledged to raise UK defence spending to 3.0% of GDP (£100bn+/yr) by 2030 to counter escalating hostile alliances, reverse regular Army troop cuts, and replenish sovereign munitions.",
         "keyPoints": [
-          "Ring-fenced funding for the Dreadnought nuclear submarine replacement",
-          "Increase stockpiles of precision-guided munitions and high-readiness brigades",
-          "Reinforce AUKUS nuclear submarine alliance and Global Combat Air Programme (Tempest)",
-          "Oppose any reduction in British regular Army numbers below 73,000"
+          "Target 3.0% of GDP by 2030, raising UK defence posture significantly above the NATO 2% baseline",
+          "Protect regular British Army headcount with a strict 73,000 personnel floor",
+          "Ring-fenced sovereign capital funding for the Dreadnought nuclear submarine replacement",
+          "Deepen AUKUS and Global Combat Air Programme (Tempest) 6th-gen fighter alliances"
         ],
-        "costEstimate": "Additional £75bn in total over 6 years up to 2030",
-        "targetTimeline": "Fully legislated target of 2.5% by 2030",
-        "factCheckSnippet": "IFS assessment: Relying strictly on administrative headcount cuts to fund sustained defence uplift faces severe execution risks.",
-        "factCheckVerdict": "disputed",
+        "costEstimate": "Estimated £90bn - £100bn+ annual expenditure by 2030",
+        "targetTimeline": "Target of 3.0% of GDP by 2030",
+        "factCheckSnippet": "Full Fact / RUSI: Moving to 3.0% represents a ~£25bn/yr uplift, requiring substantial spending trade-offs or revised fiscal rules.",
+        "factCheckVerdict": "clarified",
         "factCheckSource": "Institute for Fiscal Studies (IFS)",
-        "publicSupport": 61
+        "publicSupport": 61,
+        "officialSourceTitle": "Conservative Official Policy & Defence Platform",
+        "officialSourceUrl": "https://www.conservatives.com/our-plan",
+        "lastVerifiedDate": "September 2026"
       },
       "reform": {
         "partyId": "reform",
@@ -61,7 +67,10 @@
         "factCheckSnippet": "Full Fact / IFS: Reaching 3% while simultaneously cutting personal taxes by £70bn+ leaves a massive uncosted fiscal gap.",
         "factCheckVerdict": "unfunded",
         "factCheckSource": "Institute for Fiscal Studies",
-        "publicSupport": 54
+        "publicSupport": 54,
+        "officialSourceTitle": "Reform UK Official Platform",
+        "officialSourceUrl": "https://www.reformparty.uk/policies",
+        "lastVerifiedDate": "September 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -78,7 +87,10 @@
         "factCheckSnippet": "Independent Defence Review: Focuses strongly on personnel retention, but lacks specific funding formulas.",
         "factCheckVerdict": "verified",
         "factCheckSource": "Royal United Services Institute (RUSI)",
-        "publicSupport": 59
+        "publicSupport": 59,
+        "officialSourceTitle": "Liberal Democrats Official Policy",
+        "officialSourceUrl": "https://www.libdems.org.uk/plan",
+        "lastVerifiedDate": "September 2026"
       },
       "green": {
         "partyId": "green",
@@ -95,7 +107,10 @@
         "factCheckSnippet": "House of Commons Library: Trident cancellation would reduce long-term capital liability, but involves costly decommissioning.",
         "factCheckVerdict": "verified",
         "factCheckSource": "House of Commons Library",
-        "publicSupport": 33
+        "publicSupport": 33,
+        "officialSourceTitle": "Green Party Policy Platform",
+        "officialSourceUrl": "https://greenparty.org.uk/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "snp": {
         "partyId": "snp",
@@ -112,7 +127,10 @@
         "factCheckSnippet": "RUSI Analysis: Relocating Faslane nuclear facilities to an alternative UK base is estimated to take 10-15 years and £10bn+.",
         "factCheckVerdict": "clarified",
         "factCheckSource": "RUSI / MoD",
-        "publicSupport": 41
+        "publicSupport": 41,
+        "officialSourceTitle": "SNP Policy & Westminster Platform",
+        "officialSourceUrl": "https://www.snp.org/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "plaid": {
         "partyId": "plaid",
@@ -129,7 +147,10 @@
         "factCheckSnippet": "UK Parliament Research: Wales hosts key training establishments (e.g. RAF Valley, Brecon) requiring sustained maintenance.",
         "factCheckVerdict": "verified",
         "factCheckSource": "House of Commons Library",
-        "publicSupport": 38
+        "publicSupport": 38,
+        "officialSourceTitle": "Plaid Cymru Policy Platform",
+        "officialSourceUrl": "https://partyof.wales/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "restore": {
         "partyId": "restore",
@@ -146,7 +167,10 @@
         "factCheckSnippet": "IFS / OBR: Eliminating overseas aid and quangos yields under £12bn, which does not cover a sustained 3% GDP expansion.",
         "factCheckVerdict": "unfunded",
         "factCheckSource": "IFS / OBR",
-        "publicSupport": 47
+        "publicSupport": 47,
+        "officialSourceTitle": "Restore Britain Movement Charter",
+        "officialSourceUrl": "https://restorebritain.org.uk",
+        "lastVerifiedDate": "September 2026"
       }
     }
   },
@@ -178,7 +202,10 @@
         "factCheckSnippet": "OBR confirmed: Safeguarding low-income pensioners from the personal allowance freeze provides targeted relief for state-dependent retirees.",
         "factCheckVerdict": "verified",
         "factCheckSource": "HM Treasury / OBR",
-        "publicSupport": 64
+        "publicSupport": 64,
+        "officialSourceTitle": "Labour Party Policy Platform",
+        "officialSourceUrl": "https://labour.org.uk/change",
+        "lastVerifiedDate": "September 2026"
       },
       "conservative": {
         "partyId": "conservative",
@@ -195,7 +222,10 @@
         "factCheckSnippet": "IFS notes: Welfare savings of this magnitude historically face significant legal and delivery obstacles.",
         "factCheckVerdict": "disputed",
         "factCheckSource": "IFS",
-        "publicSupport": 52
+        "publicSupport": 52,
+        "officialSourceTitle": "Conservative Party Official Policy",
+        "officialSourceUrl": "https://www.conservatives.com/our-plan",
+        "lastVerifiedDate": "September 2026"
       },
       "reform": {
         "partyId": "reform",
@@ -212,7 +242,10 @@
         "factCheckSnippet": "IFS & Institute for Government: Package creates an astronomical shortfall requiring severe, unspecified public service cuts.",
         "factCheckVerdict": "unfunded",
         "factCheckSource": "Institute for Fiscal Studies",
-        "publicSupport": 63
+        "publicSupport": 63,
+        "officialSourceTitle": "Reform UK Official Platform",
+        "officialSourceUrl": "https://www.reformparty.uk/policies",
+        "lastVerifiedDate": "September 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -229,7 +262,10 @@
         "factCheckSnippet": "IFS: Policy targets high earners and profitable corporations with clear costing, though bank tax changes risk financial city flight.",
         "factCheckVerdict": "verified",
         "factCheckSource": "IFS",
-        "publicSupport": 69
+        "publicSupport": 69,
+        "officialSourceTitle": "Liberal Democrats Official Policy",
+        "officialSourceUrl": "https://www.libdems.org.uk/plan",
+        "lastVerifiedDate": "September 2026"
       },
       "green": {
         "partyId": "green",
@@ -246,7 +282,10 @@
         "factCheckSnippet": "Tax Policy Associates / IFS: Wealth taxes yield revenue but risk capital flight and valuation administrative friction.",
         "factCheckVerdict": "clarified",
         "factCheckSource": "Tax Policy Associates",
-        "publicSupport": 72
+        "publicSupport": 72,
+        "officialSourceTitle": "Green Party Policy Platform",
+        "officialSourceUrl": "https://greenparty.org.uk/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "snp": {
         "partyId": "snp",
@@ -263,7 +302,10 @@
         "factCheckSnippet": "Scottish Fiscal Commission: Scottish progressive tax system generates positive net revenue with modest behavioural drag.",
         "factCheckVerdict": "verified",
         "factCheckSource": "Scottish Fiscal Commission",
-        "publicSupport": 56
+        "publicSupport": 56,
+        "officialSourceTitle": "SNP Policy & Westminster Platform",
+        "officialSourceUrl": "https://www.snp.org/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "plaid": {
         "partyId": "plaid",
@@ -280,7 +322,10 @@
         "factCheckSnippet": "Holtham Commission & Welsh Governance Centre: Barnett formula consistently produces per-capita underfunding relative to Welsh health need.",
         "factCheckVerdict": "verified",
         "factCheckSource": "Wales Governance Centre",
-        "publicSupport": 54
+        "publicSupport": 54,
+        "officialSourceTitle": "Plaid Cymru Policy Platform",
+        "officialSourceUrl": "https://partyof.wales/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "restore": {
         "partyId": "restore",
@@ -297,7 +342,10 @@
         "factCheckSnippet": "Economic Consensus: Flat tax schemes of this scale historically lead to severe short-term revenue contractions and borrowing spikes.",
         "factCheckVerdict": "unfunded",
         "factCheckSource": "Institute for Government",
-        "publicSupport": 42
+        "publicSupport": 42,
+        "officialSourceTitle": "Restore Britain Movement Charter",
+        "officialSourceUrl": "https://restorebritain.org.uk",
+        "lastVerifiedDate": "September 2026"
       }
     }
   },
@@ -329,7 +377,10 @@
         "factCheckSnippet": "Conference verified: The government committed to keeping the triple lock through this Parliament before shifting to a double lock in April 2030.",
         "factCheckVerdict": "verified",
         "factCheckSource": "Labour Conference 2026 / OBR",
-        "publicSupport": 79
+        "publicSupport": 79,
+        "officialSourceTitle": "Labour Party Policy Platform",
+        "officialSourceUrl": "https://labour.org.uk/change",
+        "lastVerifiedDate": "September 2026"
       },
       "conservative": {
         "partyId": "conservative",
@@ -346,7 +397,10 @@
         "factCheckSnippet": "National Audit Office (NAO): The 40 new hospitals programme suffered major delays, inflation overruns, and required redesign.",
         "factCheckVerdict": "disputed",
         "factCheckSource": "National Audit Office",
-        "publicSupport": 51
+        "publicSupport": 51,
+        "officialSourceTitle": "Conservative Party Official Policy",
+        "officialSourceUrl": "https://www.conservatives.com/our-plan",
+        "lastVerifiedDate": "September 2026"
       },
       "reform": {
         "partyId": "reform",
@@ -363,7 +417,10 @@
         "factCheckSnippet": "Nuffield Trust: Independent voucher system risks exacerbating NHS workforce drainage into private facilities without increasing total doctor supply.",
         "factCheckVerdict": "disputed",
         "factCheckSource": "Nuffield Trust",
-        "publicSupport": 49
+        "publicSupport": 49,
+        "officialSourceTitle": "Reform UK Official Platform",
+        "officialSourceUrl": "https://www.reformparty.uk/policies",
+        "lastVerifiedDate": "September 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -380,7 +437,10 @@
         "factCheckSnippet": "King's Fund: Free personal care is widely regarded as transformative for freeing hospital discharge beds, though recruitment bottlenecks persist.",
         "factCheckVerdict": "verified",
         "factCheckSource": "The King's Fund",
-        "publicSupport": 79
+        "publicSupport": 79,
+        "officialSourceTitle": "Liberal Democrats Official Policy",
+        "officialSourceUrl": "https://www.libdems.org.uk/plan",
+        "lastVerifiedDate": "September 2026"
       },
       "green": {
         "partyId": "green",
@@ -397,7 +457,10 @@
         "factCheckSnippet": "Health Foundation: Would fully solve NHS capital depreciation and staffing deficits, but relies on unprecedented wealth tax collection.",
         "factCheckVerdict": "clarified",
         "factCheckSource": "The Health Foundation",
-        "publicSupport": 65
+        "publicSupport": 65,
+        "officialSourceTitle": "Green Party Policy Platform",
+        "officialSourceUrl": "https://greenparty.org.uk/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "snp": {
         "partyId": "snp",
@@ -414,7 +477,10 @@
         "factCheckSnippet": "Audit Scotland: NHS Scotland per capita spending is 7% higher than England, but waiting time pressures remain acute across acute trusts.",
         "factCheckVerdict": "verified",
         "factCheckSource": "Audit Scotland",
-        "publicSupport": 60
+        "publicSupport": 60,
+        "officialSourceTitle": "SNP Policy & Westminster Platform",
+        "officialSourceUrl": "https://www.snp.org/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "plaid": {
         "partyId": "plaid",
@@ -431,7 +497,10 @@
         "factCheckSnippet": "Welsh NHS Confederation: Debt-forgiveness schemes prove effective for regional clinician retention in rural Welsh communities.",
         "factCheckVerdict": "verified",
         "factCheckSource": "Welsh NHS Confederation",
-        "publicSupport": 58
+        "publicSupport": 58,
+        "officialSourceTitle": "Plaid Cymru Policy Platform",
+        "officialSourceUrl": "https://partyof.wales/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "restore": {
         "partyId": "restore",
@@ -448,7 +517,10 @@
         "factCheckSnippet": "Kings Fund / NHS England: Non-clinical diversity roles account for less than 0.1% of the NHS £180bn budget.",
         "factCheckVerdict": "misleading",
         "factCheckSource": "Full Fact",
-        "publicSupport": 45
+        "publicSupport": 45,
+        "officialSourceTitle": "Restore Britain Movement Charter",
+        "officialSourceUrl": "https://restorebritain.org.uk",
+        "lastVerifiedDate": "September 2026"
       }
     }
   },
@@ -480,7 +552,10 @@
         "factCheckSnippet": "Full Fact: Labour cancelled the Rwanda scheme on day one, re-allocating £290m unspent operational funds to border policing.",
         "factCheckVerdict": "verified",
         "factCheckSource": "Home Office / Full Fact",
-        "publicSupport": 63
+        "publicSupport": 63,
+        "officialSourceTitle": "Labour Party Policy Platform",
+        "officialSourceUrl": "https://labour.org.uk/change",
+        "lastVerifiedDate": "September 2026"
       },
       "conservative": {
         "partyId": "conservative",
@@ -497,7 +572,10 @@
         "factCheckSnippet": "Migration Observatory: Visa salary threshold increases enacted in early 2024 already caused student and healthcare visa grants to drop over 30%.",
         "factCheckVerdict": "verified",
         "factCheckSource": "Oxford Migration Observatory",
-        "publicSupport": 62
+        "publicSupport": 62,
+        "officialSourceTitle": "Conservative Party Official Policy",
+        "officialSourceUrl": "https://www.conservatives.com/our-plan",
+        "lastVerifiedDate": "September 2026"
       },
       "reform": {
         "partyId": "reform",
@@ -514,7 +592,10 @@
         "factCheckSnippet": "Full Fact / Law Society: Leaving ECHR requires rewriting the Good Friday Agreement in Northern Ireland and faces severe bilateral legal hurdles with France.",
         "factCheckVerdict": "disputed",
         "factCheckSource": "Full Fact / British Institute of International Law",
-        "publicSupport": 53
+        "publicSupport": 53,
+        "officialSourceTitle": "Reform UK Official Platform",
+        "officialSourceUrl": "https://www.reformparty.uk/policies",
+        "lastVerifiedDate": "September 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -531,7 +612,10 @@
         "factCheckSnippet": "Refugee Council / Home Office data: Allowing asylum seekers to work generates an estimated £300m in tax revenues and reduces state hotel dependency.",
         "factCheckVerdict": "verified",
         "factCheckSource": "Refugee Council / LSE",
-        "publicSupport": 48
+        "publicSupport": 48,
+        "officialSourceTitle": "Liberal Democrats Official Policy",
+        "officialSourceUrl": "https://www.libdems.org.uk/plan",
+        "lastVerifiedDate": "September 2026"
       },
       "green": {
         "partyId": "green",
@@ -548,7 +632,10 @@
         "factCheckSnippet": "Joint Council for the Welfare of Immigrants: Removing spouse income rules reunites thousands of British families, but would increase net migration numbers.",
         "factCheckVerdict": "verified",
         "factCheckSource": "JCWI / Home Office",
-        "publicSupport": 32
+        "publicSupport": 32,
+        "officialSourceTitle": "Green Party Policy Platform",
+        "officialSourceUrl": "https://greenparty.org.uk/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "snp": {
         "partyId": "snp",
@@ -565,7 +652,10 @@
         "factCheckSnippet": "National Records of Scotland: Scotland is the only UK nation where all projected population growth relies on inward net migration.",
         "factCheckVerdict": "verified",
         "factCheckSource": "National Records of Scotland",
-        "publicSupport": 52
+        "publicSupport": 52,
+        "officialSourceTitle": "SNP Policy & Westminster Platform",
+        "officialSourceUrl": "https://www.snp.org/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "plaid": {
         "partyId": "plaid",
@@ -582,7 +672,10 @@
         "factCheckSnippet": "Welsh Refugee Council: Regional visa schemes exist successfully in Canada and Australia, providing tested international precedents.",
         "factCheckVerdict": "verified",
         "factCheckSource": "Welsh Governance Centre",
-        "publicSupport": 46
+        "publicSupport": 46,
+        "officialSourceTitle": "Plaid Cymru Policy Platform",
+        "officialSourceUrl": "https://partyof.wales/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "restore": {
         "partyId": "restore",
@@ -599,7 +692,10 @@
         "factCheckSnippet": "Maritime Law Experts: Forcible maritime pushbacks in the Channel violate the UN Convention on the Law of the Sea (UNCLOS) and require French territorial cooperation.",
         "factCheckVerdict": "disputed",
         "factCheckSource": "Full Fact / UNCLOS",
-        "publicSupport": 48
+        "publicSupport": 48,
+        "officialSourceTitle": "Restore Britain Movement Charter",
+        "officialSourceUrl": "https://restorebritain.org.uk",
+        "lastVerifiedDate": "September 2026"
       }
     }
   },
@@ -631,7 +727,10 @@
         "factCheckSnippet": "National Grid ESO: Clean power by 2030 is technically possible but requires unprecedented speed in grid infrastructure connections.",
         "factCheckVerdict": "clarified",
         "factCheckSource": "National Grid ESO",
-        "publicSupport": 65
+        "publicSupport": 65,
+        "officialSourceTitle": "Labour Party Policy Platform",
+        "officialSourceUrl": "https://labour.org.uk/change",
+        "lastVerifiedDate": "September 2026"
       },
       "conservative": {
         "partyId": "conservative",
@@ -648,7 +747,10 @@
         "factCheckSnippet": "Climate Change Committee (CCC): Watering down interim deadlines makes achieving the legally binding 2050 target significantly harder.",
         "factCheckVerdict": "verified",
         "factCheckSource": "Climate Change Committee",
-        "publicSupport": 57
+        "publicSupport": 57,
+        "officialSourceTitle": "Conservative Party Official Policy",
+        "officialSourceUrl": "https://www.conservatives.com/our-plan",
+        "lastVerifiedDate": "September 2026"
       },
       "reform": {
         "partyId": "reform",
@@ -665,7 +767,10 @@
         "factCheckSnippet": "Full Fact / CCC: Gas is the primary driver of high electricity bills under the UK marginal pricing system; cutting green levies saves roughly £170, not £500.",
         "factCheckVerdict": "disputed",
         "factCheckSource": "Full Fact / Ofgem",
-        "publicSupport": 38
+        "publicSupport": 38,
+        "officialSourceTitle": "Reform UK Official Platform",
+        "officialSourceUrl": "https://www.reformparty.uk/policies",
+        "lastVerifiedDate": "September 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -682,7 +787,10 @@
         "factCheckSnippet": "Energy UK: Zero VAT and grant subsidies have proven high uptake for heat pumps, though certified installer shortages remain a bottleneck.",
         "factCheckVerdict": "verified",
         "factCheckSource": "Energy UK",
-        "publicSupport": 67
+        "publicSupport": 67,
+        "officialSourceTitle": "Liberal Democrats Official Policy",
+        "officialSourceUrl": "https://www.libdems.org.uk/plan",
+        "lastVerifiedDate": "September 2026"
       },
       "green": {
         "partyId": "green",
@@ -699,7 +807,10 @@
         "factCheckSnippet": "IFS: Full nationalisation of utilities requires substantial compensation outlays or major bond issuances under international investment treaties.",
         "factCheckVerdict": "clarified",
         "factCheckSource": "Institute for Fiscal Studies",
-        "publicSupport": 45
+        "publicSupport": 45,
+        "officialSourceTitle": "Green Party Policy Platform",
+        "officialSourceUrl": "https://greenparty.org.uk/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "snp": {
         "partyId": "snp",
@@ -716,7 +827,10 @@
         "factCheckSnippet": "Ofgem / National Grid: Scottish energy generators currently pay higher transmission grid charges due to distance from southern population centres.",
         "factCheckVerdict": "verified",
         "factCheckSource": "House of Commons Scottish Affairs Committee",
-        "publicSupport": 58
+        "publicSupport": 58,
+        "officialSourceTitle": "SNP Policy & Westminster Platform",
+        "officialSourceUrl": "https://www.snp.org/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "plaid": {
         "partyId": "plaid",
@@ -733,7 +847,10 @@
         "factCheckSnippet": "Welsh Government / Crown Estate data: Crown Estate in Scotland was successfully devolved under the Scotland Act 2016, generating direct revenue for Holyrood.",
         "factCheckVerdict": "verified",
         "factCheckSource": "House of Commons Library",
-        "publicSupport": 55
+        "publicSupport": 55,
+        "officialSourceTitle": "Plaid Cymru Policy Platform",
+        "officialSourceUrl": "https://partyof.wales/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "restore": {
         "partyId": "restore",
@@ -750,7 +867,10 @@
         "factCheckSnippet": "International Energy Agency (IEA): New solar and wind generation are now cheaper per megawatt-hour than building new coal or gas peaking plants.",
         "factCheckVerdict": "disputed",
         "factCheckSource": "IEA / BloombergNEF",
-        "publicSupport": 34
+        "publicSupport": 34,
+        "officialSourceTitle": "Restore Britain Movement Charter",
+        "officialSourceUrl": "https://restorebritain.org.uk",
+        "lastVerifiedDate": "September 2026"
       }
     }
   },
@@ -782,7 +902,10 @@
         "factCheckSnippet": "Planning Advisory Service: Reaching 300,000 homes a year requires massive expansion in bricklayers, electricians, and local planning officers.",
         "factCheckVerdict": "clarified",
         "factCheckSource": "Royal Town Planning Institute (RTPI)",
-        "publicSupport": 64
+        "publicSupport": 64,
+        "officialSourceTitle": "Labour Party Policy Platform",
+        "officialSourceUrl": "https://labour.org.uk/change",
+        "lastVerifiedDate": "September 2026"
       },
       "conservative": {
         "partyId": "conservative",
@@ -799,7 +922,10 @@
         "factCheckSnippet": "House of Commons Housing Committee: Brownfield sites alone in high-demand regions (London/South East) are insufficient to reach 1.6M homes.",
         "factCheckVerdict": "disputed",
         "factCheckSource": "House of Commons Housing Committee",
-        "publicSupport": 58
+        "publicSupport": 58,
+        "officialSourceTitle": "Conservative Party Official Policy",
+        "officialSourceUrl": "https://www.conservatives.com/our-plan",
+        "lastVerifiedDate": "September 2026"
       },
       "reform": {
         "partyId": "reform",
@@ -816,7 +942,10 @@
         "factCheckSnippet": "Local Government Association: Social housing allocation already strongly prioritises local connection rules across 90%+ of councils.",
         "factCheckVerdict": "clarified",
         "factCheckSource": "Local Government Association",
-        "publicSupport": 57
+        "publicSupport": 57,
+        "officialSourceTitle": "Reform UK Official Platform",
+        "officialSourceUrl": "https://www.reformparty.uk/policies",
+        "lastVerifiedDate": "September 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -833,7 +962,10 @@
         "factCheckSnippet": "Shelter / Crisis: 150,000 social homes per year matches independent estimates needed to eradicate homelessness.",
         "factCheckVerdict": "verified",
         "factCheckSource": "Shelter UK",
-        "publicSupport": 66
+        "publicSupport": 66,
+        "officialSourceTitle": "Liberal Democrats Official Policy",
+        "officialSourceUrl": "https://www.libdems.org.uk/plan",
+        "lastVerifiedDate": "September 2026"
       },
       "green": {
         "partyId": "green",
@@ -850,7 +982,10 @@
         "factCheckSnippet": "Institute of Economic Affairs / Centre for Cities: Strict rent controls in Berlin and Scotland historically reduced overall rental supply on the market.",
         "factCheckVerdict": "disputed",
         "factCheckSource": "Centre for Cities",
-        "publicSupport": 54
+        "publicSupport": 54,
+        "officialSourceTitle": "Green Party Policy Platform",
+        "officialSourceUrl": "https://greenparty.org.uk/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "snp": {
         "partyId": "snp",
@@ -867,7 +1002,10 @@
         "factCheckSnippet": "Scottish Parliament Information Centre (SPICe): Scottish budget reductions in 2024 forced temporary slowing of the 110k target timeline.",
         "factCheckVerdict": "clarified",
         "factCheckSource": "SPICe",
-        "publicSupport": 59
+        "publicSupport": 59,
+        "officialSourceTitle": "SNP Policy & Westminster Platform",
+        "officialSourceUrl": "https://www.snp.org/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "plaid": {
         "partyId": "plaid",
@@ -884,7 +1022,10 @@
         "factCheckSnippet": "Welsh Local Government Association: Second-home premiums in Gwynedd and Pembrokeshire raised tens of millions for local affordable home schemes.",
         "factCheckVerdict": "verified",
         "factCheckSource": "WLGA",
-        "publicSupport": 63
+        "publicSupport": 63,
+        "officialSourceTitle": "Plaid Cymru Policy Platform",
+        "officialSourceUrl": "https://partyof.wales/manifesto",
+        "lastVerifiedDate": "September 2026"
       },
       "restore": {
         "partyId": "restore",
@@ -901,7 +1042,185 @@
         "factCheckSnippet": "Royal Institute of British Architects (RIBA): Deregulating design and planning creates risk of substandard construction without proper building control oversight.",
         "factCheckVerdict": "disputed",
         "factCheckSource": "RIBA",
-        "publicSupport": 44
+        "publicSupport": 44,
+        "officialSourceTitle": "Restore Britain Movement Charter",
+        "officialSourceUrl": "https://restorebritain.org.uk",
+        "lastVerifiedDate": "September 2026"
+      }
+    }
+  },
+  {
+    "id": "pensions-triple-lock-and-national-care",
+    "category": "welfare",
+    "title": "State Pension Triple Lock & Adult Social Care",
+    "description": "Long-term indexation of the UK state pension, personal allowance tax thresholds for retirees, and funding adult social care.",
+    "officialFigureBenchmark": {
+      "label": "Full New State Pension",
+      "value": "£221.20 per week (£11,502.40 per year)",
+      "source": "Department for Work and Pensions (DWP)"
+    },
+    "publicOpinionQuestion": "Should the State Pension Triple Lock be protected indefinitely?",
+    "publicOpinionSupportOverall": 72,
+    "pledges": {
+      "labour": {
+        "partyId": "labour",
+        "headline": "Maintain Triple Lock This Parliament; 2030 Double Lock Transition to Fund National Care",
+        "summary": "Guarantee the triple lock through this Parliament; transition from 2030 to a double lock (earnings or inflation), redirecting £4bn/yr long-term savings into establishing the new National Care Service, while ensuring state pension does not get dragged into income tax.",
+        "keyPoints": [
+          "Legally protect the triple lock through 2029",
+          "Transition to double lock (earnings or inflation) from April 2030",
+          "Ring-fence £4bn/year long-term savings directly to fund the National Care Service",
+          "Ensure low-income pensioners relying solely on the state pension do not pay income tax"
+        ],
+        "costEstimate": "Neutral in short-term; saves ~£4bn/yr from 2030 to fund care",
+        "targetTimeline": "Full term through 2029; care transition 2030",
+        "factCheckSnippet": "IFS: The transition provides a fiscally sustainable path to fund adult social care without general taxation spikes.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "IFS / Burnham Policy Launch",
+        "officialSourceTitle": "Labour Party Official Platform",
+        "officialSourceUrl": "https://labour.org.uk/change",
+        "lastVerifiedDate": "September 2026",
+        "publicSupport": 65
+      },
+      "conservative": {
+        "partyId": "conservative",
+        "headline": "Defend Triple Lock Plus: Raise Pensioner Tax Allowance in Lockstep",
+        "summary": "Unconditionally protect the state pension triple lock and introduce 'Triple Lock Plus', raising the tax-free personal allowance for pensioners each year so the state pension is never taxed.",
+        "keyPoints": [
+          "Oppose any dilution or watering down of the triple lock",
+          "Legislate Triple Lock Plus to ensure the state pension never incurs income tax",
+          "Oppose Burnham's 2030 double lock care transition",
+          "Cut Whitehall quango budgets to support adult social care locally"
+        ],
+        "costEstimate": "Estimated £2.4bn - £3.1bn per year for Triple Lock Plus tax relief",
+        "targetTimeline": "Immediate legislation in Parliament",
+        "factCheckSnippet": "Full Fact: State pension on track to overtake personal allowance (£12,570) by 2027 without policy adjustment.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "Full Fact / HMRC",
+        "officialSourceTitle": "Conservative Party Official Policy",
+        "officialSourceUrl": "https://www.conservatives.com/our-plan",
+        "lastVerifiedDate": "September 2026",
+        "publicSupport": 70
+      },
+      "reform": {
+        "partyId": "reform",
+        "headline": "Protect Triple Lock & Raise Personal Allowance to £20,000",
+        "summary": "Retain the state pension triple lock and lift the universal income tax personal allowance from £12,570 to £20,000, instantly lifting all pensioners out of income tax.",
+        "keyPoints": [
+          "Maintain the state pension triple lock without conditions",
+          "Lift personal income tax allowance to £20,000 for everyone",
+          "Scrap tax on medical insurance to let pensioners use private care and ease NHS strain",
+          "Fund through cutting Whitehall DEI spending and unspent foreign aid"
+        ],
+        "costEstimate": "Estimated £70bn/yr for £20k allowance; funding mechanism disputed",
+        "targetTimeline": "First Parliamentary budget",
+        "factCheckSnippet": "IFS: Raising allowance to £20k is immensely popular with pensioners but leaves a massive uncosted deficit.",
+        "factCheckVerdict": "unfunded",
+        "factCheckSource": "Institute for Fiscal Studies",
+        "officialSourceTitle": "Reform UK Official Platform",
+        "officialSourceUrl": "https://www.reformparty.uk/policies",
+        "lastVerifiedDate": "September 2026",
+        "publicSupport": 74
+      },
+      "libdem": {
+        "partyId": "libdem",
+        "headline": "Legally Enshrine Triple Lock & £5bn Free Personal Adult Social Care",
+        "summary": "Legislate to guarantee the state pension triple lock every year of Parliament, paired with an immediate £5bn national package for free personal adult social care.",
+        "keyPoints": [
+          "Legally enshrine the triple lock in primary legislation",
+          "£5bn free personal adult social care for older and disabled people",
+          "Introduce Carer's Minimum Wage 20% above National Living Wage",
+          "Fund via windfall taxes on energy super-profits and big tech levies"
+        ],
+        "costEstimate": "£5bn/year dedicated adult social care fund",
+        "targetTimeline": "Immediate implementation across 2024–2029",
+        "factCheckSnippet": "King's Fund: Free personal care would dramatically alleviate hospital discharge gridlock.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "The King's Fund / Lib Dem Costing",
+        "officialSourceTitle": "Liberal Democrats Official Plan",
+        "officialSourceUrl": "https://www.libdems.org.uk/plan",
+        "lastVerifiedDate": "September 2026",
+        "publicSupport": 68
+      },
+      "green": {
+        "partyId": "green",
+        "headline": "Protect Triple Lock, Increase Base State Pension & Trial UBI",
+        "summary": "Maintain the triple lock, benchmark the base state pension upward to provide genuine retirement dignity, and pilot a Universal Basic Income.",
+        "keyPoints": [
+          "Maintain the triple lock and increase base state pension",
+          "Universal free personal social care funded by progressive taxation",
+          "Introduce 1-2% wealth tax on fortunes over £10m to fund care and pensions",
+          "Nationalise water and public utilities to lower pensioner utility bills"
+        ],
+        "costEstimate": "Funded via £15bn annual wealth tax on multi-millionaires",
+        "targetTimeline": "Phased implementation",
+        "factCheckSnippet": "Full Fact: Wealth tax revenue estimates vary widely based on behavioural capital flight.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "Full Fact",
+        "officialSourceTitle": "Green Party Manifesto",
+        "officialSourceUrl": "https://greenparty.org.uk/manifesto",
+        "lastVerifiedDate": "September 2026",
+        "publicSupport": 61
+      },
+      "snp": {
+        "partyId": "snp",
+        "headline": "Defend Triple Lock Unconditionally & Fast-Track WASPI Compensation",
+        "summary": "Demand total UK Government protection for the triple lock, reject any double lock dilution, and immediately deliver compensation for 1950s-born WASPI women.",
+        "keyPoints": [
+          "Uncompromising defence of the state pension triple lock",
+          "Immediate statutory financial compensation for WASPI women affected by pension age changes",
+          "Devolve full employment, pension, and welfare powers to Holyrood",
+          "Scrap the punitive two-child benefit cap immediately"
+        ],
+        "costEstimate": "Estimated £3.5bn - £10.5bn one-off WASPI compensation package",
+        "targetTimeline": "Immediate Westminster action",
+        "factCheckSnippet": "Parliamentary Ombudsman (PHSO): Recommended compensation between £1,000 and £2,950 per affected woman.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Parliamentary and Health Service Ombudsman (PHSO)",
+        "officialSourceTitle": "SNP Official Manifesto",
+        "officialSourceUrl": "https://www.snp.org/manifesto",
+        "lastVerifiedDate": "September 2026",
+        "publicSupport": 73
+      },
+      "plaid": {
+        "partyId": "plaid",
+        "headline": "Protect Triple Lock, End Rural Fuel Poverty & Deliver WASPI Justice",
+        "summary": "Protect the triple lock, implement PHSO recommendations for WASPI women, and introduce a Welsh rural energy social tariff for older households.",
+        "keyPoints": [
+          "Retain the triple lock without exceptions",
+          "Full compensation for 1950s women under PHSO findings",
+          "Social energy tariff for off-gas grid Welsh rural pensioners",
+          "Replace Barnett formula to secure £1.2bn additional annual funding for Welsh health and care"
+        ],
+        "costEstimate": "Part of £1.2bn/year needs-based funding formula reform",
+        "targetTimeline": "Legislative priority",
+        "factCheckSnippet": "Welsh Governance Centre: Replacing Barnett with a needs-based formula yields approx £1.2bn extra per year for Wales.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Wales Governance Centre",
+        "officialSourceTitle": "Plaid Cymru Official Manifesto",
+        "officialSourceUrl": "https://partyof.wales/manifesto",
+        "lastVerifiedDate": "September 2026",
+        "publicSupport": 67
+      },
+      "restore": {
+        "partyId": "restore",
+        "headline": "Shield Pensioners from Stealth Taxes & Repeal Green Levies",
+        "summary": "Retain the state pension triple lock, abolish green levies and Net Zero charges on elderly household bills, and index tax allowances to protect pensioners.",
+        "keyPoints": [
+          "Retain state pension purchasing power",
+          "Abolish all green levies on domestic gas and electricity to reduce heating bills by £300/yr",
+          "Repeal stealth tax freezing of personal allowances",
+          "Reclaim foreign aid funds to support domestic elder care"
+        ],
+        "costEstimate": "Estimated £8bn/yr saved from Net Zero subsidies",
+        "targetTimeline": "Immediate implementation",
+        "factCheckSnippet": "Ofgem: Green levies currently account for approx £100-£170 of average annual domestic energy bills.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "Ofgem / House of Commons Library",
+        "officialSourceTitle": "Restore Britain Charter",
+        "officialSourceUrl": "https://restorebritain.org.uk",
+        "lastVerifiedDate": "September 2026",
+        "publicSupport": 63
       }
     }
   }

@@ -72,6 +72,9 @@ export interface PolicyPledge {
   factCheckSource?: string;
   factCheckUrl?: string;
   publicSupport?: number; // e.g. 64% public support
+  officialSourceUrl?: string;
+  officialSourceTitle?: string;
+  lastVerifiedDate?: string;
 }
 
 export interface PolicyTopic {

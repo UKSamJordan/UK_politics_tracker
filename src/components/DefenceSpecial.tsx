@@ -32,7 +32,7 @@ export const DefenceSpecial: React.FC<DefenceSpecialProps> = ({
     },
     {
       partyId: 'conservative',
-      targetGdp: '2.5% by 2030 (£87bn/yr)',
+      targetGdp: '3.0% by 2030 (£100bn+/yr)',
       trident: 'Full Dreadnought replacement ring-fenced',
       troopTarget: 'Lock army floor at minimum 73,000 personnel',
       natoUkraine: 'Expand AUKUS and GCAP Tempest fighter programme; sustain £3bn/yr Ukraine aid',
@@ -164,8 +164,8 @@ export const DefenceSpecial: React.FC<DefenceSpecialProps> = ({
             <span>1.5% (Disarmament)</span>
             <span>2.0% (NATO minimum)</span>
             <span className="text-slate-900 font-bold">2.3% (Current UK)</span>
-            <span>2.5% (Labour/Con/LD)</span>
-            <span>3.0% (Reform/Restore)</span>
+            <span>2.5% (Labour/LD)</span>
+            <span>3.0% (Con/Reform/Restore)</span>
             <span>3.5% (Cold War peak)</span>
           </div>
         </div>

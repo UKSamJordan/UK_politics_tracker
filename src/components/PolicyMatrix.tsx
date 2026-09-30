@@ -7,6 +7,7 @@ import {
   Plane, 
   Zap, 
   Home, 
+  Heart,
   Search, 
   CheckCircle2, 
   AlertTriangle, 
@@ -14,15 +15,17 @@ import {
   HelpCircle,
   ExternalLink,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  AlertCircle
 } from 'lucide-react';
 import { SectionRefreshButton } from './SectionRefreshButton';
+import { PolicyChangeReport } from '../services/liveUpdater';
 
 interface PolicyMatrixProps {
   parties: Party[];
   selectedParties: PartyId[];
   policies: PolicyTopic[];
-  onRefreshPolicies?: () => Promise<void> | void;
+  onRefreshPolicies?: () => Promise<PolicyChangeReport | void> | void;
 }
 
 export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
@@ -34,11 +37,14 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedTopic, setExpandedTopic] = useState<string | null>(null);
+  const [lastChangeReport, setLastChangeReport] = useState<PolicyChangeReport | null>(null);
+  const [showReportDetails, setShowReportDetails] = useState(false);
 
   const categories = [
     { id: 'all', label: 'All Policy Areas', icon: null },
     { id: 'defence', label: 'Defence & Military', icon: Shield },
     { id: 'economy', label: 'Economy & Tax', icon: TrendingUp },
+    { id: 'welfare', label: 'Pensions & Social Care', icon: Heart },
     { id: 'nhs', label: 'NHS & Healthcare', icon: HeartPulse },
     { id: 'immigration', label: 'Immigration & Borders', icon: Plane },
     { id: 'energy', label: 'Energy & Net Zero', icon: Zap },
@@ -98,25 +104,98 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
     }
   };
 
+  const handleRefreshWithDiff = async () => {
+    if (onRefreshPolicies) {
+      const report = await onRefreshPolicies();
+      if (report && typeof report === 'object' && 'hasChanges' in report) {
+        setLastChangeReport(report as PolicyChangeReport);
+        setShowReportDetails(true);
+      }
+    }
+  };
+
   return (
     <div className="space-y-6">
-      {/* Header with Live Refresh */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
-        <div>
-          <h2 className="text-lg font-bold text-slate-900">Compare Party Policies & Manifestos</h2>
-          <p className="text-xs text-slate-500">Cross-reference verified pledges, cost estimates, and independent fact checks</p>
-        </div>
-        <SectionRefreshButton
-          sectionName="Policy Matrix"
-          defaultDate="September 2026 Party Conferences"
-          onRefresh={onRefreshPolicies}
-        />
-      </div>
+      {/* Category Pills & Search */}
+      <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
+              Policy Comparison Matrix
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+              Side-by-side analysis of key manifesto pledges, cost estimates, timelines, and independent fact checks across all 8 parties.
+            </p>
+          </div>
 
-      {/* Category Pills & Search Bar */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-        {/* Category horizontal scroll */}
-        <div className="flex items-center space-x-1.5 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <SectionRefreshButton
+              sectionName="Policy Matrix"
+              defaultDate="September 2026 • Verified Public Record"
+              onRefresh={handleRefreshWithDiff}
+            />
+
+            {/* Search Input */}
+            <div className="relative">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Search pledges (e.g. 3%, triple lock, NHS)..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full sm:w-64 pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-hidden focus:ring-2 focus:ring-slate-900 focus:bg-white transition-all"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Change Detection Report Banner */}
+        {lastChangeReport && (
+          <div className={`p-4 rounded-xl border transition-all animate-fade-in ${
+            lastChangeReport.hasChanges
+              ? 'bg-amber-50 border-amber-200 text-amber-950'
+              : 'bg-emerald-50 border-emerald-200 text-emerald-950'
+          }`}>
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center space-x-2">
+                {lastChangeReport.hasChanges ? (
+                  <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                ) : (
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                )}
+                <div>
+                  <span className="font-bold text-xs uppercase tracking-wider block">
+                    Policy Change Identification Engine ({lastChangeReport.timestamp})
+                  </span>
+                  <p className="text-xs mt-0.5">
+                    {lastChangeReport.summary}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowReportDetails(!showReportDetails)}
+                className="text-xs font-semibold underline flex items-center space-x-1 shrink-0 cursor-pointer"
+              >
+                <span>{showReportDetails ? 'Hide details' : 'View report'}</span>
+                {showReportDetails ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              </button>
+            </div>
+
+            {showReportDetails && lastChangeReport.changes.length > 0 && (
+              <div className="mt-3 pt-3 border-t border-amber-200 space-y-1.5 text-xs">
+                {lastChangeReport.changes.map((c, i) => (
+                  <div key={i} className="flex items-center space-x-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
+                    <strong>{c.partyId.toUpperCase()}</strong> ({c.topicTitle}): <span>{c.details}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Category Filter Pills */}
+        <div className="flex items-center space-x-2 overflow-x-auto pb-1 scrollbar-none pt-2 border-t border-slate-100">
           {categories.map((cat) => {
             const Icon = cat.icon;
             const isSelected = selectedCategory === cat.id;
@@ -124,10 +203,10 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all ${
+                className={`flex items-center space-x-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                   isSelected
                     ? 'bg-slate-900 text-white shadow-xs'
-                    : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900'
                 }`}
               >
                 {Icon && <Icon className="w-3.5 h-3.5" />}
@@ -136,60 +215,49 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
             );
           })}
         </div>
-
-        {/* Search */}
-        <div className="relative min-w-[240px]">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search policies (e.g. NATO, VAT, 2.5%, NHS)..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-1.5 text-xs sm:text-sm bg-white border border-slate-200 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-slate-900"
-          />
-        </div>
       </div>
 
-      {/* No parties warning */}
+      {/* Selected parties warning if none or only 1 */}
       {activeParties.length === 0 && (
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 text-center text-amber-800 text-sm">
-          Please select at least one party above to view and compare policies.
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 text-center text-amber-800">
+          <p className="font-bold">No political parties currently selected for comparison.</p>
+          <p className="text-xs mt-1">Please select at least one party using the selector above.</p>
         </div>
       )}
 
-      {/* Policy Topics Accordion / Sections */}
-      <div className="space-y-6">
+      {/* Policy Topics Stack */}
+      <div className="space-y-4">
         {filteredPolicies.map((topic) => {
-          const isExpanded = expandedTopic === topic.id || expandedTopic === null;
+          const isExpanded = expandedTopic === null || expandedTopic === topic.id;
 
           return (
             <div
               key={topic.id}
               className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden transition-all"
             >
-              {/* Topic Header Banner */}
-              <div 
+              {/* Topic Header Card */}
+              <div
                 onClick={() => setExpandedTopic(expandedTopic === topic.id ? 'collapsed' : topic.id)}
-                className="p-4 sm:p-5 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer hover:bg-slate-100/50"
+                className="p-4 sm:p-5 flex items-start sm:items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors border-b border-slate-100"
               >
                 <div>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-xs font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded">
-                      {topic.category}
-                    </span>
-                    <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                      {topic.title}
-                    </h3>
+                  <div className="flex items-center space-x-2 text-rose-600 font-bold text-xs uppercase tracking-wider mb-1">
+                    <span>{topic.category.toUpperCase()}</span>
+                    <span>•</span>
+                    <span>Official Policy Issue</span>
                   </div>
-                  <p className="text-xs text-slate-500 mt-1 max-w-3xl">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    {topic.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-500 mt-0.5 line-clamp-1 sm:line-clamp-none">
                     {topic.description}
                   </p>
                 </div>
 
-                <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3 shrink-0 ml-4">
                   {topic.officialFigureBenchmark && (
-                    <div className="hidden md:flex flex-col text-right">
-                      <span className="text-[10px] uppercase font-bold text-slate-400">
+                    <div className="hidden md:flex flex-col text-right pr-3 border-r border-slate-200">
+                      <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
                         {topic.officialFigureBenchmark.label}
                       </span>
                       <span className="text-xs font-bold text-slate-800">
@@ -197,7 +265,8 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
                       </span>
                     </div>
                   )}
-                  <button className="text-slate-400 hover:text-slate-600 p-1">
+
+                  <button className="text-slate-400 hover:text-slate-600 p-1 cursor-pointer">
                     {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
                   </button>
                 </div>
@@ -292,7 +361,7 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
                           </div>
                         </div>
 
-                        {/* Bottom Metadata: Cost, Timeline, Fact Check */}
+                        {/* Bottom Metadata: Cost, Timeline, Fact Check, and Official Source */}
                         <div className="pt-3 border-t border-slate-100 space-y-2">
                           {pledge.costEstimate && (
                             <div className="flex items-center justify-between text-[11px]">
@@ -320,6 +389,26 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
                               </p>
                             </div>
                           )}
+
+                          {/* Official Source & Verification Timestamp */}
+                          <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-500">
+                            <span className="flex items-center space-x-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                              <span>Verified {pledge.lastVerifiedDate || 'September 2026'}</span>
+                            </span>
+                            {pledge.officialSourceUrl && (
+                              <a
+                                href={pledge.officialSourceUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-semibold text-rose-600 hover:text-rose-700 hover:underline flex items-center space-x-0.5"
+                                title={`View official document: ${pledge.officialSourceTitle || 'Official Platform'}`}
+                              >
+                                <span>{pledge.officialSourceTitle || 'Official Source'}</span>
+                                <ExternalLink className="w-2.5 h-2.5" />
+                              </a>
+                            )}
+                          </div>
                         </div>
                       </div>
                     );
