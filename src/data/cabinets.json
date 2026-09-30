@@ -2,93 +2,84 @@
   {
     "id": "lab-1",
     "partyId": "labour",
-    "name": "Sir Keir Starmer",
+    "name": "Andy Burnham",
     "role": "Prime Minister & First Lord of the Treasury",
     "isLeader": true,
-    "constituency": "Holborn and St Pancras",
-    "bio": "Former Director of Public Prosecutions and QC. Elected Prime Minister in July 2024, leading the first Labour government in 14 years on five core national missions.",
-    "keyStance": "Economic stability, strict fiscal guardrails, Strategic Defence Review, 10-year NHS turnaround plan, resetting relations with European allies."
-  },
-  {
-    "id": "lab-1b",
-    "partyId": "labour",
-    "name": "Angela Rayner",
-    "role": "Deputy Prime Minister & Secretary of State for Housing, Communities and Local Government",
-    "constituency": "Ashton-under-Lyne",
-    "bio": "Deputy Prime Minister and prominent grassroots trade unionist, steering the government's flagship 1.5M homes target, planning deregulation on grey belt land, and the Employment Rights Bill.",
-    "keyStance": "New Deal for Working People, mandatory council housing targets, ban on Section 21 no-fault evictions, devolution of powers to regional metro mayors."
+    "constituency": "Makerfield",
+    "bio": "Former Mayor of Greater Manchester (2017–2026) and cabinet minister. Elected Labour Leader on July 16, 2026, and took office as Prime Minister on July 20, 2026, following Keir Starmer's resignation.",
+    "keyStance": "Establishing a National Care Service, regional devolution and Northern powerhouse investment, public ownership of water and energy, reforming long-term pension structures with a 2030 double lock."
   },
   {
     "id": "lab-2",
     "partyId": "labour",
-    "name": "Rachel Reeves",
-    "role": "Chancellor of the Exchequer",
-    "constituency": "Leeds West and Pudsey",
-    "bio": "First female Chancellor in British history. Former Bank of England economist steering fiscal policy through her 'securonomics' doctrine of supply-side investment.",
-    "keyStance": "Balancing day-to-day spending with tax receipts, reformed fiscal debt rules allowing capital borrowing, 20% VAT on private school fees, increased Employer National Insurance."
+    "name": "Louise Haigh",
+    "role": "First Secretary of State, Chancellor of the Duchy of Lancaster & Minister for the Cabinet Office",
+    "constituency": "Sheffield Heeley",
+    "bio": "Senior minister and de facto deputy to the Prime Minister, overseeing civil service reform, delivery of cross-government priorities, and constitutional affairs.",
+    "keyStance": "Cabinet coordination, public sector productivity, transport integration, and strengthening regional devolved authorities."
   },
   {
     "id": "lab-3",
     "partyId": "labour",
-    "name": "Yvette Cooper",
-    "role": "Home Secretary",
-    "constituency": "Pontefract, Castleford and Knottingley",
-    "bio": "Former Home Affairs Select Committee Chair overseeing borders, police standards, counter-terrorism, and public safety.",
-    "keyStance": "Scrapped the Rwanda scheme, established the elite Border Security Command, cross-border European policing pacts to smash smuggler gangs, neighbourhood policing guarantee."
+    "name": "John Healey",
+    "role": "Chancellor of the Exchequer",
+    "constituency": "Rawmarsh and Conisbrough",
+    "bio": "Appointed Chancellor by Andy Burnham in July 2026 to lead fiscal and economic policy, transitioning from his previous Defence brief.",
+    "keyStance": "Balancing fiscal discipline with long-term infrastructure investment, protecting low-income pensioners from personal allowance tax drag, and securing funding for the National Care Service."
   },
   {
     "id": "lab-4",
     "partyId": "labour",
-    "name": "David Lammy",
+    "name": "Ed Miliband",
     "role": "Secretary of State for Foreign, Commonwealth and Development Affairs",
-    "constituency": "Tottenham",
-    "bio": "Harvard Law graduate and prominent internationalist, driving Labour's 'progressive realism' foreign policy doctrine.",
-    "keyStance": "Deepening UK-EU security partnership, unshakeable support for NATO and Ukrainian sovereignty, balanced Middle East diplomacy with two-state commitment."
+    "constituency": "Doncaster North",
+    "bio": "Experienced former party leader appointed Foreign Secretary in July 2026, spearheading international climate diplomacy and resetting European security partnerships.",
+    "keyStance": "Global climate pacts, strengthening European security cooperation and NATO alignment, diplomatic conflict resolution, and green export promotion."
   },
   {
     "id": "lab-5",
     "partyId": "labour",
-    "name": "John Healey",
-    "role": "Secretary of State for Defence",
-    "constituency": "Rawmarsh and Conisbrough",
-    "bio": "Experienced defence specialist who led the shadow brief before taking office, spearheading the comprehensive Strategic Defence Review.",
-    "keyStance": "Roadmap to 2.5% of GDP defence spending, landmark UK-Germany Trinity House Defence Agreement, modernised sovereign military procurement."
+    "name": "Shabana Mahmood",
+    "role": "Home Secretary",
+    "constituency": "Birmingham Ladywood",
+    "bio": "Promoted to Home Secretary in July 2026 to lead law enforcement, border security, counter-terrorism, and policing integrity.",
+    "keyStance": "Expanding the Border Security Command, modernizing neighbourhood policing, tackling organized immigration crime, and expediting judicial case processing."
   },
   {
     "id": "lab-6",
     "partyId": "labour",
     "name": "Wes Streeting",
-    "role": "Secretary of State for Health and Social Care",
+    "role": "Secretary of State for Defence",
     "constituency": "Ilford North",
-    "bio": "Health reformer driving 'reform alongside investment' in the NHS, shifting focus from acute hospital care to community hubs and digital triage.",
-    "keyStance": "Deliver 40,000 extra appointments a week, utilise spare private hospital capacity free for NHS patients, 10-year workforce plan, phasing in smoking ban."
+    "bio": "Appointed Defence Secretary in July 2026, leading the Strategic Defence Review implementation, armed forces modernization, and NATO commitments.",
+    "keyStance": "Meeting the 2.5% of GDP defence spending trajectory, domestic sovereign defence industrial strategy, and deepening allied defense pacts."
   },
   {
     "id": "lab-7",
     "partyId": "labour",
-    "name": "Ed Miliband",
-    "role": "Secretary of State for Energy Security and Net Zero",
-    "constituency": "Doncaster North",
-    "bio": "Former Labour leader and international climate negotiator, driving the transition to 100% clean power by 2030.",
-    "keyStance": "Publicly owned Great British Energy (£8.3bn capital), lift onshore wind ban, end new North Sea oil & gas licenses, Warm Homes insulation programme."
+    "name": "Yvette Cooper",
+    "role": "Secretary of State for Health and Social Care",
+    "constituency": "Pontefract, Castleford and Knottingley",
+    "bio": "Veteran cabinet minister leading the health brief to integrate social care with the NHS and implement Burnham's National Care Service.",
+    "keyStance": "Founding the National Care Service, slashing NHS elective waiting times, community preventative care, and workforce retention."
   },
   {
     "id": "lab-8",
     "partyId": "labour",
-    "name": "Shabana Mahmood",
-    "role": "Lord Chancellor & Secretary of State for Justice",
-    "constituency": "Birmingham Ladywood",
-    "bio": "Barrister and senior minister managing prison overcrowding crisis, court backlogs, and judicial sentencing overhauls.",
-    "keyStance": "Emergency prison capacity management, independent sentencing review, rapid court processing for violent offenders."
+    "name": "Lucy Powell",
+    "role": "Secretary of State for Education",
+    "constituency": "Manchester Central",
+    "bio": "Key Manchester ally and long-serving education policy architect, driving early years investment and technical skills reform.",
+    "keyStance": "Expanding funded early years childcare, establishing high-quality apprenticeships and vocational pathways, and funding primary school breakfast clubs."
   },
   {
     "id": "lab-9",
     "partyId": "labour",
-    "name": "Bridget Phillipson",
-    "role": "Secretary of State for Education",
-    "constituency": "Houghton and Sunderland South",
-    "bio": "Oxford-educated minister leading national curriculum reform, early years childcare expansion, and free school breakfast clubs.",
-    "keyStance": "Expand 30 hours funded childcare, fund 6,500 new expert teachers via private school fee VAT, free breakfast clubs in all primary schools."
+    "name": "Angela Rayner",
+    "role": "Secretary of State for Housing, Communities and Local Government",
+    "constituency": "Ashton-under-Lyne",
+    "bio": "Grassroots leader spearheading regional housing delivery, workers' rights legislation, and devolution to metro mayors.",
+    "keyStance": "Building 1.5M new homes, ending Section 21 no-fault evictions, local planning reform, and empowering regional mayors."
   },
 
   {

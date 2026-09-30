@@ -12,24 +12,25 @@
   "bestPrimeMinister": {
     "date": "2026-09-28",
     "pollster": "YouGov Best PM Tracker",
+    "burnham": 44,
     "starmer": 31,
     "badenoch": 23,
     "farage": 18,
-    "davey": 9,
-    "neitherUnsure": 19
+    "davey": 8,
+    "neitherUnsure": 7
   },
   "leaderRatings": [
     {
       "partyId": "labour",
-      "leaderName": "Sir Keir Starmer",
+      "leaderName": "Andy Burnham",
       "role": "Prime Minister & Labour Leader",
-      "approvePct": 32,
-      "disapprovePct": 54,
-      "netRating": -22,
-      "dontKnowPct": 14,
+      "approvePct": 46,
+      "disapprovePct": 39,
+      "netRating": 7,
+      "dontKnowPct": 15,
       "pollster": "YouGov Leader Approval Tracker",
       "date": "2026-09-28",
-      "trend": "-2"
+      "trend": "+4"
     },
     {
       "partyId": "conservative",

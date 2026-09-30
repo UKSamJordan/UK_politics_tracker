@@ -10,6 +10,7 @@ import {
   Filter,
   ShieldCheck
 } from 'lucide-react';
+import { SectionRefreshButton } from './SectionRefreshButton';
 
 interface FactCheckDirectoryProps {
   parties: Party[];
@@ -82,9 +83,12 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
             Independent, non-partisan assessments of statements made by party leaders, based on findings from Full Fact, the Institute for Fiscal Studies (IFS), and the UK Statistics Authority.
           </p>
         </div>
-        <div className="flex items-center space-x-2 text-xs text-slate-500 bg-slate-50 px-3 py-2 rounded-xl border border-slate-200 self-start md:self-auto">
-          <span className="font-semibold text-slate-700">Standards:</span>
-          <span>ClaimReview Schema.org & ONS Benchmarks</span>
+        <div className="flex flex-col items-start md:items-end gap-2 shrink-0">
+          <SectionRefreshButton sectionName="Fact Checks" defaultDate="September 2026 Audit" />
+          <div className="flex items-center space-x-2 text-xs text-slate-500 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+            <span className="font-semibold text-slate-700">Standards:</span>
+            <span>Full Fact • IFS • ONS</span>
+          </div>
         </div>
       </div>
 

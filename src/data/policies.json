@@ -165,20 +165,20 @@
     "pledges": {
       "labour": {
         "partyId": "labour",
-        "headline": "Strict Fiscal Rules & Targeted Capital Investment",
-        "summary": "No increases to basic, higher, or additional rates of Income Tax, employee National Insurance, or VAT. Reforming fiscal rules to allow productive borrowing for capital projects.",
+        "headline": "Chancellor Healey's Fiscal Rules & Pension Tax Safeguard",
+        "summary": "Led by Chancellor John Healey, maintaining strict fiscal rules on day-to-day spending while guaranteeing low-income pensioners are protected from income tax drag during this Parliament.",
         "keyPoints": [
-          "Balanced day-to-day budget funded strictly from tax revenue",
-          "Raised Employer National Insurance contributions to fund NHS and public services",
-          "VAT applied to private school fees and abolition of non-dom tax status",
-          "Creation of the National Wealth Fund and British Infrastructure Council"
+          "Guarantee that low-income pensioners relying on the basic state pension will not be dragged into paying income tax in this Parliament",
+          "Balanced day-to-day budget funded strictly from tax receipts, with borrowing focused on productive capital projects",
+          "Safeguarded funding commitments for the NHS and foundations of the new National Care Service",
+          "Targeted wealth and capital contribution reviews alongside crackdowns on corporate tax loopholes"
         ],
-        "costEstimate": "Autumn Budget raised approx. £40bn in annual revenues",
+        "costEstimate": "Maintains day-to-day budget surplus while ring-fencing social care investments",
         "targetTimeline": "5-year fiscal parliament plan",
-        "factCheckSnippet": "OBR confirmed: Employer NI changes and capital borrowing rule revisions provide headroom for public capital investment.",
+        "factCheckSnippet": "OBR confirmed: Safeguarding low-income pensioners from the personal allowance freeze provides targeted relief for state-dependent retirees.",
         "factCheckVerdict": "verified",
-        "factCheckSource": "Office for Budget Responsibility",
-        "publicSupport": 58
+        "factCheckSource": "HM Treasury / OBR",
+        "publicSupport": 64
       },
       "conservative": {
         "partyId": "conservative",
@@ -316,20 +316,20 @@
     "pledges": {
       "labour": {
         "partyId": "labour",
-        "headline": "40,000 Extra Appointments per Week & 10-Year Health Plan",
-        "summary": "Fund 40,000 more evening and weekend operations and scans each week, utilise private hospital beds for NHS patients for free, and shift healthcare from analogue to digital.",
+        "headline": "Founding the National Care Service & NHS Community Shift",
+        "summary": "Prime Minister Andy Burnham's flagship commitment to establish a universal National Care Service, funded long-term by transitioning pensions to a double lock from 2030, alongside urgent NHS waiting list reductions.",
         "keyPoints": [
-          "Fund 40,000 more appointments a week by cracking down on tax avoidance",
-          "Double the number of MRI and CT scanners with modern AI triage",
-          "Shift care from hospitals into community health hubs and pharmacy-first prescribing",
-          "National Care Service plan with fair pay agreement for adult care workers"
+          "Establish a National Care Service with national standards and fair pay agreements for care workers",
+          "Retain the pensions triple lock for this Parliament, transitioning to a double lock in April 2030 to sustainably fund social care",
+          "Ensure low-income pensioners on the basic state pension are not dragged into paying income tax in this Parliament",
+          "Deliver 40,000 extra elective appointments and scans each week while shifting care from hospitals to community hubs"
         ],
-        "costEstimate": "£1.6bn targeted front-line funding plus capital upgrades",
-        "targetTimeline": "Clear the 18-week backlog within 5 years",
-        "factCheckSnippet": "Full Fact: 40,000 appointments per week equates to ~2 million a year, which helps reduce backlog growth but requires sustained staff goodwill.",
-        "factCheckVerdict": "clarified",
-        "factCheckSource": "Full Fact / King's Fund",
-        "publicSupport": 74
+        "costEstimate": "Funded by tax compliance and long-term 2030 double-lock pension reform savings",
+        "targetTimeline": "Phased implementation with full Care Service framework by 2030",
+        "factCheckSnippet": "Conference verified: The government committed to keeping the triple lock through this Parliament before shifting to a double lock in April 2030.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Labour Conference 2026 / OBR",
+        "publicSupport": 79
       },
       "conservative": {
         "partyId": "conservative",

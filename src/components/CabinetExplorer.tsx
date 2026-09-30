@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Party, PartyId, CabinetMember, LeaderRating } from '../types/politics';
 import { Users, Award, Shield, Briefcase, Landmark, HeartPulse, UserCheck, BarChart3 } from 'lucide-react';
+import { SectionRefreshButton } from './SectionRefreshButton';
 
 interface CabinetExplorerProps {
   parties: Party[];
@@ -41,7 +42,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
   return (
     <div className="space-y-6">
       {/* Intro Header */}
-      <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
         <div>
           <div className="flex items-center space-x-2 text-rose-600 font-bold text-xs uppercase tracking-wider mb-1">
             <Users className="w-4 h-4" />
@@ -55,22 +56,26 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           </p>
         </div>
 
-        {/* Quick Role Filter */}
-        <div className="flex items-center space-x-1.5 self-start sm:self-auto bg-slate-50 p-1.5 rounded-xl border border-slate-200">
-          <span className="text-[11px] font-bold text-slate-500 pl-2">Portfolio:</span>
-          {['all', 'defence', 'chancellor', 'home', 'health'].map((role) => (
-            <button
-              key={role}
-              onClick={() => setRoleFilter(role)}
-              className={`px-2.5 py-1 rounded-lg text-xs font-semibold capitalize transition-all ${
-                roleFilter === role
-                  ? 'bg-slate-900 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              {role}
-            </button>
-          ))}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-3 border-t border-slate-100">
+          <SectionRefreshButton sectionName="Cabinet Roster" defaultDate="September 2026 • Verified Public Record" />
+
+          {/* Quick Role Filter */}
+          <div className="flex items-center space-x-1.5 self-start sm:self-auto bg-slate-50 p-1.5 rounded-xl border border-slate-200">
+            <span className="text-[11px] font-bold text-slate-500 pl-2">Portfolio:</span>
+            {['all', 'defence', 'chancellor', 'home', 'health'].map((role) => (
+              <button
+                key={role}
+                onClick={() => setRoleFilter(role)}
+                className={`px-2.5 py-1 rounded-lg text-xs font-semibold capitalize transition-all ${
+                  roleFilter === role
+                    ? 'bg-slate-900 text-white shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                {role}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

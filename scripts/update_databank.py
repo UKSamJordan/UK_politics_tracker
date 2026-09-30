@@ -28,7 +28,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "src" / "data"
 
-def call_gemini(prompt: str, api_key: str, model: str = "gemini-2.5-flash") -> str:
+def call_gemini(prompt: str, api_key: str, model: str = "gemini-3.8-flash") -> str:
     """Calls Gemini API using standard python urllib (no heavy dependencies required)"""
     import urllib.request
     import urllib.error

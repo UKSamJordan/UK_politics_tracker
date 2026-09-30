@@ -16,6 +16,7 @@ import {
   ChevronDown,
   ChevronUp
 } from 'lucide-react';
+import { SectionRefreshButton } from './SectionRefreshButton';
 
 interface PolicyMatrixProps {
   parties: Party[];
@@ -97,6 +98,15 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
 
   return (
     <div className="space-y-6">
+      {/* Header with Live Refresh */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-2xs">
+        <div>
+          <h2 className="text-lg font-bold text-slate-900">Compare Party Policies & Manifestos</h2>
+          <p className="text-xs text-slate-500">Cross-reference verified pledges, cost estimates, and independent fact checks</p>
+        </div>
+        <SectionRefreshButton sectionName="Policy Matrix" defaultDate="September 2026 Party Conferences" />
+      </div>
+
       {/* Category Pills & Search Bar */}
       <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
         {/* Category horizontal scroll */}

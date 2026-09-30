@@ -128,7 +128,8 @@ export interface LeaderRating {
 export interface BestPrimeMinisterPoll {
   date: string;
   pollster: string;
-  starmer: number;
+  burnham?: number;
+  starmer?: number;
   badenoch: number;
   farage: number;
   davey: number;

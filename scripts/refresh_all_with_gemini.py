@@ -55,7 +55,7 @@ def main():
     print("1. Updating Polls, Leader Approval Ratings & Best PM with Gemini 3.8 Flash...")
     polls_prompt = """
     You are an expert UK political polling analyst.
-    Provide the most accurate and up-to-date representation of UK voting intentions, leader approval ratings, and policy opinion polling for the post-2024 election UK political landscape (Labour Government under Starmer, Conservative Opposition under Kemi Badenoch, Reform UK under Nigel Farage, Liberal Democrats under Ed Davey, Green Party under Carla Denyer & Adrian Ramsay, SNP under John Swinney, Plaid Cymru under Rhun ap Iorwerth).
+    Provide the most accurate and up-to-date representation of UK voting intentions, leader approval ratings, and policy opinion polling for the late-2026 UK political landscape (Labour Government under Prime Minister Andy Burnham who succeeded Keir Starmer, Conservative Opposition under Kemi Badenoch, Reform UK under Nigel Farage, Liberal Democrats under Ed Davey, Green Party under Carla Denyer & Adrian Ramsay, SNP under John Swinney, Plaid Cymru under Rhun ap Iorwerth).
 
     Return an object in this EXACT JSON structure:
     {
@@ -72,24 +72,24 @@ def main():
       "bestPrimeMinister": {
         "date": "2026-09-28",
         "pollster": "YouGov Best PM Tracker",
-        "starmer": 31,
+        "burnham": 44,
         "badenoch": 23,
         "farage": 18,
-        "davey": 9,
-        "neitherUnsure": 19
+        "davey": 8,
+        "neitherUnsure": 7
       },
       "leaderRatings": [
         {
           "partyId": "labour",
-          "leaderName": "Sir Keir Starmer",
+          "leaderName": "Andy Burnham",
           "role": "Prime Minister & Labour Leader",
-          "approvePct": 32,
-          "disapprovePct": 54,
-          "netRating": -22,
-          "dontKnowPct": 14,
+          "approvePct": 46,
+          "disapprovePct": 39,
+          "netRating": 7,
+          "dontKnowPct": 15,
           "pollster": "YouGov Leader Approval Tracker",
           "date": "2026-09-28",
-          "trend": "-2"
+          "trend": "+4"
         },
         {
           "partyId": "conservative",

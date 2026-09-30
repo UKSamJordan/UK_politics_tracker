@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Party, PolicyTopic } from '../types/politics';
 import { Shield, Anchor, Target, Award, ArrowRight, CheckCircle2, AlertTriangle, Calculator } from 'lucide-react';
+import { SectionRefreshButton } from './SectionRefreshButton';
 
 interface DefenceSpecialProps {
   parties: Party[];
@@ -84,9 +85,12 @@ export const DefenceSpecial: React.FC<DefenceSpecialProps> = ({
       <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
         <div className="absolute right-0 top-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 max-w-3xl">
-          <div className="flex items-center space-x-2 text-rose-400 font-bold text-xs uppercase tracking-widest mb-3">
-            <Shield className="w-4 h-4" />
-            <span>National Security & Armed Forces</span>
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+            <div className="flex items-center space-x-2 text-rose-400 font-bold text-xs uppercase tracking-widest">
+              <Shield className="w-4 h-4" />
+              <span>National Security & Armed Forces</span>
+            </div>
+            <SectionRefreshButton sectionName="Defence Brief" defaultDate="September 2026 Review" />
           </div>
           <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight mb-3">
             UK Military & Defence Policy Tracker

@@ -35,6 +35,7 @@ import {
   Search,
   Scale
 } from 'lucide-react';
+import { SectionRefreshButton } from './SectionRefreshButton';
 
 interface PollTrackerProps {
   parties: Party[];
@@ -99,10 +100,12 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
             Real-time aggregate tracking of UK national voting intention, political leader approval ratings, head-to-head comparisons, and independent public opinion on key policy proposals.
           </p>
         </div>
-        <div className="text-left md:text-right shrink-0 bg-slate-50 px-3.5 py-2.5 rounded-xl border border-slate-200">
-          <span className="text-[10px] uppercase font-bold text-slate-400 block">Polling Aggregator Benchmark</span>
-          <span className="text-xs font-bold text-slate-800 block">YouGov • Ipsos • Savanta • Survation</span>
-          <span className="text-[10px] text-emerald-600 font-medium">Last Synced: {lastUpdated}</span>
+        <div className="flex flex-col items-start md:items-end gap-2 shrink-0">
+          <SectionRefreshButton sectionName="Polls & Ratings" defaultDate={`Synced: ${lastUpdated}`} />
+          <div className="text-left md:text-right bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+            <span className="text-[10px] uppercase font-bold text-slate-400 block">Pollster Benchmark</span>
+            <span className="text-xs font-bold text-slate-800 block">YouGov • Ipsos • Savanta • Opinium</span>
+          </div>
         </div>
       </div>
 
@@ -425,7 +428,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
           {/* Grid of contenders */}
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             {[
-              { name: 'Sir Keir Starmer', party: 'Labour', pct: bestPrimeMinister.starmer, color: '#E4003B' },
+              { name: 'Andy Burnham', party: 'Labour', pct: bestPrimeMinister.burnham ?? bestPrimeMinister.starmer, color: '#E4003B' },
               { name: 'Kemi Badenoch', party: 'Conservative', pct: bestPrimeMinister.badenoch, color: '#0087DC' },
               { name: 'Nigel Farage', party: 'Reform UK', pct: bestPrimeMinister.farage, color: '#12B6CF' },
               { name: 'Sir Ed Davey', party: 'Lib Dem', pct: bestPrimeMinister.davey, color: '#FAA61A' },
