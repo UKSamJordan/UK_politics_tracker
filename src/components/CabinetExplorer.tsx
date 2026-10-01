@@ -184,28 +184,28 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
   return (
     <div className="space-y-6">
       {/* Intro Header */}
-      <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
         <div>
-          <div className="flex items-center space-x-2 text-rose-600 font-bold text-xs uppercase tracking-wider mb-1">
+          <div className="flex items-center space-x-2 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider mb-1">
             <Users className="w-4 h-4" />
             <span>Parliamentary Teams & Frontbench</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-slate-100">
             Cabinet & Shadow Cabinet Profiles
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-2xl">
             Explore active UK political decision-makers: ministerial portfolios, official appointment dates, parliamentary constituencies, signature philosophies, and leadership approval ratings.
           </p>
         </div>
 
         {/* Universal Roster Integrity Strip */}
-        <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-3 max-w-full min-w-0">
+        <div className="p-3 bg-slate-50 dark:bg-slate-850 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-3 max-w-full min-w-0">
           <div className="flex flex-wrap items-center gap-1.5 text-xs">
-            <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span className="font-bold text-slate-800">
+            <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            <span className="font-bold text-slate-800 dark:text-slate-200">
               Universal Frontbench Integrity:
             </span>
-            <span className="text-slate-600">
+            <span className="text-slate-600 dark:text-slate-400">
               {cabinetMembers.length} verified frontbench records across all 8 parties
             </span>
           </div>
@@ -216,8 +216,8 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 onClick={() => setSelectedPartyId(p.id)}
                 className={`px-2 py-0.5 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
                   selectedPartyId === p.id
-                    ? 'bg-slate-900 text-white shadow-xs'
-                    : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-100'
+                    ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xs'
+                    : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
                 }`}
               >
                 {p.shortName} ({memberCounts[p.id] || 0})
@@ -226,7 +226,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
             {onOpenSystemHealthModal && (
               <button
                 onClick={onOpenSystemHealthModal}
-                className="px-2.5 py-0.5 rounded-lg text-[11px] font-bold bg-emerald-100 text-emerald-800 hover:bg-emerald-200 transition-colors ml-1 cursor-pointer"
+                className="px-2.5 py-0.5 rounded-lg text-[11px] font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-900 border border-emerald-300 dark:border-emerald-800 transition-colors ml-1 cursor-pointer"
               >
                 System Audit
               </button>
@@ -238,15 +238,15 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
         {lastChangeReport && (
           <div className={`p-4 rounded-xl border transition-all animate-fade-in ${
             lastChangeReport.hasChanges
-              ? 'bg-amber-50 border-amber-200 text-amber-950'
-              : 'bg-emerald-50 border-emerald-200 text-emerald-950'
+              ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 text-amber-950 dark:text-amber-200'
+              : 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800 text-emerald-950 dark:text-emerald-200'
           }`}>
             <div className="flex items-start justify-between gap-3">
               <div className="flex items-center space-x-2">
                 {lastChangeReport.hasChanges ? (
-                  <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                  <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
                 ) : (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                 )}
                 <div>
                   <span className="font-bold text-xs uppercase tracking-wider block">
@@ -267,10 +267,10 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
             </div>
 
             {showReportDetails && lastChangeReport.changes.length > 0 && (
-              <div className="mt-3 pt-3 border-t border-amber-200 space-y-1.5 text-xs">
+              <div className="mt-3 pt-3 border-t border-amber-200 dark:border-amber-800 space-y-1.5 text-xs">
                 {lastChangeReport.changes.map((c, i) => (
                   <div key={i} className="flex items-center space-x-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-600 dark:bg-amber-400" />
                     <strong>{c.personName}</strong>: <span>{c.details}</span>
                   </div>
                 ))}
@@ -279,7 +279,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 border-t border-slate-100 w-full min-w-0">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 border-t border-slate-100 dark:border-slate-800 w-full min-w-0">
           <SectionRefreshButton
             sectionName="Cabinet Roster"
             defaultDate="September 2026 • Verified Public Record"
@@ -288,16 +288,16 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           />
 
           {/* Quick Role Filter */}
-          <div className="flex items-center space-x-1.5 self-stretch sm:self-auto bg-slate-50 p-1.5 rounded-xl border border-slate-200 overflow-x-auto max-w-full scrollbar-none min-w-0">
-            <span className="text-[11px] font-bold text-slate-500 pl-2 shrink-0">Portfolio:</span>
+          <div className="flex items-center space-x-1.5 self-stretch sm:self-auto bg-slate-50 dark:bg-slate-800/80 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 overflow-x-auto max-w-full scrollbar-none min-w-0">
+            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 pl-2 shrink-0">Portfolio:</span>
             {['all', 'defence', 'chancellor', 'home', 'health', 'education'].map((role) => (
               <button
                 key={role}
                 onClick={() => setRoleFilter(role)}
                 className={`px-2.5 py-1 rounded-lg text-xs font-semibold capitalize whitespace-nowrap shrink-0 transition-all cursor-pointer ${
                   roleFilter === role
-                    ? 'bg-slate-900 text-white shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xs'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 {role}
@@ -317,12 +317,14 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
               key={p.id}
               onClick={() => setSelectedPartyId(p.id)}
               style={{
-                backgroundColor: isSelected ? p.color : '#ffffff',
+                backgroundColor: isSelected ? p.color : undefined,
                 borderColor: p.color,
-                color: isSelected ? p.textColor : '#334155',
+                color: isSelected ? p.textColor : undefined,
               }}
               className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all border shadow-xs cursor-pointer ${
-                isSelected ? 'ring-2 ring-offset-1' : 'hover:bg-slate-50'
+                isSelected 
+                  ? 'ring-2 ring-offset-1 dark:ring-offset-slate-950' 
+                  : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
               }`}
             >
               <span
@@ -384,147 +386,147 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
 
       {/* Contextual Explainer Banners per Party */}
       {selectedPartyId === 'labour' && (
-        <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-rose-950 shadow-2xs">
+        <div className="bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-rose-950 dark:text-rose-200 shadow-2xs">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-rose-100 flex items-center justify-center text-rose-800 shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-rose-100 dark:bg-rose-900/50 flex items-center justify-center text-rose-800 dark:text-rose-300 shrink-0">
               <Landmark className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-bold text-rose-900 block text-sm">
+              <span className="font-bold text-rose-900 dark:text-rose-200 block text-sm">
                 His Majesty's Government (Burnham Administration, July 2026)
               </span>
-              <p className="text-rose-700 mt-0.5">
+              <p className="text-rose-700 dark:text-rose-300 mt-0.5">
                 Took office July 20, 2026, following Keir Starmer's resignation. All 9 ministerial appointments verified with exact appointment dates: Prime Minister <strong>Andy Burnham</strong>, First Secretary <strong>Louise Haigh</strong>, Chancellor <strong>John Healey</strong>, Defence Secretary <strong>Wes Streeting</strong>, and Health Secretary <strong>Yvette Cooper</strong>.
               </p>
             </div>
           </div>
-          <span className="shrink-0 font-bold bg-rose-200/70 text-rose-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+          <span className="shrink-0 font-bold bg-rose-200/70 dark:bg-rose-900/60 text-rose-900 dark:text-rose-200 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
             July 2026 Reshuffle
           </span>
         </div>
       )}
 
       {selectedPartyId === 'conservative' && (
-        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-blue-950 shadow-2xs">
+        <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/60 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-blue-950 dark:text-blue-200 shadow-2xs">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-blue-100 flex items-center justify-center text-blue-800 shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-800 dark:text-blue-300 shrink-0">
               <Shield className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-bold text-blue-900 block text-sm">
+              <span className="font-bold text-blue-900 dark:text-blue-200 block text-sm">
                 Official Opposition Frontbench (Kemi Badenoch)
               </span>
-              <p className="text-blue-700 mt-0.5">
+              <p className="text-blue-700 dark:text-blue-300 mt-0.5">
                 9 verified shadow ministers. Following Robert Jenrick's defection to Reform UK, <strong>Nick Timothy</strong> was appointed Shadow Justice Secretary (Feb 2026), alongside <strong>Mel Stride</strong> (Shadow Chancellor, Nov 2024), <strong>Chris Philp</strong> (Shadow Home, Nov 2024), <strong>Victoria Atkins</strong> (Shadow Health, Nov 2024), and <strong>Laura Trott</strong> (Shadow Education, Nov 2024).
               </p>
             </div>
           </div>
-          <span className="shrink-0 font-bold bg-blue-200/70 text-blue-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+          <span className="shrink-0 font-bold bg-blue-200/70 dark:bg-blue-900/60 text-blue-900 dark:text-blue-200 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
             Nov 2024 / Feb 2026
           </span>
         </div>
       )}
 
       {selectedPartyId === 'reform' && (
-        <div className="bg-cyan-50 border border-cyan-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-cyan-950 shadow-2xs">
+        <div className="bg-cyan-50 dark:bg-cyan-950/30 border border-cyan-200 dark:border-cyan-900/60 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-cyan-950 dark:text-cyan-200 shadow-2xs">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-cyan-100 flex items-center justify-center text-cyan-800 shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-cyan-100 dark:bg-cyan-900/50 flex items-center justify-center text-cyan-800 dark:text-cyan-300 shrink-0">
               <Shield className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-bold text-cyan-900 block text-sm">
+              <span className="font-bold text-cyan-900 dark:text-cyan-200 block text-sm">
                 Official Reform UK "Shadow Cabinet" (Announced Feb 17, 2026)
               </span>
-              <p className="text-cyan-700 mt-0.5">
+              <p className="text-cyan-700 dark:text-cyan-300 mt-0.5">
                 8 verified members. Nigel Farage formed Reform's first official frontbench team in February 2026 to prepare for government, featuring defectors <strong>Robert Jenrick</strong> (Shadow Chancellor) and <strong>Suella Braverman</strong> (Shadow Education), alongside Chairman <strong>Zia Yusuf</strong> (Shadow Home Secretary) and <strong>Richard Tice</strong> (Shadow Business & Energy).
               </p>
             </div>
           </div>
-          <span className="shrink-0 font-bold bg-cyan-200/70 text-cyan-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+          <span className="shrink-0 font-bold bg-cyan-200/70 dark:bg-cyan-900/60 text-cyan-900 dark:text-cyan-200 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
             February 2026 Team
           </span>
         </div>
       )}
 
       {selectedPartyId === 'libdem' && (
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-amber-950 shadow-2xs">
+        <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/60 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-amber-950 dark:text-amber-200 shadow-2xs">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center text-amber-800 shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center text-amber-800 dark:text-amber-300 shrink-0">
               <Users className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-bold text-amber-900 block text-sm">
+              <span className="font-bold text-amber-900 dark:text-amber-200 block text-sm">
                 Liberal Democrats Parliamentary Frontbench (72 MPs)
               </span>
-              <p className="text-amber-700 mt-0.5">
+              <p className="text-amber-700 dark:text-amber-300 mt-0.5">
                 Comprehensive 11-member frontbench team appointed following the July 2024 general election, led by <strong>Sir Ed Davey</strong> and Deputy Leader <strong>Daisy Cooper</strong> (Treasury), with key spokespeople including <strong>Helen Morgan</strong> (Health), <strong>Munira Wilson</strong> (Education), <strong>Tim Farron</strong> (Environment/Sewage), and <strong>Sarah Olney</strong> (Business).
               </p>
             </div>
           </div>
-          <span className="shrink-0 font-bold bg-amber-200/70 text-amber-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+          <span className="shrink-0 font-bold bg-amber-200/70 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
             July 2024 Frontbench
           </span>
         </div>
       )}
 
       {selectedPartyId === 'green' && (
-        <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-emerald-950 shadow-2xs">
+        <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/60 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-emerald-950 dark:text-emerald-200 shadow-2xs">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-800 shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-800 dark:text-emerald-300 shrink-0">
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-bold text-emerald-900 block text-sm">
+              <span className="font-bold text-emerald-900 dark:text-emerald-200 block text-sm">
                 Green Party Leadership & Parliamentary Team (7 Verified Figures)
               </span>
-              <p className="text-emerald-700 mt-0.5">
+              <p className="text-emerald-700 dark:text-emerald-300 mt-0.5">
                 Full verified leadership roster: <strong>Zack Polanski</strong> (Party Leader, elected September 2025) and <strong>Carla Denyer</strong> (Parliamentary Leader & MP for Bristol Central), alongside <strong>Adrian Ramsay</strong> (MP for Waveney Valley), <strong>Ellie Chowns</strong> (MP for North Herefordshire), <strong>Siân Berry</strong> (MP for Brighton Pavilion), and Deputy Leaders <strong>Mothin Ali</strong> & <strong>Rachel Millward</strong> (elected August 2025).
               </p>
             </div>
           </div>
-          <span className="shrink-0 font-bold bg-emerald-200/70 text-emerald-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+          <span className="shrink-0 font-bold bg-emerald-200/70 dark:bg-emerald-900/60 text-emerald-900 dark:text-emerald-200 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
             September 2025 Leadership
           </span>
         </div>
       )}
 
       {selectedPartyId === 'snp' && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-yellow-950 shadow-2xs">
+        <div className="bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-200 dark:border-yellow-900/60 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-yellow-950 dark:text-yellow-200 shadow-2xs">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-yellow-100 flex items-center justify-center text-yellow-800 shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-yellow-100 dark:bg-yellow-900/50 flex items-center justify-center text-yellow-800 dark:text-yellow-300 shrink-0">
               <Landmark className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-bold text-yellow-900 block text-sm">
+              <span className="font-bold text-yellow-900 dark:text-yellow-200 block text-sm">
                 SNP Parliamentary & Scottish Government Leadership
               </span>
-              <p className="text-yellow-700 mt-0.5">
+              <p className="text-yellow-700 dark:text-yellow-300 mt-0.5">
                 Party Leader & First Minister <strong>John Swinney</strong> (May 2024), Westminster Group Leader <strong>Stephen Flynn</strong> (Dec 2022 / July 2024), Work & Pensions Spokesperson <strong>Kirsty Blackman</strong> (July 2024), and Foreign Affairs & Defence Spokesperson <strong>Dave Doogan</strong> (July 2024).
               </p>
             </div>
           </div>
-          <span className="shrink-0 font-bold bg-yellow-200/70 text-yellow-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+          <span className="shrink-0 font-bold bg-yellow-200/70 dark:bg-yellow-900/60 text-yellow-900 dark:text-yellow-200 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
             May 2024 / July 2024
           </span>
         </div>
       )}
 
       {selectedPartyId === 'plaid' && (
-        <div className="bg-teal-50 border border-teal-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-teal-950 shadow-2xs">
+        <div className="bg-teal-50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-900/60 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-teal-950 dark:text-teal-200 shadow-2xs">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-teal-100 flex items-center justify-center text-teal-800 shrink-0">
+            <div className="w-9 h-9 rounded-xl bg-teal-100 dark:bg-teal-900/50 flex items-center justify-center text-teal-800 dark:text-teal-300 shrink-0">
               <Landmark className="w-4 h-4" />
             </div>
             <div>
-              <span className="font-bold text-teal-900 block text-sm">
+              <span className="font-bold text-teal-900 dark:text-teal-200 block text-sm">
                 Plaid Cymru Parliamentary & Senedd Frontbench
               </span>
-              <p className="text-teal-700 mt-0.5">
+              <p className="text-teal-700 dark:text-teal-300 mt-0.5">
                 Full representation: Senedd Leader <strong>Rhun ap Iorwerth</strong> (June 2023), Westminster Group Leader <strong>Liz Saville Roberts</strong> (June 2017 / July 2024), Treasury Spokesperson <strong>Ben Lake</strong> (July 2024), Agriculture Spokesperson <strong>Ann Davies</strong> (July 2024), and Health Spokesperson <strong>Llinos Medi</strong> (July 2024).
               </p>
             </div>
           </div>
-          <span className="shrink-0 font-bold bg-teal-200/70 text-teal-900 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
+          <span className="shrink-0 font-bold bg-teal-200/70 dark:bg-teal-900/60 text-teal-900 dark:text-teal-200 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
             July 2024 Frontbench
           </span>
         </div>
@@ -545,7 +547,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           return (
             <div
               key={member.id}
-              className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden min-w-0 max-w-full"
+              className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden min-w-0 max-w-full"
             >
               <div 
                 className="absolute top-0 left-0 bottom-0 w-1.5"
@@ -555,40 +557,40 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
               <div className="pl-1 flex-1 flex flex-col">
                 {/* Header: Role and Icon */}
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded flex items-center space-x-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 px-2 py-0.5 rounded flex items-center space-x-1">
                     <Icon className="w-3 h-3" />
                     <span>{member.isLeader ? 'Party Leader' : 'Cabinet Portfolio'}</span>
                   </span>
                   {member.constituency && (
-                    <span className="text-[11px] text-slate-400 font-medium">
+                    <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
                       MP: {member.constituency}
                     </span>
                   )}
                 </div>
 
                 {/* Name */}
-                <h4 className="text-lg font-bold text-slate-900 leading-tight">
+                <h4 className="text-lg font-bold text-slate-900 dark:text-slate-100 leading-tight">
                   {member.name}
                 </h4>
 
                 {/* Specific Portfolio Title */}
-                <h5 className="text-xs font-semibold text-slate-600 mb-2">
+                <h5 className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">
                   {member.role}
                 </h5>
 
                 {/* Appointment Date Badge & Recency Tag */}
                 <div className="flex flex-wrap items-center gap-1.5 mb-3.5">
-                  <span className="inline-flex items-center space-x-1 text-[11px] font-medium text-slate-600 bg-slate-100 border border-slate-200/80 px-2 py-0.5 rounded-md">
-                    <Calendar className="w-3 h-3 text-slate-500" />
-                    <span>In post: <strong className="text-slate-900">{member.appointedDate || 'Current Parliament'}</strong></span>
+                  <span className="inline-flex items-center space-x-1 text-[11px] font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 px-2 py-0.5 rounded-md">
+                    <Calendar className="w-3 h-3 text-slate-500 dark:text-slate-400" />
+                    <span>In post: <strong className="text-slate-900 dark:text-slate-100">{member.appointedDate || 'Current Parliament'}</strong></span>
                   </span>
                   {is2026 ? (
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center space-x-0.5">
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 flex items-center space-x-0.5">
                       <Clock className="w-2.5 h-2.5" />
                       <span>2026 Reshuffle</span>
                     </span>
                   ) : (
-                    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-50 text-slate-500 border border-slate-200">
+                    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-50 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
                       Verified Active
                     </span>
                   )}
@@ -596,23 +598,23 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
 
                 {/* Leader Approval Rating Badge (if this is the leader) */}
                 {leaderRating && (
-                  <div className="mb-3.5 p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+                  <div className="mb-3.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80">
                     <div className="flex items-center justify-between text-xs mb-1.5">
-                      <span className="font-bold text-slate-700">Public Approval Score:</span>
+                      <span className="font-bold text-slate-700 dark:text-slate-300">Public Approval Score:</span>
                       <span 
                         className={`font-black px-2 py-0.5 rounded text-xs ${
-                          leaderRating.netRating >= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                          leaderRating.netRating >= 0 ? 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300' : 'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300'
                         }`}
                       >
                         {leaderRating.netRating >= 0 ? `+${leaderRating.netRating}` : leaderRating.netRating} Net
                       </span>
                     </div>
-                    <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden flex mb-1">
+                    <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden flex mb-1">
                       <div className="bg-emerald-500 h-full" style={{ width: `${leaderRating.approvePct}%` }} />
                       <div className="bg-rose-500 h-full" style={{ width: `${leaderRating.disapprovePct}%` }} />
-                      <div className="bg-slate-400 h-full" style={{ width: `${leaderRating.dontKnowPct}%` }} />
+                      <div className="bg-slate-400 dark:bg-slate-500 h-full" style={{ width: `${leaderRating.dontKnowPct}%` }} />
                     </div>
-                    <div className="flex justify-between text-[10px] text-slate-500">
+                    <div className="flex justify-between text-[10px] text-slate-500 dark:text-slate-400">
                       <span>{leaderRating.approvePct}% Approve • {leaderRating.disapprovePct}% Disapprove</span>
                       <span>{leaderRating.pollster}</span>
                     </div>
@@ -620,43 +622,43 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 )}
 
                 {/* Bio */}
-                <p className="text-xs text-slate-600 leading-relaxed mb-4">
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
                   {member.bio}
                 </p>
 
                 {/* Signature Stance */}
-                <div className="bg-slate-50 rounded-xl p-3 border border-slate-100">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+                <div className="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-1">
                     Signature Stance & Priorities:
                   </span>
-                  <p className="text-xs text-slate-800 font-medium italic">
+                  <p className="text-xs text-slate-800 dark:text-slate-200 font-medium italic">
                     "{member.keyStance}"
                   </p>
                 </div>
 
                 {/* Live Intelligence Dossier */}
-                <div className="mt-3.5 pt-3 border-t border-slate-100">
+                <div className="mt-3.5 pt-3 border-t border-slate-100 dark:border-slate-800">
                   <div className="flex items-center justify-between gap-1.5">
                     <button
                       onClick={() => handleFetchBriefing(member)}
                       disabled={isLoadingBriefing}
                       className={`flex-1 inline-flex items-center justify-center space-x-1.5 py-1.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs ${
                         isExpanded
-                          ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-200'
+                          ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-200 dark:shadow-none'
                           : hasBriefing
-                          ? 'bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200'
-                          : 'bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 hover:from-indigo-100 hover:via-purple-100 hover:to-pink-100 text-indigo-900 border border-indigo-200/90'
+                          ? 'bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 text-indigo-800 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800'
+                          : 'bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-950/40 dark:via-purple-950/40 dark:to-pink-950/40 hover:from-indigo-100 hover:via-purple-100 hover:to-pink-100 dark:hover:from-indigo-900/50 dark:hover:via-purple-900/50 dark:hover:to-pink-900/50 text-indigo-900 dark:text-indigo-200 border border-indigo-200/90 dark:border-indigo-800/80'
                       }`}
                       title={`Scan for most recent updates on ${member.name}'s latest actions, statements, and policy stances`}
                     >
                       {isLoadingBriefing ? (
                         <>
-                          <RefreshCw className="w-3.5 h-3.5 animate-spin text-indigo-600" />
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin text-indigo-600 dark:text-indigo-400" />
                           <span>Scanning Recent Record...</span>
                         </>
                       ) : (
                         <>
-                          <Sparkles className={`w-3.5 h-3.5 ${isExpanded ? 'text-amber-300' : 'text-indigo-600'}`} />
+                          <Sparkles className={`w-3.5 h-3.5 ${isExpanded ? 'text-amber-300' : 'text-indigo-600 dark:text-indigo-400'}`} />
                           <span>
                             {hasBriefing 
                               ? (isExpanded ? 'Hide Intelligence Dossier' : '⚡ View Live Intelligence Dossier') 
@@ -676,7 +678,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                           handleFetchBriefing(member, true);
                         }}
                         disabled={isLoadingBriefing}
-                        className="p-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 border border-slate-200 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
                         title="Scan for most recent updates"
                       >
                         <RefreshCw className={`w-3.5 h-3.5 ${isLoadingBriefing ? 'animate-spin' : ''}`} />
@@ -686,7 +688,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
 
                   {/* Expanded Dossier Box */}
                   {isExpanded && briefing && (
-                    <div className="mt-2.5 rounded-xl bg-slate-900 text-slate-100 p-3.5 border border-slate-800 shadow-md animate-fade-in text-xs space-y-2.5">
+                    <div className="mt-2.5 rounded-xl bg-slate-900 dark:bg-slate-950 text-slate-100 p-3.5 border border-slate-800 dark:border-slate-750 shadow-md animate-fade-in text-xs space-y-2.5">
                       <div className="flex items-center justify-between border-b border-slate-800 pb-2 text-[11px] text-slate-400">
                         <div className="flex items-center space-x-1.5">
                           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -709,13 +711,13 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                   )}
 
                   {briefingError && expandedBriefingId === member.id && (
-                    <div className="mt-2 p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-start space-x-2">
-                      <AlertCircle className="w-4 h-4 shrink-0 text-rose-600 mt-0.5" />
+                    <div className="mt-2 p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900 text-rose-800 dark:text-rose-200 text-xs flex items-start space-x-2">
+                      <AlertCircle className="w-4 h-4 shrink-0 text-rose-600 dark:text-rose-400 mt-0.5" />
                       <div className="flex-1">
                         <p className="font-semibold">{briefingError}</p>
                         <button
                           onClick={() => handleFetchBriefing(member, true)}
-                          className="mt-1 font-bold text-rose-700 underline cursor-pointer"
+                          className="mt-1 font-bold text-rose-700 dark:text-rose-400 underline cursor-pointer"
                         >
                           Retry Scan
                         </button>
@@ -726,22 +728,22 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
               </div>
 
               {/* Verified badge */}
-              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400 pl-1">
+              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 pl-1">
                 <span className="flex items-center space-x-1">
-                  <UserCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <UserCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                   <span>Frontbench Registered</span>
                 </span>
                 {onNavigateToPolls && isLeaderCard ? (
                   <button 
                     onClick={() => onNavigateToPolls(member.partyId, 'leaders')}
-                    className="font-bold text-rose-600 hover:text-rose-700 flex items-center space-x-1.5 cursor-pointer bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-lg transition-colors border border-rose-200/80 shadow-2xs text-[11px]"
+                    className="font-bold text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 flex items-center space-x-1.5 cursor-pointer bg-rose-50 dark:bg-rose-950/50 hover:bg-rose-100 dark:hover:bg-rose-900/50 px-2.5 py-1 rounded-lg transition-colors border border-rose-200/80 dark:border-rose-900/80 shadow-2xs text-[11px]"
                     title={`Compare ${member.name}'s personal approval ratings across YouGov, Ipsos & Savanta`}
                   >
                     <BarChart3 className="w-3.5 h-3.5" />
                     <span>Compare Leader Approval ↗</span>
                   </button>
                 ) : (
-                  <span className="font-semibold text-slate-700">{selectedParty.shortName}</span>
+                  <span className="font-semibold text-slate-700 dark:text-slate-300">{selectedParty.shortName}</span>
                 )}
               </div>
             </div>

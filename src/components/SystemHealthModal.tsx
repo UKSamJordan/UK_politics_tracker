@@ -97,31 +97,31 @@ export const SystemHealthModal: React.FC<SystemHealthModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-xs">
-      <div className="bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl border border-slate-200 space-y-5 animate-in fade-in zoom-in duration-200 max-h-[92vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 dark:bg-black/80 backdrop-blur-xs">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-5 animate-in fade-in zoom-in duration-200 max-h-[92vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-2xl">
+            <div className="p-2.5 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 rounded-2xl">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <h3 className="font-extrabold text-lg text-slate-900">
+                <h3 className="font-extrabold text-lg text-slate-900 dark:text-slate-100">
                   Universal Party Integrity & Roster Engine
                 </h3>
-                <span className="px-2 py-0.5 text-[11px] font-bold bg-emerald-100 text-emerald-800 rounded-full">
+                <span className="px-2 py-0.5 text-[11px] font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 rounded-full">
                   8/8 Passed
                 </span>
               </div>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Automated continuous validation across all 8 UK parties • Last audited: {lastAuditTimestamp}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer"
+            className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -160,47 +160,47 @@ export const SystemHealthModal: React.FC<SystemHealthModalProps> = ({
         </div>
 
         {/* Defection & Contradiction Sentinel Checks */}
-        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2.5">
-          <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center space-x-1.5">
-            <Lock className="w-3.5 h-3.5 text-rose-600" />
+        <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 space-y-2.5">
+          <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider flex items-center space-x-1.5">
+            <Lock className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
             <span>Automated Contradiction & Defection Sentinel</span>
           </h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-            <div className="flex items-center space-x-2 p-2 bg-white rounded-xl border border-slate-200/80">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div className="flex items-center space-x-2 p-2 bg-white dark:bg-slate-800 rounded-xl border border-slate-200/80 dark:border-slate-700">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
               <div>
-                <span className="font-semibold text-slate-800">Robert Jenrick Defection:</span>
-                <span className="text-slate-500 block text-[11px]">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">Robert Jenrick Defection:</span>
+                <span className="text-slate-500 dark:text-slate-400 block text-[11px]">
                   {jenrickParty === 'reform' ? 'Confirmed strictly in Reform (Shadow Chancellor)' : 'Anomaly detected!'}
                 </span>
               </div>
             </div>
 
-            <div className="flex items-center space-x-2 p-2 bg-white rounded-xl border border-slate-200/80">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div className="flex items-center space-x-2 p-2 bg-white dark:bg-slate-800 rounded-xl border border-slate-200/80 dark:border-slate-700">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
               <div>
-                <span className="font-semibold text-slate-800">Suella Braverman Defection:</span>
-                <span className="text-slate-500 block text-[11px]">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">Suella Braverman Defection:</span>
+                <span className="text-slate-500 dark:text-slate-400 block text-[11px]">
                   {bravermanParty === 'reform' ? 'Confirmed strictly in Reform (Shadow Education)' : 'Anomaly detected!'}
                 </span>
               </div>
             </div>
 
-            <div className="flex items-center space-x-2 p-2 bg-white rounded-xl border border-slate-200/80">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div className="flex items-center space-x-2 p-2 bg-white dark:bg-slate-800 rounded-xl border border-slate-200/80 dark:border-slate-700">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
               <div>
-                <span className="font-semibold text-slate-800">Conservative Shadow Justice:</span>
-                <span className="text-slate-500 block text-[11px]">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">Conservative Shadow Justice:</span>
+                <span className="text-slate-500 dark:text-slate-400 block text-[11px]">
                   {timothyPresent ? 'Nick Timothy confirmed (replaced Jenrick)' : 'Anomaly detected!'}
                 </span>
               </div>
             </div>
 
-            <div className="flex items-center space-x-2 p-2 bg-white rounded-xl border border-slate-200/80">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div className="flex items-center space-x-2 p-2 bg-white dark:bg-slate-800 rounded-xl border border-slate-200/80 dark:border-slate-700">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
               <div>
-                <span className="font-semibold text-slate-800">Labour Leadership & HMG:</span>
-                <span className="text-slate-500 block text-[11px]">
+                <span className="font-semibold text-slate-800 dark:text-slate-200">Labour Leadership & HMG:</span>
+                <span className="text-slate-500 dark:text-slate-400 block text-[11px]">
                   {burnhamIsPM ? 'Andy Burnham confirmed as Prime Minister' : 'Anomaly detected!'}
                 </span>
               </div>
@@ -210,8 +210,8 @@ export const SystemHealthModal: React.FC<SystemHealthModalProps> = ({
 
         {/* 8-Party Verification Matrix */}
         <div className="space-y-2">
-          <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center space-x-1.5">
-            <Users className="w-3.5 h-3.5 text-blue-600" />
+          <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider flex items-center space-x-1.5">
+            <Users className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
             <span>Party Roster Verification Matrix (8 of 8 Active)</span>
           </h4>
 
@@ -223,7 +223,7 @@ export const SystemHealthModal: React.FC<SystemHealthModalProps> = ({
               return (
                 <div
                   key={p.id}
-                  className="flex items-center justify-between p-3 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition-colors"
+                  className="flex items-center justify-between p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80 hover:border-slate-300 dark:hover:border-slate-600 transition-colors"
                 >
                   <div className="flex items-center space-x-3">
                     <span 
@@ -232,23 +232,23 @@ export const SystemHealthModal: React.FC<SystemHealthModalProps> = ({
                     />
                     <div>
                       <div className="flex items-center space-x-2">
-                        <span className="text-xs font-bold text-slate-900">{p.name}</span>
-                        <span className="text-[10px] text-slate-500">({p.leader})</span>
+                        <span className="text-xs font-bold text-slate-900 dark:text-slate-100">{p.name}</span>
+                        <span className="text-[10px] text-slate-500 dark:text-slate-400">({p.leader})</span>
                       </div>
-                      <span className="text-[11px] text-slate-500 block mt-0.5">
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5">
                         {badgeText}
                       </span>
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-1.5 shrink-0">
-                    <span className="px-2 py-0.5 rounded-lg text-[11px] font-bold bg-slate-100 text-slate-700">
+                    <span className="px-2 py-0.5 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200">
                       {p.seats} MPs
                     </span>
-                    <span className="px-2 py-0.5 rounded-lg text-[11px] font-bold bg-slate-100 text-slate-700">
+                    <span className="px-2 py-0.5 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200">
                       {count} frontbench
                     </span>
-                    <span className="p-1 rounded-full bg-emerald-50 text-emerald-600">
+                    <span className="p-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                     </span>
                     {onSelectParty && (
@@ -257,7 +257,7 @@ export const SystemHealthModal: React.FC<SystemHealthModalProps> = ({
                           onSelectParty(p.id);
                           onClose();
                         }}
-                        className="text-xs font-semibold text-rose-600 hover:text-rose-700 pl-1"
+                        className="text-xs font-semibold text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 pl-1 cursor-pointer"
                         title={`View ${p.shortName} roster`}
                       >
                         <ArrowRight className="w-4 h-4" />
@@ -271,14 +271,14 @@ export const SystemHealthModal: React.FC<SystemHealthModalProps> = ({
         </div>
 
         {/* Footer info */}
-        <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+        <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
           <div className="flex items-center space-x-1.5">
-            <GitBranch className="w-3.5 h-3.5 text-slate-400" />
-            <span>Automated CI script: <code className="bg-slate-100 px-1 py-0.5 rounded text-[10px]">scripts/verify_and_sync_all_parties.py</code></span>
+            <GitBranch className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
+            <span>Automated CI script: <code className="bg-slate-100 dark:bg-slate-800 dark:text-slate-300 px-1 py-0.5 rounded text-[10px]">scripts/verify_and_sync_all_parties.py</code></span>
           </div>
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition-colors cursor-pointer"
+            className="px-4 py-2 bg-slate-900 dark:bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-slate-800 dark:hover:bg-blue-700 transition-colors cursor-pointer"
           >
             Close Inspector
           </button>

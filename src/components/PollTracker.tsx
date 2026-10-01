@@ -57,6 +57,7 @@ interface PollTrackerProps {
   onRefreshPolls?: () => Promise<void> | void;
   initialSubTab?: 'voting' | 'leaders' | 'bestpm' | 'policies';
   initialTargetLeader?: PartyId;
+  isDark?: boolean;
 }
 
 export const PollTracker: React.FC<PollTrackerProps> = ({
@@ -70,6 +71,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
   onRefreshPolls,
   initialSubTab,
   initialTargetLeader,
+  isDark = false,
 }) => {
   const [activeSubTab, setActiveSubTab] = useState<'voting' | 'leaders' | 'policies' | 'bestpm'>(
     initialSubTab || 'voting'
@@ -181,16 +183,16 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center space-x-2 text-rose-600 font-bold text-xs uppercase tracking-wider mb-1">
+          <div className="flex items-center space-x-2 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider mb-1">
             <BarChart3 className="w-4 h-4" />
             <span>Public Sentiment & Live Trackers</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-slate-100">
             Opinion Polling, Leader Approval & Policy Popularity
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-2xl">
             Real-time aggregate tracking of UK national voting intention, political leader approval ratings, head-to-head comparisons, and independent public opinion on key policy proposals.
           </p>
         </div>
@@ -200,15 +202,15 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
             defaultDate={`Synced: ${lastUpdated}`}
             onRefresh={onRefreshPolls}
           />
-          <div className="text-left md:text-right bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
-            <span className="text-[10px] uppercase font-bold text-slate-400 block">Pollster Benchmark</span>
-            <span className="text-xs font-bold text-slate-800 block">YouGov • Ipsos • Savanta • Opinium • Redfield</span>
+          <div className="text-left md:text-right bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
+            <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block">Pollster Benchmark</span>
+            <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">YouGov • Ipsos • Savanta • Opinium • Redfield</span>
           </div>
         </div>
       </div>
 
       {/* Sub-Navigation Tabs */}
-      <div className="flex items-center space-x-2 border-b border-slate-200 pb-3 overflow-x-auto scrollbar-none max-w-full min-w-0">
+      <div className="flex items-center space-x-2 border-b border-slate-200 dark:border-slate-800 pb-3 overflow-x-auto scrollbar-none max-w-full min-w-0">
         {[
           { id: 'voting', label: 'Party Voting Intention (Vote Share %)', icon: TrendingUp },
           { id: 'leaders', label: 'Leader Personal Approval (Ratings)', icon: Users },
@@ -223,8 +225,8 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
               onClick={() => setActiveSubTab(tab.id as any)}
               className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all cursor-pointer ${
                 isActive
-                  ? 'bg-slate-900 text-white shadow-xs'
-                  : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                  ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xs'
+                  : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -283,23 +285,23 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
       {activeSubTab === 'voting' && (
         <div className="space-y-6">
           {/* Poll Selection Bar */}
-          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center space-x-2">
-              <SlidersHorizontal className="w-4 h-4 text-slate-500" />
-              <span className="text-xs font-bold text-slate-700">Displaying Vote Share From:</span>
-              <span className="text-xs font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">
+              <SlidersHorizontal className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-300">Displaying Vote Share From:</span>
+              <span className="text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md">
                 {currentVotingPoll.pollster} ({currentVotingPoll.date})
               </span>
-              <span className="text-xs text-rose-600 font-bold">
+              <span className="text-xs text-rose-600 dark:text-rose-400 font-bold">
                 Lead: {currentVotingPoll.leadParty.toUpperCase()} (+{currentVotingPoll.leadMargin} pts)
               </span>
             </div>
             <div className="flex items-center space-x-2">
-              <label className="text-xs font-semibold text-slate-500 whitespace-nowrap">Change Poll:</label>
+              <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 whitespace-nowrap">Change Poll:</label>
               <select
                 value={selectedVotingPollIndex}
                 onChange={(e) => setSelectedVotingPollIndex(Number(e.target.value))}
-                className="bg-slate-50 text-slate-900 text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-300 focus:outline-hidden focus:ring-2 focus:ring-rose-500 cursor-pointer"
+                className="bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 focus:outline-hidden focus:ring-2 focus:ring-rose-500 cursor-pointer"
               >
                 {filteredTimeSeries.map((poll, idx) => (
                   <option key={idx} value={idx}>
@@ -322,19 +324,19 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
             ].map((item) => (
               <div
                 key={item.partyId}
-                className="bg-white rounded-xl p-4 border border-slate-200 shadow-xs relative overflow-hidden flex flex-col justify-between"
+                className="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 shadow-xs relative overflow-hidden flex flex-col justify-between"
               >
                 <div 
                   className="absolute top-0 left-0 right-0 h-1" 
                   style={{ backgroundColor: item.color }} 
                 />
                 <div>
-                  <span className="text-xs font-bold text-slate-500 block">{item.name}</span>
-                  <span className="text-2xl font-extrabold text-slate-900 mt-1 block">
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 block">{item.name}</span>
+                  <span className="text-2xl font-extrabold text-slate-900 dark:text-slate-100 mt-1 block">
                     {item.pct}%
                   </span>
                 </div>
-                <span className="text-[10px] text-slate-400 mt-2 block">
+                <span className="text-[10px] text-slate-400 dark:text-slate-500 mt-2 block">
                   {currentVotingPoll.pollster}
                 </span>
               </div>
@@ -342,22 +344,22 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
           </div>
 
           {/* Voting Intention Recharts Line Chart */}
-          <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
               <div>
-                <h3 className="text-base font-bold text-slate-900 flex items-center space-x-2">
-                  <TrendingUp className="w-4 h-4 text-blue-600" />
+                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center space-x-2">
+                  <TrendingUp className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                   <span>National Voting Intention Trend Line</span>
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   Aggregated trajectory grounded in British Polling Council & Wikipedia polling archives ({filteredTimeSeries.length} polls in view)
                 </p>
               </div>
 
               {/* Time Range Pills */}
-              <div className="flex flex-wrap items-center gap-1 bg-slate-100 p-1.5 rounded-xl border border-slate-200 max-w-full">
-                <span className="text-[10px] uppercase font-bold text-slate-500 px-1.5 flex items-center gap-1">
-                  <Calendar className="w-3.5 h-3.5 text-slate-500" />
+              <div className="flex flex-wrap items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 max-w-full">
+                <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 px-1.5 flex items-center gap-1">
+                  <Calendar className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
                   <span>Timeframe:</span>
                 </span>
                 {[
@@ -372,8 +374,8 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                     onClick={() => setSelectedTimeRange(range.id as TimeRange)}
                     className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                       selectedTimeRange === range.id
-                        ? 'bg-white text-slate-900 shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                        ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-xs'
+                        : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-700/60'
                     }`}
                   >
                     {range.label}
@@ -383,16 +385,16 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
             </div>
 
             {/* Wikipedia & BPC Grounding Notice */}
-            <div className="bg-amber-50/80 border border-amber-200/80 rounded-xl p-3 text-xs text-amber-900 flex items-start space-x-2.5">
-              <Info className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+            <div className="bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-900/60 rounded-xl p-3 text-xs text-amber-900 dark:text-amber-200 flex items-start space-x-2.5">
+              <Info className="w-4 h-4 text-amber-700 dark:text-amber-400 shrink-0 mt-0.5" />
               <div className="leading-relaxed text-[11px] sm:text-xs">
-                <span className="font-bold text-amber-950">Wikipedia & British Polling Council Verified Grounding:</span>{' '}
+                <span className="font-bold text-amber-950 dark:text-amber-100">Wikipedia & British Polling Council Verified Grounding:</span>{' '}
                 Reflects verified national polling recorded on{' '}
                 <a
                   href="https://en.wikipedia.org/wiki/Opinion_polling_for_the_next_United_Kingdom_general_election"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center underline font-bold hover:text-amber-950 text-indigo-700"
+                  className="inline-flex items-center underline font-bold hover:text-amber-950 dark:hover:text-amber-100 text-indigo-700 dark:text-indigo-400"
                 >
                   <span>Wikipedia: Opinion polling for the next UK general election</span>
                   <ExternalLink className="w-3 h-3 ml-0.5" />
@@ -404,10 +406,10 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
             <div className="h-72 sm:h-84 w-full pt-2 min-w-0">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={filteredTimeSeries} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                  <CartesianGrid strokeDasharray="3 3" stroke={isDark ? '#334155' : '#f1f5f9'} />
                   <XAxis 
                     dataKey="date" 
-                    tick={{ fontSize: 10, fill: '#64748b' }} 
+                    tick={{ fontSize: 10, fill: isDark ? '#94a3b8' : '#64748b' }} 
                     tickFormatter={(dateStr: string) => {
                       try {
                         const parts = dateStr.split('-');
@@ -424,7 +426,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                     interval="preserveStartEnd"
                     minTickGap={25}
                   />
-                  <YAxis domain={[0, 40]} tick={{ fontSize: 11, fill: '#64748b' }} unit="%" />
+                  <YAxis domain={[0, 40]} tick={{ fontSize: 11, fill: isDark ? '#94a3b8' : '#64748b' }} unit="%" />
                   <Tooltip 
                     labelFormatter={(label, payload) => {
                       const item = payload?.[0]?.payload;
@@ -434,14 +436,18 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                       return label;
                     }}
                     contentStyle={{ 
-                      backgroundColor: '#ffffff', 
+                      backgroundColor: isDark ? '#0f172a' : '#ffffff', 
                       borderRadius: '12px', 
-                      border: '1px solid #e2e8f0', 
-                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                      fontSize: '12px'
-                    }} 
+                      border: isDark ? '1px solid #334155' : '1px solid #e2e8f0', 
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.2)',
+                      fontSize: '12px',
+                      color: isDark ? '#f1f5f9' : '#0f172a'
+                    }}
+                    itemStyle={{
+                      color: isDark ? '#f1f5f9' : '#0f172a'
+                    }}
                   />
-                  <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
+                  <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px', color: isDark ? '#cbd5e1' : '#475569' }} />
                   <Line type="monotone" dataKey="reform" name="Reform UK" stroke="#12B6CF" strokeWidth={2.8} dot={{ r: 2 }} activeDot={{ r: 5 }} />
                   <Line type="monotone" dataKey="labour" name="Labour" stroke="#E4003B" strokeWidth={2.8} dot={{ r: 2 }} activeDot={{ r: 5 }} />
                   <Line type="monotone" dataKey="conservative" name="Conservative" stroke="#0087DC" strokeWidth={2.2} dot={{ r: 2 }} activeDot={{ r: 5 }} />
@@ -458,33 +464,33 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
       {activeSubTab === 'leaders' && (
         <div className="space-y-6">
           {/* Pollster Selection & Metadata Header */}
-          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center space-x-3">
-              <div className="p-2.5 rounded-xl bg-rose-50 text-rose-600 shrink-0">
+              <div className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 shrink-0">
                 <Users className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
                   Active Leader Pollster Selection
                 </span>
-                <h4 className="text-base font-extrabold text-slate-900 flex items-center space-x-2">
+                <h4 className="text-base font-extrabold text-slate-900 dark:text-slate-100 flex items-center space-x-2">
                   <span>{activePollsterSet?.pollsterName || 'Aggregated Poll of Polls'}</span>
-                  <span className="text-xs font-normal text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
+                  <span className="text-xs font-normal text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md">
                     {activePollsterSet?.date || lastUpdated}
                   </span>
                 </h4>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                   {activePollsterSet ? `${activePollsterSet.methodology} • Sample: ${activePollsterSet.sampleSize?.toLocaleString()} voters` : 'Comprehensive weighted average of British Polling Council members'}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center space-x-2 shrink-0">
-              <label className="text-xs font-bold text-slate-700 whitespace-nowrap">Select Pollster:</label>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 whitespace-nowrap">Select Pollster:</label>
               <select
                 value={selectedLeaderPollsterId}
                 onChange={(e) => setSelectedLeaderPollsterId(e.target.value)}
-                className="bg-slate-50 text-slate-900 text-xs font-bold px-3 py-2 rounded-xl border border-slate-300 focus:outline-hidden focus:ring-2 focus:ring-rose-500 cursor-pointer"
+                className="bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs font-bold px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 focus:outline-hidden focus:ring-2 focus:ring-rose-500 cursor-pointer"
               >
                 {leaderRatingsByPollster.map((ps) => (
                   <option key={ps.pollsterId} value={ps.pollsterId}>
@@ -496,7 +502,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
           </div>
 
           {/* Head-to-Head Comparison Card */}
-          <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-7 shadow-xl">
+          <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-7 shadow-xl border border-slate-800">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center space-x-2 text-rose-400 font-bold text-xs uppercase tracking-wider">
                 <Scale className="w-4 h-4" />
@@ -622,21 +628,21 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
           </div>
 
           {/* Multi-Pollster Comparison Matrix Table */}
-          <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xs">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
               <div>
-                <div className="flex items-center space-x-2 text-rose-600 font-bold text-xs uppercase tracking-wider mb-0.5">
+                <div className="flex items-center space-x-2 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider mb-0.5">
                   <Layers className="w-4 h-4" />
                   <span>Selection of Different Pollings</span>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-slate-100">
                   Cross-Pollster Comparison Matrix
                 </h3>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   Side-by-side comparison of party leaders across YouGov, Ipsos, Savanta, and Redfield & Wilton
                 </p>
               </div>
-              <span className="text-[11px] text-slate-500 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200">
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
                 Click any leader row to select in head-to-head comparison
               </span>
             </div>
@@ -644,17 +650,17 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 uppercase font-bold text-[11px]">
+                  <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 uppercase font-bold text-[11px]">
                     <th className="py-3 px-3">Party Leader</th>
                     <th className="py-3 px-3 text-center">YouGov Tracker</th>
                     <th className="py-3 px-3 text-center">Ipsos Political</th>
                     <th className="py-3 px-3 text-center">Savanta UK</th>
                     <th className="py-3 px-3 text-center">Redfield & Wilton</th>
-                    <th className="py-3 px-3 text-center bg-slate-100 font-black">Poll of Polls Avg</th>
+                    <th className="py-3 px-3 text-center bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-black">Poll of Polls Avg</th>
                     <th className="py-3 px-3 text-right">Select</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                   {parties.map((p) => {
                     const mainRating = leaderRatings.find((l) => l.partyId === p.id);
                     if (!mainRating) return null;
@@ -669,15 +675,15 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                       <tr 
                         key={p.id}
                         onClick={() => setCompareLeaderA(p.id)}
-                        className={`hover:bg-slate-50/80 transition-colors cursor-pointer ${
-                          isSelected ? 'bg-rose-50/50' : ''
+                        className={`hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors cursor-pointer ${
+                          isSelected ? 'bg-rose-50/50 dark:bg-rose-950/30' : ''
                         }`}
                       >
                         <td className="py-3 px-3">
                           <div className="flex items-center space-x-2.5">
                             <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: p.color }} />
                             <div>
-                              <div className="font-bold text-slate-900 flex items-center space-x-1.5">
+                              <div className="font-bold text-slate-900 dark:text-slate-100 flex items-center space-x-1.5">
                                 <span>{mainRating.leaderName}</span>
                                 {isSelected && (
                                   <span className="text-[9px] bg-rose-600 text-white font-bold px-1.5 py-0.2 rounded">
@@ -685,46 +691,46 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                                   </span>
                                 )}
                               </div>
-                              <span className="text-[11px] text-slate-500">{p.shortName} • {mainRating.role}</span>
+                              <span className="text-[11px] text-slate-500 dark:text-slate-400">{p.shortName} • {mainRating.role}</span>
                             </div>
                           </div>
                         </td>
                         <td className="py-3 px-3 text-center">
                           {yg ? (
-                            <span className={`inline-block px-2 py-0.5 rounded font-bold text-xs ${yg.netRating >= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                            <span className={`inline-block px-2 py-0.5 rounded font-bold text-xs ${yg.netRating >= 0 ? 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300' : 'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300'}`}>
                               {yg.netRating >= 0 ? `+${yg.netRating}` : yg.netRating}
-                              <span className="text-[10px] font-normal text-slate-500 block">({yg.approvePct}% App)</span>
+                              <span className="text-[10px] font-normal text-slate-500 dark:text-slate-400 block">({yg.approvePct}% App)</span>
                             </span>
-                          ) : <span className="text-slate-300">—</span>}
+                          ) : <span className="text-slate-300 dark:text-slate-600">—</span>}
                         </td>
                         <td className="py-3 px-3 text-center">
                           {ip ? (
-                            <span className={`inline-block px-2 py-0.5 rounded font-bold text-xs ${ip.netRating >= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                            <span className={`inline-block px-2 py-0.5 rounded font-bold text-xs ${ip.netRating >= 0 ? 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300' : 'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300'}`}>
                               {ip.netRating >= 0 ? `+${ip.netRating}` : ip.netRating}
-                              <span className="text-[10px] font-normal text-slate-500 block">({ip.approvePct}% App)</span>
+                              <span className="text-[10px] font-normal text-slate-500 dark:text-slate-400 block">({ip.approvePct}% App)</span>
                             </span>
-                          ) : <span className="text-slate-300">—</span>}
+                          ) : <span className="text-slate-300 dark:text-slate-600">—</span>}
                         </td>
                         <td className="py-3 px-3 text-center">
                           {sa ? (
-                            <span className={`inline-block px-2 py-0.5 rounded font-bold text-xs ${sa.netRating >= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                            <span className={`inline-block px-2 py-0.5 rounded font-bold text-xs ${sa.netRating >= 0 ? 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300' : 'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300'}`}>
                               {sa.netRating >= 0 ? `+${sa.netRating}` : sa.netRating}
-                              <span className="text-[10px] font-normal text-slate-500 block">({sa.approvePct}% App)</span>
+                              <span className="text-[10px] font-normal text-slate-500 dark:text-slate-400 block">({sa.approvePct}% App)</span>
                             </span>
-                          ) : <span className="text-slate-300">—</span>}
+                          ) : <span className="text-slate-300 dark:text-slate-600">—</span>}
                         </td>
                         <td className="py-3 px-3 text-center">
                           {rw ? (
-                            <span className={`inline-block px-2 py-0.5 rounded font-bold text-xs ${rw.netRating >= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}`}>
+                            <span className={`inline-block px-2 py-0.5 rounded font-bold text-xs ${rw.netRating >= 0 ? 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300' : 'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300'}`}>
                               {rw.netRating >= 0 ? `+${rw.netRating}` : rw.netRating}
-                              <span className="text-[10px] font-normal text-slate-500 block">({rw.approvePct}% App)</span>
+                              <span className="text-[10px] font-normal text-slate-500 dark:text-slate-400 block">({rw.approvePct}% App)</span>
                             </span>
-                          ) : <span className="text-slate-300">—</span>}
+                          ) : <span className="text-slate-300 dark:text-slate-600">—</span>}
                         </td>
-                        <td className="py-3 px-3 text-center bg-slate-50/50">
-                          <span className={`inline-block px-2.5 py-1 rounded-lg font-black text-xs ${pop.netRating >= 0 ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-rose-100 text-rose-900 border border-rose-300'}`}>
+                        <td className="py-3 px-3 text-center bg-slate-50/50 dark:bg-slate-800/40">
+                          <span className={`inline-block px-2.5 py-1 rounded-lg font-black text-xs ${pop.netRating >= 0 ? 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-900 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-800' : 'bg-rose-100 dark:bg-rose-950/70 text-rose-900 dark:text-rose-200 border border-rose-300 dark:border-rose-800'}`}>
                             {pop.netRating >= 0 ? `+${pop.netRating}` : pop.netRating} Net
-                            <span className="text-[10px] font-medium text-slate-500 block">({pop.approvePct}% / {pop.disapprovePct}%)</span>
+                            <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 block">({pop.approvePct}% / {pop.disapprovePct}%)</span>
                           </span>
                         </td>
                         <td className="py-3 px-3 text-right">
@@ -733,7 +739,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                               e.stopPropagation();
                               setCompareLeaderA(p.id);
                             }}
-                            className="text-[11px] font-bold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 px-2.5 py-1 rounded-lg transition-colors border border-rose-200 cursor-pointer"
+                            className="text-[11px] font-bold text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 bg-rose-50 dark:bg-rose-950/60 hover:bg-rose-100 dark:hover:bg-rose-900/60 px-2.5 py-1 rounded-lg transition-colors border border-rose-200 dark:border-rose-800 cursor-pointer"
                           >
                             Compare
                           </button>
@@ -747,17 +753,17 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
           </div>
 
           {/* Full Grid of All Leaders */}
-          <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xs">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
               <div>
-                <h3 className="text-base font-bold text-slate-900">
+                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
                   National Leader Approval Rankings ({activePollsterSet?.pollsterName || 'Aggregated Poll of Polls'})
                 </h3>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   Net approval score (% approve minus % disapprove) across UK party leaders
                 </p>
               </div>
-              <span className="text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg">
+              <span className="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">
                 Showing {currentLeaderRatings.length} leaders
               </span>
             </div>
@@ -775,8 +781,8 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                       onClick={() => setCompareLeaderA(leader.partyId)}
                       className={`p-4 rounded-xl border transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                         isSelected
-                          ? 'border-rose-400 bg-rose-50/40 ring-1 ring-rose-400 shadow-xs'
-                          : 'border-slate-100 bg-slate-50/60 hover:bg-slate-50'
+                          ? 'border-rose-400 dark:border-rose-500 bg-rose-50/40 dark:bg-rose-950/30 ring-1 ring-rose-400 shadow-xs'
+                          : 'border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 hover:bg-slate-50 dark:hover:bg-slate-800/70'
                       }`}
                     >
                       <div className="flex items-center space-x-3">
@@ -786,8 +792,8 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                         />
                         <div>
                           <div className="flex items-center space-x-2">
-                            <span className="font-bold text-sm text-slate-900">{leader.leaderName}</span>
-                            <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-slate-200 text-slate-700">
+                            <span className="font-bold text-sm text-slate-900 dark:text-slate-100">{leader.leaderName}</span>
+                            <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
                               {party?.shortName}
                             </span>
                             {isSelected && (
@@ -797,21 +803,21 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                               </span>
                             )}
                           </div>
-                          <span className="text-xs text-slate-500">{leader.role}</span>
+                          <span className="text-xs text-slate-500 dark:text-slate-400">{leader.role}</span>
                         </div>
                       </div>
 
                       {/* Approval meter */}
                       <div className="flex items-center space-x-4">
                         <div className="w-32 sm:w-44 space-y-1">
-                          <div className="flex justify-between text-[11px] text-slate-600 font-medium">
-                            <span className="text-emerald-700 font-bold">{leader.approvePct}% App</span>
-                            <span className="text-rose-700 font-bold">{leader.disapprovePct}% Dis</span>
+                          <div className="flex justify-between text-[11px] text-slate-600 dark:text-slate-300 font-medium">
+                            <span className="text-emerald-700 dark:text-emerald-400 font-bold">{leader.approvePct}% App</span>
+                            <span className="text-rose-700 dark:text-rose-400 font-bold">{leader.disapprovePct}% Dis</span>
                           </div>
-                          <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden flex">
+                          <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden flex">
                             <div className="bg-emerald-500 h-full" style={{ width: `${leader.approvePct}%` }} />
                             <div className="bg-rose-500 h-full" style={{ width: `${leader.disapprovePct}%` }} />
-                            <div className="bg-slate-400 h-full" style={{ width: `${leader.dontKnowPct}%` }} />
+                            <div className="bg-slate-400 dark:bg-slate-500 h-full" style={{ width: `${leader.dontKnowPct}%` }} />
                           </div>
                         </div>
 
@@ -820,13 +826,13 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                           <span 
                             className={`inline-block px-2.5 py-1 rounded-lg text-xs font-black ${
                               leader.netRating >= 0
-                                ? 'bg-emerald-100 text-emerald-800'
-                                : 'bg-rose-100 text-rose-800'
+                                ? 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300'
+                                : 'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300'
                             }`}
                           >
                             {leader.netRating >= 0 ? `+${leader.netRating}` : leader.netRating}
                           </span>
-                          <span className="text-[10px] text-slate-400 block mt-0.5">
+                          <span className="text-[10px] text-slate-400 dark:text-slate-500 block mt-0.5">
                             {getTrendIcon(leader.trend)} {leader.trend}
                           </span>
                         </div>
@@ -841,18 +847,18 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
 
       {/* ---------------- 3. BEST PRIME MINISTER TAB ---------------- */}
       {activeSubTab === 'bestpm' && bestPrimeMinister && (
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-6">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <h3 className="text-base font-bold text-slate-900 flex items-center space-x-2">
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center space-x-2">
                 <Award className="w-4 h-4 text-amber-500" />
                 <span>"Who Would Make the Best Prime Minister?" Tracker</span>
               </h3>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Direct head-to-head voter preference question tested weekly by YouGov
               </p>
             </div>
-            <span className="text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-lg">
+            <span className="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">
               {bestPrimeMinister.pollster} ({bestPrimeMinister.date})
             </span>
           </div>
@@ -868,24 +874,24 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
             ].map((candidate, idx) => (
               <div 
                 key={idx}
-                className="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col justify-between text-center relative overflow-hidden"
+                className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 flex flex-col justify-between text-center relative overflow-hidden"
               >
                 <div className="absolute top-0 left-0 right-0 h-1.5" style={{ backgroundColor: candidate.color }} />
                 <div>
-                  <span className="text-xs font-bold text-slate-400 block">{candidate.party}</span>
-                  <h4 className="text-sm font-bold text-slate-900 mt-0.5">{candidate.name}</h4>
+                  <span className="text-xs font-bold text-slate-400 dark:text-slate-400 block">{candidate.party}</span>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-slate-100 mt-0.5">{candidate.name}</h4>
                 </div>
                 <div className="my-3">
-                  <span className="text-3xl font-black text-slate-900">{candidate.pct}%</span>
+                  <span className="text-3xl font-black text-slate-900 dark:text-slate-100">{candidate.pct}%</span>
                 </div>
-                <span className="text-[10px] text-slate-400">Public Choice</span>
+                <span className="text-[10px] text-slate-400 dark:text-slate-500">Public Choice</span>
               </div>
             ))}
           </div>
 
           {/* Stacked comparison bar */}
           <div className="space-y-1.5">
-            <span className="text-xs font-bold text-slate-500">Distribution:</span>
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400">Distribution:</span>
             <div className="h-4 w-full rounded-full overflow-hidden flex shadow-xs">
               <div style={{ width: `${bestPrimeMinister.starmer}%`, backgroundColor: '#E4003B' }} title={`Starmer: ${bestPrimeMinister.starmer}%`} />
               <div style={{ width: `${bestPrimeMinister.badenoch}%`, backgroundColor: '#0087DC' }} title={`Badenoch: ${bestPrimeMinister.badenoch}%`} />
@@ -899,14 +905,14 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
 
       {/* ---------------- 4. POLICY POPULARITY TAB ---------------- */}
       {activeSubTab === 'policies' && (
-        <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-6">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div>
-              <h3 className="text-base font-bold text-slate-900 flex items-center space-x-2">
-                <Vote className="w-4 h-4 text-rose-600" />
+              <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center space-x-2">
+                <Vote className="w-4 h-4 text-rose-600 dark:text-rose-400" />
                 <span>Extensive Policy Opinion Tracker ({filteredPolicies.length} Tested Policies)</span>
               </h3>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Representative British polling testing individual manifesto policies directly with voters
               </p>
             </div>
@@ -917,10 +923,10 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold capitalize whitespace-nowrap transition-all ${
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold capitalize whitespace-nowrap transition-all cursor-pointer ${
                     selectedCategory === cat
-                      ? 'bg-slate-900 text-white shadow-xs'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xs'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                 >
                   {cat}
@@ -931,13 +937,13 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
 
           {/* Search within polls */}
           <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500" />
             <input
               type="text"
               placeholder="Search specific policies (e.g. VAT, water, smoking, assisted dying, winter fuel)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-slate-900"
+              className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 placeholder:text-slate-400 dark:placeholder:text-slate-500"
             />
           </div>
 
@@ -946,25 +952,25 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
             {filteredPolicies.map((item, index) => (
               <div 
                 key={index}
-                className="p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 transition-colors"
+                className="p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 hover:bg-slate-50 dark:hover:bg-slate-800/70 transition-colors"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                   <div className="flex items-center space-x-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-200 text-slate-700">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
                       {item.category}
                     </span>
-                    <span className="font-bold text-sm text-slate-900">
+                    <span className="font-bold text-sm text-slate-900 dark:text-slate-100">
                       {item.policy}
                     </span>
                   </div>
-                  <span className="text-[11px] text-slate-400 font-medium">
+                  <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
                     {item.pollster} ({item.date})
                   </span>
                 </div>
 
                 {/* Progress split bar */}
                 <div className="space-y-1 mb-3">
-                  <div className="h-3 w-full bg-slate-200 rounded-full overflow-hidden flex">
+                  <div className="h-3 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden flex">
                     <div 
                       className="bg-emerald-500 h-full" 
                       style={{ width: `${item.supportPct}%` }}
@@ -976,28 +982,28 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
                       title={`Oppose: ${item.opposePct}%`}
                     />
                     <div 
-                      className="bg-slate-400 h-full" 
+                      className="bg-slate-400 dark:bg-slate-500 h-full" 
                       style={{ width: `${item.unsurePct}%` }}
                       title={`Unsure: ${item.unsurePct}%`}
                     />
                   </div>
 
                   <div className="flex justify-between text-[11px] font-semibold">
-                    <span className="text-emerald-700">✓ {item.supportPct}% Support</span>
-                    <span className="text-rose-700">✕ {item.opposePct}% Oppose</span>
-                    <span className="text-slate-500">? {item.unsurePct}% Don't Know</span>
+                    <span className="text-emerald-700 dark:text-emerald-400">✓ {item.supportPct}% Support</span>
+                    <span className="text-rose-700 dark:text-rose-400">✕ {item.opposePct}% Oppose</span>
+                    <span className="text-slate-500 dark:text-slate-400">? {item.unsurePct}% Don't Know</span>
                   </div>
                 </div>
 
                 {/* Parties backing this policy */}
-                <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-slate-200/60 text-xs">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 mr-1">
+                <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-slate-200/60 dark:border-slate-800 text-xs">
+                  <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 mr-1">
                     Backed in Manifesto by:
                   </span>
                   {item.partiesSupporting.map((partyId) => {
                     if (partyId === ('free_vote' as any)) {
                       return (
-                        <span key="free_vote" className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-purple-100 text-purple-800">
+                        <span key="free_vote" className="px-2 py-0.5 rounded-md text-[11px] font-bold bg-purple-100 dark:bg-purple-950/70 text-purple-800 dark:text-purple-300">
                           Free Vote in Parliament
                         </span>
                       );

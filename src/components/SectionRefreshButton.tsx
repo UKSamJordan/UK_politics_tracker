@@ -90,18 +90,18 @@ export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
           disabled={isRefreshing}
           className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-2xs cursor-pointer ${
             isRefreshing
-              ? 'bg-rose-50 text-rose-700 border border-rose-200 cursor-wait'
+              ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/60 cursor-wait'
               : justUpdated
-              ? 'bg-emerald-50 text-emerald-700 border border-emerald-300'
-              : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200 hover:border-slate-300 active:scale-95'
+              ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800/60'
+              : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200 hover:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 dark:hover:text-white dark:border-slate-700 active:scale-95'
           }`}
           title={`Verify live records for ${sectionName}`}
         >
           {justUpdated ? (
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
           ) : (
             <RefreshCw
-              className={`w-3.5 h-3.5 text-rose-600 ${isRefreshing ? 'animate-spin' : ''}`}
+              className={`w-3.5 h-3.5 text-rose-600 dark:text-rose-400 ${isRefreshing ? 'animate-spin' : ''}`}
             />
           )}
           <span>
@@ -113,17 +113,17 @@ export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
           </span>
         </button>
 
-        <span className="inline-flex items-center space-x-1.5 text-[11px] font-medium text-slate-600 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-lg">
+        <span className="inline-flex items-center space-x-1.5 text-[11px] font-medium text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded-lg">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
           <span>{lastUpdatedText}</span>
         </span>
 
         <button
           onClick={() => setShowAuditInfo(!showAuditInfo)}
-          className="text-slate-400 hover:text-slate-600 text-[11px] flex items-center space-x-0.5 px-1 py-0.5 rounded cursor-pointer"
+          className="text-slate-400 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-200 text-[11px] flex items-center space-x-0.5 px-1 py-0.5 rounded cursor-pointer"
           title="Toggle data verification audit details"
         >
-          <ShieldCheck className="w-3 h-3 text-slate-500" />
+          <ShieldCheck className="w-3 h-3 text-slate-500 dark:text-slate-400" />
           <span>Audit</span>
           {showAuditInfo ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
         </button>
@@ -131,15 +131,15 @@ export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
 
       {/* Audit Detail Panel */}
       {showAuditInfo && (
-        <div className="bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-[11px] text-slate-600 space-y-1 animate-fade-in max-w-xl">
-          <div className="flex items-center space-x-1.5 font-bold text-slate-700">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+        <div className="bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 rounded-xl p-2.5 text-[11px] text-slate-600 dark:text-slate-300 space-y-1 animate-fade-in max-w-xl">
+          <div className="flex items-center space-x-1.5 font-bold text-slate-700 dark:text-slate-200">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>Verification Integrity Standard</span>
           </div>
           <p>
-            Grounding benchmark: <span className="font-semibold text-slate-800">{verificationSource}</span>.
+            Grounding benchmark: <span className="font-semibold text-slate-800 dark:text-slate-100">{verificationSource}</span>.
           </p>
-          <p className="text-slate-500">
+          <p className="text-slate-500 dark:text-slate-400">
             Guarantees alignment with active government appointments (Burnham Administration, July 2026), opposition shadow cabinets (Farage Reform team with Jenrick/Braverman, Feb 2026), and certified polling trackers.
           </p>
         </div>

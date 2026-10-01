@@ -132,20 +132,20 @@ export const DefenceSpecial: React.FC<DefenceSpecialProps> = ({
       </div>
 
       {/* Interactive Defence Spending Calculator */}
-      <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xs">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div className="flex items-center space-x-2">
-            <div className="p-2 bg-blue-50 text-blue-700 rounded-xl">
+            <div className="p-2 bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 rounded-xl">
               <Calculator className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-bold text-base text-slate-900">Interactive Defence Spending Model</h3>
-              <p className="text-xs text-slate-500">Calculate how each party's GDP target shifts UK annual defence spending</p>
+              <h3 className="font-bold text-base text-slate-900 dark:text-slate-100">Interactive Defence Spending Model</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Calculate how each party's GDP target shifts UK annual defence spending</p>
             </div>
           </div>
           <div className="text-right">
-            <span className="text-xs text-slate-400 block">Model Target</span>
-            <span className="text-xl font-extrabold text-blue-700">{calcGdpPct}% of GDP</span>
+            <span className="text-xs text-slate-400 dark:text-slate-500 block">Model Target</span>
+            <span className="text-xl font-extrabold text-blue-700 dark:text-blue-400">{calcGdpPct}% of GDP</span>
           </div>
         </div>
 
@@ -158,12 +158,12 @@ export const DefenceSpecial: React.FC<DefenceSpecialProps> = ({
             step="0.1"
             value={calcGdpPct}
             onChange={(e) => setCalcGdpPct(parseFloat(e.target.value))}
-            className="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
+            className="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 dark:bg-slate-700 rounded-lg"
           />
-          <div className="flex justify-between text-[11px] font-semibold text-slate-400">
+          <div className="flex justify-between text-[11px] font-semibold text-slate-400 dark:text-slate-500">
             <span>1.5% (Disarmament)</span>
             <span>2.0% (NATO minimum)</span>
-            <span className="text-slate-900 font-bold">2.3% (Current UK)</span>
+            <span className="text-slate-900 dark:text-slate-100 font-bold">2.3% (Current UK)</span>
             <span>2.5% (Labour/LD)</span>
             <span>3.0% (Con/Reform/Restore)</span>
             <span>3.5% (Cold War peak)</span>
@@ -171,25 +171,25 @@ export const DefenceSpecial: React.FC<DefenceSpecialProps> = ({
         </div>
 
         {/* Calculated summary cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4 pt-4 border-t border-slate-100 text-center">
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <span className="text-xs text-slate-500 block">Total Defence Budget</span>
-            <span className="text-xl font-bold text-slate-900">£{calculatedBudget} Billion</span>
-            <span className="text-[10px] text-slate-400 block">Annual UK expenditure</span>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-center">
+          <div className="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
+            <span className="text-xs text-slate-500 dark:text-slate-400 block">Total Defence Budget</span>
+            <span className="text-xl font-bold text-slate-900 dark:text-slate-100">£{calculatedBudget} Billion</span>
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 block">Annual UK expenditure</span>
           </div>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <span className="text-xs text-slate-500 block">Change vs Current Level</span>
-            <span className={`text-xl font-bold ${parseFloat(difference) >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+          <div className="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
+            <span className="text-xs text-slate-500 dark:text-slate-400 block">Change vs Current Level</span>
+            <span className={`text-xl font-bold ${parseFloat(difference) >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
               {parseFloat(difference) >= 0 ? `+£${difference}` : `-£${Math.abs(parseFloat(difference))}`} Billion
             </span>
-            <span className="text-[10px] text-slate-400 block">per year in public finances</span>
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 block">per year in public finances</span>
           </div>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200">
-            <span className="text-xs text-slate-500 block">Equivalent Public Cost</span>
-            <span className="text-xl font-bold text-slate-900">
+          <div className="bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
+            <span className="text-xs text-slate-500 dark:text-slate-400 block">Equivalent Public Cost</span>
+            <span className="text-xl font-bold text-slate-900 dark:text-slate-100">
               £{(parseFloat(calculatedBudget) * 1000 / 67).toFixed(0)} / Citizen
             </span>
-            <span className="text-[10px] text-slate-400 block">based on 67M UK population</span>
+            <span className="text-[10px] text-slate-400 dark:text-slate-500 block">based on 67M UK population</span>
           </div>
         </div>
       </div>
@@ -203,7 +203,7 @@ export const DefenceSpecial: React.FC<DefenceSpecialProps> = ({
           return (
             <div
               key={spec.partyId}
-              className="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden"
+              className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs p-5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden"
             >
               {/* Colored top bar */}
               <div 
@@ -219,7 +219,7 @@ export const DefenceSpecial: React.FC<DefenceSpecialProps> = ({
                       className="w-3.5 h-3.5 rounded-full"
                       style={{ backgroundColor: party.color }}
                     />
-                    <h3 className="font-bold text-base text-slate-900">{party.name}</h3>
+                    <h3 className="font-bold text-base text-slate-900 dark:text-slate-100">{party.name}</h3>
                   </div>
                   <span className="text-[11px] font-bold px-2 py-0.5 rounded-full" style={{
                     backgroundColor: party.color,
@@ -232,32 +232,32 @@ export const DefenceSpecial: React.FC<DefenceSpecialProps> = ({
                 {/* Specs */}
                 <div className="space-y-3.5 text-xs">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block">
                       Nuclear Deterrent (Trident)
                     </span>
-                    <p className="text-slate-800 font-semibold mt-0.5">{spec.trident}</p>
+                    <p className="text-slate-800 dark:text-slate-200 font-semibold mt-0.5">{spec.trident}</p>
                   </div>
 
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block">
                       Army Manpower & Recruiting
                     </span>
-                    <p className="text-slate-700 mt-0.5">{spec.troopTarget}</p>
+                    <p className="text-slate-700 dark:text-slate-300 mt-0.5">{spec.troopTarget}</p>
                   </div>
 
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block">
                       Alliances (NATO & Ukraine)
                     </span>
-                    <p className="text-slate-700 mt-0.5">{spec.natoUkraine}</p>
+                    <p className="text-slate-700 dark:text-slate-300 mt-0.5">{spec.natoUkraine}</p>
                   </div>
                 </div>
               </div>
 
               {/* Bottom badge */}
-              <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                <span className="text-slate-400 font-medium">Defence Secretary / Shadow:</span>
-                <span className="font-bold text-slate-800">
+              <div className="mt-5 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
+                <span className="text-slate-400 dark:text-slate-500 font-medium">Defence Secretary / Shadow:</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">
                   {party.id === 'labour' ? 'John Healey' :
                    party.id === 'conservative' ? 'James Cartlidge' :
                    party.id === 'libdem' ? 'Calum Miller' :

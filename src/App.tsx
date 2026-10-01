@@ -12,6 +12,7 @@ import { LiveAIFeed } from './components/LiveAIFeed';
 import { PoliticalMatrix } from './components/PoliticalMatrix';
 import { DataBankModal } from './components/DataBankModal';
 import { SystemHealthModal } from './components/SystemHealthModal';
+import { useTheme } from './hooks/useTheme';
 
 // Load Data Bank JSON files
 import partiesData from './data/parties.json';
@@ -29,6 +30,7 @@ import {
 } from './services/liveUpdater';
 
 export const App: React.FC = () => {
+  const { isDark, toggleTheme } = useTheme();
   const [parties] = useState<Party[]>(partiesData as Party[]);
 
   // Safe initial loading: ensure we never use a stale cached roster that is smaller than the official baseline
@@ -159,13 +161,15 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 flex flex-col w-full max-w-full overflow-x-hidden transition-colors duration-150">
       {/* Top Navigation */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onOpenDataBankModal={() => setIsDataBankModalOpen(true)}
         onOpenSystemHealthModal={() => setIsSystemHealthModalOpen(true)}
+        isDark={isDark}
+        onToggleTheme={toggleTheme}
       />
 
       {/* Main Content Container */}
@@ -195,6 +199,7 @@ export const App: React.FC = () => {
           <PoliticalMatrix
             parties={parties}
             policies={policies}
+            isDark={isDark}
             onSelectPartyForCabinet={() => {
               setActiveTab('cabinets');
             }}
@@ -224,6 +229,7 @@ export const App: React.FC = () => {
             onRefreshPolls={handleRefreshPolls}
             initialSubTab={pollSubTab}
             initialTargetLeader={pollTargetLeader}
+            isDark={isDark}
           />
         )}
 
@@ -268,10 +274,10 @@ export const App: React.FC = () => {
       />
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 mt-12 py-8 text-xs text-slate-500">
+      <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12 py-8 text-xs text-slate-500 dark:text-slate-400 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
-            <p className="font-semibold text-slate-700">
+            <p className="font-semibold text-slate-700 dark:text-slate-200">
               UK Political Parties Comparator & Intelligence Hub
             </p>
             <p className="mt-0.5">
@@ -281,14 +287,14 @@ export const App: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center gap-2">
             <button
               onClick={() => setIsSystemHealthModalOpen(true)}
-              className="px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 font-bold hover:bg-emerald-100 transition-colors cursor-pointer"
+              className="px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 font-bold hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors cursor-pointer"
             >
               ✓ 8/8 Parties Verified (100%)
             </button>
-            <span className="px-2.5 py-1 rounded-md bg-slate-100 text-slate-700 font-medium">
+            <span className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium">
               Cloudflare Pages Ready
             </span>
-            <span className="px-2.5 py-1 rounded-md bg-purple-50 text-purple-700 font-medium">
+            <span className="px-2.5 py-1 rounded-md bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 font-medium">
               Live Intelligence Synced
             </span>
           </div>

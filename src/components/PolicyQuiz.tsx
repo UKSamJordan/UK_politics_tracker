@@ -191,37 +191,37 @@ export const PolicyQuiz: React.FC<PolicyQuizProps> = ({ parties }) => {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Intro */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs text-center">
-        <div className="w-12 h-12 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-xs text-center">
+        <div className="w-12 h-12 bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 rounded-2xl flex items-center justify-center mx-auto mb-3">
           <HelpCircle className="w-6 h-6" />
         </div>
-        <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
+        <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-slate-100">
           "Where Do You Stand?" Blind Policy Matcher
         </h2>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
           Answer 5 straightforward policy questions without seeing party labels. We'll match your real choices with official UK party manifestos.
         </p>
       </div>
 
       {!quizFinished ? (
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-6">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
           {/* Question progress */}
-          <div className="flex items-center justify-between text-xs font-semibold text-slate-500">
-            <span className="uppercase text-rose-600 tracking-wider">
+          <div className="flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-slate-400">
+            <span className="uppercase text-rose-600 dark:text-rose-400 tracking-wider">
               {questions[currentQuestion].category}
             </span>
             <span>Question {currentQuestion + 1} of {questions.length}</span>
           </div>
 
-          <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+          <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
             <div 
-              className="bg-slate-900 h-full transition-all duration-300"
+              className="bg-slate-900 dark:bg-blue-500 h-full transition-all duration-300"
               style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
             />
           </div>
 
           {/* Question Text */}
-          <h3 className="text-base sm:text-lg font-bold text-slate-900">
+          <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-slate-100">
             {questions[currentQuestion].question}
           </h3>
 
@@ -231,23 +231,23 @@ export const PolicyQuiz: React.FC<PolicyQuizProps> = ({ parties }) => {
               <button
                 key={i}
                 onClick={() => handleSelectOption(opt.affinities)}
-                className="w-full p-4 text-left rounded-xl border border-slate-200 hover:border-slate-900 hover:bg-slate-50/80 transition-all text-xs sm:text-sm text-slate-800 font-medium flex items-center justify-between group"
+                className="w-full p-4 text-left rounded-xl border border-slate-200 dark:border-slate-700 hover:border-slate-900 dark:hover:border-blue-500 hover:bg-slate-50/80 dark:hover:bg-slate-800/80 transition-all text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-medium flex items-center justify-between group cursor-pointer"
               >
                 <span>{opt.text}</span>
-                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-900 shrink-0 ml-2" />
+                <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-blue-400 shrink-0 ml-2" />
               </button>
             ))}
           </div>
         </div>
       ) : (
         /* Results View */
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-6">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
           <div className="text-center">
-            <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-2">
+            <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mx-auto mb-2">
               <Award className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-slate-900">Your Political Alignment Results</h3>
-            <p className="text-xs text-slate-500 mt-0.5">Based on your stances on defence, economy, NHS, immigration, and energy</p>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">Your Political Alignment Results</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Based on your stances on defence, economy, NHS, immigration, and energy</p>
           </div>
 
           {/* Match rankings */}
@@ -257,22 +257,22 @@ export const PolicyQuiz: React.FC<PolicyQuizProps> = ({ parties }) => {
               return (
                 <div
                   key={res.party.id}
-                  className="p-3.5 rounded-xl border border-slate-100 bg-slate-50 flex items-center justify-between gap-3"
+                  className="p-3.5 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 flex items-center justify-between gap-3"
                 >
                   <div className="flex items-center space-x-3">
-                    <span className="text-xs font-bold text-slate-400 w-4">#{index + 1}</span>
+                    <span className="text-xs font-bold text-slate-400 dark:text-slate-500 w-4">#{index + 1}</span>
                     <span 
                       className="w-3.5 h-3.5 rounded-full" 
                       style={{ backgroundColor: res.party.color }}
                     />
                     <div>
-                      <span className="font-bold text-sm text-slate-900 block">{res.party.name}</span>
-                      <span className="text-[11px] text-slate-500">{res.party.leader}</span>
+                      <span className="font-bold text-sm text-slate-900 dark:text-slate-100 block">{res.party.name}</span>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400">{res.party.leader}</span>
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    <div className="w-20 sm:w-28 bg-slate-200 h-2 rounded-full overflow-hidden">
+                    <div className="w-20 sm:w-28 bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
                       <div 
                         className="h-full rounded-full" 
                         style={{ 
@@ -281,7 +281,7 @@ export const PolicyQuiz: React.FC<PolicyQuizProps> = ({ parties }) => {
                         }}
                       />
                     </div>
-                    <span className="font-bold text-xs text-slate-800 w-10 text-right">
+                    <span className="font-bold text-xs text-slate-800 dark:text-slate-200 w-10 text-right">
                       {res.matchPct}%
                     </span>
                   </div>
@@ -294,7 +294,7 @@ export const PolicyQuiz: React.FC<PolicyQuizProps> = ({ parties }) => {
           <div className="text-center pt-2">
             <button
               onClick={resetQuiz}
-              className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition-colors"
+              className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-slate-900 dark:bg-blue-600 text-white text-xs font-semibold hover:bg-slate-800 dark:hover:bg-blue-700 transition-colors cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Retake Policy Quiz</span>

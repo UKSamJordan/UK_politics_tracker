@@ -95,16 +95,16 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center space-x-2 text-rose-600 font-bold text-xs uppercase tracking-wider mb-1">
+          <div className="flex items-center space-x-2 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider mb-1">
             <ShieldCheck className="w-4 h-4" />
             <span>Independent Verification & Scrutiny</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-slate-100">
             Political Claims Fact-Checker
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-2xl">
             Independent, non-partisan assessments of statements made by party leaders, based on findings from Full Fact, the Institute for Fiscal Studies (IFS), and the UK Statistics Authority.
           </p>
         </div>
@@ -114,8 +114,8 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
             defaultDate="September 2026 Audit"
             onRefresh={onRefreshFactChecks}
           />
-          <div className="flex items-center space-x-2 text-xs text-slate-500 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
-            <span className="font-semibold text-slate-700">Standards:</span>
+          <div className="flex items-center space-x-2 text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
+            <span className="font-semibold text-slate-700 dark:text-slate-300">Standards:</span>
             <span>Full Fact • IFS • ONS</span>
           </div>
         </div>
@@ -131,8 +131,8 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
               onClick={() => setSelectedVerdict(verdict)}
               className={`px-3 py-1.5 rounded-xl text-xs font-semibold capitalize whitespace-nowrap transition-all cursor-pointer ${
                 selectedVerdict === verdict
-                  ? 'bg-slate-900 text-white shadow-xs'
-                  : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
+                  ? 'bg-slate-900 dark:bg-blue-600 text-white shadow-xs'
+                  : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
               }`}
             >
               {verdict}
@@ -144,11 +144,11 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
         <div className="flex flex-wrap items-center gap-2">
           {/* Sort Selector */}
           <div className="flex items-center space-x-1.5">
-            <span className="text-xs font-semibold text-slate-500">Sort:</span>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">Sort:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="text-xs sm:text-sm bg-white border border-slate-200 rounded-xl px-3 py-1.5 focus:outline-hidden focus:ring-2 focus:ring-slate-900 text-slate-700 font-semibold cursor-pointer"
+              className="text-xs sm:text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500 text-slate-700 dark:text-slate-200 font-semibold cursor-pointer"
             >
               <option value="newest">Most Recent First (2026)</option>
               <option value="questionable_first">Most Questionable First (False/Misleading)</option>
@@ -159,7 +159,7 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
           <select
             value={selectedParty}
             onChange={(e) => setSelectedParty(e.target.value)}
-            className="text-xs sm:text-sm bg-white border border-slate-200 rounded-xl px-3 py-1.5 focus:outline-hidden focus:ring-2 focus:ring-slate-900 text-slate-700 cursor-pointer"
+            className="text-xs sm:text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500 text-slate-700 dark:text-slate-200 cursor-pointer"
           >
             <option value="all">All Parties</option>
             {parties.map((p) => (
@@ -168,22 +168,22 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
           </select>
 
           <div className="relative w-full sm:w-auto sm:min-w-[200px] flex-1">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500" />
             <input
               type="text"
               placeholder="Search claims..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-1.5 text-xs sm:text-sm bg-white border border-slate-200 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-slate-900"
+              className="w-full pl-9 pr-3 py-1.5 text-xs sm:text-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
             />
           </div>
         </div>
       </div>
 
       {/* Results Count & Recency Notice */}
-      <div className="flex items-center justify-between text-xs text-slate-500 px-1">
+      <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1">
         <span>Showing {filteredChecks.length} fact check investigations (ordered by recency)</span>
-        <span className="font-semibold text-slate-700">Latest check: September 2026</span>
+        <span className="font-semibold text-slate-700 dark:text-slate-300">Latest check: September 2026</span>
       </div>
 
       {/* List of Fact Checks */}
@@ -197,13 +197,13 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
           return (
             <div
               key={fc.id}
-              className={`rounded-2xl border p-5 shadow-xs flex flex-col justify-between transition-all bg-white hover:shadow-md ${
-                is2026 ? 'border-slate-300' : 'border-slate-200 opacity-90'
+              className={`rounded-2xl border p-5 shadow-xs flex flex-col justify-between transition-all bg-white dark:bg-slate-900 hover:shadow-md ${
+                is2026 ? 'border-slate-300 dark:border-slate-700' : 'border-slate-200 dark:border-slate-800 opacity-90'
               }`}
             >
               <div>
                 {/* Header: Party, Speaker, Date */}
-                <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
+                <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-100 dark:border-slate-800">
                   <div className="flex items-center space-x-2">
                     {party && (
                       <span
@@ -213,29 +213,29 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
                         {party.shortName}
                       </span>
                     )}
-                    <span className="text-xs font-bold text-slate-800">{fc.speaker}</span>
+                    <span className="text-xs font-bold text-slate-800 dark:text-slate-200">{fc.speaker}</span>
                   </div>
 
                   <div className="flex items-center space-x-1.5">
                     {is2026 ? (
-                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 border border-rose-200">
+                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-100 dark:bg-rose-950/40 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800/60">
                         2026 Check
                       </span>
                     ) : (
-                      <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">
+                      <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
                         Archive
                       </span>
                     )}
-                    <span className="text-[11px] font-semibold text-slate-600">{fc.date}</span>
+                    <span className="text-[11px] font-semibold text-slate-600 dark:text-slate-400">{fc.date}</span>
                   </div>
                 </div>
 
                 {/* The Claim */}
                 <div className="mb-4">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block mb-1">
                     Claim Under Scrutiny:
                   </span>
-                  <blockquote className="text-sm font-semibold text-slate-900 italic border-l-2 border-slate-300 pl-3 py-0.5">
+                  <blockquote className="text-sm font-semibold text-slate-900 dark:text-slate-100 italic border-l-2 border-slate-300 dark:border-slate-600 pl-3 py-0.5">
                     "{fc.claim}"
                   </blockquote>
                 </div>
@@ -249,8 +249,8 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
                 </div>
 
                 {/* Detailed Explanation */}
-                <div className="text-xs text-slate-600 leading-relaxed space-y-1">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">
+                <div className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block">
                     Factual Analysis:
                   </span>
                   <p>{fc.explanation}</p>
@@ -258,13 +258,13 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
               </div>
 
               {/* Source & Link */}
-              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                <span className="text-slate-400 font-medium">Fact-checked by:</span>
+              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
+                <span className="text-slate-400 dark:text-slate-500 font-medium">Fact-checked by:</span>
                 <a
                   href={fc.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-bold text-blue-600 hover:text-blue-800 flex items-center space-x-1"
+                  className="font-bold text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center space-x-1"
                 >
                   <span>{fc.source}</span>
                   <ExternalLink className="w-3 h-3" />
