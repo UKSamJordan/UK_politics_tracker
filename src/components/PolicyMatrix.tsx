@@ -11,14 +11,15 @@ import {
   Search, 
   CheckCircle2, 
   AlertTriangle, 
+  AlertCircle,
   Info, 
   HelpCircle,
   ExternalLink,
   ChevronDown,
   ChevronUp,
-  AlertCircle,
   Sparkles,
-  RefreshCw
+  RefreshCw,
+  GraduationCap
 } from 'lucide-react';
 import { SectionRefreshButton } from './SectionRefreshButton';
 import { PolicyChangeReport } from '../services/liveUpdater';
@@ -124,6 +125,7 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
     { id: 'welfare', label: 'Pensions & Social Care', icon: Heart },
     { id: 'nhs', label: 'NHS & Healthcare', icon: HeartPulse },
     { id: 'immigration', label: 'Immigration & Borders', icon: Plane },
+    { id: 'education', label: 'Education & Universities', icon: GraduationCap },
     { id: 'energy', label: 'Energy & Net Zero', icon: Zap },
     { id: 'housing', label: 'Housing & Planning', icon: Home },
   ];

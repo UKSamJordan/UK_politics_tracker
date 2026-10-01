@@ -15,7 +15,14 @@
     "description": "Governing party led by Prime Minister Andy Burnham since July 2026. Focuses on building a National Care Service, regional devolution, long-term public service reform, and public oversight of water and energy.",
     "avatarText": "LAB",
     "website": "https://labour.org.uk",
-    "seatsLastVerified": "September 2026 • House of Commons Register"
+    "seatsLastVerified": "September 2026 • House of Commons Register",
+    "compass": {
+      "economicScore": -2.5,
+      "socialScore": 1.5,
+      "quadrant": "Auth-Left",
+      "summary": "Social Democratic & Regulatory Centre",
+      "rationale": "Great British Energy, passenger rail nationalisation, 20% private school VAT balanced by fiscal discipline, strict border command, and antisocial behaviour enforcement."
+    }
   },
   {
     "id": "conservative",
@@ -33,7 +40,14 @@
     "description": "The official opposition party, advocating for lower taxation, reduced state expenditure, a firm stance on cultural and constitutional institutions, regulatory rollback, and tighter borders.",
     "avatarText": "CON",
     "website": "https://conservatives.com",
-    "seatsLastVerified": "September 2026 • House of Commons Register"
+    "seatsLastVerified": "September 2026 • House of Commons Register",
+    "compass": {
+      "economicScore": 5.5,
+      "socialScore": 5.0,
+      "quadrant": "Auth-Right",
+      "summary": "Free Enterprise & Traditionalist Conservative",
+      "rationale": "Lower taxation, opposing private school VAT, deregulation balanced by 3% GDP defence spending, mandatory National Service at 18, and border enforcement."
+    }
   },
   {
     "id": "reform",
@@ -51,7 +65,14 @@
     "description": "Right-wing populist party led by Nigel Farage. In February 2026, Farage unveiled Reform's first official 'Shadow Cabinet' team (including Shadow Chancellor Robert Jenrick and Shadow Education Secretary Suella Braverman) signaling preparation for government, advocating an immigration freeze, leaving the ECHR, and deregulation.",
     "avatarText": "REF",
     "website": "https://reformparty.uk",
-    "seatsLastVerified": "September 2026 • House of Commons Register"
+    "seatsLastVerified": "September 2026 • House of Commons Register",
+    "compass": {
+      "economicScore": 7.0,
+      "socialScore": 7.5,
+      "quadrant": "Auth-Right",
+      "summary": "National Populist & Free Market Radical",
+      "rationale": "Raising tax threshold to £20k, 15% corporation tax, private school relief combined with leaving the ECHR, net zero immigration freeze, and expanded police powers."
+    }
   },
   {
     "id": "libdem",
@@ -69,7 +90,14 @@
     "description": "Third largest party in Parliament, prioritizing NHS and social care reform, sewage prevention in UK waterways, proportional representation electoral reform, closer cooperation with the EU, and green transition.",
     "avatarText": "LD",
     "website": "https://libdems.org.uk",
-    "seatsLastVerified": "September 2026 • House of Commons Register"
+    "seatsLastVerified": "September 2026 • House of Commons Register",
+    "compass": {
+      "economicScore": -0.5,
+      "socialScore": -6.0,
+      "quadrant": "Lib-Centre",
+      "summary": "Centrist Market Economy & Civil Libertarian",
+      "rationale": "Market-driven economy with targeted windfall taxes and free school meals, combined with staunch civil liberties, electoral reform (PR), and rejoining Erasmus+."
+    }
   },
   {
     "id": "green",
@@ -87,7 +115,14 @@
     "description": "Progressive environmentalist party led by Zack Polanski (elected September 2025) with a 4-strong parliamentary group in Westminster led by Carla Denyer MP. Champions a 1-2% wealth tax on multi-millionaires, full public ownership of water and energy, rapid phase-out of fossil fuels, universal basic services, and major investment in council homes.",
     "avatarText": "GRN",
     "website": "https://greenparty.org.uk",
-    "seatsLastVerified": "September 2026 • House of Commons Register"
+    "seatsLastVerified": "September 2026 • House of Commons Register",
+    "compass": {
+      "economicScore": -7.5,
+      "socialScore": -6.5,
+      "quadrant": "Lib-Left",
+      "summary": "Eco-Socialist & Civil Libertarian",
+      "rationale": "Advocates aggressive wealth taxes, complete utility nationalisation, UBI, alongside drug reform, human rights protection, and strong civil liberties."
+    }
   },
   {
     "id": "snp",
@@ -105,7 +140,14 @@
     "description": "Scottish nationalist and social-democratic party advocating for Scottish independence within the EU, progressive taxation, an end to UK austerity, and universal benefits protection.",
     "avatarText": "SNP",
     "website": "https://snp.org",
-    "seatsLastVerified": "September 2026 • House of Commons Register"
+    "seatsLastVerified": "September 2026 • House of Commons Register",
+    "compass": {
+      "economicScore": -4.5,
+      "socialScore": -3.0,
+      "quadrant": "Lib-Left",
+      "summary": "Social Democratic & Pro-European",
+      "rationale": "Free university tuition, progressive tax bands, and public rail ownership combined with liberal immigration stances and European integration."
+    }
   },
   {
     "id": "plaid",
@@ -123,7 +165,14 @@
     "description": "Welsh nationalist, social-democratic party campaigning for Welsh independence, fair funding formulas (replacing the Barnett formula), green regional infrastructure, and protection of the Welsh language.",
     "avatarText": "PC",
     "website": "https://partyof.wales",
-    "seatsLastVerified": "September 2026 • House of Commons Register"
+    "seatsLastVerified": "September 2026 • House of Commons Register",
+    "compass": {
+      "economicScore": -5.0,
+      "socialScore": -4.0,
+      "quadrant": "Lib-Left",
+      "summary": "Democratic Socialist & Decentralist",
+      "rationale": "Community wealth building, universal primary free school meals, public water ownership, and decentralized Senedd autonomy."
+    }
   },
   {
     "id": "restore",
@@ -132,8 +181,8 @@
     "color": "#5B2C6F",
     "secondaryColor": "#F3E8F7",
     "textColor": "#FFFFFF",
-    "leader": "Rupert Lowe / Movement Assembly",
-    "leaderTitle": "Convenor & Spokesperson",
+    "leader": "Movement Council Executive",
+    "leaderTitle": "National Convenor",
     "founded": 2024,
     "orientation": "Traditionalist / Constitutional Conservative",
     "seats": 0,
@@ -141,6 +190,13 @@
     "description": "Emerging political pressure party advocating for restoring traditional British civil liberties, constitutional sovereignty, dismantling quangos, abolishing Net Zero statutes, and reviving regional manufacturing.",
     "avatarText": "RES",
     "website": "https://restorebritain.org.uk",
-    "seatsLastVerified": "September 2026 • House of Commons Register"
+    "seatsLastVerified": "September 2026 • House of Commons Register",
+    "compass": {
+      "economicScore": 8.5,
+      "socialScore": 8.0,
+      "quadrant": "Auth-Right",
+      "summary": "Paleoconservative & Ultra-Free-Market",
+      "rationale": "Radical Whitehall downsizing, dismantling quangos, flat tax combined with constitutional restoration, traditional curriculum, and zero illegal migration tolerance."
+    }
   }
 ]

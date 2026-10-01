@@ -9,6 +9,7 @@ import { PollTracker } from './components/PollTracker';
 import { FactCheckDirectory } from './components/FactCheckDirectory';
 import { PolicyQuiz } from './components/PolicyQuiz';
 import { LiveAIFeed } from './components/LiveAIFeed';
+import { PoliticalMatrix } from './components/PoliticalMatrix';
 import { DataBankModal } from './components/DataBankModal';
 import { SystemHealthModal } from './components/SystemHealthModal';
 
@@ -187,6 +188,16 @@ export const App: React.FC = () => {
             selectedParties={selectedParties}
             policies={policies}
             onRefreshPolicies={handleRefreshPolicies}
+          />
+        )}
+
+        {activeTab === 'matrix' && (
+          <PoliticalMatrix
+            parties={parties}
+            policies={policies}
+            onSelectPartyForCabinet={() => {
+              setActiveTab('cabinets');
+            }}
           />
         )}
 

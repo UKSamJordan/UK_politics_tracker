@@ -594,8 +594,8 @@
   {
     "id": "res-1",
     "partyId": "restore",
-    "name": "Movement Council Spokesperson",
-    "role": "Convenor & Constitutional Campaigner",
+    "name": "Movement Council Executive",
+    "role": "National Convenor & Constitutional Lead",
     "isLeader": true,
     "constituency": "National",
     "bio": "Civic assembly representing traditionalist British restoration, civil liberties, and free-market constitutionalism.",
@@ -606,8 +606,8 @@
   {
     "id": "res-2",
     "partyId": "restore",
-    "name": "Rupert Lowe (Grassroots Movement Patron)",
-    "role": "Campaign Patron & Enterprise Advocate",
+    "name": "Civic Campaign Spokesperson",
+    "role": "Director of Policy & Enterprise",
     "constituency": "Great Yarmouth",
     "bio": "Independent-minded enterprise advocate campaigning across civic forums for constitutional reform, British sovereign fishing, and deregulation.",
     "keyStance": "Radical Whitehall downsizing, dismantling regulatory quangos, repealing onerous Net Zero mandates, and defending family businesses.",

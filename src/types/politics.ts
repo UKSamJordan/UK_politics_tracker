@@ -25,6 +25,23 @@ export interface Party {
   avatarText: string;
   website: string;
   seatsLastVerified?: string;
+  compass?: PartyCompass;
+}
+
+export interface PartyCompass {
+  economicScore: number; // -10 (Left) to +10 (Right)
+  socialScore: number;   // -10 (Libertarian) to +10 (Authoritarian)
+  quadrant: 'Auth-Left' | 'Auth-Right' | 'Lib-Left' | 'Lib-Right' | 'Lib-Centre' | 'Centrist';
+  summary: string;
+  rationale: string;
+}
+
+export interface CompassCoordinates {
+  economic: number; // -10 (Left) to +10 (Right)
+  social: number;   // -10 (Libertarian) to +10 (Authoritarian)
+  quadrant: string;
+  summary: string;
+  rationale?: string;
 }
 
 export interface CabinetMember {
@@ -90,6 +107,7 @@ export interface PolicyTopic {
   publicOpinionQuestion?: string;
   publicOpinionSupportOverall?: number;
   pledges: Record<PartyId, PolicyPledge>;
+  compass?: CompassCoordinates;
 }
 
 export interface PollPoint {

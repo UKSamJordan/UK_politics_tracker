@@ -172,6 +172,12 @@
         "officialSourceUrl": "https://restorebritain.org.uk",
         "lastVerifiedDate": "September 2026"
       }
+    },
+    "compass": {
+      "economic": 2.0,
+      "social": 6.5,
+      "quadrant": "Auth-Right",
+      "summary": "State defence posture & military expansion"
     }
   },
   {
@@ -347,6 +353,12 @@
         "officialSourceUrl": "https://restorebritain.org.uk",
         "lastVerifiedDate": "September 2026"
       }
+    },
+    "compass": {
+      "economic": -3.5,
+      "social": 1.0,
+      "quadrant": "Auth-Left",
+      "summary": "Progressive taxation vs market deregulation"
     }
   },
   {
@@ -522,6 +534,12 @@
         "officialSourceUrl": "https://restorebritain.org.uk",
         "lastVerifiedDate": "September 2026"
       }
+    },
+    "compass": {
+      "economic": -6.0,
+      "social": -1.0,
+      "quadrant": "Lib-Left",
+      "summary": "Publicly funded universal healthcare & social care"
     }
   },
   {
@@ -697,6 +715,12 @@
         "officialSourceUrl": "https://restorebritain.org.uk",
         "lastVerifiedDate": "September 2026"
       }
+    },
+    "compass": {
+      "economic": 1.5,
+      "social": 8.0,
+      "quadrant": "Auth-Right",
+      "summary": "Border enforcement, detention, ECHR jurisdiction"
     }
   },
   {
@@ -872,6 +896,12 @@
         "officialSourceUrl": "https://restorebritain.org.uk",
         "lastVerifiedDate": "September 2026"
       }
+    },
+    "compass": {
+      "economic": -5.0,
+      "social": -2.5,
+      "quadrant": "Lib-Left",
+      "summary": "Green transition, public energy, climate regulations"
     }
   },
   {
@@ -1047,6 +1077,12 @@
         "officialSourceUrl": "https://restorebritain.org.uk",
         "lastVerifiedDate": "September 2026"
       }
+    },
+    "compass": {
+      "economic": -5.5,
+      "social": -1.5,
+      "quadrant": "Lib-Left",
+      "summary": "Planning deregulation vs council housing & tenant rights"
     }
   },
   {
@@ -1221,6 +1257,198 @@
         "officialSourceUrl": "https://restorebritain.org.uk",
         "lastVerifiedDate": "September 2026",
         "publicSupport": 63
+      }
+    },
+    "compass": {
+      "economic": -4.0,
+      "social": 1.5,
+      "quadrant": "Auth-Left",
+      "summary": "State pension protection & nationalised care service"
+    }
+  },
+  {
+    "id": "education-schools-and-universities",
+    "category": "education",
+    "title": "Education, School Funding & University Tuition",
+    "description": "State school funding, VAT on independent school fees, early-years childcare, curriculum reform, university tuition fees, and student loan interest.",
+    "compass": {
+      "economic": -4.5,
+      "social": -0.5,
+      "quadrant": "Lib-Left",
+      "summary": "State school funding, tuition fees, private school taxation"
+    },
+    "officialFigureBenchmark": {
+      "label": "Current UK Schools & Higher Education Budget",
+      "value": "approx. £61.6bn core state schools budget; university tuition fees capped at £9,250 - £9,535/yr",
+      "source": "Department for Education (DfE) / Institute for Fiscal Studies (IFS)"
+    },
+    "publicOpinionQuestion": "Do you support applying standard 20% VAT to private school fees to fund state education?",
+    "publicOpinionSupportOverall": 68,
+    "pledges": {
+      "labour": {
+        "partyId": "labour",
+        "headline": "Apply 20% VAT on Private School Fees to Fund 6,500 State Teachers",
+        "summary": "Ending the tax break on private school fees by applying standard 20% VAT and removing business rates relief, ring-fencing ~£1.5bn annually to hire 6,500 new expert state school teachers, establish mental health support in every school, and expand free breakfast clubs in all primary schools.",
+        "keyPoints": [
+          "Standard 20% VAT applied to private school fees from January 2025 onwards",
+          "Recruit 6,500 new specialized state school teachers in STEM and shortage subjects",
+          "Free breakfast clubs for every primary school student across England",
+          "Launch Skills England to reform the Apprenticeship Levy and boost technical qualifications",
+          "Ongoing review into long-term higher education funding and student maintenance"
+        ],
+        "costEstimate": "Yields estimated £1.3bn - £1.7bn annual revenue for state schools",
+        "targetTimeline": "Phased roll-out across 2024–2029 parliament",
+        "factCheckSnippet": "IFS analysis confirms VAT on private school fees raises ~£1.3bn-£1.5bn net, though private pupil transfers to state sector could absorb ~£100m-£300m.",
+        "factCheckVerdict": "accurate",
+        "factCheckSource": "Institute for Fiscal Studies (IFS) Education Briefing",
+        "publicSupport": 68,
+        "officialSourceTitle": "Labour Manifesto: Break Down Barriers to Opportunity",
+        "officialSourceUrl": "https://labour.org.uk/change",
+        "lastVerifiedDate": "September 2026"
+      },
+      "conservative": {
+        "partyId": "conservative",
+        "headline": "Protect Independent Schools from VAT & Introduce Mandatory National Service at 18",
+        "summary": "Opposing punitive VAT on independent schools which burdens state capacity; rolling out the Advanced British Standard combining A-levels and T-levels; legislating mandatory National Service for all 18-year-olds (military academy or civic community service); and defending free speech on university campuses.",
+        "keyPoints": [
+          "Oppose and repeal VAT on independent school tuition fees",
+          "Deliver the Advanced British Standard replacing A-levels with broader post-16 qualifications",
+          "Introduce mandatory National Service for 18-year-olds (30,000 military places + civic volunteering)",
+          "Strict statutory guidance on gender identity in schools and safeguarding single-sex spaces",
+          "Enforce Higher Education (Freedom of Speech) Act to fine universities canceling speakers"
+        ],
+        "costEstimate": "National Service estimated at £2.5bn/yr; ABS transition funded through DfE baseline",
+        "targetTimeline": "Implementation across next parliamentary term",
+        "factCheckSnippet": "Full Fact notes: The £2.5bn National Service plan would be partially funded by repurposing the UK Shared Prosperity Fund.",
+        "factCheckVerdict": "needs context",
+        "factCheckSource": "Full Fact / House of Commons Library",
+        "publicSupport": 48,
+        "officialSourceTitle": "Conservative Education & National Service Platform",
+        "officialSourceUrl": "https://www.conservatives.com/our-plan",
+        "lastVerifiedDate": "September 2026"
+      },
+      "reform": {
+        "partyId": "reform",
+        "headline": "Scrap VAT on Independent Schools, Offer 20% Tax Relief & Cancel Student Loan Interest",
+        "summary": "Abolish VAT on private school fees and grant a 20% tax relief on fees to encourage independent schooling and relieve state school congestion; eliminate interest on student loans; defund universities offering degrees with low graduate employment; and ban political bias and gender theory in classrooms.",
+        "keyPoints": [
+          "Scrap VAT on independent school tuition and introduce 20% tax voucher relief",
+          "Abolish interest charges on student loans to ease graduate financial burdens",
+          "Mandate political neutrality and ban gender ideology teaching in schools",
+          "Cut public subsidies and student loan access for low-progression university degrees",
+          "Promote traditional British history and patriotic civic values in the national curriculum"
+        ],
+        "costEstimate": "Student loan interest cancellation estimated at £4bn - £5bn/yr; private school relief £1.2bn",
+        "targetTimeline": "Immediate 100-day legislative priority",
+        "factCheckSnippet": "IFS warns: Scrapping student loan interest predominantly benefits higher-earning graduates who would otherwise pay off full interest.",
+        "factCheckVerdict": "needs context",
+        "factCheckSource": "Institute for Fiscal Studies (IFS)",
+        "publicSupport": 44,
+        "officialSourceTitle": "Reform UK Contract with You: Education & Universities",
+        "officialSourceUrl": "https://www.reformparty.uk/policies",
+        "lastVerifiedDate": "September 2026"
+      },
+      "libdem": {
+        "partyId": "libdem",
+        "headline": "Free School Meals for All Primary Children & Rejoin EU Erasmus+ Student Programme",
+        "summary": "Expand free school meals to all 4.6 million primary school pupils; boost the Pupil Premium by £390 per disadvantaged pupil; station a qualified mental health practitioner in every school; and rejoin the EU's Erasmus+ university exchange programme.",
+        "keyPoints": [
+          "Universal free school meals for all primary school pupils, extended to all children in poverty in secondary schools",
+          "Increase the Pupil Premium by £390 per year to close the post-pandemic attainment gap",
+          "Rejoin the European Union Erasmus+ student exchange programme",
+          "A mental health specialist in every primary and secondary school",
+          "Exempt children with special educational needs (EHCPs) from any private school fee tax measures"
+        ],
+        "costEstimate": "Free school meals expansion estimated at ~£1.1bn/yr; funded via Digital Services Tax surcharge",
+        "targetTimeline": "Phased over 3 years",
+        "factCheckSnippet": "Full Fact: Expanding free school meals to all primary pupils costs £1bn annually; Lib Dem tax targets on tech giants match this scale.",
+        "factCheckVerdict": "accurate",
+        "factCheckSource": "Full Fact / Children's Food Campaign",
+        "publicSupport": 69,
+        "officialSourceTitle": "Liberal Democrat Manifesto: Fair Deal for Education",
+        "officialSourceUrl": "https://www.libdems.org.uk/plan",
+        "lastVerifiedDate": "September 2026"
+      },
+      "green": {
+        "partyId": "green",
+        "headline": "Abolish University Tuition Fees Entirely, Scrap Ofsted & £3bn Green Schools Fund",
+        "summary": "Abolish university tuition fees and reinstate maintenance grants; abolish high-stakes testing, SATs, and Ofsted inspections, replacing them with supportive local moderation; end academisation and return all schools to local authorities; and provide £3bn in capital funding to make all school buildings energy-efficient.",
+        "keyPoints": [
+          "Abolish all higher education tuition fees for undergraduate degrees across the UK",
+          "Scrap Ofsted and replace with collaborative local authority peer assessments",
+          "End the academies programme and return state schools to democratic local council oversight",
+          "Universal free school meals for all primary and secondary school pupils",
+          "£3bn capital investment to retrofit schools with solar panels, heat pumps, and modern ventilation"
+        ],
+        "costEstimate": "Abolishing tuition fees and restoring grants estimated at £9bn - £11bn/yr; funded via Wealth Tax",
+        "targetTimeline": "Roll-out within first two budget cycles",
+        "factCheckSnippet": "IFS calculates: Abolishing tuition fees costs ~£10bn annually in public borrowing or requires equivalent wealth taxation revenue.",
+        "factCheckVerdict": "accurate",
+        "factCheckSource": "Institute for Fiscal Studies (IFS)",
+        "publicSupport": 59,
+        "officialSourceTitle": "Green Party Manifesto: Real Hope, Real Change for Education",
+        "officialSourceUrl": "https://greenparty.org.uk/manifesto",
+        "lastVerifiedDate": "September 2026"
+      },
+      "snp": {
+        "partyId": "snp",
+        "headline": "Maintain Free University Tuition in Scotland & Protect Scottish Childcare Devolution",
+        "summary": "Uncompromising commitment to free university tuition for Scottish undergraduates studying in Scotland, saving Scottish students up to £27,750; ongoing delivery of 1,140 hours of funded early learning and childcare; and targeted Scottish Attainment Challenge funding.",
+        "keyPoints": [
+          "Maintain free university tuition for all eligible Scottish students studying in Scotland",
+          "Expand funded early learning and childcare to 1- and 2-year-olds from low-income families",
+          "Invest £1bn over parliament in the Scottish Attainment Challenge to close the poverty-related attainment gap",
+          "Demand compensation and UK-wide funding parity following changes to English student finance"
+        ],
+        "costEstimate": "Free Scottish tuition costs Scottish Government approximately £900m/yr",
+        "targetTimeline": "Continuous devolved commitment",
+        "factCheckSnippet": "Audit Scotland: Free tuition saves Scottish graduates significant debt, though university sector warns of funding pressures on domestic student caps.",
+        "factCheckVerdict": "accurate",
+        "factCheckSource": "Audit Scotland / Scottish Parliament Information Centre (SPICe)",
+        "publicSupport": 73,
+        "officialSourceTitle": "SNP Policy Platform: Defending Scotland's Education",
+        "officialSourceUrl": "https://www.snp.org/policies",
+        "lastVerifiedDate": "September 2026"
+      },
+      "plaid": {
+        "partyId": "plaid",
+        "headline": "Fully Devolve Education & Student Loans to Wales, Expand Welsh-Medium Schools",
+        "summary": "Full devolution of all remaining education and student finance powers to the Senedd; universal free school meals for all primary pupils across Wales; aggressive expansion of Welsh-medium nursery and secondary education; and higher living-cost maintenance grants for Welsh students.",
+        "keyPoints": [
+          "Devolve student loan administration and repayment rules to the Senedd",
+          "Universal free school meals delivered to every primary child in Wales",
+          "Target 1 million Welsh speakers by 2050 via Welsh-medium education expansion",
+          "Increase maintenance grants for Welsh students to match the real living wage"
+        ],
+        "costEstimate": "Devolved Welsh education block grant adjustment + £150m targeted Welsh-medium investment",
+        "targetTimeline": "Senedd 2026–2031 legislative programme",
+        "factCheckSnippet": "Senedd Research confirms: Wales is already delivering universal primary free school meals, leading UK nations in early-years nutritional rollout.",
+        "factCheckVerdict": "accurate",
+        "factCheckSource": "Senedd Research / Welsh Government Education Data",
+        "publicSupport": 67,
+        "officialSourceTitle": "Plaid Cymru Policy: An Education System for Wales",
+        "officialSourceUrl": "https://partyof.wales/policies",
+        "lastVerifiedDate": "September 2026"
+      },
+      "restore": {
+        "partyId": "restore",
+        "headline": "Restore Classical STEM Curriculum, Defund Ideological Courses & Expand Grammar Schools",
+        "summary": "Focus state education strictly on rigorous STEM, core literacy, and British constitutional history; eliminate politicised training and DEI modules; remove barriers to creating new grammar schools; and replace degree expansion with traditional manufacturing apprenticeships.",
+        "keyPoints": [
+          "Rigorous return to classical academic standards: STEM, mathematics, grammar, and sovereign history",
+          "Repeal the ban on establishing new state-funded grammar schools",
+          "Defund university degrees that fail to generate net positive tax contributions within 5 years",
+          "Direct £2bn in university subsidies toward technical polytechnics and industrial trades"
+        ],
+        "costEstimate": "Net neutral via reallocation of university teaching subsidies to trade polytechnics",
+        "targetTimeline": "Initial 24-month structural overhaul",
+        "factCheckSnippet": "Education Policy Institute: Expanding grammar schools historically correlates with increased social segregation, though supporters cite high academic attainment.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "Education Policy Institute (EPI)",
+        "publicSupport": 42,
+        "officialSourceTitle": "Restore Britain: Reclaiming British Education",
+        "officialSourceUrl": "https://restorebritain.org.uk/education",
+        "lastVerifiedDate": "September 2026"
       }
     }
   }
