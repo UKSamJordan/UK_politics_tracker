@@ -383,7 +383,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
           ))}
         </div>
 
-        <form onSubmit={(e) => handleAskTracker(e)} className="flex gap-2 pt-1">
+        <form onSubmit={(e) => handleAskTracker(e)} className="flex flex-col sm:flex-row gap-2 pt-1 w-full max-w-full">
           <input
             type="text"
             placeholder="Ask about any policy, bill, pledge, or politician (e.g. 'What is the latest on the triple lock?')..."

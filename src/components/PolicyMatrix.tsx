@@ -274,7 +274,7 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
         )}
 
         {/* Category Filter Pills */}
-        <div className="flex items-center space-x-2 overflow-x-auto pb-1 scrollbar-none pt-2 border-t border-slate-100">
+        <div className="flex items-center space-x-2 overflow-x-auto pb-1 scrollbar-none pt-2 border-t border-slate-100 max-w-full min-w-0">
           {categories.map((cat) => {
             const Icon = cat.icon;
             const isSelected = selectedCategory === cat.id;
@@ -312,7 +312,7 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
           return (
             <div
               key={topic.id}
-              className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden transition-all"
+              className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden transition-all max-w-full min-w-0"
             >
               {/* Topic Header Card */}
               <div

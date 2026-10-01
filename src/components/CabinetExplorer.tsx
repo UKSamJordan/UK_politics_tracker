@@ -199,17 +199,17 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
         </div>
 
         {/* Universal Roster Integrity Strip */}
-        <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-          <div className="flex items-center space-x-2">
+        <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-3 max-w-full min-w-0">
+          <div className="flex flex-wrap items-center gap-1.5 text-xs">
             <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span className="text-xs font-bold text-slate-800">
+            <span className="font-bold text-slate-800">
               Universal Frontbench Integrity:
             </span>
-            <span className="text-xs text-slate-600">
-              52 verified frontbench records across all 8 parties
+            <span className="text-slate-600">
+              {cabinetMembers.length} verified frontbench records across all 8 parties
             </span>
           </div>
-          <div className="flex flex-wrap items-center gap-1.5 self-stretch md:self-auto">
+          <div className="flex flex-wrap items-center gap-1.5 self-stretch md:self-auto max-w-full">
             {parties.map((p) => (
               <button
                 key={p.id}
@@ -279,21 +279,22 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 border-t border-slate-100">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 border-t border-slate-100 w-full min-w-0">
           <SectionRefreshButton
             sectionName="Cabinet Roster"
             defaultDate="September 2026 • Verified Public Record"
             onRefresh={handleRefreshWithDiff}
+            className="w-full sm:w-auto"
           />
 
           {/* Quick Role Filter */}
-          <div className="flex items-center space-x-1.5 self-start sm:self-auto bg-slate-50 p-1.5 rounded-xl border border-slate-200">
-            <span className="text-[11px] font-bold text-slate-500 pl-2">Portfolio:</span>
+          <div className="flex items-center space-x-1.5 self-stretch sm:self-auto bg-slate-50 p-1.5 rounded-xl border border-slate-200 overflow-x-auto max-w-full scrollbar-none min-w-0">
+            <span className="text-[11px] font-bold text-slate-500 pl-2 shrink-0">Portfolio:</span>
             {['all', 'defence', 'chancellor', 'home', 'health', 'education'].map((role) => (
               <button
                 key={role}
                 onClick={() => setRoleFilter(role)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-semibold capitalize transition-all cursor-pointer ${
+                className={`px-2.5 py-1 rounded-lg text-xs font-semibold capitalize whitespace-nowrap shrink-0 transition-all cursor-pointer ${
                   roleFilter === role
                     ? 'bg-slate-900 text-white shadow-xs'
                     : 'text-slate-600 hover:text-slate-900'
@@ -307,7 +308,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
       </div>
 
       {/* Party Switcher Tabs */}
-      <div className="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none">
+      <div className="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none max-w-full min-w-0">
         {parties.map((p) => {
           const isSelected = p.id === selectedPartyId;
           const count = memberCounts[p.id] || 0;
@@ -339,7 +340,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
 
       {/* Party Information Banner */}
       <div 
-        className="p-5 rounded-2xl border text-white shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4"
+        className="p-4 sm:p-5 rounded-2xl border text-white shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 max-w-full min-w-0 overflow-hidden"
         style={{ backgroundColor: selectedParty.color }}
       >
         <div>
@@ -530,7 +531,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
       )}
 
       {/* Grid of Ministers / Spokespeople */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-full min-w-0">
         {filteredMembers.map((member) => {
           const Icon = getRoleIcon(member.role);
           const isLeaderCard = member.isLeader;
@@ -544,7 +545,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           return (
             <div
               key={member.id}
-              className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden"
+              className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden min-w-0 max-w-full"
             >
               <div 
                 className="absolute top-0 left-0 bottom-0 w-1.5"

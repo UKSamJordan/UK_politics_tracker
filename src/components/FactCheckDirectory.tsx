@@ -167,7 +167,7 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
             ))}
           </select>
 
-          <div className="relative min-w-[180px] sm:min-w-[200px]">
+          <div className="relative w-full sm:w-auto sm:min-w-[200px] flex-1">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"

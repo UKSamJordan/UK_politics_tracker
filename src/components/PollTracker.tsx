@@ -208,7 +208,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
       </div>
 
       {/* Sub-Navigation Tabs */}
-      <div className="flex items-center space-x-2 border-b border-slate-200 pb-3 overflow-x-auto scrollbar-none">
+      <div className="flex items-center space-x-2 border-b border-slate-200 pb-3 overflow-x-auto scrollbar-none max-w-full min-w-0">
         {[
           { id: 'voting', label: 'Party Voting Intention (Vote Share %)', icon: TrendingUp },
           { id: 'leaders', label: 'Leader Personal Approval (Ratings)', icon: Users },
@@ -355,7 +355,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
               </div>
 
               {/* Time Range Pills */}
-              <div className="flex flex-wrap items-center gap-1 bg-slate-100 p-1.5 rounded-xl border border-slate-200 shrink-0">
+              <div className="flex flex-wrap items-center gap-1 bg-slate-100 p-1.5 rounded-xl border border-slate-200 max-w-full">
                 <span className="text-[10px] uppercase font-bold text-slate-500 px-1.5 flex items-center gap-1">
                   <Calendar className="w-3.5 h-3.5 text-slate-500" />
                   <span>Timeframe:</span>
@@ -401,7 +401,7 @@ export const PollTracker: React.FC<PollTrackerProps> = ({
               </div>
             </div>
 
-            <div className="h-72 sm:h-84 w-full pt-2">
+            <div className="h-72 sm:h-84 w-full pt-2 min-w-0">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={filteredTimeSeries} margin={{ top: 5, right: 20, left: -20, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />

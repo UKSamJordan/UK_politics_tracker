@@ -159,7 +159,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col w-full max-w-full overflow-x-hidden">
       {/* Top Navigation */}
       <Navbar
         activeTab={activeTab}
@@ -169,7 +169,7 @@ export const App: React.FC = () => {
       />
 
       {/* Main Content Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 min-w-0 overflow-x-hidden">
         {/* Render Party Selector only on Comparison tab */}
         {activeTab === 'compare' && (
           <PartySelector

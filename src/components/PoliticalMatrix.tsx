@@ -97,7 +97,7 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
         </div>
 
         {/* Mode Selector Toggle */}
-        <div className="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-xl border border-slate-200 shrink-0 self-start md:self-center">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-1.5 bg-slate-100 p-1.5 rounded-xl border border-slate-200 max-w-full">
           <button
             onClick={() => setMode('parties')}
             className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${

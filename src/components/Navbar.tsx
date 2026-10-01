@@ -46,18 +46,18 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-xs w-full max-w-full overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 gap-2">
           {/* Logo & Brand */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('compare')}>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-700 via-rose-600 to-red-600 flex items-center justify-center shadow-sm text-white font-black text-lg">
+          <div className="flex items-center space-x-2 sm:space-x-3 cursor-pointer min-w-0" onClick={() => setActiveTab('compare')}>
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-blue-700 via-rose-600 to-red-600 flex items-center justify-center shadow-sm text-white font-black text-base sm:text-lg shrink-0">
               🇬🇧
             </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <span className="font-bold text-slate-900 text-lg tracking-tight">UK Politics</span>
-                <span className="px-1.5 py-0.5 text-xs font-semibold bg-rose-100 text-rose-800 rounded">Comparator</span>
+            <div className="min-w-0">
+              <div className="flex items-center space-x-1.5 sm:space-x-2">
+                <span className="font-bold text-slate-900 text-base sm:text-lg tracking-tight truncate">UK Politics</span>
+                <span className="px-1.5 py-0.5 text-[10px] sm:text-xs font-semibold bg-rose-100 text-rose-800 rounded shrink-0">Comparator</span>
               </div>
               <p className="text-xs text-slate-500 hidden sm:block">Parties • Policies • Polling • Fact-Checks</p>
             </div>
@@ -115,11 +115,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Mobile menu button */}
-          <div className="lg:hidden flex items-center space-x-2">
+          <div className="lg:hidden flex items-center space-x-1.5 shrink-0">
             {onOpenSystemHealthModal && (
               <button
                 onClick={onOpenSystemHealthModal}
-                className="flex items-center space-x-1 text-xs font-bold px-2 py-1 rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-800"
+                className="flex items-center space-x-1 text-xs font-bold px-2 py-1 rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-800 shrink-0"
               >
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                 <span>8/8</span>
@@ -127,10 +127,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-hidden cursor-pointer"
+              className="p-1.5 sm:p-2 rounded-md text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-hidden cursor-pointer shrink-0"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
           </div>
         </div>
