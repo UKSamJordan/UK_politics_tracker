@@ -60,7 +60,7 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
             item && 
             item.latestQuote !== 'Registered on official party platform and Hansard records.' &&
             item.quoteSpeaker &&
-            !isQuoteStaleOrInvalid(item.quoteDate, item.quoteSpeaker, item.rawText)
+            !isQuoteStaleOrInvalid(item.quoteDate, item.quoteSpeaker, item.rawText, k.split('-').pop())
           ) {
             cleaned[k] = item;
           }
