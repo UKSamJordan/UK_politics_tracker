@@ -34,17 +34,17 @@
       },
       "conservative": {
         "partyId": "conservative",
-        "headline": "Commitment to 3.0% of GDP on Defence by 2030",
-        "summary": "Officially pledged to raise UK defence spending to 3.0% of GDP (£100bn+/yr) by 2030 to counter escalating hostile alliances, reverse regular Army troop cuts, and replenish sovereign munitions.",
+        "headline": "Legislate 2.5% of GDP on Defence by 2030 (Pathway to 3%)",
+        "summary": "Officially committed to legislating defence spending to 2.5% of GDP by 2030 (~£87bn/yr) with a sequenced pathway to 3.0%, ring-fencing the Dreadnought submarine programme and protecting the 73,000 regular Army personnel floor.",
         "keyPoints": [
-          "Target 3.0% of GDP by 2030, raising UK defence posture significantly above the NATO 2% baseline",
+          "Target 2.5% of GDP by 2030 with a statutory timeline, scaling towards 3.0% as fiscal headroom expands",
           "Protect regular British Army headcount with a strict 73,000 personnel floor",
           "Ring-fenced sovereign capital funding for the Dreadnought nuclear submarine replacement",
           "Deepen AUKUS and Global Combat Air Programme (Tempest) 6th-gen fighter alliances"
         ],
-        "costEstimate": "Estimated £90bn - £100bn+ annual expenditure by 2030",
-        "targetTimeline": "Target of 3.0% of GDP by 2030",
-        "factCheckSnippet": "Full Fact / RUSI: Moving to 3.0% represents a ~£25bn/yr uplift, requiring substantial spending trade-offs or revised fiscal rules.",
+        "costEstimate": "Estimated £85bn - £90bn annual expenditure by 2030",
+        "targetTimeline": "Target 2.5% of GDP by 2030 (pathway to 3.0%)",
+        "factCheckSnippet": "Full Fact / RUSI: Moving to 2.5% by 2030 requires ~£10bn/yr uplift above current baseline, funded by planned civil service reductions.",
         "factCheckVerdict": "clarified",
         "factCheckSource": "Institute for Fiscal Studies (IFS)",
         "publicSupport": 61,

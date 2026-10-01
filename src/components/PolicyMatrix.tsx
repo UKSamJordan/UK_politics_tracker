@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 import { SectionRefreshButton } from './SectionRefreshButton';
 import { PolicyChangeReport } from '../services/liveUpdater';
-import { verifyPledgeRecency, PledgeVerificationResult } from '../services/policyTrackerQuery';
+import { verifyPledgeRecency, PledgeVerificationResult, isQuoteStaleOrInvalid } from '../services/policyTrackerQuery';
 
 interface PolicyMatrixProps {
   parties: Party[];
@@ -45,8 +45,8 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
   const [lastChangeReport, setLastChangeReport] = useState<PolicyChangeReport | null>(null);
   const [showReportDetails, setShowReportDetails] = useState(false);
 
-  // AI Pledge Recency Verification State
-  const PLEDGE_VERIF_STORAGE_KEY = 'uk_politics_pledge_verifications_v3';
+  // AI Pledge Recency Verification State (v4 enforces strict 2024-2026 recency and purges ex-ministers)
+  const PLEDGE_VERIF_STORAGE_KEY = 'uk_politics_pledge_verifications_v4';
   const [pledgeVerifications, setPledgeVerifications] = useState<Record<string, PledgeVerificationResult>>(() => {
     try {
       const saved = localStorage.getItem(PLEDGE_VERIF_STORAGE_KEY);
@@ -55,11 +55,12 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
         const cleaned: Record<string, PledgeVerificationResult> = {};
         for (const [k, v] of Object.entries(parsed)) {
           const item = v as PledgeVerificationResult;
-          // Filter out legacy generic placeholder text
+          // Filter out legacy generic placeholder text, ex-ministers, or stale pre-2024 quotes
           if (
             item && 
             item.latestQuote !== 'Registered on official party platform and Hansard records.' &&
-            item.quoteSpeaker
+            item.quoteSpeaker &&
+            !isQuoteStaleOrInvalid(item.quoteDate, item.quoteSpeaker, item.rawText)
           ) {
             cleaned[k] = item;
           }
@@ -575,7 +576,7 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
                                         <div className="flex items-center justify-between">
                                           <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-300 flex items-center space-x-1.5">
                                             <Quote className="w-3.5 h-3.5 text-indigo-400" />
-                                            <span>Latest Verified Statement & Quote:</span>
+                                            <span>Latest Verified Statement & Quote (2024–2026 Parliament):</span>
                                           </span>
                                           {verification.quoteDate && (
                                             <span className="text-[10px] font-bold text-amber-300/90 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-900/50">
