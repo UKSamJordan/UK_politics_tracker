@@ -19,7 +19,8 @@ import {
   ChevronUp,
   Sparkles,
   RefreshCw,
-  GraduationCap
+  GraduationCap,
+  Quote
 } from 'lucide-react';
 import { SectionRefreshButton } from './SectionRefreshButton';
 import { PolicyChangeReport } from '../services/liveUpdater';
@@ -45,11 +46,27 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
   const [showReportDetails, setShowReportDetails] = useState(false);
 
   // AI Pledge Recency Verification State
-  const PLEDGE_VERIF_STORAGE_KEY = 'uk_politics_pledge_verifications_v2';
+  const PLEDGE_VERIF_STORAGE_KEY = 'uk_politics_pledge_verifications_v3';
   const [pledgeVerifications, setPledgeVerifications] = useState<Record<string, PledgeVerificationResult>>(() => {
     try {
       const saved = localStorage.getItem(PLEDGE_VERIF_STORAGE_KEY);
-      return saved ? JSON.parse(saved) : {};
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const cleaned: Record<string, PledgeVerificationResult> = {};
+        for (const [k, v] of Object.entries(parsed)) {
+          const item = v as PledgeVerificationResult;
+          // Filter out legacy generic placeholder text
+          if (
+            item && 
+            item.latestQuote !== 'Registered on official party platform and Hansard records.' &&
+            item.quoteSpeaker
+          ) {
+            cleaned[k] = item;
+          }
+        }
+        return cleaned;
+      }
+      return {};
     } catch {
       return {};
     }
@@ -508,26 +525,41 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
 
                                 {/* Verification Dossier Drawer */}
                                 {isExpandedDossier && verification && (
-                                  <div className="mt-2 p-3 rounded-xl bg-slate-900 dark:bg-slate-950 text-slate-100 text-xs space-y-2.5 border border-slate-800 animate-in fade-in duration-200 shadow-md">
-                                    <div className="flex items-center justify-between border-b border-slate-800 pb-1.5">
-                                      <span className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded text-[10px] font-bold ${
-                                        verification.verdictTone === 'emerald' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' :
-                                        verification.verdictTone === 'amber' ? 'bg-amber-950 text-amber-300 border border-amber-800' :
-                                        verification.verdictTone === 'rose' ? 'bg-rose-950 text-rose-300 border border-rose-800' :
-                                        'bg-blue-950 text-blue-300 border border-blue-800'
-                                      }`}>
-                                        <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
-                                        <span>Verdict: {verification.verdict}</span>
-                                      </span>
+                                  <div className="mt-2.5 p-3.5 rounded-xl bg-slate-900 dark:bg-slate-950 text-slate-100 text-xs space-y-3 border border-slate-800 animate-in fade-in duration-200 shadow-xl">
+                                    {/* Purpose explainer banner */}
+                                    <div className="p-2.5 rounded-xl bg-blue-950/40 border border-blue-800/60 text-[11px] text-blue-200 flex items-start space-x-2">
+                                      <Info className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                                      <div className="space-y-0.5">
+                                        <span className="font-bold text-slate-100 block">What is this AI Verification confirming?</span>
+                                        <p className="text-slate-300 leading-relaxed">
+                                          Scrutinises whether this pledge remains <strong>active party policy today</strong>, whether it has been delayed or tied to <strong>fiscal conditions</strong>, and verifies the <strong>most recent statement on the parliamentary record</strong>.
+                                        </p>
+                                      </div>
+                                    </div>
+
+                                    {/* Header: Verdict & Refresh */}
+                                    <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                                      <div className="flex items-center space-x-2">
+                                        <span className={`inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-md text-[10px] font-bold ${
+                                          verification.verdictTone === "emerald" ? "bg-emerald-950 text-emerald-300 border border-emerald-800" :
+                                          verification.verdictTone === "amber" ? "bg-amber-950 text-amber-300 border border-amber-800" :
+                                          verification.verdictTone === "rose" ? "bg-rose-950 text-rose-300 border border-rose-800" :
+                                          "bg-blue-950 text-blue-300 border border-blue-800"
+                                        }`}>
+                                          <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+                                          <span>Verdict: {verification.verdict}</span>
+                                        </span>
+                                      </div>
                                       <button
                                         onClick={() => handleVerifyPledge(topic, party, pledge, true)}
                                         className="p-1 text-slate-400 hover:text-white cursor-pointer"
                                         title="Scan for most recent updates"
                                       >
-                                        <RefreshCw className="w-3 h-3" />
+                                        <RefreshCw className="w-3.5 h-3.5" />
                                       </button>
                                     </div>
 
+                                    {/* Last Officially Affirmed */}
                                     <div className="space-y-1">
                                       <span className="text-[10px] font-bold uppercase tracking-wider text-amber-300 block">
                                         Last Officially Affirmed:
@@ -537,17 +569,54 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
                                       </p>
                                     </div>
 
-                                    {verification.latestQuote && (
-                                      <div className="space-y-1 bg-white/5 p-2 rounded-lg border border-slate-800">
-                                        <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-300 block">
-                                          Latest Ministerial / Spokesperson Quote:
-                                        </span>
-                                        <blockquote className="text-[11px] text-slate-200 italic">
-                                          "{verification.latestQuote}"
+                                    {/* Latest Verified Statement & Quote with Speaker, Date, and Hansard Context */}
+                                    {(verification.quoteText || verification.latestQuote) && (
+                                      <div className="space-y-2 bg-white/5 dark:bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                                        <div className="flex items-center justify-between">
+                                          <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-300 flex items-center space-x-1.5">
+                                            <Quote className="w-3.5 h-3.5 text-indigo-400" />
+                                            <span>Latest Verified Statement & Quote:</span>
+                                          </span>
+                                          {verification.quoteDate && (
+                                            <span className="text-[10px] font-bold text-amber-300/90 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-900/50">
+                                              {verification.quoteDate}
+                                            </span>
+                                          )}
+                                        </div>
+
+                                        <blockquote className="text-xs text-slate-100 italic border-l-2 border-indigo-500 pl-3 py-1 font-serif leading-relaxed">
+                                          "{verification.quoteText || verification.latestQuote}"
                                         </blockquote>
+
+                                        {/* Byline: Speaker & Forum */}
+                                        <div className="pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-1 text-[11px]">
+                                          <div className="flex items-center space-x-1.5">
+                                            <span className="text-slate-400 font-medium">Speaker:</span>
+                                            <span className="font-bold text-slate-100">{verification.quoteSpeaker || `${party.shortName} Frontbench`}</span>
+                                          </div>
+                                          {verification.quoteContext && (
+                                            <div className="flex items-center space-x-1 text-slate-400">
+                                              <span className="text-slate-500">Forum:</span>
+                                              <span className="text-slate-300 font-medium">{verification.quoteContext}</span>
+                                            </div>
+                                          )}
+                                        </div>
+
+                                        {/* Hansard plain-English explainer */}
+                                        {(verification.quoteContext?.toLowerCase().includes("hansard") || 
+                                          verification.rawText?.toLowerCase().includes("hansard") ||
+                                          verification.source?.toLowerCase().includes("hansard")) && (
+                                          <div className="mt-1.5 pt-1.5 border-t border-slate-800/60 text-[10px] text-slate-400 flex items-start space-x-1.5">
+                                            <span className="px-1.5 py-0.5 rounded bg-slate-800 text-indigo-300 font-mono text-[9px] font-bold shrink-0 mt-0.5">Hansard</span>
+                                            <span className="text-slate-400 leading-tight">
+                                              The official substantially verbatim transcript of UK Parliamentary debates in the House of Commons and House of Lords.
+                                            </span>
+                                          </div>
+                                        )}
                                       </div>
                                     )}
 
+                                    {/* Status & Conditionality Analysis */}
                                     <div className="space-y-1">
                                       <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
                                         Status & Conditionality Analysis:
@@ -557,6 +626,7 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
                                       </p>
                                     </div>
 
+                                    {/* Footer Timestamp & Verification Badge */}
                                     <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-400">
                                       <span>{verification.timestamp}</span>
                                       <button
