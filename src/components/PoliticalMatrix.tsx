@@ -19,7 +19,10 @@ import {
   Layers,
   Sparkles,
   RotateCcw,
-  FileText
+  FileText,
+  Hammer,
+  BookOpen,
+  Info
 } from 'lucide-react';
 
 interface PoliticalMatrixProps {
@@ -36,6 +39,23 @@ export interface PolicyPartyCoord {
   social: number;
   rationale: string;
   quadrant: string;
+  economicJustification?: string;
+  socialJustification?: string;
+  statutoryReference?: string;
+}
+
+export interface SubPerspective {
+  id: string;
+  name: string;
+  shortName: string;
+  icon: string;
+  badge: string;
+  description: string;
+  axisExplanation: {
+    left: string;
+    right: string;
+  };
+  partyCoords: Record<PartyId, PolicyPartyCoord>;
 }
 
 export interface PolicyLens {
@@ -46,6 +66,7 @@ export interface PolicyLens {
   topicId: string;
   description: string;
   partyCoords: Record<PartyId, PolicyPartyCoord>;
+  subPerspectives?: SubPerspective[];
 }
 
 // Rigorous 2026 Policy-Specific Compass Coordinates for all 8 UK Parties
@@ -468,51 +489,249 @@ export const POLICY_LENSES: PolicyLens[] = [
         economic: 1.0,
         social: 4.0,
         quadrant: 'Auth-Right',
-        rationale: 'Statutory Border Security Command with counter-terror search and seizure powers; exit expensive asylum hotels/barges; enforce £38,700 salary threshold; returns treaties with safe nations.'
+        rationale: 'Statutory Border Security Command with counter-terror search and seizure powers; exit expensive asylum hotels/barges; enforce £38,700 salary threshold; returns treaties with safe nations.',
+        economicJustification: 'Maintains skilled worker salary threshold of £38,700 to balance corporate recruitment needs with domestic workforce training.',
+        socialJustification: 'Creates statutory Border Security Command with counter-terror search warrants, operating within ECHR limits.',
+        statutoryReference: 'Border Security, Asylum and Immigration Act 2025'
       },
       conservative: {
         economic: 4.5,
         social: 7.5,
         quadrant: 'Auth-Right',
-        rationale: 'Introduce legally binding annual statutory cap on all legal visas voted by Parliament; revive third-country deterrent removal scheme; raise dependent thresholds.'
+        rationale: 'Introduce legally binding annual statutory cap on all legal visas voted by Parliament; revive third-country deterrent removal scheme; raise dependent thresholds.',
+        economicJustification: 'Advocates annual statutory visa cap while historically accommodating corporate demands in care, agriculture, and university sectors.',
+        socialJustification: 'Advocates third-country removals (Rwanda model), detention of irregular arrivals, and curbs on human rights appeals.',
+        statutoryReference: 'Legal Migration Salary Order & Statutory Visa Caps'
       },
       reform: {
         economic: 7.5,
         social: 9.5,
         quadrant: 'Auth-Right',
-        rationale: 'Achieve net zero non-essential immigration; withdraw the UK from the ECHR and UN Refugee Convention; 20% employer immigration levy; offshore detention and deportation.'
+        rationale: 'Achieve net zero non-essential immigration; withdraw the UK from the ECHR and UN Refugee Convention; 20% employer immigration levy; offshore detention and deportation.',
+        economicJustification: 'Subordinates corporate business demand for labor to strict national sovereignty, implementing net zero non-essential migration targets.',
+        socialJustification: 'Withdrawal from ECHR and UN Refugee Convention, indefinite detention, and immediate offshore deportations.',
+        statutoryReference: 'Contract with You 2024–2026: Employer Immigration Tax & Net Zero Migration'
       },
       libdem: {
         economic: -2.5,
         social: -6.5,
         quadrant: 'Lib-Left',
-        rationale: 'Repeal the Illegal Migration Act 2023; grant asylum seekers the right to work after 3 months; establish safe and legal humanitarian corridors; expand European youth mobility.'
+        rationale: 'Repeal the Illegal Migration Act 2023; grant asylum seekers the right to work after 3 months; establish safe and legal humanitarian corridors; expand European youth mobility.',
+        economicJustification: 'Supports liberal work visas, youth mobility schemes with the EU, and granting asylum seekers the right to work after 3 months.',
+        socialJustification: 'Repeals Illegal Migration Act, abolishes indefinite detention, and creates safe and legal humanitarian corridors.',
+        statutoryReference: 'Liberal Democrat 2024 Manifesto: For a Fair Deal'
       },
       green: {
         economic: -8.0,
         social: -9.0,
         quadrant: 'Lib-Left',
-        rationale: 'Abolish all immigration detention centres; end the hostile environment; grant immediate right to work for asylum seekers; create Climate Refugee visa category.'
+        rationale: 'Abolish all immigration detention centres; end the hostile environment; grant immediate right to work for asylum seekers; create Climate Refugee visa category.',
+        economicJustification: 'Advocates global wealth redistribution without punitive border financial requirements or salary penalties.',
+        socialJustification: 'Completely abolishes immigration detention centres, dismantles hostile environment, and creates formal Climate Refugee visas.',
+        statutoryReference: 'Green Party 2024–2026 Policy Declaration: Global Freedom of Movement'
       },
       snp: {
         economic: -4.5,
         social: -5.0,
         quadrant: 'Lib-Left',
-        rationale: 'Pilot a dedicated Scottish Visa to address rural Highland depopulation and NHS staffing; defend European freedom of movement; humane community dispersal.'
+        rationale: 'Pilot a dedicated Scottish Visa to address rural Highland depopulation and NHS staffing; defend European freedom of movement; humane community dispersal.',
+        economicJustification: 'Demands Scottish Visa to reverse demographic decline in the Highlands and staff NHS Scotland and social care.',
+        socialJustification: 'Defends freedom of movement, closes Dungavel detention center, and promotes humane community-based integration.',
+        statutoryReference: 'Scottish Government Policy Paper: Migration - A Scottish Proposal'
       },
       plaid: {
         economic: -5.5,
         social: -5.5,
         quadrant: 'Lib-Left',
-        rationale: 'Deliver Wales as a true "Nation of Sanctuary"; humane community integration with Welsh language lessons; end use of isolated former military sites for asylum accommodation.'
+        rationale: 'Deliver Wales as a true "Nation of Sanctuary"; humane community integration with Welsh language lessons; end use of isolated former military sites for asylum accommodation.',
+        economicJustification: 'Integrates asylum seekers into local Welsh economy with immediate right to work and free public transit.',
+        socialJustification: 'Establishes Wales as an official Nation of Sanctuary, rejecting military camp housing and forced removals.',
+        statutoryReference: 'Plaid Cymru 2024–2026 Manifesto: Nation of Sanctuary Policy'
       },
       restore: {
         economic: 7.0,
         social: 10.0,
         quadrant: 'Auth-Right',
-        rationale: 'Complete military border lockdown using Royal Navy patrols in the Channel; emergency 5-year freeze on all asylum applications; repeal Human Rights Act.'
+        rationale: 'Complete military border lockdown using Royal Navy patrols in the Channel; emergency 5-year freeze on all asylum applications; repeal Human Rights Act.',
+        economicJustification: 'A total freeze on economic migration, prioritizing demographic preservation over employer labor availability.',
+        socialJustification: 'Full military interdiction by Royal Navy warships in the Channel, total suspension of the 1951 Refugee Convention, and repeal of the Human Rights Act.',
+        statutoryReference: 'Restore Britain 2026 Core Manifesto: Border Interdiction Bill'
       }
-    }
+    },
+    subPerspectives: [
+      {
+        id: 'cosmopolitan',
+        name: 'Cosmopolitan / Civil Liberty',
+        shortName: 'Cosmopolitan Lens',
+        icon: '🌐',
+        badge: 'Modern Social & Civil Axis',
+        description: 'Analyzes immigration through the prism of universal human rights, international sanctuary, and freedom of movement vs. national border security, state deterrence, and sovereign restriction.',
+        axisExplanation: {
+          left: 'Universal Human Rights & Open Sanctuary (-10)',
+          right: 'National Border Sovereignty & Visa Caps (+10)'
+        },
+        partyCoords: {
+          labour: {
+            economic: 1.0,
+            social: 4.0,
+            quadrant: 'Auth-Right',
+            rationale: 'Managed migration with high salary thresholds (£38,700) combined with counter-terror Border Security Command powers and ECHR compliance.',
+            economicJustification: 'Maintains skilled worker salary threshold of £38,700 to balance corporate recruitment needs with domestic workforce training.',
+            socialJustification: 'Creates statutory Border Security Command with counter-terror search warrants, operating within ECHR limits.',
+            statutoryReference: 'Border Security, Asylum and Immigration Act 2025'
+          },
+          conservative: {
+            economic: 4.5,
+            social: 7.5,
+            quadrant: 'Auth-Right',
+            rationale: 'Legally binding annual statutory visa cap, revival of third-country deterrent schemes, and restrictions on student/worker dependants.',
+            economicJustification: 'Advocates annual statutory visa cap while historically accommodating corporate demands in care, agriculture, and university sectors.',
+            socialJustification: 'Advocates third-country removals (Rwanda model), detention of irregular arrivals, and curbs on human rights appeals.',
+            statutoryReference: 'Legal Migration Salary Order & Statutory Visa Caps'
+          },
+          reform: {
+            economic: 7.5,
+            social: 9.5,
+            quadrant: 'Auth-Right',
+            rationale: 'Net zero non-essential migration, departure from the ECHR and UN Refugee Convention, and offshore detention and deportation.',
+            economicJustification: 'Subordinates corporate business demand for labor to strict national sovereignty, implementing net zero non-essential migration targets.',
+            socialJustification: 'Withdrawal from ECHR and UN Refugee Convention, indefinite detention, and immediate offshore deportations.',
+            statutoryReference: 'Contract with You 2024–2026: Employer Immigration Tax & Net Zero Migration'
+          },
+          restore: {
+            economic: 7.0,
+            social: 10.0,
+            quadrant: 'Auth-Right',
+            rationale: 'Military deployment of Royal Navy in the Channel, total 5-year freeze on all asylum applications, and repeal of the Human Rights Act.',
+            economicJustification: 'A total freeze on economic migration, prioritizing demographic preservation over employer labor availability.',
+            socialJustification: 'Full military interdiction by Royal Navy warships in the Channel, total suspension of the 1951 Refugee Convention, and repeal of the Human Rights Act.',
+            statutoryReference: 'Restore Britain 2026 Core Manifesto: Border Interdiction Bill'
+          },
+          libdem: {
+            economic: -2.5,
+            social: -6.5,
+            quadrant: 'Lib-Left',
+            rationale: 'Repeal of the Illegal Migration Act, right to work for asylum seekers after 3 months, and opening safe and legal humanitarian corridors.',
+            economicJustification: 'Supports liberal work visas, youth mobility schemes with the EU, and granting asylum seekers the right to work after 3 months.',
+            socialJustification: 'Repeals Illegal Migration Act, abolishes indefinite detention, and creates safe and legal humanitarian corridors.',
+            statutoryReference: 'Liberal Democrat 2024 Manifesto: For a Fair Deal'
+          },
+          green: {
+            economic: -8.0,
+            social: -9.0,
+            quadrant: 'Lib-Left',
+            rationale: 'Abolition of all immigration detention centres, end to the hostile environment, and creation of formal Climate Refugee visa categories.',
+            economicJustification: 'Advocates global wealth redistribution without punitive border financial requirements or salary penalties.',
+            socialJustification: 'Completely abolishes immigration detention centres, dismantles hostile environment, and creates formal Climate Refugee visas.',
+            statutoryReference: 'Green Party 2024–2026 Policy Declaration: Global Freedom of Movement'
+          },
+          snp: {
+            economic: -4.5,
+            social: -5.0,
+            quadrant: 'Lib-Left',
+            rationale: 'Dedicated Scottish Visa to address Highland depopulation and staff the NHS, with full support for European freedom of movement.',
+            economicJustification: 'Demands Scottish Visa to reverse demographic decline in the Highlands and staff NHS Scotland and social care.',
+            socialJustification: 'Defends freedom of movement, closes Dungavel detention center, and promotes humane community-based integration.',
+            statutoryReference: 'Scottish Government Policy Paper: Migration - A Scottish Proposal'
+          },
+          plaid: {
+            economic: -5.5,
+            social: -5.5,
+            quadrant: 'Lib-Left',
+            rationale: 'Delivering Wales as an official Nation of Sanctuary with community integration and opposition to isolated military camp accommodation.',
+            economicJustification: 'Integrates asylum seekers into local Welsh economy with immediate right to work and free public transit.',
+            socialJustification: 'Establishes Wales as an official Nation of Sanctuary, rejecting military camp housing and forced removals.',
+            statutoryReference: 'Plaid Cymru 2024–2026 Manifesto: Nation of Sanctuary Policy'
+          }
+        }
+      },
+      {
+        id: 'protectionist',
+        name: 'Labor Protectionist / Old Left',
+        shortName: 'Trade Union / Labor Protection',
+        icon: '⚒️',
+        badge: 'Historic Trade Union & Marxist Axis',
+        description: 'Analyzes immigration through the historic political economy of Karl Marx and British trade unionism: viewing mass migration as corporate labor deregulation that depresses domestic wages, whereas restricting labor supply and penalizing wage undercutting is Economic Left (State Market Intervention to Protect Workers).',
+        axisExplanation: {
+          left: 'Labor Protectionism (Banning wage undercutting, taxing foreign hires, freezing labor supply) (-10)',
+          right: 'Labor Market Deregulation (Corporate labor supply, flexible overseas visas, open mobility) (+10)'
+        },
+        partyCoords: {
+          restore: {
+            economic: -7.5,
+            social: 9.5,
+            quadrant: 'Auth-Left',
+            rationale: 'Extreme state labor protectionism: complete freeze on foreign worker visas ends corporate access to cheap imported labor, forcing business to raise domestic wages and hire native workers.',
+            economicJustification: 'In trade union political economy, an absolute freeze on imported labor is the ultimate market intervention against capital: it destroys employer wage-undercutting and creates intense upward wage pressure for domestic workers.',
+            socialJustification: 'Maximally authoritarian (+9.5): Royal Navy warship patrols in the Channel, total suspension of asylum claims, and repeal of the Human Rights Act.',
+            statutoryReference: 'Restore Britain 2026 Core Manifesto: Border Interdiction & Domestic Worker Restoration Bill'
+          },
+          reform: {
+            economic: -5.5,
+            social: 8.5,
+            quadrant: 'Auth-Left',
+            rationale: 'Imposes a direct 20% Employer Immigration Tax on companies that hire foreign workers instead of British citizens, penalising corporate wage-undercutting.',
+            economicJustification: 'A 20% employer surtax on foreign hires is heavy state intervention on capital. It penalizes businesses that bypass domestic wages and restricts labor supply, placing it on the Economic Protectionist Left.',
+            socialJustification: 'Strongly authoritarian (+8.5): withdrawal from ECHR, mandatory detention of irregular entrants, and offshore processing.',
+            statutoryReference: 'Reform UK Contract with You 2024–2026: Employer Immigration Tax & Net Zero Migration'
+          },
+          labour: {
+            economic: -4.5,
+            social: 4.0,
+            quadrant: 'Auth-Left',
+            rationale: 'Enforces statutory linkages requiring employers to fund UK apprenticeships before hiring abroad; retains the £38,700 salary floor to protect domestic pay rates.',
+            economicJustification: 'Explicitly frames migration as domestic worker protection: barring rule-breaking companies from visa sponsorship and enforcing collective bargaining safeguards against wage undercutting.',
+            socialJustification: 'Authoritarian (+4.0): statutory Border Security Command with counter-terror search warrants, balanced by compliance with the ECHR and international treaties.',
+            statutoryReference: 'Border Security, Asylum and Immigration Act 2025 & Employment Rights Bill 2024'
+          },
+          conservative: {
+            economic: 4.5,
+            social: 6.5,
+            quadrant: 'Auth-Right',
+            rationale: 'Torn between anti-migration rhetoric and business lobbying from the CBI, care providers, and agriculture for cheap overseas workers to contain wage costs.',
+            economicJustification: 'In government, presided over record net migration (over 700k) by granting massive care and work visa quotas to prevent wage-push inflation for businesses (+4.5 on corporate labor deregulation).',
+            socialJustification: 'Authoritarian (+6.5): passed Illegal Migration Act 2023 and promoted the Rwanda scheme to appeal to voters despite corporate visa policies.',
+            statutoryReference: 'Conservative 2024–2026 Platform: Legal Migration Salary Order & Statutory Visa Caps'
+          },
+          libdem: {
+            economic: 3.5,
+            social: -6.5,
+            quadrant: 'Lib-Right',
+            rationale: 'Champions the free flow of labor, youth mobility with the EU, and lowering visa salary barriers to meet corporate and public sector staffing needs.',
+            economicJustification: 'From a pure labor-market protectionist perspective, removing friction on labor movement acts as market deregulation (+3.5), lowering employer recruitment costs.',
+            socialJustification: 'Strongly libertarian (-6.5): right to work for asylum seekers, repeal of detention powers, and human-rights-based asylum pathways.',
+            statutoryReference: 'Liberal Democrat 2024 Manifesto: For a Fair Deal (Asylum & EU Youth Mobility Framework)'
+          },
+          green: {
+            economic: -1.0,
+            social: -9.5,
+            quadrant: 'Lib-Left',
+            rationale: 'Universal worker solidarity: complete freedom of movement combined with immediate union membership, equal employment rights, and £15/hr minimum wage for all workers.',
+            economicJustification: 'Balances open borders by legally forcing employers to grant full union protections and high statutory minimum wages to every worker regardless of nationality, preventing wage undercutting.',
+            socialJustification: 'Ultra-libertarian (-9.5): total abolition of immigration detention centres, no border hostiles, and recognition of global human sanctuary.',
+            statutoryReference: 'Green Party 2024–2026 Policy Declaration: Global Freedom of Movement & Fair Pay Code'
+          },
+          snp: {
+            economic: 4.0,
+            social: -4.5,
+            quadrant: 'Lib-Right',
+            rationale: 'Demands a devolved Scottish Visa specifically to supply businesses, rural farms, hospitality, and care homes with flexible overseas workers.',
+            economicJustification: 'Explicitly driven by employer lobby demands in Scotland to counteract domestic labor shortages with lower-cost overseas hiring (+4.0 on labor deregulation).',
+            socialJustification: 'Libertarian/liberal (-4.5): community-based integration, closing Dungavel detention center, and championing European freedom of movement.',
+            statutoryReference: 'Scottish Government Policy Paper 2024–2026: Migration - A Scottish Proposal'
+          },
+          plaid: {
+            economic: -2.0,
+            social: -5.5,
+            quadrant: 'Lib-Left',
+            rationale: 'Wales as a Nation of Sanctuary combined with fair work charters and mandatory public sector procurement standards protecting all wages.',
+            economicJustification: 'Pairs open sanctuary with Welsh Government Fair Work Code to prevent private employers from exploiting migrant labor to undercut Welsh terms and conditions.',
+            socialJustification: 'Libertarian (-5.5): community integration, human rights protection, and local council settlement.',
+            statutoryReference: 'Plaid Cymru 2024–2026 Manifesto: For us, For Wales (Nation of Sanctuary Policy)'
+          }
+        }
+      }
+    ]
   }
 ];
 
@@ -524,6 +743,7 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
 }) => {
   const [mode, setMode] = useState<MatrixMode>('parties');
   const [activeLensId, setActiveLensId] = useState<string>('overall');
+  const [activePerspectiveId, setActivePerspectiveId] = useState<string>('cosmopolitan');
   const [selectedPartyId, setSelectedPartyId] = useState<PartyId>('labour');
   const [selectedPolicyId, setSelectedPolicyId] = useState<string>(policies[0]?.id || 'defence-spending-and-military');
   
@@ -542,6 +762,11 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
   const activeLens = POLICY_LENSES.find((l) => l.id === activeLensId) || null;
   const isPolicyLensActive = activeLens !== null;
 
+  // Active Sub-Perspective for the lens (if applicable)
+  const currentSubPerspective = activeLens?.subPerspectives?.find((sp) => sp.id === activePerspectiveId) 
+    || activeLens?.subPerspectives?.[0] 
+    || null;
+
   // Active Policy Topic object from policies.json for pledges
   const activeTopic = isPolicyLensActive
     ? policies.find((p) => p.id === activeLens.topicId || p.category === activeLens.category)
@@ -552,19 +777,40 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
 
   // Resolve coordinate for party on active lens or baseline
   const getPartyActiveCoords = (p: Party) => {
-    if (activeLens && activeLens.partyCoords[p.id]) {
-      return {
-        econ: activeLens.partyCoords[p.id].economic,
-        soc: activeLens.partyCoords[p.id].social,
-        rationale: activeLens.partyCoords[p.id].rationale,
-        quadrant: activeLens.partyCoords[p.id].quadrant
-      };
+    if (activeLens) {
+      if (currentSubPerspective && currentSubPerspective.partyCoords[p.id]) {
+        const sp = currentSubPerspective.partyCoords[p.id];
+        return {
+          econ: sp.economic,
+          soc: sp.social,
+          rationale: sp.rationale,
+          quadrant: sp.quadrant,
+          economicJustification: sp.economicJustification,
+          socialJustification: sp.socialJustification,
+          statutoryReference: sp.statutoryReference
+        };
+      }
+      if (activeLens.partyCoords[p.id]) {
+        const pc = activeLens.partyCoords[p.id];
+        return {
+          econ: pc.economic,
+          soc: pc.social,
+          rationale: pc.rationale,
+          quadrant: pc.quadrant,
+          economicJustification: pc.economicJustification,
+          socialJustification: pc.socialJustification,
+          statutoryReference: pc.statutoryReference
+        };
+      }
     }
     return {
       econ: p.compass?.economicScore ?? 0,
       soc: p.compass?.socialScore ?? 0,
       rationale: p.compass?.rationale ?? '',
-      quadrant: p.compass?.quadrant ?? 'Centrist'
+      quadrant: p.compass?.quadrant ?? 'Centrist',
+      economicJustification: p.compass?.rationale,
+      socialJustification: undefined,
+      statutoryReference: undefined
     };
   };
 
@@ -743,15 +989,72 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
           </div>
 
           {isPolicyLensActive && (
-            <div className="bg-indigo-50/60 dark:bg-indigo-950/40 p-3 rounded-xl border border-indigo-100 dark:border-indigo-900/60 text-xs text-indigo-900 dark:text-indigo-200 flex items-center justify-between">
-              <div>
-                <span className="font-extrabold block text-indigo-950 dark:text-indigo-100">
-                  Active Lens: {activeLens.name}
-                </span>
-                <span className="text-[11px] text-indigo-700 dark:text-indigo-300">
-                  {activeLens.description} Party pins repositioned to show exact stance on this issue. Faint circles indicate baseline positions.
-                </span>
+            <div className="space-y-2.5">
+              <div className="bg-indigo-50/60 dark:bg-indigo-950/40 p-3 rounded-xl border border-indigo-100 dark:border-indigo-900/60 text-xs text-indigo-900 dark:text-indigo-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <span className="font-extrabold block text-indigo-950 dark:text-indigo-100">
+                    Active Lens: {activeLens.name}
+                  </span>
+                  <span className="text-[11px] text-indigo-700 dark:text-indigo-300">
+                    {activeLens.description} Party pins repositioned to show exact stance on this issue. Faint circles indicate baseline positions.
+                  </span>
+                </div>
               </div>
+
+              {/* Sub-Perspective Selector for Immigration & Borders */}
+              {activeLens.subPerspectives && activeLens.subPerspectives.length > 0 && (
+                <div className="bg-slate-50 dark:bg-slate-800/80 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2.5">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div className="flex items-center space-x-2">
+                      <Scale className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                      <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                        Choose Analytical Perspective:
+                      </span>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-1.5 bg-slate-200/70 dark:bg-slate-900 p-1 rounded-xl">
+                      {activeLens.subPerspectives.map((sp) => {
+                        const isSpActive = (currentSubPerspective?.id || 'cosmopolitan') === sp.id;
+                        return (
+                          <button
+                            key={sp.id}
+                            onClick={() => setActivePerspectiveId(sp.id)}
+                            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                              isSpActive
+                                ? 'bg-white dark:bg-slate-800 text-indigo-700 dark:text-indigo-300 shadow-xs ring-2 ring-indigo-400 dark:ring-indigo-600'
+                                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
+                            }`}
+                          >
+                            <span>{sp.icon}</span>
+                            <span>{sp.name}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {currentSubPerspective && (
+                    <div className="bg-white dark:bg-slate-900/90 p-3 rounded-lg border border-slate-200/70 dark:border-slate-700/70 text-xs space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="font-extrabold text-xs text-indigo-900 dark:text-indigo-200 flex items-center space-x-1.5">
+                          <span>{currentSubPerspective.icon}</span>
+                          <span>{currentSubPerspective.badge}</span>
+                        </span>
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60">
+                          {currentSubPerspective.id === 'protectionist' ? 'Economic Protectionism vs Deregulation' : 'Universal Rights vs Sovereignty'}
+                        </span>
+                      </div>
+                      <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-[11px]">
+                        {currentSubPerspective.description}
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-[10px] pt-1.5 border-t border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                        <span className="truncate"><strong>← Economic Left:</strong> {currentSubPerspective.axisExplanation.left}</span>
+                        <span className="truncate text-left sm:text-right"><strong>Economic Right →:</strong> {currentSubPerspective.axisExplanation.right}</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -784,25 +1087,41 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-rose-800/80 dark:text-rose-300 bg-rose-100/80 dark:bg-rose-950/80 px-2 py-0.5 rounded">
                   Authoritarian Left
                 </span>
-                <span className="text-[9px] text-slate-400 dark:text-slate-500 mt-0.5 hidden sm:inline">State Regulation & Public Delivery</span>
+                <span className="text-[9px] text-slate-400 dark:text-slate-500 mt-0.5 hidden sm:inline">
+                  {currentSubPerspective?.id === 'protectionist'
+                    ? 'State Border Control & Labor Protection'
+                    : 'State Regulation & Public Delivery'}
+                </span>
               </div>
               {/* Top-Right: Authoritarian Right */}
               <div className="bg-blue-500/5 dark:bg-blue-500/10 p-3 flex flex-col justify-start items-end border-b border-dashed border-slate-300 dark:border-slate-800">
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-blue-800/80 dark:text-blue-300 bg-blue-100/80 dark:bg-blue-950/80 px-2 py-0.5 rounded">
                   Authoritarian Right
                 </span>
-                <span className="text-[9px] text-slate-400 dark:text-slate-500 mt-0.5 hidden sm:inline">National Security & Market Order</span>
+                <span className="text-[9px] text-slate-400 dark:text-slate-500 mt-0.5 hidden sm:inline">
+                  {currentSubPerspective?.id === 'protectionist'
+                    ? 'Border Rhetoric with Corporate Visas'
+                    : 'National Security & Market Order'}
+                </span>
               </div>
               {/* Bottom-Left: Libertarian Left */}
               <div className="bg-emerald-500/5 dark:bg-emerald-500/10 p-3 flex flex-col justify-end items-start border-r border-dashed border-slate-300 dark:border-slate-800">
-                <span className="text-[9px] text-slate-400 dark:text-slate-500 mb-0.5 hidden sm:inline">Democratic Social Liberties & Green Rights</span>
+                <span className="text-[9px] text-slate-400 dark:text-slate-500 mb-0.5 hidden sm:inline">
+                  {currentSubPerspective?.id === 'protectionist'
+                    ? 'Worker Solidarity & Minimum Wages'
+                    : 'Democratic Social Liberties & Green Rights'}
+                </span>
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800/80 dark:text-emerald-300 bg-emerald-100/80 dark:bg-emerald-950/80 px-2 py-0.5 rounded">
                   Libertarian Left
                 </span>
               </div>
               {/* Bottom-Right: Libertarian Right */}
               <div className="bg-amber-500/5 dark:bg-amber-500/10 p-3 flex flex-col justify-end items-end">
-                <span className="text-[9px] text-slate-400 dark:text-slate-500 mb-0.5 hidden sm:inline">Free-Market Libertarianism & Deregulation</span>
+                <span className="text-[9px] text-slate-400 dark:text-slate-500 mb-0.5 hidden sm:inline">
+                  {currentSubPerspective?.id === 'protectionist'
+                    ? 'Open Borders & Corporate Labor Supply'
+                    : 'Free-Market Libertarianism & Deregulation'}
+                </span>
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-800/80 dark:text-amber-300 bg-amber-100/80 dark:bg-amber-950/80 px-2 py-0.5 rounded">
                   Libertarian Right
                 </span>
@@ -828,8 +1147,12 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
               </g>
 
               {/* Axis Label Ticks */}
-              <text x="50" y="295" fontSize="11" fontWeight="bold" fill={isDark ? '#94a3b8' : '#64748b'} textAnchor="start">← ECONOMIC LEFT</text>
-              <text x="550" y="295" fontSize="11" fontWeight="bold" fill={isDark ? '#94a3b8' : '#64748b'} textAnchor="end">ECONOMIC RIGHT →</text>
+              <text x="45" y="295" fontSize="10" fontWeight="bold" fill={isDark ? '#94a3b8' : '#64748b'} textAnchor="start">
+                {currentSubPerspective ? `← ${currentSubPerspective.axisExplanation.left.split('(')[0].trim()}` : '← ECONOMIC LEFT'}
+              </text>
+              <text x="555" y="295" fontSize="10" fontWeight="bold" fill={isDark ? '#94a3b8' : '#64748b'} textAnchor="end">
+                {currentSubPerspective ? `${currentSubPerspective.axisExplanation.right.split('(')[0].trim()} →` : 'ECONOMIC RIGHT →'}
+              </text>
               <text x="305" y="45" fontSize="11" fontWeight="bold" fill={isDark ? '#94a3b8' : '#64748b'} textAnchor="start">↑ AUTHORITARIAN</text>
               <text x="305" y="565" fontSize="11" fontWeight="bold" fill={isDark ? '#94a3b8' : '#64748b'} textAnchor="start">↓ LIBERTARIAN</text>
 
@@ -1147,6 +1470,87 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
                   <p className="text-xs text-indigo-950 dark:text-indigo-200 leading-relaxed font-medium pt-1">
                     {selectedPartyActiveCoords.rationale}
                   </p>
+
+                  {/* Detailed Placement Justifiers */}
+                  <div className="space-y-2 pt-2 border-t border-indigo-200/60 dark:border-indigo-800/60">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-800 dark:text-indigo-300 flex items-center space-x-1.5">
+                      <BookOpen className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                      <span>Ideological Placement Justifiers</span>
+                    </span>
+
+                    <div className="bg-white/80 dark:bg-slate-900/80 p-2.5 rounded-lg border border-indigo-100 dark:border-slate-700/80 space-y-1">
+                      <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                        <span>Economic Spectrum Justification:</span>
+                        <span className="font-extrabold text-slate-800 dark:text-slate-200">
+                          {selectedPartyActiveCoords.econ > 0 ? `+${selectedPartyActiveCoords.econ}` : selectedPartyActiveCoords.econ} / 10
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                        {selectedPartyActiveCoords.economicJustification || selectedPartyActiveCoords.rationale}
+                      </p>
+                    </div>
+
+                    <div className="bg-white/80 dark:bg-slate-900/80 p-2.5 rounded-lg border border-indigo-100 dark:border-slate-700/80 space-y-1">
+                      <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 dark:text-slate-400">
+                        <span>Social Governance Justification:</span>
+                        <span className="font-extrabold text-slate-800 dark:text-slate-200">
+                          {selectedPartyActiveCoords.soc > 0 ? `+${selectedPartyActiveCoords.soc}` : selectedPartyActiveCoords.soc} / 10
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                        {selectedPartyActiveCoords.socialJustification || selectedParty.compass?.rationale}
+                      </p>
+                    </div>
+
+                    {/* Perspective Contrast for Immigration & Borders */}
+                    {activeLens?.id === 'immigration' && activeLens.subPerspectives && activeLens.subPerspectives.length >= 2 && (
+                      <div className="bg-amber-50/70 dark:bg-amber-950/40 p-2.5 rounded-lg border border-amber-200/70 dark:border-amber-900/60 space-y-1.5 mt-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-900 dark:text-amber-200 flex items-center space-x-1">
+                            <Scale className="w-3 h-3 text-amber-600 dark:text-amber-400" />
+                            <span>Trade Unionist vs. Cosmopolitan Contrast</span>
+                          </span>
+                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200">
+                            Ideological Split
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 text-[10px]">
+                          <div className={`p-1.5 rounded border ${currentSubPerspective?.id === 'cosmopolitan' ? 'bg-amber-100/70 dark:bg-amber-900/60 border-amber-300 dark:border-amber-700 font-bold' : 'bg-white/60 dark:bg-slate-900/60 border-slate-200 dark:border-slate-700'}`}>
+                            <span className="block text-slate-500 dark:text-slate-400">Cosmopolitan View</span>
+                            <span className="text-slate-900 dark:text-slate-100">
+                              {activeLens.subPerspectives[0].partyCoords[selectedParty.id]?.quadrant} ({activeLens.subPerspectives[0].partyCoords[selectedParty.id]?.economic > 0 ? `+${activeLens.subPerspectives[0].partyCoords[selectedParty.id]?.economic}` : activeLens.subPerspectives[0].partyCoords[selectedParty.id]?.economic}, {activeLens.subPerspectives[0].partyCoords[selectedParty.id]?.social > 0 ? `+${activeLens.subPerspectives[0].partyCoords[selectedParty.id]?.social}` : activeLens.subPerspectives[0].partyCoords[selectedParty.id]?.social})
+                            </span>
+                          </div>
+                          <div className={`p-1.5 rounded border ${currentSubPerspective?.id === 'protectionist' ? 'bg-amber-100/70 dark:bg-amber-900/60 border-amber-300 dark:border-amber-700 font-bold' : 'bg-white/60 dark:bg-slate-900/60 border-slate-200 dark:border-slate-700'}`}>
+                            <span className="block text-slate-500 dark:text-slate-400">Labor Protection View</span>
+                            <span className="text-slate-900 dark:text-slate-100">
+                              {activeLens.subPerspectives[1].partyCoords[selectedParty.id]?.quadrant} ({activeLens.subPerspectives[1].partyCoords[selectedParty.id]?.economic > 0 ? `+${activeLens.subPerspectives[1].partyCoords[selectedParty.id]?.economic}` : activeLens.subPerspectives[1].partyCoords[selectedParty.id]?.economic}, {activeLens.subPerspectives[1].partyCoords[selectedParty.id]?.social > 0 ? `+${activeLens.subPerspectives[1].partyCoords[selectedParty.id]?.social}` : activeLens.subPerspectives[1].partyCoords[selectedParty.id]?.social})
+                            </span>
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-amber-950 dark:text-amber-300 leading-normal italic">
+                          {selectedParty.id === 'restore' && 'Why Restore Britain is Auth-Left under Labor Protection: an absolute freeze on foreign worker imports is the ultimate state market intervention against capital, depriving corporations of cheap labor and forcing wages up for domestic workers.'}
+                          {selectedParty.id === 'reform' && 'Why Reform UK is Auth-Left under Labor Protection: the 20% Employer Immigration Tax penalizes businesses that hire foreign staff, functioning as state labor market intervention to disincentivize wage suppression.'}
+                          {selectedParty.id === 'labour' && 'Why Labour is Auth-Left under Labor Protection: statutory training ratio requirements before visas and the £38,700 salary floor shield domestic wages from employer undercutting.'}
+                          {selectedParty.id === 'conservative' && 'Why Conservatives are Auth-Right under Labor Protection: despite border rhetoric, Conservative governments historically granted massive visa quotas to provide business with cheaper labor and suppress wage-push inflation.'}
+                          {(selectedParty.id === 'libdem' || selectedParty.id === 'snp') && 'Why Lib Dems & SNP are Lib-Right under Labor Protection: expanding labor mobility and lowering salary barriers deregulates the recruitment market for employers.'}
+                          {selectedParty.id === 'green' && 'Why Greens are Lib-Left: combines open borders with universal £15/hr minimum pay and mandatory trade union rights for all workers to prevent wage undercutting.'}
+                          {selectedParty.id === 'plaid' && 'Why Plaid Cymru is Lib-Left: combines open sanctuary with the Welsh Government Fair Work Code to protect domestic terms and conditions.'}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Statutory Provenance Badge */}
+                    <div className="flex items-center justify-between text-[10px] pt-1 text-slate-500 dark:text-slate-400 border-t border-indigo-100 dark:border-slate-800">
+                      <span className="font-semibold flex items-center space-x-1">
+                        <FileText className="w-3 h-3 text-indigo-500" />
+                        <span>Statutory Citation:</span>
+                      </span>
+                      <span className="font-bold text-slate-700 dark:text-slate-300">
+                        {selectedPartyActiveCoords.statutoryReference || partyPledge?.officialSourceTitle || 'Official 2024–2026 Manifesto'}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 /* Overall Spectrum Position Banner */
