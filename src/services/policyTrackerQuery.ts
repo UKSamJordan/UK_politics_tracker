@@ -1,6 +1,9 @@
 import { Party, CabinetMember, PolicyTopic } from '../types/politics';
 import { getStoredApiKey } from './liveUpdater';
 import cabinetsData from '../data/cabinets.json';
+import policyDecisionsData from '../data/policyDecisions.json';
+
+export const defaultPolicyDecisions: PolicyNewsItem[] = policyDecisionsData as PolicyNewsItem[];
 
 /**
  * Parliamentary Epoch Boundary:
@@ -971,25 +974,46 @@ export interface PolicyNewsItem {
   deepDiveDetails?: string;
 }
 
+export interface FetchPolicyDecisionsOptions {
+  category?: string;
+  limit?: number;
+}
+
 /**
  * Live Policy Decisions Scanner:
  * Filters strictly for real-world policy acts, statutory decisions, and manifesto commitments
  */
 export async function fetchLatestPolicyDecisions(
-  customApiKey?: string
+  customApiKey?: string,
+  options?: FetchPolicyDecisionsOptions
 ): Promise<PolicyNewsItem[]> {
+  const categoryFilter = options?.category && options.category !== 'all' ? options.category : undefined;
+  const targetLimit = options?.limit || 20;
+
+  // Filter default fallback dataset
+  const getFilteredFallbacks = () => {
+    let items = [...defaultPolicyDecisions];
+    if (categoryFilter) {
+      items = items.filter(i => i.category.toLowerCase().includes(categoryFilter.toLowerCase()));
+    }
+    return items.slice(0, targetLimit);
+  };
+
   const apiKey = (customApiKey || '').trim() || getStoredApiKey();
   if (!apiKey) {
-    throw new Error('No active Gemini API key configured.');
+    return getFilteredFallbacks();
   }
 
   const dateMeta = getCurrentDateMetadata();
+  const categoryClause = categoryFilter 
+    ? `Focus on the "${categoryFilter}" sector.`
+    : `Draw from all core UK sectors: Defence, NHS, Economy, Housing, Energy, Education, Welfare, Immigration.`;
 
-  const prompt = `You are the Westminster Policy Tracker. Return a JSON array of the 5 most significant real-world UK policy decisions, enacted acts, and statutory milestones from the current Parliament evaluated as of ${dateMeta.fullDateString}.
+  const prompt = `You are the Westminster Policy Tracker. Return a JSON array of up to ${Math.min(targetLimit, 15)} of the most significant real-world UK policy decisions, enacted acts, white papers, and statutory milestones from the current 2024–2026 Parliament evaluated as of ${dateMeta.fullDateString}.
 CRITICAL FILTER:
+- ${categoryClause}
 - Focus EXCLUSIVELY on substantive policy decisions, enacted legislation, government white papers, statutory instruments, or formal party manifesto commitments.
 - Filter OUT personal gossip, party infighting, media commentary, or polling horseraces.
-- Categories should be drawn from: Defence, Housing, Energy, Economy, Welfare, NHS, Justice, or Transport.
 
 Return STRICT JSON matching this schema:
 [
@@ -1012,79 +1036,6 @@ Return STRICT JSON matching this schema:
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 8000);
 
-  const fallbackDecisions: PolicyNewsItem[] = [
-    {
-      id: "decision-labour-defence-roadmap",
-      time: `Today • ${dateMeta.timestamp}`,
-      title: "Defence Spending 2.5% Pathway Formally Tied to Strategic Review",
-      party: "Labour",
-      partyColor: "#E4003B",
-      category: "Defence",
-      tag: "Fiscal Direction",
-      summary: "HM Government affirmed the statutory trajectory towards 2.5% of GDP defence expenditure, sequenced following the Strategic Defence Review.",
-      statutoryVehicle: "Treasury Command Paper & Commons Statement",
-      fiscalImpact: "£9.2bn incremental trajectory by 2028-29",
-      crossPartyStance: "Conservatives demand binding statutory deadline; Reform UK advocates immediate 3.0% pledge.",
-      deepDiveDetails: "The Secretary of State for Defence confirmed to the House of Commons that the defence trajectory to 2.5% of GDP remains active government policy, with implementation sequenced alongside findings from the Strategic Defence Review. The Ministry of Defence highlighted ongoing procurement reforms to improve value for taxpayers."
-    },
-    {
-      id: "decision-pensions-triple-lock-uprating",
-      time: `Today • ${dateMeta.timestamp}`,
-      title: "Statutory Confirmation of State Pension Triple Lock Formula",
-      party: "Labour",
-      partyColor: "#E4003B",
-      category: "Welfare",
-      tag: "Primary Legislation",
-      summary: "DWP confirmed statutory adherence to the Triple Lock uprating metric for the State Pension across the current parliamentary cycle.",
-      statutoryVehicle: "Social Security Administration Act Order",
-      fiscalImpact: "Indexed against average earnings, CPI inflation, or 2.5%",
-      crossPartyStance: "Supported across major parties; Conservatives promote Triple Lock Plus tax threshold protections.",
-      deepDiveDetails: "The Department for Work and Pensions reaffirmed that the Triple Lock formula—ensuring state pensions rise by the highest of average wage growth, CPI inflation, or 2.5%—remains anchored in statutory orders. Both government and opposition parties confirmed manifesto continuity."
-    },
-    {
-      id: "decision-housing-renters-rights-bill",
-      time: `Today • ${dateMeta.timestamp}`,
-      title: "Renters' Rights Statutory Framework and Section 21 Reform",
-      party: "Labour",
-      partyColor: "#E4003B",
-      category: "Housing",
-      tag: "Primary Legislation",
-      summary: "Parliamentary advancement of the Renters' Rights statutory mechanism abolishing Section 21 'no fault' evictions with strengthened court possession grounds.",
-      statutoryVehicle: "Renters' Rights Public General Act",
-      fiscalImpact: "Revenue neutral / Local authority court enforcement allocations",
-      crossPartyStance: "Welcomed by Lib Dems and Greens; Conservatives warn of private rental market supply contractions.",
-      deepDiveDetails: "The legislation delivers on the manifesto pledge to end Section 21 evictions while establishing an Ombudsman for private landlords and setting minimum Decent Homes standards across the private rented sector."
-    },
-    {
-      id: "decision-gb-energy-statutory-incorporation",
-      time: `Today • ${dateMeta.timestamp}`,
-      title: "Great British Energy Crown Corporation Statutory Inception",
-      party: "Labour",
-      partyColor: "#E4003B",
-      category: "Energy",
-      tag: "Crown Entity Setup",
-      summary: "Great British Energy statutory entity established to co-invest in clean energy generation projects and domestic grid connection infrastructure.",
-      statutoryVehicle: "Great British Energy Act",
-      fiscalImpact: "£8.3bn capitalisation over the parliamentary term",
-      crossPartyStance: "Reform UK pledges outright repeal; Conservatives question co-investment yields; Greens call for 100% public ownership.",
-      deepDiveDetails: "Headquartered in Scotland, the publicly owned energy company is chartered to accelerate offshore wind, tidal energy, and carbon capture partnerships with private industry."
-    },
-    {
-      id: "decision-nhs-waiting-lists-remedy",
-      time: `Today • ${dateMeta.timestamp}`,
-      title: "NHS Elective Care 10-Year Modernisation and Waiting List Programme",
-      party: "Labour",
-      partyColor: "#E4003B",
-      category: "NHS",
-      tag: "Departmental Framework",
-      summary: "Department of Health & Social Care enacted weekend clinic frameworks and digital triage systems to reduce elective referral wait times.",
-      statutoryVehicle: "NHS Mandate 2026 Direction",
-      fiscalImpact: "£1.8bn elective recovery baseline funding",
-      crossPartyStance: "Lib Dems advocate immediate carer minimum wage hike; Conservatives critique reform delivery speeds.",
-      deepDiveDetails: "The Department of Health published operational performance metrics showing elective wait reductions following the expansion of community diagnostic hubs and evening operating theater utilisation."
-    }
-  ];
-
   try {
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
     const response = await fetch(url, {
@@ -1103,23 +1054,27 @@ Return STRICT JSON matching this schema:
     if (!response.ok) {
       const errText = await response.text();
       console.warn(`Gemini decisions API error (${response.status}): ${errText}`);
-      return fallbackDecisions;
+      return getFilteredFallbacks();
     }
 
     const data = await response.json();
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!text) return fallbackDecisions;
+    if (!text) return getFilteredFallbacks();
 
     const parsed = JSON.parse(text);
     if (!Array.isArray(parsed) || parsed.length === 0) {
-      return fallbackDecisions;
+      return getFilteredFallbacks();
     }
 
-    return parsed;
+    // Merge fresh items with verified fallbacks to guarantee high volume
+    const freshIds = new Set(parsed.map(p => p.title?.toLowerCase()));
+    const remainingFallbacks = getFilteredFallbacks().filter(f => !freshIds.has(f.title?.toLowerCase()));
+    return [...parsed, ...remainingFallbacks].slice(0, targetLimit);
   } catch (err: any) {
     console.warn('Policy decisions scan error or timeout, utilizing verified fallback decisions:', err);
-    return fallbackDecisions;
+    return getFilteredFallbacks();
   } finally {
     clearTimeout(timer);
   }
 }
+

@@ -22,7 +22,8 @@ import {
   queryWestminsterPolicyTracker, 
   getCurrentDateMetadata,
   PolicyNewsItem,
-  fetchLatestPolicyDecisions
+  fetchLatestPolicyDecisions,
+  defaultPolicyDecisions
 } from '../services/policyTrackerQuery';
 
 interface LiveAIFeedProps {
@@ -31,7 +32,8 @@ interface LiveAIFeedProps {
   cabinets?: CabinetMember[];
 }
 
-const POLICY_FEED_STORAGE_KEY = 'uk_politics_policy_decisions_feed_v2';
+const POLICY_FEED_STORAGE_KEY = 'uk_politics_policy_decisions_feed_v3';
+const POLICY_FEED_LIMIT_KEY = 'uk_politics_policy_feed_limit';
 
 export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ 
   parties, 
@@ -53,6 +55,19 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [expandedItemId, setExpandedItemId] = useState<string | null>(null);
   const [isFetchingDecisions, setIsFetchingDecisions] = useState(false);
+  const [displayLimit, setDisplayLimit] = useState<number | 'all'>(() => {
+    try {
+      const saved = localStorage.getItem(POLICY_FEED_LIMIT_KEY);
+      if (saved === 'all') return 'all';
+      if (saved) {
+        const parsed = parseInt(saved, 10);
+        if ([5, 10, 20].includes(parsed)) return parsed;
+      }
+      return 10;
+    } catch {
+      return 10;
+    }
+  });
 
   const currentDateMeta = getCurrentDateMetadata();
 
@@ -64,92 +79,19 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
     { label: "Wealth Tax Proposals (Greens vs Labour)", query: "Compare Green Party and Labour positions on an annual wealth tax on multi-millionaires." }
   ];
 
-  // Baseline verified real-world policy decisions
-  const defaultFeedItems: PolicyNewsItem[] = [
-    {
-      id: 'decision-1',
-      time: 'Today • 08:30 GMT',
-      title: 'Strategic Defence Review & Roadmap to 2.5% of GDP',
-      party: 'Labour',
-      partyColor: '#E4003B',
-      category: 'Defence',
-      tag: 'Command Paper / SDR',
-      summary: 'Defence Secretary John Healey confirms the SDR chaired by Lord Robertson will set the binding pathway to 2.5% of GDP defence spending, prioritising sovereign munitions stockpiles and UK-Germany treaty implementation.',
-      statutoryVehicle: 'Command Paper / Independent Review (MoD)',
-      fiscalImpact: 'Projected £6bn - £9bn annual uplift upon reaching 2.5% baseline',
-      crossPartyStance: 'Conservatives demand an immediate 3.0% by 2030 target; Reform UK pledges 3.0% within 6 years.',
-      deepDiveDetails: 'The Strategic Defence Review (SDR) was commissioned by the Prime Minister and Defence Secretary to establish the UK\'s long-term defence posture amidst escalating geopolitical tensions. Chaired by Lord Robertson of Port Ellen alongside external experts Dr Fiona Hill and General Sir Richard Barrons, the review investigates force modernization, NATO capabilities, and domestic procurement resilience.\n\nWhile the government has committed to spending 2.5% of GDP on defence, it has explicitly linked the timeline to Treasury fiscal rules (debt falling, day-to-day spending balanced by revenues). HM Treasury provided an initial £2.9bn uplift in the budget, but the long-term spending pathway will be established in the subsequent multi-year Spending Review.\n\nOpposition parties argue that postponing the 2.5% deadline until fiscal conditions allow risks military readiness, while the Liberal Democrats urge prioritizing NATO European deterrence and personnel retention.'
-    },
-    {
-      id: 'decision-2',
-      time: 'Yesterday • 14:45 GMT',
-      title: 'Renters’ Rights Bill Enters Committee Stage in House of Commons',
-      party: 'Labour',
-      partyColor: '#E4003B',
-      category: 'Housing',
-      tag: 'Primary Legislation',
-      summary: 'Deputy Prime Minister Angela Rayner leads the statutory abolition of Section 21 no-fault evictions, outlawing bidding wars and expanding decent homes standards to the private rented sector.',
-      statutoryVehicle: 'Public Bill / Primary Legislation (HC Bill 8)',
-      fiscalImpact: '£150m local authority enforcement and court digitalization funding',
-      crossPartyStance: 'Conservatives caution against landlord exit and court backlogs; Greens demand statutory local rent caps.',
-      deepDiveDetails: 'The Renters’ Rights Bill represents the most comprehensive reform of the English private rented sector in three decades. It permanently abolishes Section 21 no-fault evictions, transitioning all tenancies to periodic agreements and preventing landlords from evicting tenants without proven statutory grounds (e.g. rent arrears, selling the property, or moving family in).\n\nIn addition, the bill creates a digital Private Rented Sector Database, grants tenants the legal right to request a pet (which landlords cannot unreasonably refuse), and extends Awaab’s Law to private rentals—compelling landlords to fix reported hazards such as damp and mould within strict statutory deadlines.\n\nConservative and property industry representatives have warned that removing Section 21 without major reforms to county court bailiff capacity could lead to lengthy possession delays and reduce rental supply. The Green Party argues the bill does not go far enough without empowering local authorities to cap rent increases.'
-    },
-    {
-      id: 'decision-3',
-      time: '28 Sep • 16:20 GMT',
-      title: 'Great British Energy Act Receives Royal Assent',
-      party: 'Labour',
-      partyColor: '#E4003B',
-      category: 'Energy',
-      tag: 'Public Ownership Act',
-      summary: 'Energy Secretary Ed Miliband establishes GB Energy, headquartered in Aberdeen with £8.3bn capital funding to co-invest in floating offshore wind, tidal stream, and community clean power.',
-      statutoryVehicle: 'Public General Act 2024 / Statutory Corporation',
-      fiscalImpact: '£8.3bn capitalized over the 2024–2029 Parliament',
-      crossPartyStance: 'Conservatives criticise state market intervention; Reform UK demands abolition of Net Zero subsidies.',
-      deepDiveDetails: 'The Great British Energy Act legally establishes the publicly owned energy company designed to partner with private capital and local authorities to accelerate the transition to clean electricity by 2030.\n\nHeadquartered in Aberdeen to anchor energy transition jobs in traditional oil and gas communities, GB Energy is tasked with co-developing emerging green technologies that commercial markets underinvest in, including floating offshore wind, green hydrogen, and carbon capture.\n\nThe policy forms a central plank of the government’s mission to insulate the UK from fossil fuel price shocks, though opposition parties note that capital returns will take several years to translate into consumer energy bill reductions.'
-    },
-    {
-      id: 'decision-4',
-      time: '27 Sep • 11:00 GMT',
-      title: 'State Pension Triple Lock Indexation & Fiscal Drag Threshold Review',
-      party: 'All Parties',
-      partyColor: '#64748b',
-      category: 'Welfare',
-      tag: 'Fiscal Review',
-      summary: 'ONS wage and inflation metrics set the foundation for the April 2027 state pension increase, intensifying cross-party clash over frozen personal income tax allowances.',
-      statutoryVehicle: 'Social Security Administration Act / Annual Uprating Order',
-      fiscalImpact: 'Estimated £3.5bn - £4.8bn annual expenditure increase',
-      crossPartyStance: 'Conservatives pledge Triple Lock Plus; Reform UK pledges £20k personal allowance.',
-      deepDiveDetails: 'Under the statutory Triple Lock formula, the State Pension increases each April by the highest of average earnings growth (ONS May–July index), September CPI inflation, or 2.5%. With wage growth outperforming inflation, earnings growth will drive the next uplift.\n\nHowever, because the Personal Allowance has been frozen at £12,570, the full New State Pension is now nearing the income tax threshold. Any retiree with small private pensions or savings interest is pulled into the basic rate income tax band.\n\nThis dynamic has triggered a fierce parliamentary clash: Kemi Badenoch’s Conservatives have introduced their \'Triple Lock Plus\' pledge to raise pensioner tax thresholds, Reform UK proposes lifting the allowance to £20,000 for everyone, and the government defends maintaining the Triple Lock while adhering to spending discipline.'
-    },
-    {
-      id: 'decision-5',
-      time: '25 Sep • 10:15 GMT',
-      title: 'Conservative Commitment to 3.0% GDP Defence Spending by 2030',
-      party: 'Conservative',
-      partyColor: '#0087DC',
-      category: 'Defence',
-      tag: 'Opposition Policy',
-      summary: 'Kemi Badenoch and Shadow Chancellor Mel Stride confirm official Conservative policy to raise UK defence spending to 3.0% of GDP (£100bn+/yr) by 2030, reversing regular Army reductions.',
-      statutoryVehicle: 'Official Opposition Costed Platform & Policy Motion',
-      fiscalImpact: 'Estimated ~£25bn/year uplift above the current ~2.3% baseline',
-      crossPartyStance: 'Labour highlights absence of identified civil service cuts; Reform UK pledges 3% within 6 years.',
-      deepDiveDetails: 'The Conservative Party has formally adopted a binding pledge to surge UK defence expenditure to 3.0% of GDP by 2030. Shadow Defence ministers argue that geopolitical instability in Eastern Europe and the Indo-Pacific requires Britain to establish an assertive deterrence posture well above the NATO 2% minimum.\n\nThe proposal includes setting a statutory personnel floor of 73,000 for the regular British Army, ring-fencing sovereign funding for the Dreadnought nuclear submarine replacement, and expanding hypersonic and sovereign munition manufacturing.\n\nThe Institute for Fiscal Studies (IFS) and independent defence analysts at RUSI estimate the pledge requires finding approximately £25bn annually in additional revenue or equivalent reductions across non-protected government departments.'
-    }
-  ];
-
   const [feedItems, setFeedItems] = useState<PolicyNewsItem[]>(() => {
     try {
       const saved = localStorage.getItem(POLICY_FEED_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed) && parsed.length >= 10) return parsed;
       }
-      return defaultFeedItems;
+      return defaultPolicyDecisions;
     } catch {
-      return defaultFeedItems;
+      return defaultPolicyDecisions;
     }
   });
+
 
   const handleSaveKey = (e: React.FormEvent) => {
     e.preventDefault();
@@ -195,12 +137,35 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
     setTimeout(() => setIsCopied(false), 2000);
   };
 
+  const categoryFilters = [
+    { id: 'all', label: 'All Decisions' },
+    { id: 'defence', label: 'Defence & Security' },
+    { id: 'nhs', label: 'NHS & Healthcare' },
+    { id: 'economy', label: 'Economy & Tax' },
+    { id: 'housing', label: 'Housing & Planning' },
+    { id: 'energy', label: 'Energy & Net Zero' },
+    { id: 'education', label: 'Education & Skills' },
+    { id: 'welfare', label: 'Pensions & Welfare' },
+    { id: 'immigration', label: 'Immigration & Borders' }
+  ];
+
+  const getCategoryCount = (catId: string) => {
+    if (catId === 'all') return feedItems.length;
+    return feedItems.filter(item => item.category.toLowerCase().includes(catId.toLowerCase())).length;
+  };
+
   const handleRefreshPolicyDecisions = async () => {
     setIsFetchingDecisions(true);
     try {
-      const freshItems = await fetchLatestPolicyDecisions(apiKey);
-      setFeedItems(freshItems);
-      localStorage.setItem(POLICY_FEED_STORAGE_KEY, JSON.stringify(freshItems));
+      const freshItems = await fetchLatestPolicyDecisions(apiKey, {
+        category: categoryFilter !== 'all' ? categoryFilter : undefined,
+        limit: displayLimit === 'all' ? 30 : Math.max(displayLimit, 20)
+      });
+      // Merge with defaultPolicyDecisions to preserve breadth
+      const freshTitles = new Set(freshItems.map(f => f.title.toLowerCase()));
+      const merged = [...freshItems, ...defaultPolicyDecisions.filter(d => !freshTitles.has(d.title.toLowerCase()))];
+      setFeedItems(merged);
+      localStorage.setItem(POLICY_FEED_STORAGE_KEY, JSON.stringify(merged));
     } catch (err: any) {
       console.error('Failed to fetch latest policy decisions:', err);
       if (err.message?.includes('No active Gemini API key')) {
@@ -209,6 +174,13 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
     } finally {
       setIsFetchingDecisions(false);
     }
+  };
+
+  const handleSetDisplayLimit = (limit: number | 'all') => {
+    setDisplayLimit(limit);
+    try {
+      localStorage.setItem(POLICY_FEED_LIMIT_KEY, String(limit));
+    } catch {}
   };
 
   const handleScrutinisePolicy = (item: PolicyNewsItem) => {
@@ -222,6 +194,13 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
     if (categoryFilter === 'all') return true;
     return item.category.toLowerCase().includes(categoryFilter.toLowerCase());
   });
+
+  const visibleFeedItems = displayLimit === 'all'
+    ? filteredFeedItems
+    : filteredFeedItems.slice(0, displayLimit);
+
+  const activeCategoryObj = categoryFilters.find(c => c.id === categoryFilter) || categoryFilters[0];
+
 
   const renderMarkdownBriefing = (text: string) => {
     const lines = text.split('\n');
@@ -479,37 +458,88 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
           </button>
         </div>
 
-        {/* Policy Category Filter Pills */}
-        <div className="flex flex-wrap items-center gap-1.5">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mr-1 flex items-center space-x-1">
-            <Filter className="w-3 h-3" />
-            <span>Filter:</span>
-          </span>
-          {[
-            { id: 'all', label: `All Decisions (${feedItems.length})` },
-            { id: 'defence', label: 'Defence & Security' },
-            { id: 'housing', label: 'Housing & Planning' },
-            { id: 'energy', label: 'Energy & Net Zero' },
-            { id: 'welfare', label: 'Pensions & Welfare' },
-            { id: 'economy', label: 'Economy & Tax' }
-          ].map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setCategoryFilter(cat.id)}
-              className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer ${
-                categoryFilter === cat.id
-                  ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-2xs'
-                  : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
+        {/* Category Filter Pills & Quantity Controls Toolbar */}
+        <div className="space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            {/* Category Filter Pills */}
+            <div className="flex flex-wrap items-center gap-1.5 flex-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mr-1 flex items-center space-x-1">
+                <Filter className="w-3 h-3" />
+                <span>Sector:</span>
+              </span>
+              {categoryFilters.map((cat) => {
+                const count = getCategoryCount(cat.id);
+                const isActive = categoryFilter === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => setCategoryFilter(cat.id)}
+                    className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer ${
+                      isActive
+                        ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-2xs font-bold'
+                        : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300'
+                    }`}
+                  >
+                    <span>{cat.label}</span>
+                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold ${
+                      isActive
+                        ? 'bg-white/20 dark:bg-slate-900/20 text-white dark:text-slate-900'
+                        : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
+                    }`}>
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Display Quantity / Stories Selector */}
+            <div className="flex items-center space-x-1.5 self-start sm:self-auto shrink-0 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 px-1.5 flex items-center space-x-1">
+                <Layers className="w-3 h-3 text-indigo-500" />
+                <span>Show:</span>
+              </span>
+              {([5, 10, 20, 'all'] as const).map((limitOption) => {
+                const isSelected = displayLimit === limitOption;
+                return (
+                  <button
+                    key={String(limitOption)}
+                    onClick={() => handleSetDisplayLimit(limitOption)}
+                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-indigo-600 text-white shadow-2xs'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-white/60 dark:hover:bg-slate-700/60'
+                    }`}
+                    title={`Display ${limitOption === 'all' ? 'all' : limitOption} announcements`}
+                  >
+                    {limitOption === 'all' ? 'All' : limitOption}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Active Display Range Summary */}
+          <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1 pt-0.5">
+            <span>
+              Showing <strong className="text-slate-800 dark:text-slate-200">{visibleFeedItems.length}</strong> of <strong className="text-slate-800 dark:text-slate-200">{filteredFeedItems.length}</strong> statutory actions {categoryFilter === 'all' ? 'across all sectors' : `in ${activeCategoryObj.label}`}.
+            </span>
+            {displayLimit !== 'all' && filteredFeedItems.length > (typeof displayLimit === 'number' ? displayLimit : 0) && (
+              <button
+                onClick={() => handleSetDisplayLimit('all')}
+                className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline cursor-pointer flex items-center space-x-1 text-xs"
+              >
+                <span>View all {filteredFeedItems.length}</span>
+                <ArrowRight className="w-3 h-3" />
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Interactive Clickable Feed List */}
         <div className="space-y-3 pt-1">
-          {filteredFeedItems.map((item) => {
+          {visibleFeedItems.map((item) => {
+
             const isExpanded = expandedItemId === item.id;
 
             return (
@@ -624,8 +654,33 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
               </div>
             );
           })}
+
+          {visibleFeedItems.length < filteredFeedItems.length && (
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 mt-2">
+              <div className="text-xs text-slate-600 dark:text-slate-300">
+                Displaying <span className="font-bold text-slate-900 dark:text-slate-100">{visibleFeedItems.length}</span> of <span className="font-bold text-slate-900 dark:text-slate-100">{filteredFeedItems.length}</span> decisions in <span className="font-bold text-slate-900 dark:text-slate-100">{activeCategoryObj.label}</span>.
+              </div>
+              <div className="flex items-center space-x-2">
+                {displayLimit !== 20 && filteredFeedItems.length > 10 && (
+                  <button
+                    onClick={() => handleSetDisplayLimit(20)}
+                    className="px-3 py-1.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
+                  >
+                    Show 20 Stories
+                  </button>
+                )}
+                <button
+                  onClick={() => handleSetDisplayLimit('all')}
+                  className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs"
+                >
+                  Show All {filteredFeedItems.length} Stories
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
+
     </div>
   );
 };
