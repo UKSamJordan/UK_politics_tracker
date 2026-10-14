@@ -56,11 +56,16 @@ export const SystemHealthModal: React.FC<SystemHealthModalProps> = ({
     setIsAuditing(true);
     setAuditSuccess(false);
     try {
-      // Clear localStorage cache to force fresh pull
+      // Clear localStorage cache (both legacy v2 and current v3/v4 keys) to force fresh pull
       localStorage.removeItem('uk_politics_cabinets_v2');
       localStorage.removeItem('uk_politics_policies_v2');
       localStorage.removeItem('uk_politics_polls_v2');
       localStorage.removeItem('uk_politics_factchecks_v2');
+      localStorage.removeItem('uk_politics_cabinets_v3');
+      localStorage.removeItem('uk_politics_policies_v3');
+      localStorage.removeItem('uk_politics_polls_v3');
+      localStorage.removeItem('uk_politics_factchecks_v3');
+      localStorage.removeItem('uk_politics_pledge_verifications_v4');
 
       await onSyncAll();
       setLastAuditTimestamp(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));

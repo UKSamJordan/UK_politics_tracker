@@ -30,7 +30,7 @@ interface PolicyMatrixProps {
   parties: Party[];
   selectedParties: PartyId[];
   policies: PolicyTopic[];
-  onRefreshPolicies?: () => Promise<PolicyChangeReport | void> | void;
+  onRefreshPolicies?: (category?: string) => Promise<PolicyChangeReport | void> | void;
 }
 
 export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
@@ -45,10 +45,11 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
   const [lastChangeReport, setLastChangeReport] = useState<PolicyChangeReport | null>(null);
   const [showReportDetails, setShowReportDetails] = useState(false);
 
-  // AI Pledge Recency Verification State (v4 enforces strict 2024-2026 recency and purges ex-ministers)
-  const PLEDGE_VERIF_STORAGE_KEY = 'uk_politics_pledge_verifications_v4';
+  // AI Pledge Recency Verification State (v5 enforces strict 2024-2026 recency and updated Reform/Labour/Tory platforms)
+  const PLEDGE_VERIF_STORAGE_KEY = 'uk_politics_pledge_verifications_v5';
   const [pledgeVerifications, setPledgeVerifications] = useState<Record<string, PledgeVerificationResult>>(() => {
     try {
+      localStorage.removeItem('uk_politics_pledge_verifications_v4');
       const saved = localStorage.getItem(PLEDGE_VERIF_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
@@ -109,7 +110,8 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
         party.name,
         topic.title,
         pledge.headline,
-        pledge.summary
+        pledge.summary,
+        { topicId: topic.id, partyId: party.id }
       );
 
       const updated = {
@@ -203,7 +205,7 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
 
   const handleRefreshWithDiff = async () => {
     if (onRefreshPolicies) {
-      const report = await onRefreshPolicies();
+      const report = await onRefreshPolicies(selectedCategory);
       if (report && typeof report === 'object' && 'hasChanges' in report) {
         setLastChangeReport(report as PolicyChangeReport);
         setShowReportDetails(true);
@@ -227,8 +229,8 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <SectionRefreshButton
-              sectionName="Policy Matrix"
-              defaultDate="September 2026 • Verified Public Record"
+              sectionName={selectedCategory === 'all' ? 'Policy Matrix' : `${categories.find((c) => c.id === selectedCategory)?.label || 'Policy'} Matrix`}
+              defaultDate="October 2026 • Live Google Search Grounded"
               onRefresh={handleRefreshWithDiff}
             />
 
@@ -400,18 +402,22 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
 
               {/* Side-by-Side Columns */}
               {isExpanded && (
-                <div className={`grid grid-cols-1 ${
+                <div className={`flex overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] md:grid ${
                   activeParties.length === 1 ? 'md:grid-cols-1' :
                   activeParties.length === 2 ? 'md:grid-cols-2' :
                   activeParties.length === 3 ? 'md:grid-cols-3' :
-                  'md:grid-cols-2 lg:grid-cols-4'
-                } divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800`}>
+                  activeParties.length === 4 ? 'md:grid-cols-2 lg:grid-cols-4' :
+                  activeParties.length === 5 ? 'md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5' :
+                  activeParties.length === 6 ? 'md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6' :
+                  activeParties.length === 7 ? 'md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-7' :
+                  'md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-8'
+                } md:divide-x divide-slate-100 dark:divide-slate-800`}>
                   {activeParties.map((party) => {
                     const pledge = topic.pledges[party.id];
                     if (!pledge) return null;
 
                     return (
-                      <div key={party.id} className="p-4 sm:p-5 flex flex-col justify-between space-y-4 bg-white dark:bg-slate-900">
+                      <div key={party.id} className="w-full md:w-auto flex-none snap-start md:snap-align-none p-4 sm:p-5 flex flex-col justify-between space-y-4 bg-white dark:bg-slate-900 border-r border-slate-100 dark:border-slate-800 md:border-r-0">
                         <div>
                           {/* Party Badge & Leader */}
                           <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-100 dark:border-slate-800">
@@ -420,33 +426,33 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
                                 className="w-3 h-3 rounded-full"
                                 style={{ backgroundColor: party.color }}
                               />
-                              <span className="font-bold text-sm text-slate-900 dark:text-white">
+                              <span className="font-bold text-sm xl:text-base text-slate-900 dark:text-white">
                                 {party.shortName}
                               </span>
                             </div>
-                            <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                            <span className="text-[11px] xl:text-xs text-slate-500 dark:text-slate-400 font-medium">
                               {party.leader}
                             </span>
                           </div>
 
                           {/* Headline */}
-                          <h4 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white mb-2 leading-snug">
+                          <h4 className="font-bold text-sm sm:text-base xl:text-lg text-slate-900 dark:text-white mb-2 leading-snug">
                             {pledge.headline}
                           </h4>
 
                           {/* Summary */}
-                          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
+                          <p className="text-xs xl:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
                             {pledge.summary}
                           </p>
 
                           {/* Key Points Bullet List */}
                           <div className="space-y-1.5 mb-4">
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                            <span className="text-[10px] xl:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                               Core Manifesto Pledges:
                             </span>
                             <ul className="space-y-1">
                               {pledge.keyPoints.map((point, i) => (
-                                <li key={i} className="text-xs text-slate-700 dark:text-slate-300 flex items-start space-x-1.5">
+                                <li key={i} className="text-xs xl:text-sm text-slate-700 dark:text-slate-300 flex items-start space-x-1.5">
                                   <span 
                                     className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" 
                                     style={{ backgroundColor: party.color }}

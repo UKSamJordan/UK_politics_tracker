@@ -533,7 +533,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
       )}
 
       {/* Grid of Ministers / Spokespeople */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-full min-w-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 w-full max-w-full min-w-0">
         {filteredMembers.map((member) => {
           const Icon = getRoleIcon(member.role);
           const isLeaderCard = member.isLeader;

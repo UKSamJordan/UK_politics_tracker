@@ -13,6 +13,7 @@ import { PoliticalMatrix } from './components/PoliticalMatrix';
 import { DataBankModal } from './components/DataBankModal';
 import { SystemHealthModal } from './components/SystemHealthModal';
 import { useTheme } from './hooks/useTheme';
+import { useFirebaseData } from "./providers/FirebaseDataProvider";
 
 // Load Data Bank JSON files
 import partiesData from './data/parties.json';
@@ -31,50 +32,7 @@ import {
 
 export const App: React.FC = () => {
   const { isDark, toggleTheme } = useTheme();
-  const [parties] = useState<Party[]>(partiesData as Party[]);
-
-  // Safe initial loading: ensure we never use a stale cached roster that is smaller than the official baseline
-  const [cabinets, setCabinets] = useState<CabinetMember[]>(() => {
-    try {
-      const cached = localStorage.getItem('uk_politics_cabinets_v3');
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed) && parsed.length >= (cabinetsData as CabinetMember[]).length) {
-          return parsed;
-        }
-      }
-      return cabinetsData as CabinetMember[];
-    } catch {
-      return cabinetsData as CabinetMember[];
-    }
-  });
-
-  const [policies, setPolicies] = useState<PolicyTopic[]>(() => {
-    try {
-      const cached = localStorage.getItem('uk_politics_policies_v3');
-      return cached ? JSON.parse(cached) : (policiesData as PolicyTopic[]);
-    } catch {
-      return policiesData as PolicyTopic[];
-    }
-  });
-
-  const [factChecks, setFactChecks] = useState<FactCheckItem[]>(() => {
-    try {
-      const cached = localStorage.getItem('uk_politics_factchecks_v3');
-      return cached ? JSON.parse(cached) : (factchecksData as FactCheckItem[]);
-    } catch {
-      return factchecksData as FactCheckItem[];
-    }
-  });
-
-  const [polls, setPolls] = useState<any>(() => {
-    try {
-      const cached = localStorage.getItem('uk_politics_polls_v3');
-      return cached ? JSON.parse(cached) : pollsData;
-    } catch {
-      return pollsData;
-    }
-  });
+  const { parties, cabinets, policies, polls, factChecks, loading, setCabinets, setPolicies, setPolls, setFactChecks } = useFirebaseData();
 
   const timeSeries: PollPoint[] = (polls.timeSeries || pollsData.timeSeries) as PollPoint[];
   const policyPopularity: PolicyPopularityItem[] = (polls.policyPopularity || pollsData.policyPopularity) as PolicyPopularityItem[];
@@ -94,8 +52,8 @@ export const App: React.FC = () => {
     setPolls(res.data);
   };
 
-  const handleRefreshPolicies = async () => {
-    const res = await refreshPolicyMatrix(policies);
+  const handleRefreshPolicies = async (category?: string) => {
+    const res = await refreshPolicyMatrix(policies, category);
     setPolicies(res.data);
     return res.changeReport;
   };
@@ -160,6 +118,7 @@ export const App: React.FC = () => {
     setActiveTab('cabinets');
   };
 
+  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading Live Data...</div>;
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 flex flex-col w-full max-w-full overflow-x-hidden transition-colors duration-150">
       {/* Top Navigation */}
@@ -173,7 +132,7 @@ export const App: React.FC = () => {
       />
 
       {/* Main Content Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 min-w-0 overflow-x-hidden">
+      <main className="flex-1 max-w-[1800px] w-full mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 min-w-0 overflow-x-hidden">
         {/* Render Party Selector only on Comparison tab */}
         {activeTab === 'compare' && (
           <PartySelector
@@ -275,7 +234,7 @@ export const App: React.FC = () => {
 
       {/* Footer */}
       <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12 py-8 text-xs text-slate-500 dark:text-slate-400 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
             <p className="font-semibold text-slate-700 dark:text-slate-200">
               UK Political Parties Comparator & Intelligence Hub

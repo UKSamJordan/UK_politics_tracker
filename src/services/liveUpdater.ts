@@ -1,3 +1,5 @@
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '../firebase';
 /**
  * UK Politics Comparator - Live Update Engine (v3)
  * ----------------------------------------------------
@@ -15,10 +17,10 @@
 import { CabinetMember, PolicyTopic, FactCheckItem, Party, PartyId } from '../types/politics';
 
 const STORAGE_KEYS = {
-  CABINETS: 'uk_politics_cabinets_v3',
-  POLICIES: 'uk_politics_policies_v3',
-  POLLS: 'uk_politics_polls_v3',
-  FACTCHECKS: 'uk_politics_factchecks_v3',
+  CABINETS: 'uk_politics_cabinets_v5',
+  POLICIES: 'uk_politics_policies_v5',
+  POLLS: 'uk_politics_polls_v5',
+  FACTCHECKS: 'uk_politics_factchecks_v5',
   API_KEY: 'uk_politics_gemini_api_key',
 };
 
@@ -62,19 +64,12 @@ export interface SeatChangeItem {
   delta: number;
 }
 
-// Built-in preconfigured key provided for autonomous operation
-const DEFAULT_PRECONFIGURED_KEY =
-  typeof atob !== 'undefined'
-    ? atob('QVEuQWI4Uk42Szk3RUplcjFMUzl1Q1ljOG1xbDRPNWNNSm8tMVlMYkZZeDdfaWt1a0dUWFE=')
-    : '';
-
-// Retrieve stored Gemini API key across all storage tiers and default fallback
+// Retrieve optional user-supplied Gemini API key if stored locally
 export const getStoredApiKey = (): string => {
   return (
     localStorage.getItem(STORAGE_KEYS.API_KEY) ||
     localStorage.getItem('GEMINI_USER_KEY') ||
     (import.meta as any).env?.VITE_GEMINI_API_KEY ||
-    DEFAULT_PRECONFIGURED_KEY ||
     ''
   );
 };
@@ -206,43 +201,29 @@ export function detectSeatChanges(
 }
 
 /**
- * Execute a live query against Google Gemini 3.8 Flash directly from browser with timeout
+ * Execute a live query against Google Gemini 3.8 Flash via Cloud Function with strict timeout
  */
-async function queryGemini(prompt: string, apiKey: string, timeoutMs: number = 6000): Promise<any> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+async function queryGemini(prompt: string, timeoutMs: number = 20000): Promise<any> {
+  const askGemini = httpsCallable(functions, 'askGemini');
+  const timeoutPromise = new Promise<never>((_, reject) =>
+    setTimeout(() => reject(new Error('Gemini Cloud Function timeout')), timeoutMs)
+  );
 
-  try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
+  const callPromise = askGemini({
+    prompt,
+    useSearchGrounding: true,
+    systemInstruction:
+      'You are a UK political data API with live Google Search access. Return ONLY valid JSON matching the schema implied by the prompt. Never wrap your response in markdown blocks.',
+  });
 
-    const payload = {
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.1,
-        responseMimeType: 'application/json',
-      },
-    };
+  const result = (await Promise.race([callPromise, timeoutPromise])) as any;
+  const data = result.data as { text: string };
 
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      signal: controller.signal,
-    });
-
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(`Gemini API error (${res.status}): ${errorText}`);
-    }
-
-    const data = await res.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!text) throw new Error('No candidate content received from Gemini.');
-
-    return JSON.parse(text);
-  } finally {
-    clearTimeout(timer);
-  }
+  const cleanText = data.text
+    .replace(/^\s*```(json)?/m, '')
+    .replace(/```\s*$/, '');
+  const jsonMatch = cleanText.match(/[\[\{][\s\S]*[\]\}]/);
+  return JSON.parse((jsonMatch ? jsonMatch[0] : cleanText).trim());
 }
 
 /**
@@ -254,54 +235,8 @@ export async function refreshCabinetRoster(currentMembers: CabinetMember[]): Pro
   updatedCount: number;
   changeReport: CabinetChangeReport;
 }> {
-  const apiKey = getStoredApiKey();
-
-  // If Gemini key is available, run live verification & discovery with strict 5s timeout
-  if (apiKey) {
-    try {
-      const prompt = `You are a real-time UK parliamentary researcher.
-Check the current official UK Cabinet and Opposition Frontbench rosters as of September 2026.
-Verify:
-1. His Majesty's Government under Prime Minister Andy Burnham (who succeeded Keir Starmer in July 2026), including Louise Haigh (First Sec), John Healey (Chancellor), Wes Streeting (Defence), Yvette Cooper (Health), Shabana Mahmood (Home), Ed Miliband (Foreign).
-2. Reform UK's official Shadow Cabinet formed by Nigel Farage in February 2026 (including Richard Tice, Robert Jenrick as Shadow Chancellor, Zia Yusuf as Shadow Home Sec, Suella Braverman as Shadow Education, Lee Anderson as Chief Whip).
-3. The Conservative Official Opposition under Kemi Badenoch (Shadow Chancellor Mel Stride, Shadow Justice Nick Timothy, Shadow Health Victoria Atkins).
-4. Liberal Democrats frontbench (Ed Davey, Daisy Cooper, Helen Morgan, Munira Wilson, Tim Farron, etc.).
-5. Green Party leadership and frontbench: Zack Polanski (Party Leader, elected Sept 2025), Carla Denyer (Parliamentary Leader & MP for Bristol Central), Adrian Ramsay (MP for Waveney Valley), Ellie Chowns (MP for North Herefordshire), Siân Berry (MP for Brighton Pavilion), Mothin Ali (Deputy Leader), Rachel Millward (Deputy Leader).
-6. SNP frontbench (Swinney, Flynn, Blackman, Doogan).
-7. Plaid Cymru frontbench (ap Iorwerth, Saville Roberts, Lake, Davies, Medi).
-
-Return an updated JSON array of CabinetMember objects matching this TypeScript interface:
-Array<{
-  id: string;
-  partyId: "labour" | "conservative" | "reform" | "libdem" | "green" | "snp" | "plaid" | "restore";
-  name: string;
-  role: string;
-  isLeader?: boolean;
-  constituency?: string;
-  bio: string;
-  keyStance: string;
-  appointedDate: string;
-  portfolioStatus?: "Active" | "Reshuffled" | "New Appointment";
-}>`;
-
-      const liveData = await queryGemini(prompt, apiKey, 5000);
-      if (Array.isArray(liveData) && liveData.length > 0) {
-        localStorage.setItem(STORAGE_KEYS.CABINETS, JSON.stringify(liveData));
-        const report = detectCabinetChanges(currentMembers, liveData);
-        return {
-          data: liveData,
-          source: 'Gemini 3.8 Flash (Live UK Parliament Query)',
-          updatedCount: liveData.length,
-          changeReport: report,
-        };
-      }
-    } catch (err) {
-      console.warn('Gemini live update failed, falling back to CDN fetch:', err);
-    }
-  }
-
-  // Fallback: Cache-busting fetch from CDN /data/cabinets.json with 5s timeout
-  const cdnData = await fetchLiveCdnData<CabinetMember[]>('cabinets.json', 5000);
+  // First fetch the verified CDN baseline
+  const cdnData = await fetchLiveCdnData<CabinetMember[]>('cabinets.json', 6000);
   localStorage.setItem(STORAGE_KEYS.CABINETS, JSON.stringify(cdnData));
   const report = detectCabinetChanges(currentMembers, cdnData);
 
@@ -320,32 +255,7 @@ export async function refreshPollData(): Promise<{
   data: any;
   source: string;
 }> {
-  const apiKey = getStoredApiKey();
-
-  if (apiKey) {
-    try {
-      const prompt = `Provide the latest UK polling data for September 2026.
-Include voting intention averages, leader approval ratings (Andy Burnham at +7 net, Kemi Badenoch, Nigel Farage, Ed Davey), and Best Prime Minister tracker (Andy Burnham leading).
-Return JSON matching:
-{
-  "lastUpdated": "2026-09-30",
-  "average": { "labour": 31, "conservative": 24, "reform": 20, "libdem": 13, "green": 8, "snp": 3, "others": 1 },
-  "bestPrimeMinister": { "date": "2026-09-28", "pollster": "YouGov Best PM Tracker", "burnham": 44, "starmer": 31, "badenoch": 23, "farage": 18, "davey": 8, "neitherUnsure": 7 },
-  "leaderRatings": [...],
-  "timeSeries": [...],
-  "policyPopularity": [...]
-}`;
-      const liveData = await queryGemini(prompt, apiKey, 5000);
-      if (liveData && liveData.average) {
-        localStorage.setItem(STORAGE_KEYS.POLLS, JSON.stringify(liveData));
-        return { data: liveData, source: 'Gemini 3.8 Flash (Live Polling Aggregator)' };
-      }
-    } catch (err) {
-      console.warn('Gemini polling update failed, falling back to CDN:', err);
-    }
-  }
-
-  const cdnData = await fetchLiveCdnData<any>('polls.json', 5000);
+  const cdnData = await fetchLiveCdnData<any>('polls.json', 6000);
   localStorage.setItem(STORAGE_KEYS.POLLS, JSON.stringify(cdnData));
   return {
     data: cdnData,
@@ -394,7 +304,7 @@ export function detectPolicyChanges(
             topicTitle: newT.title,
             oldHeadline: oldPledge.headline,
             newHeadline: newPledge.headline,
-            details: `Pledge updated: "${oldPledge.headline}" -> "${newPledge.headline}" (Source: ${newPledge.officialSourceTitle || 'Official Platform'})`,
+            details: `Pledge updated: "${oldPledge.headline}" → "${newPledge.headline}" (Source: ${newPledge.officialSourceTitle || 'Official Platform'})`,
           });
         }
       }
@@ -416,55 +326,106 @@ export function detectPolicyChanges(
 }
 
 /**
- * Live Update: Policy Matrix with Change Detection
- * ----------------------------------------------------
- * Instantly fetches the verified, audited 64-pledge policy dataset
- * from /data/policies.json with cache-busting and safety timeout.
- * Guarantees sub-500ms diff calculation, schema integrity, 100% cited sources,
- * and eliminates freeze risk.
+ * Live Update: Policy Matrix with Live Google-Search Grounding & Firestore Sync
+ * ----------------------------------------------------------------------------
+ * 1. Fetches the latest verified baseline from /data/policies.json
+ * 2. Invokes the `auditAndSyncPolicies` Cloud Function which:
+ *    - Synchronizes baseline records into Firestore (`policies` collection)
+ *    - Scrapes live UK political RSS feeds (BBC, Guardian, Sky News)
+ *    - Queries Gemini 3.8 Flash with live Google Search Grounding (`googleSearch`)
+ *      to detect and persist any brand-new party policy announcements
+ * 3. Computes a full algorithmic diff between the user's previous view and the newly synced state.
  */
-export async function refreshPolicyMatrix(currentPolicies: PolicyTopic[] = []): Promise<{
+export async function refreshPolicyMatrix(
+  currentPolicies: PolicyTopic[] = [],
+  category?: string
+): Promise<{
   data: PolicyTopic[];
   source: string;
   changeReport: PolicyChangeReport;
 }> {
+  let cdnBaseline: PolicyTopic[] = currentPolicies;
+
   try {
-    const cdnData = await fetchLiveCdnData<PolicyTopic[]>('policies.json', 5000);
-    if (Array.isArray(cdnData) && cdnData.length > 0) {
-      localStorage.setItem(STORAGE_KEYS.POLICIES, JSON.stringify(cdnData));
-      const changeReport = detectPolicyChanges(currentPolicies, cdnData);
+    const fetched = await fetchLiveCdnData<PolicyTopic[]>('policies.json', 6000);
+    if (Array.isArray(fetched) && fetched.length > 0) {
+      cdnBaseline = fetched;
+    }
+  } catch (err) {
+    console.warn('CDN fetch failed in refreshPolicyMatrix, continuing with current baseline:', err);
+  }
+
+  // Call the live Google-Search-grounded Cloud Function audit & Firestore sync
+  try {
+    const auditFn = httpsCallable(functions, 'auditAndSyncPolicies');
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('Live policy audit timed out')), 60000)
+    );
+
+    const result = (await Promise.race([
+      auditFn({
+        category: category && category !== 'all' ? category : undefined,
+        seedPolicies: cdnBaseline,
+      }),
+      timeoutPromise,
+    ])) as any;
+
+    const payload = result?.data;
+    if (payload && Array.isArray(payload.updatedPolicies) && payload.updatedPolicies.length > 0) {
+      // Preserve canonical ordering from cdnBaseline
+      const orderMap = new Map(cdnBaseline.map((t, idx) => [t.id, idx]));
+      const orderedPolicies = [...payload.updatedPolicies].sort(
+        (a: PolicyTopic, b: PolicyTopic) => (orderMap.get(a.id) ?? 99) - (orderMap.get(b.id) ?? 99)
+      );
+
+      localStorage.setItem(STORAGE_KEYS.POLICIES, JSON.stringify(orderedPolicies));
+      const changeReport = detectPolicyChanges(currentPolicies, orderedPolicies);
+
+      // Merge any server-reported AI discoveries if not already in changeReport
+      const serverChanges = payload.appliedPolicyChanges || payload.changes || [];
+      if (Array.isArray(serverChanges) && serverChanges.length > 0) {
+        const existingKeys = new Set(changeReport.changes.map((c) => `${c.partyId}-${c.newHeadline}`));
+        for (const sc of serverChanges) {
+          const key = `${sc.partyId}-${sc.newHeadline}`;
+          if (!existingKeys.has(key)) {
+            changeReport.changes.push({
+              category: sc.category || sc.topicId || category || 'all',
+              partyId: sc.partyId,
+              topicTitle: sc.topicTitle || sc.topicId,
+              oldHeadline: sc.oldHeadline,
+              newHeadline: sc.newHeadline,
+              details: sc.details || `Live AI Search Discovery: "${sc.oldHeadline}" → "${sc.newHeadline}"`,
+            });
+          }
+        }
+        changeReport.hasChanges = changeReport.changes.length > 0;
+        if (changeReport.hasChanges) {
+          changeReport.summary = `Identified ${changeReport.changes.length} policy evolution(s) via Live Google Search Grounding & Parliamentary Audit.`;
+        }
+      }
+
       return {
-        data: cdnData,
-        source: 'Live CDN Data Bank (/data/policies.json • Audited Platforms)',
+        data: orderedPolicies,
+        source: 'Gemini 3.8 Flash + Google Search Grounding & Firestore Live Sync',
         changeReport,
       };
     }
   } catch (err) {
-    console.warn('CDN fetch failed in refreshPolicyMatrix, checking cached storage:', err);
+    console.warn('Live Cloud Function auditAndSyncPolicies failed or timed out, applying CDN baseline:', err);
   }
 
-  // Fallback to localStorage or current policies
-  const cached = localStorage.getItem(STORAGE_KEYS.POLICIES);
-  if (cached) {
-    try {
-      const parsed = JSON.parse(cached);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        return {
-          data: parsed,
-          source: 'Verified Local Storage Cache',
-          changeReport: detectPolicyChanges(currentPolicies, parsed),
-        };
-      }
-    } catch {
-      // ignore
-    }
+  // Fallback to freshly fetched CDN baseline if Cloud Function timed out
+  if (Array.isArray(cdnBaseline) && cdnBaseline.length > 0) {
+    localStorage.setItem(STORAGE_KEYS.POLICIES, JSON.stringify(cdnBaseline));
+    const changeReport = detectPolicyChanges(currentPolicies, cdnBaseline);
+    return {
+      data: cdnBaseline,
+      source: 'Live CDN Data Bank (/data/policies.json • Audited Platforms)',
+      changeReport,
+    };
   }
 
-  return {
-    data: currentPolicies,
-    source: 'Verified Parliamentary Registers',
-    changeReport: detectPolicyChanges(currentPolicies, currentPolicies),
-  };
+  throw new Error('Unable to reach live policy verification servers.');
 }
 
 /**
@@ -474,19 +435,15 @@ export async function refreshFactChecks(): Promise<{
   data: FactCheckItem[];
   source: string;
 }> {
-  const apiKey = getStoredApiKey();
-
-  if (apiKey) {
-    try {
-      const prompt = `You are an expert UK political fact-checker and researcher.
-Audit and retrieve the latest high-profile political claims and independent fact-checking investigations across all UK political parties (Labour, Conservative, Reform UK, Liberal Democrats, Green Party, SNP, Plaid Cymru, Restore Britain) as of late-2026.
+  try {
+    const prompt = `You are an expert UK political fact-checker and researcher with live Google Search access.
+Audit and retrieve the latest high-profile political claims and independent fact-checking investigations across all UK political parties (Labour, Conservative, Reform UK, Liberal Democrats, Green Party, SNP, Plaid Cymru, Restore Britain).
 
 GROUNDING & VERIFICATION RULES:
 1. RECENCY FIRST:
-   - Provide the most recent 2026 fact-checks first. Dates MUST be formatted as 'YYYY-MM-DD' (e.g. 2026-09-26).
-   - Prioritise recent statements made by current key figures (e.g., Andy Burnham, Rachel Reeves, Kemi Badenoch, James Cartlidge, Nigel Farage, Zia Yusuf, Robert Jenrick, Sir Ed Davey, Helen Morgan, Carla Denyer, Adrian Ramsay, John Swinney, Rhun ap Iorwerth).
+   - Provide the most recent fact-checks first. Dates MUST be formatted as 'YYYY-MM-DD'.
 2. INDEPENDENT SOURCES ONLY:
-   - Citations must come from reputable fact-checking or non-partisan research institutions: Full Fact, BBC Reality Check, Channel 4 FactCheck, Institute for Fiscal Studies (IFS), Office for Budget Responsibility (OBR), National Audit Office (NAO), Fraser of Allander, or Royal United Services Institute (RUSI).
+   - Citations must come from reputable fact-checking or non-partisan research institutions: Full Fact, BBC Reality Check, Channel 4 FactCheck, Institute for Fiscal Studies (IFS), Office for Budget Responsibility (OBR), National Audit Office (NAO), Migration Observatory, or RUSI.
    - Include valid sourceUrl and source name.
 3. VERDICT TAXONOMY:
    - verdict MUST be one of: 'False' | 'Misleading' | 'Disputed' | 'Needs Context' | 'Unproven' | 'Accurate'.
@@ -508,23 +465,22 @@ Array<{
   category: "defence" | "economy" | "welfare" | "nhs" | "immigration" | "energy" | "housing" | "education" | "governance";
 }>`;
 
-      const liveData = await queryGemini(prompt, apiKey, 5000);
-      if (Array.isArray(liveData) && liveData.length > 0) {
-        const sorted = [...liveData].sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-        );
-        localStorage.setItem(STORAGE_KEYS.FACTCHECKS, JSON.stringify(sorted));
-        return {
-          data: sorted,
-          source: 'Gemini 3.8 Flash (Live Fact-Checking Grounding)',
-        };
-      }
-    } catch (err) {
-      console.warn('Gemini fact-check refresh failed, falling back to CDN:', err);
+    const liveData = await queryGemini(prompt, 20000);
+    if (Array.isArray(liveData) && liveData.length > 0) {
+      const sorted = [...liveData].sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+      localStorage.setItem(STORAGE_KEYS.FACTCHECKS, JSON.stringify(sorted));
+      return {
+        data: sorted,
+        source: 'Gemini 3.8 Flash + Google Search (Live Fact-Checking Grounding)',
+      };
     }
+  } catch (err) {
+    console.warn('Gemini fact-check refresh failed, falling back to CDN:', err);
   }
 
-  const cdnData = await fetchLiveCdnData<FactCheckItem[]>('factchecks.json', 5000);
+  const cdnData = await fetchLiveCdnData<FactCheckItem[]>('factchecks.json', 6000);
   const sorted = [...cdnData].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
@@ -549,11 +505,6 @@ export async function fetchPersonIntelligence(
   timestamp: string;
   source: string;
 }> {
-  const apiKey = getStoredApiKey();
-  if (!apiKey) {
-    throw new Error('No active Gemini API key configured.');
-  }
-
   const prompt = `You are an expert UK parliamentary researcher and political intelligence analyst.
 Provide an up-to-the-minute factual intelligence dossier on:
 - Name: ${personName}
@@ -569,29 +520,18 @@ Provide a comprehensive, strictly factual, and non-partisan summary covering:
 
 Format cleanly with markdown bold headers and bullet points. Be specific with figures, names of initiatives, and dates where known. Keep tone strictly objective and factual.`;
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000);
-
   try {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.2 },
-      }),
-      signal: controller.signal,
+    const askGemini = httpsCallable(functions, 'askGemini');
+    
+    // We'll race the cloud function against a 12-second timeout
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('TimeoutError')), 12000);
     });
 
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`Gemini API Error (${response.status}): ${errText}`);
-    }
+    const callPromise = askGemini({ prompt });
+    const result = await Promise.race([callPromise, timeoutPromise]) as any;
 
-    const data = await response.json();
-    const parts = data.candidates?.[0]?.content?.parts || [];
-    const text = parts.map((p: any) => p.text || '').filter(Boolean).join('\n\n') || 'No intelligence dossier returned.';
+    const text = result.data.text || 'No intelligence dossier returned.';
 
     const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     return {
@@ -601,17 +541,16 @@ Format cleanly with markdown bold headers and bullet points. Be specific with fi
       source: 'Gemini 3.8 Flash • Real-Time Parliamentary Scrutiny',
     };
   } catch (err: any) {
-    if (err.name === 'AbortError') {
+    if (err.message === 'TimeoutError') {
       const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       return {
         personName,
-        summaryText: `### 1. Active Frontbench Standing\n- **Role**: ${role} (${partyName})\n${constituency ? `- **Constituency**: ${constituency}\n` : ''}- Currently listed in active official parliamentary register.\n\n### 2. Live Scrutiny Status\n- The live intelligence server timed out (8s network threshold). Portfolio policy records and voting record remain fully verified in the Westminster Data Bank.`,
+        summaryText: `### 1. Active Frontbench Standing\n- **Role**: ${role} (${partyName})\n${constituency ? `- **Constituency**: ${constituency}\n` : ''}- Currently listed in active official parliamentary register.\n\n### 2. Live Scrutiny Status\n- The live intelligence server timed out (12s network threshold). Portfolio policy records and voting record remain fully verified in the Westminster Data Bank.`,
         timestamp: `Verified at ${timestamp} GMT`,
         source: 'Parliamentary Register Fallback Record',
       };
     }
+    console.error("fetchPersonIntelligence error:", err);
     throw err;
-  } finally {
-    clearTimeout(timer);
   }
 }

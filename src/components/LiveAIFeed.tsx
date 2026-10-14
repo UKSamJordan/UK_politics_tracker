@@ -17,7 +17,6 @@ import {
   ArrowRight,
   Filter
 } from 'lucide-react';
-import { getStoredApiKey, setStoredApiKey } from '../services/liveUpdater';
 import { 
   queryWestminsterPolicyTracker, 
   getCurrentDateMetadata,
@@ -32,7 +31,7 @@ interface LiveAIFeedProps {
   cabinets?: CabinetMember[];
 }
 
-const POLICY_FEED_STORAGE_KEY = 'uk_politics_policy_decisions_feed_v3';
+const POLICY_FEED_STORAGE_KEY = 'uk_politics_policy_decisions_feed_v5';
 const POLICY_FEED_LIMIT_KEY = 'uk_politics_policy_feed_limit';
 
 export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ 
@@ -41,9 +40,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
   cabinets = [] 
 }) => {
   // Stored API key (reads from unified persistent storage and built-in configured key)
-  const [apiKey, setApiKey] = useState(() => getStoredApiKey());
-  const [showKeyInput, setShowKeyInput] = useState(false);
-  const [question, setQuestion] = useState('');
+      const [question, setQuestion] = useState('');
   const [isQuerying, setIsQuerying] = useState(false);
   const [aiAnswer, setAiAnswer] = useState<string | null>(null);
   const [answerSource, setAnswerSource] = useState<string>('');
@@ -72,19 +69,28 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
   const currentDateMeta = getCurrentDateMetadata();
 
   const quickSuggestions = [
-    { label: "Triple Lock & 2026/27 Pension Uprating", query: "What is the latest on the State Pension Triple Lock and how will it be uprated?" },
-    { label: "Defence Spending: 2.5% vs 3.0% of GDP", query: "Compare party commitments on UK defence spending as a percentage of GDP." },
-    { label: "Renters' Rights Bill & Section 21 Abolition", query: "What is the current status of the Renters' Rights Bill and no-fault evictions?" },
-    { label: "Tax Thresholds & Frozen Personal Allowance", query: "Where do parties stand on the £12,570 income tax personal allowance and fiscal drag?" },
-    { label: "Wealth Tax Proposals (Greens vs Labour)", query: "Compare Green Party and Labour positions on an annual wealth tax on multi-millionaires." }
+    { label: "Reform UK Hythe Border Plan & 1M+ Deportations", query: "What is Reform UK's latest Hythe border security plan, 5-year asylum freeze, and deportation policy?" },
+    { label: "Reform UK Britannia Card & £20k Tax Threshold", query: "Explain Reform UK's £250k Britannia Card non-dom dividend, UK DOGE unit, and £20,000 tax threshold." },
+    { label: "Immigration Comparison: Labour vs Tories vs Reform", query: "Compare Labour's 10-year Earned Settlement ILR, Conservative ECHR exit, and Reform UK's asylum freeze." },
+    { label: "Triple Lock & Welfare Reforms (20-Hr Work Mandate)", query: "Compare party positions on the State Pension Triple Lock, Winter Fuel Payments, and Reform's welfare ban for non-citizens." },
+    { label: "Energy & Net Zero: British Steel & Public Water", query: "Compare Labour's Great British Energy with Reform UK's plan to scrap Net Zero, nationalise British Steel, and take 50% public ownership of water." }
   ];
 
   const [feedItems, setFeedItems] = useState<PolicyNewsItem[]>(() => {
     try {
+      // Purge outdated v3/v4 caches that had fake "Today" timestamps on 2024 items
+      localStorage.removeItem('uk_politics_policy_decisions_feed_v3');
+      localStorage.removeItem('uk_politics_policy_decisions_feed_v4');
       const saved = localStorage.getItem(POLICY_FEED_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length >= 10) return parsed;
+        if (
+          Array.isArray(parsed) &&
+          parsed.length >= 10 &&
+          !parsed.some((i: any) => typeof i?.time === 'string' && /^(today|yesterday)/i.test(i.time.trim()))
+        ) {
+          return parsed;
+        }
       }
       return defaultPolicyDecisions;
     } catch {
@@ -93,12 +99,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
   });
 
 
-  const handleSaveKey = (e: React.FormEvent) => {
-    e.preventDefault();
-    setStoredApiKey(apiKey.trim());
-    setShowKeyInput(false);
-  };
-
+  
   const handleAskTracker = async (e?: React.FormEvent, customQuestion?: string) => {
     if (e) e.preventDefault();
     const queryToUse = customQuestion || question;
@@ -112,8 +113,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
         policies,
         cabinets,
         parties,
-        customApiKey: apiKey,
-      });
+              });
 
       setAiAnswer(result.answer);
       setAnswerSource(result.source);
@@ -122,7 +122,6 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
     } catch (err: any) {
       console.error(err);
       if (err.message?.includes('No active Gemini API key')) {
-        setShowKeyInput(true);
       }
       setAiAnswer(`Could not complete query: ${err.message}. If using your custom API key, ensure it has Generative Language API access.`);
     } finally {
@@ -157,7 +156,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
   const handleRefreshPolicyDecisions = async () => {
     setIsFetchingDecisions(true);
     try {
-      const freshItems = await fetchLatestPolicyDecisions(apiKey, {
+      const freshItems = await fetchLatestPolicyDecisions({
         category: categoryFilter !== 'all' ? categoryFilter : undefined,
         limit: displayLimit === 'all' ? 30 : Math.max(displayLimit, 20)
       });
@@ -169,7 +168,6 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
     } catch (err: any) {
       console.error('Failed to fetch latest policy decisions:', err);
       if (err.message?.includes('No active Gemini API key')) {
-        setShowKeyInput(true);
       }
     } finally {
       setIsFetchingDecisions(false);
@@ -283,47 +281,12 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
           </div>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-            <button
-              onClick={() => setShowKeyInput(!showKeyInput)}
-              className="flex items-center justify-center space-x-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold border border-slate-700 text-slate-200 transition-colors cursor-pointer"
-            >
-              <Key className="w-3.5 h-3.5 text-amber-400" />
-              <span>{apiKey || getStoredApiKey() ? 'API Key Active ✓' : 'Set Admin API Key'}</span>
-            </button>
+            
           </div>
         </div>
 
         {/* API Key Drawer (stores safely in user's browser only) */}
-        {showKeyInput && (
-          <form onSubmit={handleSaveKey} className="mt-4 pt-4 border-t border-slate-800 space-y-2 max-w-lg">
-            <div className="flex items-center justify-between text-xs text-slate-400">
-              <span>Live Intelligence API Key (Saved private in browser & verified):</span>
-              {(apiKey || getStoredApiKey()) && (
-                <span className="text-emerald-400 text-[11px] font-semibold flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3 text-emerald-400" /> Active Key Connected
-                </span>
-              )}
-            </div>
-            <div className="flex gap-2">
-              <input
-                type="password"
-                placeholder="Enter Live Intelligence API key..."
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                className="flex-1 px-3 py-1.5 text-xs bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-hidden focus:ring-2 focus:ring-rose-500"
-              />
-              <button
-                type="submit"
-                className="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold rounded-xl cursor-pointer"
-              >
-                Save
-              </button>
-            </div>
-            <p className="text-[10px] text-slate-400">
-              🔒 Pre-configured with active parliamentary intelligence service. You can also override with a custom key anytime.
-            </p>
-          </form>
-        )}
+        
       </div>
 
       {/* Interactive Ask Westminster Policy Tracker Search */}

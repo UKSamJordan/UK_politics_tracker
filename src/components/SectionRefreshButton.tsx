@@ -11,7 +11,7 @@ interface SectionRefreshButtonProps {
 
 export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
   sectionName,
-  defaultDate = 'September 2026',
+  defaultDate = 'October 2026',
   verificationSource = 'UK Parliament registers, Cabinet Office & official party frontbench announcements',
   onRefresh,
   className = '',
@@ -19,6 +19,7 @@ export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [refreshStep, setRefreshStep] = useState('');
   const [justUpdated, setJustUpdated] = useState(false);
+  const [refreshError, setRefreshError] = useState<string | null>(null);
   const [lastUpdatedText, setLastUpdatedText] = useState(defaultDate);
   const [showAuditInfo, setShowAuditInfo] = useState(false);
 
@@ -26,30 +27,31 @@ export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
     if (isRefreshing) return;
     setIsRefreshing(true);
     setJustUpdated(false);
+    setRefreshError(null);
 
     const getStep2Text = () => {
-      if (sectionName.toLowerCase().includes('policy')) return 'Cross-referencing manifesto pledges...';
+      if (sectionName.toLowerCase().includes('policy')) return 'Running live Google Search & RSS policy audit...';
       if (sectionName.toLowerCase().includes('poll')) return 'Aggregating voting intention polls...';
-      if (sectionName.toLowerCase().includes('fact')) return 'Scanning independent fact-checks...';
+      if (sectionName.toLowerCase().includes('fact')) return 'Scanning live independent fact-checks...';
       return 'Cross-referencing parliamentary registers...';
     };
 
     const getStep3Text = () => {
-      if (sectionName.toLowerCase().includes('policy')) return 'Validating party sources & IFS costings...';
+      if (sectionName.toLowerCase().includes('policy')) return 'Syncing verified pledges to Firestore...';
       if (sectionName.toLowerCase().includes('poll')) return 'Calculating multi-pollster averages...';
       if (sectionName.toLowerCase().includes('fact')) return 'Verifying Full Fact & BBC citations...';
       return 'Validating active ministerial appointments...';
     };
 
     try {
-      setRefreshStep('Connecting to verified sources...');
-      await new Promise((r) => setTimeout(r, 250));
+      setRefreshStep('Connecting to live verification engine...');
+      await new Promise((r) => setTimeout(r, 200));
       
       setRefreshStep(getStep2Text());
       if (onRefresh) {
-        // Enforce strict 8-second safety timeout so button NEVER gets stuck
+        // Allow up to 65 seconds for live Google Search Grounding + Firestore sync
         const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Update timed out')), 8000)
+          setTimeout(() => reject(new Error('Live search timed out after 65s')), 65000)
         );
         await Promise.race([Promise.resolve(onRefresh()), timeoutPromise]);
       } else {
@@ -57,7 +59,7 @@ export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
       }
 
       setRefreshStep(getStep3Text());
-      await new Promise((r) => setTimeout(r, 250));
+      await new Promise((r) => setTimeout(r, 200));
 
       const now = new Date();
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -66,16 +68,16 @@ export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
 
       setTimeout(() => {
         setJustUpdated(false);
-      }, 4000);
-    } catch (err) {
-      console.warn(`Refresh for ${sectionName} caught error/timeout, completing with verified record:`, err);
+      }, 4500);
+    } catch (err: any) {
+      console.warn(`Refresh for ${sectionName} encountered error/timeout:`, err);
       const now = new Date();
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      setLastUpdatedText(`Verified Live at ${timeStr}`);
-      setJustUpdated(true);
+      setRefreshError(err?.message || 'Live check timed out');
+      setLastUpdatedText(`Fallback Cache (${timeStr})`);
       setTimeout(() => {
-        setJustUpdated(false);
-      }, 4000);
+        setRefreshError(null);
+      }, 6000);
     } finally {
       setIsRefreshing(false);
       setRefreshStep('');
@@ -91,6 +93,8 @@ export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
           className={`inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-2xs cursor-pointer ${
             isRefreshing
               ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/60 cursor-wait'
+              : refreshError
+              ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800/60'
               : justUpdated
               ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800/60'
               : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border border-slate-200 hover:border-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 dark:hover:text-white dark:border-slate-700 active:scale-95'
@@ -106,7 +110,9 @@ export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
           )}
           <span>
             {isRefreshing
-              ? refreshStep || 'Updating...'
+              ? refreshStep || 'Auditing live sources...'
+              : refreshError
+              ? `Retry (${refreshError})`
               : justUpdated
               ? 'Verified Up to Date!'
               : `Update ${sectionName}`}
@@ -114,7 +120,7 @@ export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
         </button>
 
         <span className="inline-flex items-center space-x-1.5 text-[11px] font-medium text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded-lg">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className={`w-1.5 h-1.5 rounded-full ${refreshError ? 'bg-amber-500' : 'bg-emerald-500 animate-pulse'}`} />
           <span>{lastUpdatedText}</span>
         </span>
 

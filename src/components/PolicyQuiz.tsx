@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { useFirebaseData } from "../providers/FirebaseDataProvider";
 import { Party, PartyId } from '../types/politics';
 import { HelpCircle, CheckCircle, RotateCcw, Award, ChevronRight, Compass } from 'lucide-react';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Cell } from 'recharts';
-import quizQuestionsData from '../data/quizQuestions.json';
+
 
 interface PolicyQuizProps {
   parties: Party[];
@@ -24,9 +25,11 @@ interface Question {
   }[];
 }
 
-const questions = quizQuestionsData as Question[];
+
 
 export const PolicyQuiz: React.FC<PolicyQuizProps> = ({ parties }) => {
+  const { quizQuestions: quizQuestionsData } = useFirebaseData();
+  const questions = (quizQuestionsData || []) as Question[];
   const [currentQuestion, setCurrentQuestion] = useState(0);
   
   // Scoring state

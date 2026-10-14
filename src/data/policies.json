@@ -30,7 +30,7 @@
         "publicSupport": 68,
         "officialSourceTitle": "Labour Party Policy Platform",
         "officialSourceUrl": "https://labour.org.uk/change",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "conservative": {
         "partyId": "conservative",
@@ -50,27 +50,27 @@
         "publicSupport": 61,
         "officialSourceTitle": "Conservative Official Policy & Defence Platform",
         "officialSourceUrl": "https://www.conservatives.com/our-plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "reform": {
         "partyId": "reform",
-        "headline": "Surge Defence to 3% of GDP within 6 Years",
-        "summary": "Aggressively expand defence spending to 3% of GDP (over £100bn/yr), expand British regular armed forces to 100,000, and introduce major veteran benefits.",
+        "headline": "3% GDP Defence Surge, 100k Regular Army, Veterans Dept & Navy Channel Patrols",
+        "summary": "Surge UK defence spending to 3% of GDP within 6 years, expand the regular British Army by 30,000 to 100,000 troops, establish a standalone Ministry for Veterans, grant tax exemptions for military pensions, and deploy the Royal Navy for Channel border interdiction.",
         "keyPoints": [
-          "Increase regular Army from ~73,000 to 100,000 personnel with enhanced enlistment bonuses",
-          "Reinvigorate sovereign defence manufacturing and scrap European joint procurement delays",
-          "Full lifetime tax exemption for all military pensions and wounded veterans",
-          "Withdraw from foreign entanglements not directly serving UK national security"
+          "3% of GDP Defence Target & 100,000 Regular Army: recruit 30,000 additional regular troops with enhanced enlistment bonuses and fast-track recruitment",
+          "Standalone Department for Veterans: dedicated Cabinet-level Veterans Ministry guaranteeing priority access to housing, healthcare, and mental health support",
+          "Military Tax Relief & Sovereign Procurement: exempt active-duty overseas personnel and military pensions from basic-rate income tax; prioritise British defence factories and reject EU defence integration",
+          "Homeland Border Security Tasking: deploy Royal Navy vessels and maritime surveillance under Operation Restoring Justice to intercept unauthorized Channel crossings"
         ],
-        "costEstimate": "Estimated £20bn - £25bn annual increase over baseline",
-        "targetTimeline": "3% of GDP achieved within 6 years",
-        "factCheckSnippet": "Full Fact / IFS: Reaching 3% while simultaneously cutting personal taxes by £70bn+ leaves a massive uncosted fiscal gap.",
+        "costEstimate": "Estimated £20bn–£25bn/yr uplift at 3% GDP, funded via foreign aid cuts and Whitehall DOGE savings",
+        "targetTimeline": "2.5% GDP by Year 3; 3.0% GDP within 6 years",
+        "factCheckSnippet": "RUSI / IFS: Expanding the regular Army from 73,000 to 100,000 reverses two decades of downsizing, though simultaneous £70bn+ tax cuts create significant fiscal tension.",
         "factCheckVerdict": "unfunded",
-        "factCheckSource": "Institute for Fiscal Studies",
-        "publicSupport": 54,
-        "officialSourceTitle": "Reform UK Official Platform",
+        "factCheckSource": "RUSI / Institute for Fiscal Studies",
+        "publicSupport": 56,
+        "officialSourceTitle": "Reform UK National Security & Veterans Contract",
         "officialSourceUrl": "https://www.reformparty.uk/policies",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -90,7 +90,7 @@
         "publicSupport": 59,
         "officialSourceTitle": "Liberal Democrats Official Policy",
         "officialSourceUrl": "https://www.libdems.org.uk/plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "green": {
         "partyId": "green",
@@ -110,7 +110,7 @@
         "publicSupport": 33,
         "officialSourceTitle": "Green Party Policy Platform",
         "officialSourceUrl": "https://greenparty.org.uk/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "snp": {
         "partyId": "snp",
@@ -130,7 +130,7 @@
         "publicSupport": 41,
         "officialSourceTitle": "SNP Policy & Westminster Platform",
         "officialSourceUrl": "https://www.snp.org/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "plaid": {
         "partyId": "plaid",
@@ -150,7 +150,7 @@
         "publicSupport": 38,
         "officialSourceTitle": "Plaid Cymru Policy Platform",
         "officialSourceUrl": "https://partyof.wales/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "restore": {
         "partyId": "restore",
@@ -170,11 +170,11 @@
         "publicSupport": 47,
         "officialSourceTitle": "Restore Britain Movement Charter",
         "officialSourceUrl": "https://restorebritain.org.uk",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       }
     },
     "compass": {
-      "economic": 2.0,
+      "economic": 2,
       "social": 6.5,
       "quadrant": "Auth-Right",
       "summary": "State defence posture & military expansion"
@@ -211,7 +211,7 @@
         "publicSupport": 64,
         "officialSourceTitle": "Labour Party Policy Platform",
         "officialSourceUrl": "https://labour.org.uk/change",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "conservative": {
         "partyId": "conservative",
@@ -231,27 +231,27 @@
         "publicSupport": 52,
         "officialSourceTitle": "Conservative Party Official Policy",
         "officialSourceUrl": "https://www.conservatives.com/our-plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "reform": {
         "partyId": "reform",
-        "headline": "Raise Personal Tax Allowance to £20,000",
-        "summary": "Lift 7 million people out of income tax by lifting personal allowance to £20,000; slash corporation tax to 15% to trigger rapid supply-side growth.",
+        "headline": "£20k Tax Threshold, 'Britannia Card' (£250k Non-Dom Dividend), UK DOGE & 15% Corp Tax",
+        "summary": "Overhaul the tax and state system led by Nigel Farage, Richard Tice, and Robert Jenrick: raise the income tax starting threshold toward £20,000, launch the £250,000 'Britannia Card' non-dom wealth visa to fund a direct tax-free dividend for low-paid British workers, deploy Zia Yusuf’s UK 'DOGE' efficiency units, cut Corporation Tax to 15%, and rescue pubs/hospitality.",
         "keyPoints": [
-          "Raise Income Tax personal allowance from £12,570 to £20,000",
-          "Cut Corporation Tax from 25% to 20%, then to 15% in year three",
-          "Abolish Inheritance Tax entirely for all estates valued under £2 million",
-          "Scrap Employer National Insurance for all businesses under 50 staff"
+          "Lift Personal Tax Allowance toward £20,000 & Abolish IR35: free up to 7 million low earners from income tax, scrap IR35 rules for sole traders/contractors, and abolish inheritance tax on estates under £2m",
+          "The 'Britannia Card' (£250k Non-Dom Wealth Visa): 10-year residency permit for wealthy global investors with 100% of fee revenue distributed directly as a tax-free 'Robin Hood' annual bonus to the bottom 10% of full-time UK workers",
+          "UK 'DOGE' (Department of Government Efficiency): deploy forensic auditors and AI data teams across local councils and Whitehall to cancel consultancy contracts, scrap DEI roles, and slash state waste",
+          "15% Corporation Tax & Pubs/Hospitality Package: cut Corporation Tax from 25% to 15%, slash beer duty by 10p a pint, cut small business employer NI, and reform punitive high-street business rates"
         ],
-        "costEstimate": "Estimated gross revenue loss of £70bn - £80bn per year",
-        "targetTimeline": "Immediate implementation in Year 1",
-        "factCheckSnippet": "IFS & Institute for Government: Package creates an astronomical shortfall requiring severe, unspecified public service cuts.",
+        "costEstimate": "Claims £50bn+/yr savings from DOGE, Net Zero repeal, and Bank of England QE interest reform; IFS estimates £70bn+ net tax cut cost",
+        "targetTimeline": "Immediate Year 1 Emergency Budget & DOGE deployment",
+        "factCheckSnippet": "IFS Analysis: The £250k Britannia Card could attract wealthy non-doms but risks reducing standard HMRC tax yields from existing UK-resident high earners.",
         "factCheckVerdict": "unfunded",
-        "factCheckSource": "Institute for Fiscal Studies",
-        "publicSupport": 63,
-        "officialSourceTitle": "Reform UK Official Platform",
+        "factCheckSource": "Institute for Fiscal Studies (IFS)",
+        "publicSupport": 61,
+        "officialSourceTitle": "Reform UK Economic Growth, Britannia Card & DOGE Blueprint",
         "officialSourceUrl": "https://www.reformparty.uk/policies",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -271,7 +271,7 @@
         "publicSupport": 69,
         "officialSourceTitle": "Liberal Democrats Official Policy",
         "officialSourceUrl": "https://www.libdems.org.uk/plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "green": {
         "partyId": "green",
@@ -291,7 +291,7 @@
         "publicSupport": 72,
         "officialSourceTitle": "Green Party Policy Platform",
         "officialSourceUrl": "https://greenparty.org.uk/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "snp": {
         "partyId": "snp",
@@ -311,7 +311,7 @@
         "publicSupport": 56,
         "officialSourceTitle": "SNP Policy & Westminster Platform",
         "officialSourceUrl": "https://www.snp.org/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "plaid": {
         "partyId": "plaid",
@@ -331,7 +331,7 @@
         "publicSupport": 54,
         "officialSourceTitle": "Plaid Cymru Policy Platform",
         "officialSourceUrl": "https://partyof.wales/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "restore": {
         "partyId": "restore",
@@ -351,12 +351,12 @@
         "publicSupport": 42,
         "officialSourceTitle": "Restore Britain Movement Charter",
         "officialSourceUrl": "https://restorebritain.org.uk",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       }
     },
     "compass": {
       "economic": -3.5,
-      "social": 1.0,
+      "social": 1,
       "quadrant": "Auth-Left",
       "summary": "Progressive taxation vs market deregulation"
     }
@@ -392,7 +392,7 @@
         "publicSupport": 79,
         "officialSourceTitle": "Labour Party Policy Platform",
         "officialSourceUrl": "https://labour.org.uk/change",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "conservative": {
         "partyId": "conservative",
@@ -412,27 +412,27 @@
         "publicSupport": 51,
         "officialSourceTitle": "Conservative Party Official Policy",
         "officialSourceUrl": "https://www.conservatives.com/our-plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "reform": {
         "partyId": "reform",
-        "headline": "Zero Waiting Lists with Patient Choice Vouchers",
-        "summary": "Allow any NHS patient waiting more than 31 days for a consultation to receive an independent healthcare voucher paid by the state; offer 20% tax relief on private healthcare.",
+        "headline": "European-Style Insurance Funding Reform, 31-Day Voucher Right & Frontline Tax Breaks",
+        "summary": "Keep healthcare free at the point of delivery while transitioning away from the centralised Whitehall NHS funding model toward a European-style social health insurance and voucher system, giving patients waiting over 31 days an automatic private treatment voucher and granting 20% tax relief on private healthcare.",
         "keyPoints": [
-          "Give patients the legal right to private treatment funded by NHS if waiting exceeds 31 days",
-          "Zero basic rate income tax for all front-line NHS nurses and doctors for 3 years",
-          "Scrap NHS diversity, equity, and bureaucratic management positions",
-          "20% tax relief on all private medical insurance and treatment costs"
+          "Reform Centralised NHS Funding Model: transition toward a French/German-style insurance and independent provider model while keeping treatment free at the point of delivery",
+          "31-Day Waiting List Voucher Guarantee: automatic legal right to an NHS-funded private healthcare voucher if waiting more than 31 days for a GP or consultant appointment/operation",
+          "20% Private Healthcare Tax Relief: grant 20% tax relief on all private medical insurance and self-funded surgery to encourage millions who can afford it to relieve pressure on NHS beds",
+          "Zero Basic-Rate Tax for Frontline Staff & Cut Bureaucracy: exempt frontline NHS doctors and nurses from basic-rate income tax for 3 years and eliminate all DEI and non-clinical management bloat"
         ],
-        "costEstimate": "Estimated £17bn - £20bn cost per year",
-        "targetTimeline": "Zero waiting list target within 24 months",
-        "factCheckSnippet": "Nuffield Trust: Independent voucher system risks exacerbating NHS workforce drainage into private facilities without increasing total doctor supply.",
+        "costEstimate": "Estimated £17bn/yr for vouchers, tax breaks, and insurance relief",
+        "targetTimeline": "24-month waiting list elimination plan",
+        "factCheckSnippet": "Nuffield Trust / King’s Fund: While European social health insurance systems achieve shorter waits, they typically spend a higher share of GDP on healthcare than the UK.",
         "factCheckVerdict": "disputed",
-        "factCheckSource": "Nuffield Trust",
-        "publicSupport": 49,
-        "officialSourceTitle": "Reform UK Official Platform",
+        "factCheckSource": "Nuffield Trust / The King’s Fund",
+        "publicSupport": 51,
+        "officialSourceTitle": "Reform UK Healthcare & Waiting List Reform Plan",
         "officialSourceUrl": "https://www.reformparty.uk/policies",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -452,7 +452,7 @@
         "publicSupport": 79,
         "officialSourceTitle": "Liberal Democrats Official Policy",
         "officialSourceUrl": "https://www.libdems.org.uk/plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "green": {
         "partyId": "green",
@@ -472,7 +472,7 @@
         "publicSupport": 65,
         "officialSourceTitle": "Green Party Policy Platform",
         "officialSourceUrl": "https://greenparty.org.uk/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "snp": {
         "partyId": "snp",
@@ -492,7 +492,7 @@
         "publicSupport": 60,
         "officialSourceTitle": "SNP Policy & Westminster Platform",
         "officialSourceUrl": "https://www.snp.org/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "plaid": {
         "partyId": "plaid",
@@ -512,7 +512,7 @@
         "publicSupport": 58,
         "officialSourceTitle": "Plaid Cymru Policy Platform",
         "officialSourceUrl": "https://partyof.wales/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "restore": {
         "partyId": "restore",
@@ -532,12 +532,12 @@
         "publicSupport": 45,
         "officialSourceTitle": "Restore Britain Movement Charter",
         "officialSourceUrl": "https://restorebritain.org.uk",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       }
     },
     "compass": {
-      "economic": -6.0,
-      "social": -1.0,
+      "economic": -6,
+      "social": -1,
       "quadrant": "Lib-Left",
       "summary": "Publicly funded universal healthcare & social care"
     }
@@ -548,72 +548,73 @@
     "title": "Immigration, Border Security & Asylum",
     "description": "Net migration levels, work and student visa salary thresholds, Channel small boats, and asylum processing.",
     "officialFigureBenchmark": {
-      "label": "UK Net Migration (Year to Dec 2023 / June 2024)",
-      "value": "approx. 685,000 (Down from peak 764,000 in 2022)",
-      "source": "Office for National Statistics (ONS)"
+      "label": "UK Net Migration & Asylum Backlog (2025/26)",
+      "value": "Net migration falling from 685k peak; Earned Settlement (10-yr ILR) & ECHR debates active",
+      "source": "Office for National Statistics (ONS) / Home Office"
     },
     "publicOpinionQuestion": "Should immigration into the UK be significantly reduced over the next 5 years?",
-    "publicOpinionSupportOverall": 66,
+    "publicOpinionSupportOverall": 68,
     "pledges": {
       "labour": {
         "partyId": "labour",
-        "headline": "Border Security Command & Domestic Skills Linkage",
-        "summary": "Scrapped the unworkable Rwanda scheme; established an elite Border Security Command with counter-terror powers to smash smuggler gangs; linking visa sponsorship to domestic training.",
+        "headline": "Earned Settlement (10-Yr ILR), IIAA Fast-Track Appeals & Border Command",
+        "summary": "Enacting the 'Restoring Order and Control' White Paper and Immigration & Asylum Bill: replacing automatic 5-year settlement with a 10-to-15-year 'Earned Settlement' (ILR) route, replacing first-tier tribunals with the Independent Immigration Appeals Authority (IIAA), tightening ECHR Article 8 claims, and smashing smuggler gangs via the Border Security Command.",
         "keyPoints": [
-          "New Border Security Command equipped with anti-terror warrant and intelligence powers",
-          "End reliance on migrant labour by requiring sectors requesting visas to produce domestic training plans",
-          "Fast-track processing and returns agreements with safe European countries",
-          "End the use of costly asylum hotels, saving over £1bn a year"
+          "Earned Settlement Overhaul: extend Indefinite Leave to Remain (ILR) qualifying timelines from 5 to 10+ years based on economic contribution and B2 English proficiency",
+          "Independent Immigration Appeals Authority (IIAA): fast-track adjudicators to clear asylum backlogs and curb ECHR Article 8 (family life) and Modern Slavery loopholes",
+          "'Core Protection' Asylum Model: shift to temporary 30-month reviewable protection periods and require asylum seekers with assets to contribute toward accommodation costs",
+          "Border Security Command & Skills Linkage: counter-terror powers against smuggling gangs while barring overseas care worker recruitment without domestic workforce training plans"
         ],
-        "costEstimate": "£75m initial Border Security Command fund plus redeployed Rwanda scheme reserves",
-        "targetTimeline": "Halve asylum backlog and close hotels within 3 years",
-        "factCheckSnippet": "Full Fact: Labour cancelled the Rwanda scheme on day one, re-allocating £290m unspent operational funds to border policing.",
+        "costEstimate": "£150m+ Border Security Command & IIAA setup; saves £1bn+/yr closing asylum hotels",
+        "targetTimeline": "Immigration and Asylum Bill & White Paper rules active across 2025–2027",
+        "factCheckSnippet": "Migration Observatory: Extending ILR from 5 to 10 years significantly increases total visa fee and Immigration Health Surcharge revenues while reducing permanent settlement rates.",
         "factCheckVerdict": "verified",
-        "factCheckSource": "Home Office / Full Fact",
+        "factCheckSource": "Oxford Migration Observatory / Home Office",
         "publicSupport": 63,
-        "officialSourceTitle": "Labour Party Policy Platform",
+        "officialSourceTitle": "Restoring Order and Control: Home Office White Paper & Bill",
         "officialSourceUrl": "https://labour.org.uk/change",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "conservative": {
         "partyId": "conservative",
-        "headline": "Strict Legal Cap on Net Migration & Deterrent Flights",
-        "summary": "Introduce a legally binding annual cap on work and family visas that reduces year-on-year, restore third-country deportation deterrence, and increase visa fee surcharges.",
+        "headline": "Leave the ECHR, US-Style 'Removals Force' (150k/yr) & Binding Cap",
+        "summary": "Following Lord Wolfson's legal review, Kemi Badenoch formally committed the Conservative Party to leaving the European Convention on Human Rights (ECHR), repealing the Human Rights Act, establishing a dedicated 'Removals Force' targeting 150,000 deportations a year, and imposing a legally binding annual cap on net migration.",
         "keyPoints": [
-          "Annual legal cap on immigration set by Parliament based on local public service capacity",
-          "Raise skilled worker minimum salary thresholds above £38,700 and ban health/care worker dependants",
-          "Restore offshore processing partnerships to eliminate the incentive for small boat crossings",
-          "Willingness to reform or leave international conventions (like ECHR) if they obstruct deportations"
+          "Formal Manifesto Pledge to Leave the ECHR & Repeal the Human Rights Act to eliminate judicial blocks on deportations",
+          "Dedicated 'Removals Force' (150,000/yr Target): US ICE-style enforcement agency to detain and deport illegal entrants and foreign national offenders",
+          "Abolish Immigration Tribunals & Legal Aid: scrap judicial reviews, standard tribunal appeals, and legal aid for unauthorized border crossings",
+          "Binding Annual Parliament Cap & Restricted ILR: strict parliamentary cap on work/family visas and bar temporary visa holders from automatic permanent settlement or welfare"
         ],
-        "costEstimate": "Projected net positive revenue from higher visa fees and lower asylum accommodation costs",
-        "targetTimeline": "Immediate statutory cap in year one",
-        "factCheckSnippet": "Migration Observatory: Visa salary threshold increases enacted in early 2024 already caused student and healthcare visa grants to drop over 30%.",
-        "factCheckVerdict": "verified",
-        "factCheckSource": "Oxford Migration Observatory",
+        "costEstimate": "Funded by cutting asylum legal aid and hotel accommodation contracts",
+        "targetTimeline": "Immediate ECHR withdrawal bill in Year 1",
+        "factCheckSnippet": "Institute for Government / Wolfson Review: Leaving the ECHR removes Strasbourg injunctions but requires renegotiating parts of the EU Trade and Cooperation Agreement and Good Friday frameworks.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "Institute for Government / Full Fact",
         "publicSupport": 62,
-        "officialSourceTitle": "Conservative Party Official Policy",
+        "officialSourceTitle": "Conservative Borders Plan & Wolfson ECHR Commission",
         "officialSourceUrl": "https://www.conservatives.com/our-plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "reform": {
         "partyId": "reform",
-        "headline": "Freeze Non-Essential Immigration & Leave ECHR",
-        "summary": "Institute a complete freeze on non-essential immigration, pick up and immediately return all Channel boats to France, and leave the European Convention on Human Rights.",
+        "headline": "5-Yr Asylum Freeze (Void 90k Claims), 1M+ Deportations, Abolish ILR & Visa Sanctions",
+        "summary": "Comprehensive border and residency overhaul unveiled by Nigel Farage and Zia Yusuf: completely suspend the UK asylum system for 5 years, void ~90,000 pending asylum claims, target 'north of 1 million' deportations via a UK Deportation Command, abolish Indefinite Leave to Remain (ILR), bar foreign nationals from welfare/social housing, and impose visa bans, asset freezes, flight bans, and tariffs on countries refusing deportees.",
         "keyPoints": [
-          "Freeze non-essential immigration; strict one-in-one-out quota for skilled migrants",
-          "Leave the European Convention on Human Rights (ECHR) to eliminate judicial deportation delays",
-          "Bar illegal migrants from ever applying for British citizenship or claiming welfare benefits",
-          "Employer Immigration Tax: charge employers a 20% National Insurance surcharge for hiring foreign staff"
+          "5-Year Asylum Suspension & Voiding 90,000 Pending Claims: enact the Illegal Migration (Mass Deportation) Bill to suspend all asylum claims for 5 years, void ~90,000 pending applications, abolish asylum tribunals, and review post-2024 grants",
+          "Deport 'North of 1 Million People' & UK Deportation Command: establish a dedicated Deportation Command under 'Operation Restoring Justice' utilizing detention capacity, third-country agreements, and direct return deals (including Afghanistan and Eritrea)",
+          "Visa Bans, Asset Freezes, Flight Bans & Tariffs on Uncooperative States: penalize countries refusing deported nationals (naming Pakistan, Afghanistan, Syria, Eritrea, Sudan, Somalia) with immediate visa suspensions, London asset freezes, airspace bans, and trade tariffs",
+          "Abolish Indefinite Leave to Remain (ILR) & Public Funds Ban: scrap permanent settlement (ILR) in favour of 5-year renewable work visas at £45k–£60k+ salary thresholds, extend citizenship timelines, and restrict all welfare and social housing strictly to British citizens",
+          "Leave the ECHR & Repeal the Human Rights Act: withdraw from the European Convention on Human Rights and disapply the 1951 Refugee Convention to end judicial blocks on removals"
         ],
-        "costEstimate": "Self-funding through reduced public service consumption and immigration surcharge",
-        "targetTimeline": "Legislate within first 100 days",
-        "factCheckSnippet": "Full Fact / Law Society: Leaving ECHR requires rewriting the Good Friday Agreement in Northern Ireland and faces severe bilateral legal hurdles with France.",
+        "costEstimate": "Claims £10bn+/yr savings by ending asylum hotels, foreign national welfare, and legal aid",
+        "targetTimeline": "Immediate Day-1 emergency legislation & 5-year parliamentary term freeze",
+        "factCheckSnippet": "Oxford Migration Observatory / IFS: Retrospectively scrapping ILR and deporting 1m+ people faces major diplomatic, logistical, and sector workforce hurdles in health and hospitality.",
         "factCheckVerdict": "disputed",
-        "factCheckSource": "Full Fact / British Institute of International Law",
-        "publicSupport": 53,
-        "officialSourceTitle": "Reform UK Official Platform",
+        "factCheckSource": "Oxford Migration Observatory / Full Fact",
+        "publicSupport": 58,
+        "officialSourceTitle": "Reform UK: Operation Restoring Justice, Hythe Visa Sanctions & ILR Abolition",
         "officialSourceUrl": "https://www.reformparty.uk/policies",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -633,7 +634,7 @@
         "publicSupport": 48,
         "officialSourceTitle": "Liberal Democrats Official Policy",
         "officialSourceUrl": "https://www.libdems.org.uk/plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "green": {
         "partyId": "green",
@@ -653,7 +654,7 @@
         "publicSupport": 32,
         "officialSourceTitle": "Green Party Policy Platform",
         "officialSourceUrl": "https://greenparty.org.uk/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "snp": {
         "partyId": "snp",
@@ -673,7 +674,7 @@
         "publicSupport": 52,
         "officialSourceTitle": "SNP Policy & Westminster Platform",
         "officialSourceUrl": "https://www.snp.org/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "plaid": {
         "partyId": "plaid",
@@ -693,7 +694,7 @@
         "publicSupport": 46,
         "officialSourceTitle": "Plaid Cymru Policy Platform",
         "officialSourceUrl": "https://partyof.wales/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "restore": {
         "partyId": "restore",
@@ -713,12 +714,12 @@
         "publicSupport": 48,
         "officialSourceTitle": "Restore Britain Movement Charter",
         "officialSourceUrl": "https://restorebritain.org.uk",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       }
     },
     "compass": {
       "economic": 1.5,
-      "social": 8.0,
+      "social": 8,
       "quadrant": "Auth-Right",
       "summary": "Border enforcement, detention, ECHR jurisdiction"
     }
@@ -754,7 +755,7 @@
         "publicSupport": 65,
         "officialSourceTitle": "Labour Party Policy Platform",
         "officialSourceUrl": "https://labour.org.uk/change",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "conservative": {
         "partyId": "conservative",
@@ -774,27 +775,27 @@
         "publicSupport": 57,
         "officialSourceTitle": "Conservative Party Official Policy",
         "officialSourceUrl": "https://www.conservatives.com/our-plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "reform": {
         "partyId": "reform",
-        "headline": "Scrap Net Zero Entirely & Fast-Track UK Shale Gas",
-        "summary": "Abolish the 2050 Net Zero legal target, scrap all green subsidies to lower consumer energy bills by £500/year, and aggressively expand North Sea oil, gas, and fracking.",
+        "headline": "Scrap Net Zero, Nationalise British Steel & 50% Public Ownership of Water Utilities",
+        "summary": "Abandon Net Zero entirely and repeal the Climate Change Act to slash industrial and household energy bills, fast-track North Sea oil, gas, and shale fracking, while adopting strategic industrial intervention by nationalising British Steel (#SaveOurSteel) and taking failing water utilities into 50% public ownership.",
         "keyPoints": [
-          "Repeal the Climate Change Act 2008 and abolish all Net Zero mandates",
-          "Fast-track domestic exploration for oil, gas, and onshore shale fracking",
-          "Scrap environmental levies and renewable subsidies on household energy bills",
-          "Keep coal-fired power stations available as national strategic standby reserves"
+          "Repeal Net Zero & Climate Change Act: scrap all Net Zero targets, green levies, heat pump mandates, and EV sales bans to cut energy bills and re-industrialise Britain",
+          "Nationalise British Steel (#SaveOurSteel): bring primary British steelmaking and blast furnaces into sovereign public ownership to protect national security and working-class industrial jobs",
+          "50% Public Ownership of Water Companies: restructure indebted water utilities into a 50% state-owned, 50% British pension-fund-owned model with strict sewage enforcement",
+          "Fast-Track North Sea Oil, Gas & British SMRs: mandate immediate North Sea oil and gas licensing, lift bans on domestic shale gas fracking, and build UK-designed Small Modular Nuclear Reactors"
         ],
-        "costEstimate": "Claims to save £30bn per year in subsidies and energy costs",
-        "targetTimeline": "Immediate statutory repeal",
-        "factCheckSnippet": "Full Fact / CCC: Gas is the primary driver of high electricity bills under the UK marginal pricing system; cutting green levies saves roughly £170, not £500.",
+        "costEstimate": "Claims £30bn/yr saved from green subsidies; steel/water stakes financed via debt restructuring",
+        "targetTimeline": "Immediate statutory repeal of Net Zero in Year 1",
+        "factCheckSnippet": "Full Fact / Ofgem: Cutting green levies saves ~£150–£170/yr on average household bills, while partial water nationalisation requires complex bondholder restructuring.",
         "factCheckVerdict": "disputed",
         "factCheckSource": "Full Fact / Ofgem",
-        "publicSupport": 38,
-        "officialSourceTitle": "Reform UK Official Platform",
+        "publicSupport": 48,
+        "officialSourceTitle": "Reform UK Energy Independence, #SaveOurSteel & Utility Ownership Plan",
         "officialSourceUrl": "https://www.reformparty.uk/policies",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -814,7 +815,7 @@
         "publicSupport": 67,
         "officialSourceTitle": "Liberal Democrats Official Policy",
         "officialSourceUrl": "https://www.libdems.org.uk/plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "green": {
         "partyId": "green",
@@ -834,7 +835,7 @@
         "publicSupport": 45,
         "officialSourceTitle": "Green Party Policy Platform",
         "officialSourceUrl": "https://greenparty.org.uk/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "snp": {
         "partyId": "snp",
@@ -854,7 +855,7 @@
         "publicSupport": 58,
         "officialSourceTitle": "SNP Policy & Westminster Platform",
         "officialSourceUrl": "https://www.snp.org/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "plaid": {
         "partyId": "plaid",
@@ -874,7 +875,7 @@
         "publicSupport": 55,
         "officialSourceTitle": "Plaid Cymru Policy Platform",
         "officialSourceUrl": "https://partyof.wales/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "restore": {
         "partyId": "restore",
@@ -894,11 +895,11 @@
         "publicSupport": 34,
         "officialSourceTitle": "Restore Britain Movement Charter",
         "officialSourceUrl": "https://restorebritain.org.uk",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       }
     },
     "compass": {
-      "economic": -5.0,
+      "economic": -5,
       "social": -2.5,
       "quadrant": "Lib-Left",
       "summary": "Green transition, public energy, climate regulations"
@@ -935,7 +936,7 @@
         "publicSupport": 64,
         "officialSourceTitle": "Labour Party Policy Platform",
         "officialSourceUrl": "https://labour.org.uk/change",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "conservative": {
         "partyId": "conservative",
@@ -955,27 +956,27 @@
         "publicSupport": 58,
         "officialSourceTitle": "Conservative Party Official Policy",
         "officialSourceUrl": "https://www.conservatives.com/our-plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "reform": {
         "partyId": "reform",
-        "headline": "Fast-Track Planning for British Citizens & Brownfield Incentives",
-        "summary": "Dramatically streamline planning permissions, offer tax breaks for building on brownfield land, prioritize social housing for British nationals, and scrap environmental planning delays.",
+        "headline": "'British Homes for British Workers': Citizen-Only Social Housing & Fast-Track Brownfield",
+        "summary": "Mandate that social and council housing is reserved strictly for British citizens, immediately end Home Office procurement of private rental properties for asylum seekers, cut net migration to relieve housing demand, and fast-track brownfield regeneration while repealing landlord regulations that shrink rental supply.",
         "keyPoints": [
-          "Fast-track planning decisions within 4 weeks for approved residential developments",
-          "Substantial tax incentives and VAT relief for brownfield regeneration",
-          "Local connection and British citizenship requirements for all social housing allocations",
-          "Scrap Section 106 and infrastructure levies on smaller home builders"
+          "Strict British Citizen Priority for Social Housing: legally require British citizenship and local multi-year residency for all council and housing association allocations ('British Homes for British Workers')",
+          "Ban Asylum Seeker Use of Private Rental Stock: prohibit the Home Office and Serco/Mears contractors from outbidding local renters for private houses and HMOs",
+          "Relieve Demand via Net-Zero Essential Migration: curb population-driven housing pressure by freezing non-essential immigration and student dependants",
+          "Fast-Track Brownfield & Protect Private Landlords: grant automatic 4-week planning approvals on urban brownfield sites, scrap nutrient neutrality and Section 106 delays for SME builders, and repeal punitive landlord rules"
         ],
-        "costEstimate": "Financed by cutting planning bureaucracy",
-        "targetTimeline": "Immediate deregulatory measures",
-        "factCheckSnippet": "Local Government Association: Social housing allocation already strongly prioritises local connection rules across 90%+ of councils.",
+        "costEstimate": "Market-led brownfield incentives; saves £2bn+/yr ending private asylum accommodation contracts",
+        "targetTimeline": "Immediate statutory housing allocation directive in Year 1",
+        "factCheckSnippet": "Chartered Institute of Housing: Around 90% of social housing lets already go to UK nationals, though ending private asylum dispersal contracts would free up localized HMO stock.",
         "factCheckVerdict": "clarified",
-        "factCheckSource": "Local Government Association",
-        "publicSupport": 57,
-        "officialSourceTitle": "Reform UK Official Platform",
+        "factCheckSource": "Chartered Institute of Housing / LGA",
+        "publicSupport": 59,
+        "officialSourceTitle": "Reform UK Housing, Planning & Social Allocation Platform",
         "officialSourceUrl": "https://www.reformparty.uk/policies",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -995,7 +996,7 @@
         "publicSupport": 66,
         "officialSourceTitle": "Liberal Democrats Official Policy",
         "officialSourceUrl": "https://www.libdems.org.uk/plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "green": {
         "partyId": "green",
@@ -1015,7 +1016,7 @@
         "publicSupport": 54,
         "officialSourceTitle": "Green Party Policy Platform",
         "officialSourceUrl": "https://greenparty.org.uk/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "snp": {
         "partyId": "snp",
@@ -1035,7 +1036,7 @@
         "publicSupport": 59,
         "officialSourceTitle": "SNP Policy & Westminster Platform",
         "officialSourceUrl": "https://www.snp.org/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "plaid": {
         "partyId": "plaid",
@@ -1055,7 +1056,7 @@
         "publicSupport": 63,
         "officialSourceTitle": "Plaid Cymru Policy Platform",
         "officialSourceUrl": "https://partyof.wales/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "restore": {
         "partyId": "restore",
@@ -1075,7 +1076,7 @@
         "publicSupport": 44,
         "officialSourceTitle": "Restore Britain Movement Charter",
         "officialSourceUrl": "https://restorebritain.org.uk",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       }
     },
     "compass": {
@@ -1115,7 +1116,7 @@
         "factCheckSource": "IFS / Burnham Policy Launch",
         "officialSourceTitle": "Labour Party Official Platform",
         "officialSourceUrl": "https://labour.org.uk/change",
-        "lastVerifiedDate": "September 2026",
+        "lastVerifiedDate": "October 2026",
         "publicSupport": 65
       },
       "conservative": {
@@ -1135,28 +1136,28 @@
         "factCheckSource": "Full Fact / HMRC",
         "officialSourceTitle": "Conservative Party Official Policy",
         "officialSourceUrl": "https://www.conservatives.com/our-plan",
-        "lastVerifiedDate": "September 2026",
+        "lastVerifiedDate": "October 2026",
         "publicSupport": 70
       },
       "reform": {
         "partyId": "reform",
-        "headline": "Protect Triple Lock & Raise Personal Allowance to £20,000",
-        "summary": "Retain the state pension triple lock and lift the universal income tax personal allowance from £12,570 to £20,000, instantly lifting all pensioners out of income tax.",
+        "headline": "Ban Foreign Nationals from Welfare, 20-Hr Work Mandate, Restore Winter Fuel & Triple Lock",
+        "summary": "Overhaul the UK welfare state to save tens of billions by barring all non-UK citizens (including settled status holders) from Universal Credit and welfare benefits, requiring fit-to-work claimants to do 20 hours/week of community work, overhauling PIP assessments, restoring universal Winter Fuel Payments, and protecting the State Pension Triple Lock.",
         "keyPoints": [
-          "Maintain the state pension triple lock without conditions",
-          "Lift personal income tax allowance to £20,000 for everyone",
-          "Scrap tax on medical insurance to let pensioners use private care and ease NHS strain",
-          "Fund through cutting Whitehall DEI spending and unspent foreign aid"
+          "Total Welfare Ban for Foreign Nationals: restrict Universal Credit, child benefit, and non-contributory welfare strictly to British citizens, removing entitlement from settled foreign nationals and visa holders",
+          "Mandatory 20-Hour/Week Community Work & 2-Strike Job Rule: require long-term unemployed claimants deemed fit to work to complete 20 hours/week of civic community work and withdraw benefits if two job offers are refused",
+          "PIP & Disability Benefit Overhaul: enforce in-person medical assessments and replace cash PIP payments for mild anxiety/depression claims with targeted treatment and in-kind support",
+          "Protect Triple Lock, Restore Winter Fuel & Working-Family Child Cap: unconditionally protect the State Pension Triple Lock, restore universal Winter Fuel Payments, and enforce the two-child benefit cap with exemptions strictly for full-time working British couples"
         ],
-        "costEstimate": "Estimated £70bn/yr for £20k allowance; funding mechanism disputed",
-        "targetTimeline": "First Parliamentary budget",
-        "factCheckSnippet": "IFS: Raising allowance to £20k is immensely popular with pensioners but leaves a massive uncosted deficit.",
-        "factCheckVerdict": "unfunded",
-        "factCheckSource": "Institute for Fiscal Studies",
-        "officialSourceTitle": "Reform UK Official Platform",
+        "costEstimate": "Claims £15bn–£25bn/yr savings from foreign national welfare ban and PIP/workfare reforms",
+        "targetTimeline": "Immediate Year 1 Welfare Reform & Citizens Entitlement Bill",
+        "factCheckSnippet": "IFS / OBR: Barring non-citizens from Universal Credit yields multi-billion savings but requires overturning EU Withdrawal Agreement settled-status treaty rights.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "Institute for Fiscal Studies (IFS)",
+        "publicSupport": 64,
+        "officialSourceTitle": "Reform UK Welfare Overhaul, Winter Fuel & Pensioner Guarantee",
         "officialSourceUrl": "https://www.reformparty.uk/policies",
-        "lastVerifiedDate": "September 2026",
-        "publicSupport": 74
+        "lastVerifiedDate": "October 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -1175,7 +1176,7 @@
         "factCheckSource": "The King's Fund / Lib Dem Costing",
         "officialSourceTitle": "Liberal Democrats Official Plan",
         "officialSourceUrl": "https://www.libdems.org.uk/plan",
-        "lastVerifiedDate": "September 2026",
+        "lastVerifiedDate": "October 2026",
         "publicSupport": 68
       },
       "green": {
@@ -1195,7 +1196,7 @@
         "factCheckSource": "Full Fact",
         "officialSourceTitle": "Green Party Manifesto",
         "officialSourceUrl": "https://greenparty.org.uk/manifesto",
-        "lastVerifiedDate": "September 2026",
+        "lastVerifiedDate": "October 2026",
         "publicSupport": 61
       },
       "snp": {
@@ -1215,7 +1216,7 @@
         "factCheckSource": "Parliamentary and Health Service Ombudsman (PHSO)",
         "officialSourceTitle": "SNP Official Manifesto",
         "officialSourceUrl": "https://www.snp.org/manifesto",
-        "lastVerifiedDate": "September 2026",
+        "lastVerifiedDate": "October 2026",
         "publicSupport": 73
       },
       "plaid": {
@@ -1235,7 +1236,7 @@
         "factCheckSource": "Wales Governance Centre",
         "officialSourceTitle": "Plaid Cymru Official Manifesto",
         "officialSourceUrl": "https://partyof.wales/manifesto",
-        "lastVerifiedDate": "September 2026",
+        "lastVerifiedDate": "October 2026",
         "publicSupport": 67
       },
       "restore": {
@@ -1255,12 +1256,12 @@
         "factCheckSource": "Ofgem / House of Commons Library",
         "officialSourceTitle": "Restore Britain Charter",
         "officialSourceUrl": "https://restorebritain.org.uk",
-        "lastVerifiedDate": "September 2026",
+        "lastVerifiedDate": "October 2026",
         "publicSupport": 63
       }
     },
     "compass": {
-      "economic": -4.0,
+      "economic": -4,
       "social": 1.5,
       "quadrant": "Auth-Left",
       "summary": "State pension protection & nationalised care service"
@@ -1304,7 +1305,7 @@
         "publicSupport": 68,
         "officialSourceTitle": "Labour Manifesto: Break Down Barriers to Opportunity",
         "officialSourceUrl": "https://labour.org.uk/change",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "conservative": {
         "partyId": "conservative",
@@ -1325,28 +1326,27 @@
         "publicSupport": 48,
         "officialSourceTitle": "Conservative Education & National Service Platform",
         "officialSourceUrl": "https://www.conservatives.com/our-plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "reform": {
         "partyId": "reform",
-        "headline": "Scrap VAT on Independent Schools, Offer 20% Tax Relief & Cancel Student Loan Interest",
-        "summary": "Abolish VAT on private school fees and grant a 20% tax relief on fees to encourage independent schooling and relieve state school congestion; eliminate interest on student loans; defund universities offering degrees with low graduate employment; and ban political bias and gender theory in classrooms.",
+        "headline": "Repeal Private School VAT, 20% Fee Tax Relief, Scrap Loan Interest & Ban Gender Ideology",
+        "summary": "Led by Shadow Education Spokesperson Suella Braverman: immediately repeal Labour’s 20% VAT on independent schools and grant 20% tax relief on private school fees, scrap student loan interest, defund low-value university courses in favour of trade apprenticeships, and enforce a statutory ban on gender ideology and critical race theory in schools.",
         "keyPoints": [
-          "Scrap VAT on independent school tuition and introduce 20% tax voucher relief",
-          "Abolish interest charges on student loans to ease graduate financial burdens",
-          "Mandate political neutrality and ban gender ideology teaching in schools",
-          "Cut public subsidies and student loan access for low-progression university degrees",
-          "Promote traditional British history and patriotic civic values in the national curriculum"
+          "Repeal 20% VAT & Grant 20% Tax Relief on Independent Schools: reverse Labour’s private school VAT policy and provide a 20% tax deduction for parents paying independent school fees to relieve state classroom overcrowding",
+          "Scrap Student Loan Interest & Mandate 2-Year Degrees: abolish interest on student loans (0% real rate), require universities to offer fast-track 2-year degrees, and cut funding for low-employability courses",
+          "Statutory Ban on Gender Ideology & Critical Race Theory: prohibit schools from teaching contested gender identity concepts or critical race theory, mandating parental notification and single-sex spaces",
+          "Patriotic Curriculum & Technical Apprenticeships: require balanced teaching of British imperial and constitutional history and redirect university subsidies into vocational engineering, construction, and trade apprenticeships"
         ],
-        "costEstimate": "Student loan interest cancellation estimated at £4bn - £5bn/yr; private school relief £1.2bn",
-        "targetTimeline": "Immediate 100-day legislative priority",
-        "factCheckSnippet": "IFS warns: Scrapping student loan interest predominantly benefits higher-earning graduates who would otherwise pay off full interest.",
+        "costEstimate": "Estimated £4bn–£5bn/yr for student loan interest abolition and £1.5bn/yr for independent school tax relief",
+        "targetTimeline": "Immediate 100-day Education & Parental Rights Bill",
+        "factCheckSnippet": "IFS Education Analysis: Repealing VAT on private schools and adding 20% tax relief costs ~£3bn/yr net, primarily benefiting higher-income households.",
         "factCheckVerdict": "needs context",
         "factCheckSource": "Institute for Fiscal Studies (IFS)",
-        "publicSupport": 44,
-        "officialSourceTitle": "Reform UK Contract with You: Education & Universities",
+        "publicSupport": 47,
+        "officialSourceTitle": "Reform UK Education, Universities & Parental Rights Platform",
         "officialSourceUrl": "https://www.reformparty.uk/policies",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "libdem": {
         "partyId": "libdem",
@@ -1367,7 +1367,7 @@
         "publicSupport": 69,
         "officialSourceTitle": "Liberal Democrat Manifesto: Fair Deal for Education",
         "officialSourceUrl": "https://www.libdems.org.uk/plan",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "green": {
         "partyId": "green",
@@ -1388,7 +1388,7 @@
         "publicSupport": 59,
         "officialSourceTitle": "Green Party Manifesto: Real Hope, Real Change for Education",
         "officialSourceUrl": "https://greenparty.org.uk/manifesto",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "snp": {
         "partyId": "snp",
@@ -1408,7 +1408,7 @@
         "publicSupport": 73,
         "officialSourceTitle": "SNP Policy Platform: Defending Scotland's Education",
         "officialSourceUrl": "https://www.snp.org/policies",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "plaid": {
         "partyId": "plaid",
@@ -1428,7 +1428,7 @@
         "publicSupport": 67,
         "officialSourceTitle": "Plaid Cymru Policy: An Education System for Wales",
         "officialSourceUrl": "https://partyof.wales/policies",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       },
       "restore": {
         "partyId": "restore",
@@ -1448,7 +1448,7 @@
         "publicSupport": 42,
         "officialSourceTitle": "Restore Britain: Reclaiming British Education",
         "officialSourceUrl": "https://restorebritain.org.uk/education",
-        "lastVerifiedDate": "September 2026"
+        "lastVerifiedDate": "October 2026"
       }
     }
   }
