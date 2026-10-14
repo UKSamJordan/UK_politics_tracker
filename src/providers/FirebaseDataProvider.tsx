@@ -49,10 +49,24 @@ export const FirebaseDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const unsubPolicies = onSnapshot(collection(db, 'policies'), (snap) => {
       if (!snap.empty) {
         const orderMap = new Map((policiesData as PolicyTopic[]).map((t, idx) => [t.id, idx]));
-        const ordered = snap.docs
-          .map((d) => d.data() as PolicyTopic)
-          .sort((a, b) => (orderMap.get(a.id) ?? 99) - (orderMap.get(b.id) ?? 99));
-        setPolicies(ordered);
+        const liveMap = new Map(snap.docs.map((d) => [d.id, d.data() as PolicyTopic]));
+        const merged: PolicyTopic[] = [];
+        for (const baseTopic of policiesData as PolicyTopic[]) {
+          merged.push(liveMap.get(baseTopic.id) || baseTopic);
+          liveMap.delete(baseTopic.id);
+        }
+        // Append any custom or newly created topics from Firestore
+        for (const extraTopic of liveMap.values()) {
+          merged.unshift(extraTopic);
+        }
+        merged.sort((a, b) => {
+          const aIsCustom = a.category === 'custom';
+          const bIsCustom = b.category === 'custom';
+          if (aIsCustom && !bIsCustom) return -1;
+          if (!aIsCustom && bIsCustom) return 1;
+          return (orderMap.get(a.id) ?? 99) - (orderMap.get(b.id) ?? 99);
+        });
+        setPolicies(merged);
       }
     });
     const unsubPolls = onSnapshot(doc(db, 'polls', 'current'), (snap) => {

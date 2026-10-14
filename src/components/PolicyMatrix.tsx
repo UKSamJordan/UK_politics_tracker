@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Party, PartyId, PolicyTopic, PolicyCategory } from '../types/politics';
+import { Party, PartyId, PolicyTopic } from '../types/politics';
 import { 
   Shield, 
   TrendingUp, 
@@ -8,6 +8,7 @@ import {
   Zap, 
   Home, 
   Heart,
+  Globe,
   Search, 
   CheckCircle2, 
   AlertTriangle, 
@@ -20,11 +21,17 @@ import {
   Sparkles,
   RefreshCw,
   GraduationCap,
-  Quote
+  Quote,
+  Trash2
 } from 'lucide-react';
 import { SectionRefreshButton } from './SectionRefreshButton';
 import { PolicyChangeReport } from '../services/liveUpdater';
-import { verifyPledgeRecency, PledgeVerificationResult, isQuoteStaleOrInvalid } from '../services/policyTrackerQuery';
+import {
+  verifyPledgeRecency,
+  PledgeVerificationResult,
+  isQuoteStaleOrInvalid,
+  generateCustomPolicyComparison
+} from '../services/policyTrackerQuery';
 
 interface PolicyMatrixProps {
   parties: Party[];
@@ -32,6 +39,17 @@ interface PolicyMatrixProps {
   policies: PolicyTopic[];
   onRefreshPolicies?: (category?: string) => Promise<PolicyChangeReport | void> | void;
 }
+
+const CUSTOM_POLICIES_STORAGE_KEY = 'uk_politics_custom_policy_topics_v1';
+
+const SUGGESTED_CUSTOM_TOPICS = [
+  'Transport, Rail & HS2',
+  'Crime, Policing & Prisons',
+  'Water Companies & Sewage',
+  'Farming & Inheritance Tax',
+  'Childcare & Early Years',
+  'AI & Tech Regulation',
+];
 
 export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
   parties,
@@ -44,6 +62,52 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
   const [expandedTopic, setExpandedTopic] = useState<string | null>(null);
   const [lastChangeReport, setLastChangeReport] = useState<PolicyChangeReport | null>(null);
   const [showReportDetails, setShowReportDetails] = useState(false);
+
+  // Live Custom Policy Comparator State
+  const [customTopics, setCustomTopics] = useState<PolicyTopic[]>(() => {
+    try {
+      const saved = localStorage.getItem(CUSTOM_POLICIES_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [customTopicInput, setCustomTopicInput] = useState('');
+  const [isGeneratingCustom, setIsGeneratingCustom] = useState(false);
+  const [customError, setCustomError] = useState<string | null>(null);
+
+  const handleGenerateCustomTopic = async (queryOverride?: string) => {
+    const queryToRun = (queryOverride ?? customTopicInput).trim();
+    if (!queryToRun || isGeneratingCustom) return;
+
+    setIsGeneratingCustom(true);
+    setCustomError(null);
+    try {
+      const generatedTopic = await generateCustomPolicyComparison(queryToRun);
+      const updated = [
+        generatedTopic,
+        ...customTopics.filter((t) => t.title.toLowerCase() !== generatedTopic.title.toLowerCase()),
+      ];
+      setCustomTopics(updated);
+      localStorage.setItem(CUSTOM_POLICIES_STORAGE_KEY, JSON.stringify(updated));
+      setCustomTopicInput('');
+      setSearchQuery('');
+      setSelectedCategory('all');
+      setExpandedTopic(generatedTopic.id);
+    } catch (err: any) {
+      console.error('Custom policy comparison failed:', err);
+      setCustomError(err?.message || 'Failed to generate live 8-party comparison. Please try again.');
+    } finally {
+      setIsGeneratingCustom(false);
+    }
+  };
+
+  const handleRemoveCustomTopic = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const updated = customTopics.filter((t) => t.id !== id);
+    setCustomTopics(updated);
+    localStorage.setItem(CUSTOM_POLICIES_STORAGE_KEY, JSON.stringify(updated));
+  };
 
   // AI Pledge Recency Verification State (v5 enforces strict 2024-2026 recency and updated Reform/Labour/Tory platforms)
   const PLEDGE_VERIF_STORAGE_KEY = 'uk_politics_pledge_verifications_v5';
@@ -140,18 +204,25 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
 
   const categories = [
     { id: 'all', label: 'All Policy Areas', icon: null },
+    ...(customTopics.length > 0
+      ? [{ id: 'custom', label: `Custom Comparisons (${customTopics.length})`, icon: Sparkles }]
+      : []),
     { id: 'defence', label: 'Defence & Military', icon: Shield },
     { id: 'economy', label: 'Economy & Tax', icon: TrendingUp },
     { id: 'welfare', label: 'Pensions & Social Care', icon: Heart },
     { id: 'nhs', label: 'NHS & Healthcare', icon: HeartPulse },
     { id: 'immigration', label: 'Immigration & Borders', icon: Plane },
+    { id: 'eu', label: 'EU & Trade Relations', icon: Globe },
     { id: 'education', label: 'Education & Universities', icon: GraduationCap },
     { id: 'energy', label: 'Energy & Net Zero', icon: Zap },
     { id: 'housing', label: 'Housing & Planning', icon: Home },
   ];
 
+  // Combine custom-generated topics at the top with core policy topics
+  const allPolicies = [...customTopics, ...policies];
+
   // Filter policies based on category and search query
-  const filteredPolicies = policies.filter((topic) => {
+  const filteredPolicies = allPolicies.filter((topic) => {
     const matchesCategory = selectedCategory === 'all' || topic.category === selectedCategory;
     const matchesSearch = 
       searchQuery.trim() === '' ||
@@ -234,18 +305,99 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
               onRefresh={handleRefreshWithDiff}
             />
 
-            {/* Search Input */}
+            {/* Filter Existing Pledges Input */}
             <div className="relative">
               <Search className="w-4 h-4 text-slate-400 dark:text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Search pledges (e.g. 3%, triple lock, NHS)..."
+                placeholder="Filter pledges (e.g. 3%, Brexit, NHS)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && searchQuery.trim() && filteredPolicies.length === 0) {
+                    handleGenerateCustomTopic(searchQuery);
+                  }
+                }}
                 className="w-full sm:w-64 pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 focus:bg-white dark:focus:bg-slate-800 transition-all"
               />
             </div>
           </div>
+        </div>
+
+        {/* Live Any-Topic 8-Party Policy Comparator Bar */}
+        <div className="p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-indigo-50/80 via-slate-50 to-rose-50/70 dark:from-indigo-950/30 dark:via-slate-900 dark:to-rose-950/20 border border-indigo-200/70 dark:border-indigo-900/60 space-y-2.5">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+            <div className="flex items-start sm:items-center space-x-2">
+              <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5 sm:mt-0" />
+              <div>
+                <span className="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white">
+                  Compare Any Specific Policy Issue Across All 8 Parties
+                </span>
+                <span className="hidden sm:inline text-xs text-slate-500 dark:text-slate-400 ml-2">
+                  Type any policy topic (e.g. Transport, Rail & HS2, Crime & Policing, Water & Sewage) to build a live side-by-side comparison card.
+                </span>
+              </div>
+            </div>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleGenerateCustomTopic();
+              }}
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full lg:w-auto"
+            >
+              <input
+                type="text"
+                value={customTopicInput}
+                onChange={(e) => setCustomTopicInput(e.target.value)}
+                placeholder="Ask any policy topic (e.g. Transport & Rail, Crime, Farming)..."
+                disabled={isGeneratingCustom}
+                className="w-full sm:w-72 px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+              />
+              <button
+                type="submit"
+                disabled={isGeneratingCustom || !customTopicInput.trim()}
+                className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-bold text-xs sm:text-sm flex items-center justify-center space-x-1.5 transition-all cursor-pointer shrink-0 shadow-xs"
+              >
+                {isGeneratingCustom ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Comparing 8 Parties...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Compare Policy</span>
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+
+          {/* Quick-Select Popular Policy Topics */}
+          <div className="flex items-center flex-wrap gap-1.5 pt-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mr-1">
+              Quick compare:
+            </span>
+            {SUGGESTED_CUSTOM_TOPICS.map((suggestion) => (
+              <button
+                key={suggestion}
+                type="button"
+                disabled={isGeneratingCustom}
+                onClick={() => handleGenerateCustomTopic(suggestion)}
+                className="px-2.5 py-1 rounded-lg bg-white/90 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 text-slate-700 dark:text-slate-300 hover:text-indigo-700 dark:hover:text-indigo-300 border border-slate-200/80 dark:border-slate-700 text-[11px] font-semibold transition-all cursor-pointer disabled:opacity-50"
+              >
+                + {suggestion}
+              </button>
+            ))}
+          </div>
+
+          {customError && (
+            <div className="text-xs text-rose-600 dark:text-rose-400 font-medium flex items-center space-x-1.5 pt-1">
+              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+              <span>{customError}</span>
+            </div>
+          )}
         </div>
 
         {/* Change Detection Report Banner */}
@@ -324,15 +476,54 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
         </div>
       )}
 
+      {/* Prompt to generate a live comparison if the user typed in the filter box */}
+      {searchQuery.trim() !== '' && (
+        <div className="bg-indigo-50/90 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center space-x-2.5">
+            <Sparkles className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+            <div>
+              <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                Want a dedicated 8-party comparison card specifically for "{searchQuery.trim()}"?
+              </p>
+              <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400">
+                Our live AI research engine can search 2026 party manifestos, legislation, and Hansard to compare every party on this exact topic.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => handleGenerateCustomTopic(searchQuery)}
+            disabled={isGeneratingCustom}
+            className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-bold text-xs flex items-center justify-center space-x-1.5 shrink-0 cursor-pointer shadow-xs"
+          >
+            {isGeneratingCustom ? (
+              <>
+                <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                <span>Researching 8 Parties...</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Compare All 8 Parties on "{searchQuery.trim()}"</span>
+              </>
+            )}
+          </button>
+        </div>
+      )}
+
       {/* Policy Topics Stack */}
       <div className="space-y-4">
         {filteredPolicies.map((topic) => {
           const isExpanded = expandedTopic === null || expandedTopic === topic.id;
+          const isCustomTopic = topic.category === 'custom';
 
           return (
             <div
               key={topic.id}
-              className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs overflow-hidden transition-all max-w-full min-w-0"
+              className={`bg-white dark:bg-slate-900 rounded-2xl border ${
+                isCustomTopic
+                  ? 'border-indigo-300 dark:border-indigo-800 ring-1 ring-indigo-200/60 dark:ring-indigo-900/40'
+                  : 'border-slate-200 dark:border-slate-800'
+              } shadow-xs overflow-hidden transition-all max-w-full min-w-0`}
             >
               {/* Topic Header Card */}
               <div
@@ -340,10 +531,13 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
                 className="p-4 sm:p-5 flex items-start sm:items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border-b border-slate-100 dark:border-slate-800"
               >
                 <div>
-                  <div className="flex items-center space-x-2 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider mb-1">
-                    <span>{topic.category.toUpperCase()}</span>
+                  <div className={`flex items-center space-x-2 font-bold text-xs uppercase tracking-wider mb-1 ${
+                    isCustomTopic ? 'text-indigo-600 dark:text-indigo-400' : 'text-rose-600 dark:text-rose-400'
+                  }`}>
+                    {isCustomTopic && <Sparkles className="w-3.5 h-3.5" />}
+                    <span>{isCustomTopic ? 'LIVE AI CUSTOM COMPARISON' : topic.category.toUpperCase()}</span>
                     <span>•</span>
-                    <span>Official Policy Issue</span>
+                    <span>{isCustomTopic ? 'Grounded in 2026 Party Records' : 'Official Policy Issue'}</span>
                   </div>
                   <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                     {topic.title}
@@ -363,6 +557,16 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
                         {topic.officialFigureBenchmark.value}
                       </span>
                     </div>
+                  )}
+
+                  {isCustomTopic && (
+                    <button
+                      onClick={(e) => handleRemoveCustomTopic(topic.id, e)}
+                      className="text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 p-1.5 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
+                      title="Remove this custom policy comparison"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   )}
 
                   <button className="text-slate-400 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-200 p-1 cursor-pointer">

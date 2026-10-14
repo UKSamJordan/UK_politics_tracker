@@ -67,7 +67,9 @@ export type PolicyCategory =
   | 'energy'
   | 'crime'
   | 'education'
-  | 'welfare';
+  | 'welfare'
+  | 'eu'
+  | 'custom';
 
 export interface CategoryInfo {
   id: PolicyCategory;

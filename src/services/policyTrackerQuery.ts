@@ -116,7 +116,8 @@ export function getActiveFrontbenchSpokesperson(
     education: ['education', 'schools', 'universities', 'skills', 'children'],
     housing: ['housing', 'communities', 'local government', 'planning'],
     energy: ['energy', 'net zero', 'climate', 'environment'],
-    immigration: ['home', 'border', 'immigration', 'policing', 'security']
+    immigration: ['home', 'border', 'immigration', 'policing', 'security'],
+    eu: ['foreign', 'europe', 'cabinet office', 'trade', 'brexit', 'single market', 'eu']
   };
 
   let spokesperson: CabinetMember | null = null;
@@ -1154,4 +1155,108 @@ Return STRICT JSON matching this schema:
     return getFilteredFallbacks();
   }
 }
+
+/**
+ * Live 8-Party Custom Policy Comparator:
+ * Researches any user-specified UK policy issue (e.g. "Transport & Rail", "Crime & Policing",
+ * "Water & Sewage", "Farming & Inheritance Tax", "AI Regulation", "Assisted Dying") across all
+ * 8 UK political parties using Gemini + Google Search Grounding and returns a full PolicyTopic card.
+ */
+export async function generateCustomPolicyComparison(topicQuery: string): Promise<PolicyTopic> {
+  const cleanQuery = topicQuery.trim();
+  if (!cleanQuery) {
+    throw new Error('Please enter a policy topic to compare.');
+  }
+
+  const dateMeta = getCurrentDateMetadata();
+  const slug = cleanQuery
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 40);
+
+  const prompt = `You are a non-partisan UK Parliamentary Research & Policy Comparison Engine with live Google Search access.
+Today's Date: ${dateMeta.fullDateString} (${dateMeta.monthName} ${dateMeta.year}).
+
+The user wants a comprehensive, side-by-side 8-party policy comparison on the following UK policy topic:
+TOPIC QUERY: "${cleanQuery}"
+
+Use Google Search to verify the current 2025/2026 official positions, enacted legislation, manifestos, and frontbench announcements for all 8 UK political parties on "${cleanQuery}":
+1. "labour" (Governing Labour Party — Leader: Keir Starmer)
+2. "conservative" (Official Opposition Conservative Party — Leader: Kemi Badenoch)
+3. "reform" (Reform UK — Leader: Nigel Farage)
+4. "libdem" (Liberal Democrats — Leader: Ed Davey)
+5. "green" (Green Party of England & Wales — Leader: Zack Polanski)
+6. "snp" (Scottish National Party — Leader: John Swinney)
+7. "plaid" (Plaid Cymru — Leader: Rhun ap Iorwerth)
+8. "restore" (Restore Britain — Leader: Rupert Lowe)
+
+Return ONLY valid JSON matching this exact PolicyTopic structure (no markdown code fences):
+{
+  "id": "custom-${slug}-${Date.now()}",
+  "category": "custom",
+  "title": "Formal, clear UK Policy Title for '${cleanQuery}' (e.g. 'Transport, Rail Nationalisation (GBR), HS2 & Motoring')",
+  "description": "Concise 1-sentence explanation of the core policy debate, legislation, and trade-offs across Westminster.",
+  "officialFigureBenchmark": {
+    "label": "Relevant Official UK Benchmark Metric Label (e.g. ONS / Treasury / Department Figure)",
+    "value": "Specific current statistic or expenditure figure",
+    "source": "Official UK source (e.g. ONS / HM Treasury / House of Commons Library)"
+  },
+  "publicOpinionQuestion": "Relevant YouGov / Ipsos style public opinion question on this issue?",
+  "publicOpinionSupportOverall": 62,
+  "pledges": {
+    "labour": {
+      "partyId": "labour",
+      "headline": "Concise, specific headline of Labour's 2026 policy & legislation on this issue",
+      "summary": "2-sentence factual summary of Labour's active policy, legislation, or government programme.",
+      "keyPoints": [
+        "Specific policy mechanism or statutory measure 1",
+        "Specific policy mechanism or target 2",
+        "Specific funding or regulatory commitment 3",
+        "Specific timeline or reform 4"
+      ],
+      "costEstimate": "Estimated fiscal cost or funding mechanism",
+      "targetTimeline": "Implementation timeline (e.g. 2025–2029 Parliament)",
+      "factCheckSnippet": "Independent assessment from IFS, Full Fact, House of Commons Library, or National Audit Office.",
+      "factCheckVerdict": "verified",
+      "factCheckSource": "Name of independent body (e.g. Full Fact / IFS / HoC Library)",
+      "officialSourceTitle": "Labour Party / UK Government Official Policy",
+      "officialSourceUrl": "https://labour.org.uk/change",
+      "lastVerifiedDate": "${dateMeta.monthName} ${dateMeta.year}"
+    },
+    "conservative": { "partyId": "conservative", "headline": "...", "summary": "...", "keyPoints": ["...", "...", "...", "..."], "costEstimate": "...", "targetTimeline": "...", "factCheckSnippet": "...", "factCheckVerdict": "clarified", "factCheckSource": "...", "officialSourceTitle": "Conservative Party Official Plan", "officialSourceUrl": "https://www.conservatives.com/our-plan", "lastVerifiedDate": "${dateMeta.monthName} ${dateMeta.year}" },
+    "reform": { "partyId": "reform", "headline": "...", "summary": "...", "keyPoints": ["...", "...", "...", "..."], "costEstimate": "...", "targetTimeline": "...", "factCheckSnippet": "...", "factCheckVerdict": "disputed", "factCheckSource": "...", "officialSourceTitle": "Reform UK Official Policy Contract", "officialSourceUrl": "https://www.reformparty.uk/policies", "lastVerifiedDate": "${dateMeta.monthName} ${dateMeta.year}" },
+    "libdem": { "partyId": "libdem", "headline": "...", "summary": "...", "keyPoints": ["...", "...", "...", "..."], "costEstimate": "...", "targetTimeline": "...", "factCheckSnippet": "...", "factCheckVerdict": "verified", "factCheckSource": "...", "officialSourceTitle": "Liberal Democrats Official Plan", "officialSourceUrl": "https://www.libdems.org.uk/plan", "lastVerifiedDate": "${dateMeta.monthName} ${dateMeta.year}" },
+    "green": { "partyId": "green", "headline": "...", "summary": "...", "keyPoints": ["...", "...", "...", "..."], "costEstimate": "...", "targetTimeline": "...", "factCheckSnippet": "...", "factCheckSource": "...", "factCheckVerdict": "clarified", "officialSourceTitle": "Green Party Official Manifesto", "officialSourceUrl": "https://greenparty.org.uk/manifesto", "lastVerifiedDate": "${dateMeta.monthName} ${dateMeta.year}" },
+    "snp": { "partyId": "snp", "headline": "...", "summary": "...", "keyPoints": ["...", "...", "...", "..."], "costEstimate": "...", "targetTimeline": "...", "factCheckSnippet": "...", "factCheckVerdict": "verified", "factCheckSource": "...", "officialSourceTitle": "SNP Official Policy Platform", "officialSourceUrl": "https://www.snp.org/policies", "lastVerifiedDate": "${dateMeta.monthName} ${dateMeta.year}" },
+    "plaid": { "partyId": "plaid", "headline": "...", "summary": "...", "keyPoints": ["...", "...", "...", "..."], "costEstimate": "...", "targetTimeline": "...", "factCheckSnippet": "...", "factCheckVerdict": "verified", "factCheckSource": "...", "officialSourceTitle": "Plaid Cymru Official Policy Platform", "officialSourceUrl": "https://partyof.wales/policies", "lastVerifiedDate": "${dateMeta.monthName} ${dateMeta.year}" },
+    "restore": { "partyId": "restore", "headline": "...", "summary": "...", "keyPoints": ["...", "...", "...", "..."], "costEstimate": "...", "targetTimeline": "...", "factCheckSnippet": "...", "factCheckVerdict": "disputed", "factCheckSource": "...", "officialSourceTitle": "Restore Britain Official Platform", "officialSourceUrl": "https://restorebritain.org.uk", "lastVerifiedDate": "${dateMeta.monthName} ${dateMeta.year}" }
+  }
+}
+
+IMPORTANT:
+- Every party MUST have a complete, detailed entry in "pledges" with 3–4 concrete "keyPoints".
+- "factCheckVerdict" MUST be one of: "verified", "disputed", "unfunded", "clarified".`;
+
+  const askGemini = httpsCallable(functions, 'askGemini');
+  const result = await askGemini({
+    prompt,
+    systemInstruction:
+      'You are an impartial UK Parliamentary Policy Comparison API with live Google Search access. Return ONLY valid JSON matching the requested PolicyTopic schema.',
+  });
+
+  let text = ((result.data as any)?.text || '').trim();
+  text = text.replace(/^\s*```(json)?/m, '').replace(/```\s*$/, '');
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  const parsed = JSON.parse((jsonMatch ? jsonMatch[0] : text).trim()) as PolicyTopic;
+
+  if (!parsed || !parsed.title || !parsed.pledges) {
+    throw new Error('Could not generate a structured 8-party comparison for that topic.');
+  }
+
+  parsed.id = parsed.id || `custom-${slug}-${Date.now()}`;
+  parsed.category = 'custom';
+  return parsed;
+}
+
 

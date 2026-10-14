@@ -1451,5 +1451,180 @@
         "lastVerifiedDate": "October 2026"
       }
     }
+  },
+  {
+    "id": "eu-brexit-and-trade-relations",
+    "category": "eu",
+    "title": "EU Relations, Brexit Reset & Single Market Trade",
+    "description": "Post-Brexit Trade and Cooperation Agreement (TCA) review, Single Market & Customs Union stance, veterinary/SPS border checks, youth mobility schemes, and European Court of Justice (ECJ) jurisdiction.",
+    "officialFigureBenchmark": {
+      "label": "UK-EU Trade Volume (ONS 2025/26)",
+      "value": "£815bn total trade (42% of UK exports; 51% of imports)",
+      "source": "Office for National Statistics (ONS) / UK in a Changing Europe"
+    },
+    "publicOpinionQuestion": "Should the UK seek a closer trade and regulatory relationship with the European Union?",
+    "publicOpinionSupportOverall": 61,
+    "pledges": {
+      "labour": {
+        "partyId": "labour",
+        "headline": "UK-EU Reset: Veterinary (SPS) Pact, Security Treaty & Capped Youth Mobility — Outside Single Market",
+        "summary": "Negotiating a pragmatic 2026 UK-EU reset led by Nick Thomas-Symonds to secure a Sanitary and Phytosanitary (SPS) veterinary agreement slashing food border checks, mutual recognition of professional qualifications, touring artists visa relief, and a formal UK-EU Defence & Security Pact — while maintaining strict red lines against rejoining the Single Market, Customs Union, or unrestricted freedom of movement.",
+        "keyPoints": [
+          "Veterinary (SPS) & Agrifood Agreement: eliminate routine border health certificates and physical checks on British food, farming, and fisheries exports entering the EU",
+          "UK-EU Security & Defence Pact: structured foreign policy, intelligence sharing, and joint defence industrial procurement cooperation alongside NATO",
+          "Professional Qualifications & Touring Artists: bilateral mutual recognition for UK service professionals and cultural visa exemptions for touring musicians",
+          "Strict Red Lines & Capped Youth Visas: no return to the Single Market, Customs Union, or free movement, while negotiating a strictly capped, time-limited reciprocal Youth Experience visa scheme"
+        ],
+        "costEstimate": "Estimated +0.3% to +0.6% boost to medium-term GDP from reduced non-tariff trade friction",
+        "targetTimeline": "2025–2026 UK-EU Summit & 2026 TCA Formal Review",
+        "factCheckSnippet": "UK in a Changing Europe / OBR: An SPS veterinary agreement markedly reduces agrifood border friction, but remaining outside the Single Market and Customs Union limits overall GDP gains compared to full alignment.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "UK in a Changing Europe / Office for Budget Responsibility (OBR)",
+        "publicSupport": 58,
+        "officialSourceTitle": "UK Government Cabinet Office: UK-EU Relations Reset",
+        "officialSourceUrl": "https://labour.org.uk/change",
+        "lastVerifiedDate": "October 2026"
+      },
+      "conservative": {
+        "partyId": "conservative",
+        "headline": "Defend Brexit Freedoms: Block Dynamic Alignment, Reject ECJ Oversight & Expand Global Trade",
+        "summary": "Enforce five strict Brexit tests against Labour's EU reset: block any dynamic regulatory alignment that turns Britain into a rule-taker from Brussels, reject any role for the European Court of Justice (ECJ), oppose EU youth mobility visa schemes as backdoor free movement, and leverage regulatory divergence in AI, life sciences, and financial services alongside CPTPP and bilateral trade deals.",
+        "keyPoints": [
+          "No Rule-Taking or Dynamic Alignment: oppose any UK-EU agreement requiring automatic adoption of Brussels product, labour, or environmental directives",
+          "Zero ECJ Jurisdiction: reject any dispute resolution mechanism that grants the European Court of Justice oversight over UK law or British courts",
+          "Block EU Youth Mobility Concessions: oppose EU demands for reciprocal youth visas and discounted university tuition fees for EU nationals",
+          "Global Trade & Regulatory Divergence: prioritise CPTPP Indo-Pacific expansion, US sector agreements, and independent UK regulation in AI and financial services"
+        ],
+        "costEstimate": "No direct fiscal outlay; trade impact depends on non-EU trade growth vs EU border friction",
+        "targetTimeline": "Immediate parliamentary scrutiny of 2026 TCA negotiations",
+        "factCheckSnippet": "Centre for European Reform: Preserving regulatory divergence allows tailored domestic rules in tech and finance, though exporters continue to face customs paperwork and rules-of-origin costs with the EU.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Centre for European Reform (CER) / IFS",
+        "publicSupport": 44,
+        "officialSourceTitle": "Conservative Party Foreign & Trade Policy Platform",
+        "officialSourceUrl": "https://www.conservatives.com/our-plan",
+        "lastVerifiedDate": "October 2026"
+      },
+      "reform": {
+        "partyId": "reform",
+        "headline": "Scrap Windsor Framework, Repeal Retained EU Laws & Reclaim 100% of UK Fishing Waters",
+        "summary": "Repudiate Labour's 'EU surrender reset' and dismantle remaining post-Brexit ties to Brussels: scrap the Northern Ireland Windsor Framework and restore full UK internal market unity, repeal thousands of remaining retained EU regulations stifling British SMEs, terminate EU fishing quota access in 2026, and pursue an independent US-UK free trade agreement.",
+        "keyPoints": [
+          "Abolish the Windsor Framework: eliminate the Irish Sea customs border and end all EU law and ECJ jurisdiction in Northern Ireland",
+          "Wholesale Repeal of Retained EU Law: scrap over 4,000 remaining EU-derived directives across environmental, financial, and employment regulation",
+          "Exclusive UK Sovereign Fisheries (2026 TCA Expiry): end foreign EU supertrawler quota access in British territorial waters and mandate landing of catches in UK ports",
+          "Reject Brussels Defence & Alignment Pacts: block UK entry into EU defence procurement funds or carbon tax (CBAM/ETS) linkage; prioritise a bilateral US-UK trade deal"
+        ],
+        "costEstimate": "Deregulation targeted to cut business compliance costs; potential EU retaliatory tariffs if TCA clauses are unilaterally abrogated",
+        "targetTimeline": "Immediate action upon 2026 TCA review / Day One legislative bill",
+        "factCheckSnippet": "Institute for Government / UK in a Changing Europe: Unilaterally abrogating the Windsor Framework or TCA fisheries provisions risks triggering EU cross-retaliation tariffs on UK goods and energy exports under the TCA dispute mechanism.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "Institute for Government (IfG) / UK in a Changing Europe",
+        "publicSupport": 41,
+        "officialSourceTitle": "Reform UK: Our Contract with You — Sovereignty & Trade",
+        "officialSourceUrl": "https://www.reformparty.uk/policies",
+        "lastVerifiedDate": "October 2026"
+      },
+      "libdem": {
+        "partyId": "libdem",
+        "headline": "Negotiate a UK-EU Customs Union by 2030, Rejoin Erasmus+ & Four-Step Single Market Roadmap",
+        "summary": "Fix the broken UK-EU relationship with a structured four-step roadmap back to the European Single Market: immediately negotiate a comprehensive UK-EU Customs Union by 2030 to slash red tape for British exporters, rejoin the Erasmus+ student exchange programme, establish a reciprocal Youth Mobility Scheme, and align veterinary and industrial standards.",
+        "keyPoints": [
+          "UK-EU Customs Union by 2030: eliminate rules-of-origin red tape and customs declarations for British manufacturers and small exporters trading with Europe",
+          "Four-Step Pathway to the Single Market: rebuild trust, strike veterinary (SPS) and aviation deals, deepen regulatory cooperation, and re-enter the European Single Market",
+          "Rejoin Erasmus+ & Youth Mobility: immediately re-enter the EU Erasmus+ academic exchange scheme and sign a reciprocal capped Youth Mobility visa agreement",
+          "Comprehensive Security & Policing Cooperation: restore real-time UK access to Europol criminal databases and joint cross-border policing operations"
+        ],
+        "costEstimate": "OBR/Frontier Economics estimate Customs Union & Single Market alignment boosts UK GDP by 1.5%–2.2%, generating £15bn–£25bn in additional tax revenues",
+        "targetTimeline": "Immediate Erasmus+ & SPS agreements; full Customs Union negotiated by 2030",
+        "factCheckSnippet": "OBR / National Institute of Economic and Social Research (NIESR): Entering a UK-EU Customs Union removes tariffs and rules-of-origin checks on goods, though it precludes independent UK tariff-cutting FTAs with non-EU countries.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "NIESR / Office for Budget Responsibility",
+        "publicSupport": 62,
+        "officialSourceTitle": "Liberal Democrats: Rebuilding Our Relationship with Europe",
+        "officialSourceUrl": "https://www.libdems.org.uk/plan",
+        "lastVerifiedDate": "October 2026"
+      },
+      "green": {
+        "partyId": "green",
+        "headline": "Rejoin the European Union in Full, Restore Free Movement & Immediate Customs Union Entry",
+        "summary": "Unapologetically pro-European platform committed to rejoining the European Union as a full member state as soon as politically practicable, starting with immediate entry into the EU Customs Union and Single Market, full restoration of reciprocal freedom of movement for UK and EU citizens, and re-entry into Erasmus+ and European climate grids.",
+        "keyPoints": [
+          "Full EU Membership Goal: campaign to rejoin the European Union as a full democratic member state once public and parliamentary consent is secured",
+          "Immediate Customs Union & Single Market Alignment: end all post-Brexit border checks and align UK environmental, food safety, and workers' rights standards with the EU floor",
+          "Restore Reciprocal Freedom of Movement: reinstate the right of British citizens to live, study, and work across 27 EU nations and vice versa",
+          "Cross-Border Green Energy & Rail Integration: link the UK fully into the North Sea European offshore wind supergrid and expand cross-Channel sleeper rail networks"
+        ],
+        "costEstimate": "Reverses post-Brexit 4% long-run GDP productivity drag cited by OBR; entails standard net EU budget contribution upon full re-entry",
+        "targetTimeline": "Immediate Customs Union & Free Movement talks; full EU accession within parliament",
+        "factCheckSnippet": "UK in a Changing Europe: Rejoining the EU requires unanimous approval from all 27 member states under Article 49 TEU and meeting the Copenhagen accession criteria.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "UK in a Changing Europe",
+        "publicSupport": 54,
+        "officialSourceTitle": "Green Party Manifesto: Our Place in Europe",
+        "officialSourceUrl": "https://greenparty.org.uk/manifesto",
+        "lastVerifiedDate": "October 2026"
+      },
+      "snp": {
+        "partyId": "snp",
+        "headline": "Independence in Europe: Rejoin the EU as an Independent Member State & Restore Free Movement",
+        "summary": "Reverse the economic and demographic damage of Brexit — which 62% of Scottish voters opposed — by returning an independent Scotland to full membership of the European Union and the Single Market, restoring freedom of movement to plug acute Scottish NHS, hospitality, and rural workforce shortages, and rejoining Erasmus+.",
+        "keyPoints": [
+          "Accession to the European Union: apply for full EU membership for an independent Scotland under Article 49, regaining a direct seat at the European Council table",
+          "Re-enter the European Single Market (450m Consumers): eliminate post-Brexit export barriers that have cost Scottish salmon, whisky, and agricultural producers hundreds of millions annually",
+          "Restore Freedom of Movement & Rural Visas: reinstate EU free movement and demand an immediate devolved Scottish Rural Visa Pilot while within the UK",
+          "Full Participation in Horizon Europe, Erasmus+ & Creative Europe: guarantee Scottish universities and students seamless European research and exchange access"
+        ],
+        "costEstimate": "Scottish Government modelling estimates EU Single Market access boosts Scottish GDP by £9bn/yr compared to post-Brexit baseline",
+        "targetTimeline": "Immediate alignment via devolved powers; full EU accession post-independence",
+        "factCheckSnippet": "Fraser of Allander Institute / IFS: Rejoining the EU removes barriers with continental Europe, though an independent Scotland in the EU would face a customs/regulatory border with England & Wales if the rest of the UK remains outside the Single Market.",
+        "factCheckVerdict": "clarified",
+        "factCheckSource": "Fraser of Allander Institute / Institute for Fiscal Studies",
+        "publicSupport": 65,
+        "officialSourceTitle": "SNP Policy: An Independent Scotland in the European Union",
+        "officialSourceUrl": "https://www.snp.org/policies",
+        "lastVerifiedDate": "October 2026"
+      },
+      "plaid": {
+        "partyId": "plaid",
+        "headline": "Rejoin the EU Single Market & Customs Union to Protect Welsh Ports, Farming & Manufacturing",
+        "summary": "Immediate UK return to the European Single Market and Customs Union to eliminate the non-tariff barriers harming Welsh agricultural exports, manufacturing supply chains, and Irish Sea ports (Holyhead and Fishguard), while restoring Wales's lost EU Structural Funds under full Senedd control.",
+        "keyPoints": [
+          "Re-enter the European Single Market & Customs Union: remove customs paperwork, rules-of-origin costs, and veterinary checks on Welsh lamb, beef, and industrial exports",
+          "Full Replacement of Lost EU Structural Funds: require the UK Treasury to restore in full the £375m/yr in regional development funding Wales previously received from the EU, devolved directly to the Senedd",
+          "Rejoin Erasmus+ Alongside Wales's Taith Programme: combine Wales's bespoke Taith international exchange scheme with full UK re-entry into EU Erasmus+",
+          "Senedd Veto on International Trade Deals: statutory requirement for Senedd consent before any UK trade agreement affecting Welsh agriculture or devolved standards is ratified"
+        ],
+        "costEstimate": "Restoring Single Market access + £375m/yr structural development funding allocation for Wales",
+        "targetTimeline": "Immediate Single Market & Customs Union negotiations",
+        "factCheckSnippet": "Cardiff University Wales Governance Centre: Over 60% of Welsh goods exports go to the EU; removing Single Market non-tariff barriers disproportionately benefits Welsh manufacturing and agri-food sectors.",
+        "factCheckVerdict": "verified",
+        "factCheckSource": "Wales Governance Centre / Senedd Research",
+        "publicSupport": 61,
+        "officialSourceTitle": "Plaid Cymru Policy: Wales in Europe and the World",
+        "officialSourceUrl": "https://partyof.wales/policies",
+        "lastVerifiedDate": "October 2026"
+      },
+      "restore": {
+        "partyId": "restore",
+        "headline": "Total Constitutional Severance from Brussels, Repeal the TCA & Exit ECHR/European Courts",
+        "summary": "Complete a clean, uncompromising constitutional break from all European supranational institutions: terminate the EU Trade and Cooperation Agreement (TCA) level-playing-field restrictions, abolish the Northern Ireland Windsor Framework in its entirety, repeal every remaining piece of retained EU law on the UK statute book, and withdraw from the ECHR.",
+        "keyPoints": [
+          "Terminate TCA Level-Playing-Field & Net-Zero Clauses: scrap all UK-EU treaty commitments that tie British energy, state aid, carbon pricing, or labour law to Brussels standards",
+          "Abolish the Windsor Framework Immediately: restore complete constitutional and customs uniformity across Great Britain and Northern Ireland",
+          "Great Repeal of Retained EU Law: purge all remaining EU-era environmental (nutrient neutrality, habitats directives), employment, and financial regulations",
+          "100% Sovereign Territorial Waters & Borders: ban all foreign EU fishing vessels from the UK 200-mile Exclusive Economic Zone and exit the European Convention on Human Rights (ECHR)"
+        ],
+        "costEstimate": "Complete regulatory autonomy; transitions UK-EU trade to WTO Most-Favoured-Nation terms if TCA is terminated",
+        "targetTimeline": "Immediate Day One sovereignty legislation",
+        "factCheckSnippet": "UK in a Changing Europe: Terminating the TCA and reverting to WTO terms would impose tariffs on UK goods exports to the EU (such as 10% on cars and 30%+ on agricultural products), though it grants complete regulatory freedom.",
+        "factCheckVerdict": "disputed",
+        "factCheckSource": "UK in a Changing Europe / House of Commons Library",
+        "publicSupport": 35,
+        "officialSourceTitle": "Restore Britain: Full National Sovereignty Platform",
+        "officialSourceUrl": "https://restorebritain.org.uk/sovereignty",
+        "lastVerifiedDate": "October 2026"
+      }
+    }
   }
 ]
