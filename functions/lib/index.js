@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.autonomousPoliticalAgent = exports.updatePledgeInFirestore = exports.auditAndSyncPolicies = exports.askGemini = void 0;
+exports.autonomousPoliticalAgent = exports.analyzeMediaLens = exports.updatePledgeInFirestore = exports.auditAndSyncPolicies = exports.askGemini = void 0;
 const https_1 = require("firebase-functions/v2/https");
 const params_1 = require("firebase-functions/params");
 const genai_1 = require("@google/genai");
@@ -117,6 +117,33 @@ exports.updatePledgeInFirestore = (0, https_1.onCall)({ cors: true, timeoutSecon
     catch (error) {
         console.error("updatePledgeInFirestore Error:", error);
         throw new Error(`Failed to update pledge in Firestore: ${error.message}`);
+    }
+});
+/**
+ * On-Demand Media Lens ('Ground News for Westminster') Multi-Spectrum Newspaper Analyzer
+ */
+exports.analyzeMediaLens = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: true, timeoutSeconds: 120 }, async (request) => {
+    var _a;
+    try {
+        const { customTopic, seedStories } = request.data || {};
+        if (Array.isArray(seedStories) && seedStories.length > 0) {
+            const batch = db.batch();
+            for (const story of seedStories) {
+                if (story && story.id) {
+                    batch.set(db.collection("media_lens").doc(story.id), story, { merge: true });
+                }
+            }
+            await batch.commit();
+            if (!customTopic && ((_a = request.data) === null || _a === void 0 ? void 0 : _a.seedOnly)) {
+                return { stories: seedStories };
+            }
+        }
+        const result = await (0, autonomousAgent_1.runMediaLensAnalysis)(geminiApiKey.value(), customTopic);
+        return result;
+    }
+    catch (error) {
+        console.error("analyzeMediaLens Error:", error);
+        throw new Error(`Failed to analyze UK media framing: ${error.message}`);
     }
 });
 //# sourceMappingURL=index.js.map

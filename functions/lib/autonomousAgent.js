@@ -4,6 +4,7 @@ exports.autonomousPoliticalAgent = void 0;
 exports.fetchMultiSourceNewsDigest = fetchMultiSourceNewsDigest;
 exports.extractJsonFromText = extractJsonFromText;
 exports.runAutonomousAudit = runAutonomousAudit;
+exports.runMediaLensAnalysis = runMediaLensAnalysis;
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 const params_1 = require("firebase-functions/params");
 const genai_1 = require("@google/genai");
@@ -16,11 +17,17 @@ const db = admin.firestore();
 const parser = new Parser({ timeout: 4500 });
 const geminiApiKey = (0, params_1.defineSecret)("GEMINI_API_KEY");
 const RSS_FEEDS = [
-    { name: "BBC Politics", url: "https://feeds.bbci.co.uk/news/politics/rss.xml" },
-    { name: "The Guardian UK Politics", url: "https://www.theguardian.com/politics/rss" },
-    { name: "Sky News Politics", url: "https://feeds.skynews.com/feeds/rss/politics.xml" },
+    { name: "The Guardian (Left)", url: "https://www.theguardian.com/politics/rss" },
+    { name: "Daily Mirror (Left)", url: "https://www.mirror.co.uk/news/politics/rss.xml" },
+    { name: "New Statesman (Left)", url: "https://news.google.com/rss/search?q=site:newstatesman.com+when:7d&hl=en-GB&gl=GB&ceid=GB:en" },
+    { name: "BBC Politics (Centre)", url: "https://feeds.bbci.co.uk/news/politics/rss.xml" },
+    { name: "Sky News Politics (Centre)", url: "https://feeds.skynews.com/feeds/rss/politics.xml" },
+    { name: "The Telegraph (Right)", url: "https://news.google.com/rss/search?q=site:telegraph.co.uk+politics+when:3d&hl=en-GB&gl=GB&ceid=GB:en" },
+    { name: "The Times (Centre-Right)", url: "https://news.google.com/rss/search?q=site:thetimes.com+(Labour+OR+Farage+OR+Badenoch+OR+asylum+OR+tax)+when:4d&hl=en-GB&gl=GB&ceid=GB:en" },
+    { name: "Daily Express (Right)", url: "https://www.express.co.uk/posts/rss/139/politics" },
+    { name: "GB News (Right)", url: "https://news.google.com/rss/search?q=site:gbnews.com+(Labour+OR+Farage+OR+Badenoch+OR+asylum+OR+tax)+when:4d&hl=en-GB&gl=GB&ceid=GB:en" },
 ];
-async function fetchMultiSourceNewsDigest(maxItemsPerFeed = 6) {
+async function fetchMultiSourceNewsDigest(maxItemsPerFeed = 5) {
     const feedResults = await Promise.allSettled(RSS_FEEDS.map(async (f) => {
         const parsed = await parser.parseURL(f.url);
         const items = (parsed.items || []).slice(0, maxItemsPerFeed);
@@ -189,6 +196,115 @@ Return ONLY valid JSON matching this exact structure (no markdown fences):
     await batch.commit();
     return Object.assign(Object.assign({}, statusRecord), { updatedPolicies: Array.from(topicMap.values()) });
 }
+/**
+ * Ground News-Style UK Media Lens Analyzer:
+ * Clusters live Left, Centre, and Right UK political RSS & Google Search stories,
+ * computes Left/Centre/Right coverage percentages and Blindspots, and explains
+ * how and why different outlets (e.g. The Telegraph vs The Guardian vs BBC) frame each story.
+ */
+async function runMediaLensAnalysis(apiKey, customTopic) {
+    const monthYearStr = new Date().toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+    const recentNews = await fetchMultiSourceNewsDigest(5);
+    const ai = new genai_1.GoogleGenAI({ apiKey });
+    const taskInstruction = customTopic
+        ? `Analyze how Left-leaning, Centre, and Right-leaning UK newspapers and broadcasters are reporting on this specific UK political topic: "${customTopic}". Return a JSON array containing 1 comprehensive MediaClusterStory object for this topic.`
+        : `From the live Left, Centre, and Right UK media RSS digest above and live Google Search, identify the 4 biggest current UK political stories (including at least 1 story primarily covered by Right-leaning press as a 'left_blindspot' or primarily covered by Left-leaning press as a 'right_blindspot'). Return a JSON array of 4 MediaClusterStory objects.`;
+    const prompt = `You are the UK Media Lens ('Ground News for Westminster') Political Framing & Bias Analyst with live Google Search access.
+Current Date Context: ${monthYearStr}.
+
+Live Multi-Spectrum UK Media RSS Digest (Left: Guardian, Mirror, New Statesman | Centre: BBC, Sky | Right: Telegraph, Times, Express, GB News):
+${recentNews}
+
+TASK:
+${taskInstruction}
+
+For each story cluster:
+1. Compute "coverageSplit": { "left": number, "center": number, "right": number } (must sum to 100).
+2. Set "blindspot":
+   - "left_blindspot" if Right-leaning outlets account for >=55% of coverage and Left <=20%.
+   - "right_blindspot" if Left-leaning outlets account for >=55% of coverage and Right <=20%.
+   - "none" otherwise.
+3. Provide "neutralGist": 2-3 spin-free sentences stating the underlying facts and figures agreed upon by all sides.
+4. Provide "wingPerspectives" for "left", "center", and "right", each with:
+   - "summary": How that wing of the UK press frames the story.
+   - "whyThisFraming": Why they view it this way (editorial values, economic/constitutional philosophy, or audience priorities).
+   - "toneKeywords": 3 short framing badges.
+5. Provide "outletReports": 3 to 4 specific named UK outlets (always include contrasting newspapers such as "The Telegraph" or "Daily Mail" vs "The Guardian" or "Daily Mirror", plus "BBC News", "The Times", "Financial Times", or "Sky News") with:
+   - "outletName": Name of newspaper/broadcaster
+   - "lean": "left" | "center-left" | "center" | "center-right" | "right"
+   - "factuality": "Very High" | "High" | "Mixed"
+   - "headline": Representative headline from that outlet on this story
+   - "url": Valid URL to the article or the outlet's UK politics page
+   - "framingAnalysis": 2 sentences explaining HOW this outlet reports the story and WHY it takes that editorial angle.
+
+Return ONLY a valid JSON array matching this exact schema (no markdown fences):
+[
+  {
+    "id": "live-media-1",
+    "title": "Neutral overarching story headline",
+    "category": "immigration" | "economy" | "welfare" | "energy" | "nhs" | "housing" | "defence" | "education" | "westminster",
+    "publishedAt": "${monthYearStr} • Live Media Analysis",
+    "totalSourcesCount": 18,
+    "coverageSplit": { "left": 25, "center": 30, "right": 45 },
+    "blindspot": "none" | "left_blindspot" | "right_blindspot",
+    "blindspotNote": "Optional 1-sentence note if blindspot is not none",
+    "neutralGist": "2-3 sentences of spin-free factual summary.",
+    "wingPerspectives": {
+      "left": { "summary": "...", "whyThisFraming": "...", "toneKeywords": ["...", "...", "..."] },
+      "center": { "summary": "...", "whyThisFraming": "...", "toneKeywords": ["...", "...", "..."] },
+      "right": { "summary": "...", "whyThisFraming": "...", "toneKeywords": ["...", "...", "..."] }
+    },
+    "outletReports": [
+      {
+        "outletName": "The Telegraph",
+        "lean": "right",
+        "factuality": "High",
+        "headline": "...",
+        "url": "https://www.telegraph.co.uk/politics/",
+        "framingAnalysis": "..."
+      },
+      {
+        "outletName": "The Guardian",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "...",
+        "url": "https://www.theguardian.com/politics",
+        "framingAnalysis": "..."
+      },
+      {
+        "outletName": "BBC News",
+        "lean": "center",
+        "factuality": "Very High",
+        "headline": "...",
+        "url": "https://www.bbc.co.uk/news/politics",
+        "framingAnalysis": "..."
+      }
+    ]
+  }
+]`;
+    const response = await ai.models.generateContent({
+        model: "gemini-3.8-flash",
+        contents: prompt,
+        config: {
+            temperature: 0.15,
+            tools: [{ googleSearch: {} }],
+        },
+    });
+    const parsed = extractJsonFromText(response.text || "[]");
+    const stories = Array.isArray(parsed) ? parsed : [];
+    if (stories.length > 0) {
+        const batch = db.batch();
+        stories.forEach((s, idx) => {
+            const docId = customTopic
+                ? `custom-${Date.now()}-${idx}`
+                : s.id || `live-media-${Date.now()}-${idx}`;
+            s.id = docId;
+            batch.set(db.collection("media_lens").doc(docId), s, { merge: true });
+        });
+        await batch.commit();
+    }
+    return { stories };
+}
 exports.autonomousPoliticalAgent = (0, scheduler_1.onSchedule)({
     schedule: "every 6 hours",
     secrets: [geminiApiKey],
@@ -196,7 +312,8 @@ exports.autonomousPoliticalAgent = (0, scheduler_1.onSchedule)({
 }, async () => {
     try {
         console.log("Autonomous Political Agent waking up for multi-source + Google Search audit...");
-        const result = await runAutonomousAudit(geminiApiKey.value(), "all");
+        const result = await runAutonomousAudit(geminiApiKey.value(), "all", { includeFactChecks: true });
+        await runMediaLensAnalysis(geminiApiKey.value());
         console.log(`Autonomous audit complete: ${result.policyUpdatesCount} policy updates, ${result.factCheckUpdatesCount} fact-checks.`);
     }
     catch (error) {

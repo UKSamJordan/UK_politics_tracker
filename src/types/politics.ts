@@ -181,3 +181,41 @@ export interface FactCheckItem {
   sourceUrl: string;
   category: PolicyCategory;
 }
+
+export interface MediaWingPerspective {
+  summary: string;
+  whyThisFraming: string;
+  toneKeywords: string[];
+}
+
+export interface MediaOutletReport {
+  outletName: string;
+  lean: 'left' | 'center-left' | 'center' | 'center-right' | 'right';
+  factuality: 'Very High' | 'High' | 'Mixed';
+  headline: string;
+  url: string;
+  framingAnalysis: string;
+}
+
+export interface MediaClusterStory {
+  id: string;
+  title: string;
+  category: PolicyCategory | 'westminster';
+  publishedAt: string;
+  totalSourcesCount: number;
+  coverageSplit: {
+    left: number;   // percentage 0-100
+    center: number; // percentage 0-100
+    right: number;  // percentage 0-100
+  };
+  blindspot: 'none' | 'left_blindspot' | 'right_blindspot';
+  blindspotNote?: string;
+  neutralGist: string;
+  wingPerspectives: {
+    left: MediaWingPerspective;
+    center: MediaWingPerspective;
+    right: MediaWingPerspective;
+  };
+  outletReports: MediaOutletReport[];
+}
+

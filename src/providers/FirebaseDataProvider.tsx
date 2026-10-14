@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { collection, doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
-import { Party, CabinetMember, PolicyTopic, FactCheckItem } from '../types/politics';
+import { Party, CabinetMember, PolicyTopic, FactCheckItem, MediaClusterStory } from '../types/politics';
 
 import partiesData from '../data/parties.json';
 import cabinetsData from '../data/cabinets.json';
@@ -9,6 +9,7 @@ import policiesData from '../data/policies.json';
 import pollsData from '../data/polls.json';
 import factchecksData from '../data/factchecks.json';
 import quizQuestionsData from '../data/quizQuestions.json';
+import mediaLensData from '../data/mediaLens.json';
 
 interface FirebaseDataContextType {
   parties: Party[];
@@ -17,11 +18,13 @@ interface FirebaseDataContextType {
   polls: any;
   factChecks: FactCheckItem[];
   quizQuestions: any[];
+  mediaLens: MediaClusterStory[];
   loading: boolean;
   setCabinets: (c: CabinetMember[]) => void;
   setPolicies: (p: PolicyTopic[]) => void;
   setPolls: (p: any) => void;
   setFactChecks: (f: FactCheckItem[]) => void;
+  setMediaLens: (m: MediaClusterStory[]) => void;
 }
 
 const FirebaseDataContext = createContext<FirebaseDataContextType | null>(null);
@@ -33,6 +36,7 @@ export const FirebaseDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [polls, setPolls] = useState<any>(pollsData);
   const [factChecks, setFactChecks] = useState<FactCheckItem[]>(factchecksData as FactCheckItem[]);
   const [quizQuestions, setQuizQuestions] = useState<any[]>(quizQuestionsData);
+  const [mediaLens, setMediaLens] = useState<MediaClusterStory[]>(mediaLensData as MediaClusterStory[]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -60,13 +64,34 @@ export const FirebaseDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
     const unsubQuiz = onSnapshot(collection(db, 'quizQuestions'), (snap) => {
       if (!snap.empty) setQuizQuestions(snap.docs.map(d => d.data()));
     });
+    const unsubMediaLens = onSnapshot(collection(db, 'media_lens'), (snap) => {
+      if (!snap.empty) {
+        const liveItems = snap.docs.map((d) => d.data() as MediaClusterStory);
+        const liveTitles = new Set(liveItems.map((i) => i.title?.toLowerCase()));
+        const merged = [
+          ...liveItems,
+          ...(mediaLensData as MediaClusterStory[]).filter(
+            (b) => !liveTitles.has(b.title?.toLowerCase())
+          ),
+        ];
+        setMediaLens(merged);
+      }
+    });
     
     setLoading(false);
-    return () => { unsubCabinets(); unsubParties(); unsubPolicies(); unsubPolls(); unsubFactChecks(); unsubQuiz(); };
+    return () => {
+      unsubCabinets();
+      unsubParties();
+      unsubPolicies();
+      unsubPolls();
+      unsubFactChecks();
+      unsubQuiz();
+      unsubMediaLens();
+    };
   }, []);
 
   return (
-    <FirebaseDataContext.Provider value={{ parties, cabinets, policies, polls, factChecks, quizQuestions, loading, setCabinets, setPolicies, setPolls, setFactChecks }}>
+    <FirebaseDataContext.Provider value={{ parties, cabinets, policies, polls, factChecks, quizQuestions, mediaLens, loading, setCabinets, setPolicies, setPolls, setFactChecks, setMediaLens }}>
       {children}
     </FirebaseDataContext.Provider>
   );
@@ -77,3 +102,4 @@ export const useFirebaseData = () => {
   if (!ctx) throw new Error("useFirebaseData must be used within FirebaseDataProvider");
   return ctx;
 };
+

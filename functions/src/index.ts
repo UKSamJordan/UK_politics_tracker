@@ -2,7 +2,7 @@ import { onCall } from "firebase-functions/v2/https";
 import { defineSecret } from "firebase-functions/params";
 import { GoogleGenAI } from "@google/genai";
 import * as admin from "firebase-admin";
-import { autonomousPoliticalAgent, runAutonomousAudit } from "./autonomousAgent";
+import { autonomousPoliticalAgent, runAutonomousAudit, runMediaLensAnalysis } from "./autonomousAgent";
 
 if (!admin.apps.length) {
   admin.initializeApp();
@@ -142,4 +142,34 @@ export const updatePledgeInFirestore = onCall(
   }
 );
 
+/**
+ * On-Demand Media Lens ('Ground News for Westminster') Multi-Spectrum Newspaper Analyzer
+ */
+export const analyzeMediaLens = onCall(
+  { secrets: [geminiApiKey], cors: true, timeoutSeconds: 120 },
+  async (request) => {
+    try {
+      const { customTopic, seedStories } = request.data || {};
+      if (Array.isArray(seedStories) && seedStories.length > 0) {
+        const batch = db.batch();
+        for (const story of seedStories) {
+          if (story && story.id) {
+            batch.set(db.collection("media_lens").doc(story.id), story, { merge: true });
+          }
+        }
+        await batch.commit();
+        if (!customTopic && request.data?.seedOnly) {
+          return { stories: seedStories };
+        }
+      }
+      const result = await runMediaLensAnalysis(geminiApiKey.value(), customTopic);
+      return result;
+    } catch (error: any) {
+      console.error("analyzeMediaLens Error:", error);
+      throw new Error(`Failed to analyze UK media framing: ${error.message}`);
+    }
+  }
+);
+
 export { autonomousPoliticalAgent };
+

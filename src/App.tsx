@@ -9,6 +9,7 @@ import { PollTracker } from './components/PollTracker';
 import { FactCheckDirectory } from './components/FactCheckDirectory';
 import { PolicyQuiz } from './components/PolicyQuiz';
 import { LiveAIFeed } from './components/LiveAIFeed';
+import { MediaLens } from './components/MediaLens';
 import { PoliticalMatrix } from './components/PoliticalMatrix';
 import { DataBankModal } from './components/DataBankModal';
 import { SystemHealthModal } from './components/SystemHealthModal';
@@ -32,7 +33,7 @@ import {
 
 export const App: React.FC = () => {
   const { isDark, toggleTheme } = useTheme();
-  const { parties, cabinets, policies, polls, factChecks, loading, setCabinets, setPolicies, setPolls, setFactChecks } = useFirebaseData();
+  const { parties, cabinets, policies, polls, factChecks, mediaLens, loading, setCabinets, setPolicies, setPolls, setFactChecks, setMediaLens } = useFirebaseData();
 
   const timeSeries: PollPoint[] = (polls.timeSeries || pollsData.timeSeries) as PollPoint[];
   const policyPopularity: PolicyPopularityItem[] = (polls.policyPopularity || pollsData.policyPopularity) as PolicyPopularityItem[];
@@ -189,6 +190,13 @@ export const App: React.FC = () => {
             initialSubTab={pollSubTab}
             initialTargetLeader={pollTargetLeader}
             isDark={isDark}
+          />
+        )}
+
+        {activeTab === 'media' && (
+          <MediaLens
+            stories={mediaLens}
+            onUpdateStories={setMediaLens}
           />
         )}
 

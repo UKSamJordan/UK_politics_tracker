@@ -11,6 +11,7 @@ import {
   Menu,
   X,
   Radio,
+  Newspaper,
   Sun,
   Moon
 } from 'lucide-react';
@@ -43,10 +44,11 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const navItems: NavItem[] = [
     { id: 'compare', label: 'Compare Policies', icon: Scale },
-    { id: 'matrix', label: 'Political Matrix', icon: Compass },
-    { id: 'cabinets', label: 'Cabinets & Leaders', icon: Users },
-    { id: 'polls', label: 'Polls & Public Opinion', icon: BarChart3 },
+    { id: 'media', label: 'Media Lens', icon: Newspaper, badge: 'New' },
     { id: 'live', label: 'Live Policy Tracker', icon: Radio, badge: 'Live' },
+    { id: 'polls', label: 'Polls & Public Opinion', icon: BarChart3 },
+    { id: 'cabinets', label: 'Cabinets & Leaders', icon: Users },
+    { id: 'matrix', label: 'Political Matrix', icon: Compass },
     { id: 'factchecks', label: 'Fact Checkers', icon: CheckCircle2 },
     { id: 'quiz', label: 'Where Do You Stand?', icon: HelpCircle },
   ];
