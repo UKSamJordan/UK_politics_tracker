@@ -66,7 +66,17 @@ export const FirebaseDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
     });
     const unsubMediaLens = onSnapshot(collection(db, 'media_lens'), (snap) => {
       if (!snap.empty) {
-        const liveItems = snap.docs.map((d) => d.data() as MediaClusterStory);
+        const baselineOrder = new Map(
+          (mediaLensData as MediaClusterStory[]).map((m, idx) => [m.id, idx])
+        );
+        const liveItems = snap.docs
+          .map((d) => d.data() as MediaClusterStory & { createdAt?: number })
+          .sort((a, b) => {
+            if (a.createdAt || b.createdAt) {
+              return (b.createdAt ?? 0) - (a.createdAt ?? 0);
+            }
+            return (baselineOrder.get(a.id) ?? 99) - (baselineOrder.get(b.id) ?? 99);
+          });
         const liveTitles = new Set(liveItems.map((i) => i.title?.toLowerCase()));
         const merged = [
           ...liveItems,

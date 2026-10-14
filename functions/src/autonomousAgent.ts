@@ -346,11 +346,13 @@ Return ONLY a valid JSON array matching this exact schema (no markdown fences):
 
   if (stories.length > 0) {
     const batch = db.batch();
+    const now = Date.now();
     stories.forEach((s: any, idx: number) => {
       const docId = customTopic
-        ? `custom-${Date.now()}-${idx}`
-        : s.id || `live-media-${Date.now()}-${idx}`;
+        ? `custom-${now}-${idx}`
+        : s.id || `live-media-${now}-${idx}`;
       s.id = docId;
+      s.createdAt = now - idx;
       batch.set(db.collection("media_lens").doc(docId), s, { merge: true });
     });
     await batch.commit();

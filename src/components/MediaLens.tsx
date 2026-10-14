@@ -550,20 +550,25 @@ export const MediaLens: React.FC<MediaLensProps> = ({
 
               {/* Part 1: Left vs Centre vs Right Editorial Framing Columns */}
               <div className="p-5 sm:p-7 bg-slate-50/50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-800">
-                <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4 flex items-center space-x-2">
-                  <Scale className="w-4 h-4 text-indigo-500" />
-                  <span>
-                    1. Ideological Wing Comparison: How Left, Centre &amp; Right Frame It &amp; Why
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center space-x-2">
+                    <Scale className="w-4 h-4 text-indigo-500 shrink-0" />
+                    <span>
+                      1. Ideological Wing Comparison: Left, Centre &amp; Right
+                    </span>
+                  </h4>
+                  <span className="lg:hidden text-[11px] font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-0.5 rounded-full shrink-0">
+                    Swipe cards ↔ (3)
                   </span>
-                </h4>
+                </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <div className="flex overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-3 gap-4">
                   {/* Left Perspective */}
-                  <div className="rounded-2xl bg-white dark:bg-slate-800/90 border-t-4 border-t-rose-500 border border-slate-200 dark:border-slate-700 p-4 sm:p-5 flex flex-col justify-between space-y-3 shadow-2xs">
+                  <div className="w-full lg:w-auto flex-none snap-start lg:snap-align-none rounded-2xl bg-white dark:bg-slate-800/90 border-t-4 border-t-rose-500 border border-slate-200 dark:border-slate-700 p-4 sm:p-5 flex flex-col justify-between space-y-3 shadow-2xs">
                     <div className="space-y-2.5">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-extrabold uppercase tracking-wider text-rose-700 dark:text-rose-300">
-                          Left-Leaning Press
+                          Left-Leaning Press (1/3)
                         </span>
                         <span className="text-[11px] font-semibold text-slate-400">
                           Guardian • Mirror • Independent
@@ -581,24 +586,29 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                         </p>
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {story.wingPerspectives.left.toneKeywords.map((kw, i) => (
-                        <span
-                          key={i}
-                          className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border border-rose-200/60 dark:border-rose-800/60"
-                        >
-                          {kw}
-                        </span>
-                      ))}
+                    <div className="flex items-center justify-between pt-1 gap-2">
+                      <div className="flex flex-wrap gap-1.5">
+                        {story.wingPerspectives.left.toneKeywords.map((kw, i) => (
+                          <span
+                            key={i}
+                            className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border border-rose-200/60 dark:border-rose-800/60"
+                          >
+                            {kw}
+                          </span>
+                        ))}
+                      </div>
+                      <span className="lg:hidden text-[10px] font-bold text-slate-400 shrink-0">
+                        Swipe for Centre →
+                      </span>
                     </div>
                   </div>
 
                   {/* Centre Perspective */}
-                  <div className="rounded-2xl bg-white dark:bg-slate-800/90 border-t-4 border-t-indigo-500 border border-slate-200 dark:border-slate-700 p-4 sm:p-5 flex flex-col justify-between space-y-3 shadow-2xs">
+                  <div className="w-full lg:w-auto flex-none snap-start lg:snap-align-none rounded-2xl bg-white dark:bg-slate-800/90 border-t-4 border-t-indigo-500 border border-slate-200 dark:border-slate-700 p-4 sm:p-5 flex flex-col justify-between space-y-3 shadow-2xs">
                     <div className="space-y-2.5">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-700 dark:text-indigo-300">
-                          Centre &amp; Broadcasters
+                          Centre &amp; Broadcasters (2/3)
                         </span>
                         <span className="text-[11px] font-semibold text-slate-400">
                           BBC • Sky News • FT
@@ -616,24 +626,29 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                         </p>
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {story.wingPerspectives.center.toneKeywords.map((kw, i) => (
-                        <span
-                          key={i}
-                          className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60"
-                        >
-                          {kw}
-                        </span>
-                      ))}
+                    <div className="flex items-center justify-between pt-1 gap-2">
+                      <div className="flex flex-wrap gap-1.5">
+                        {story.wingPerspectives.center.toneKeywords.map((kw, i) => (
+                          <span
+                            key={i}
+                            className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60"
+                          >
+                            {kw}
+                          </span>
+                        ))}
+                      </div>
+                      <span className="lg:hidden text-[10px] font-bold text-slate-400 shrink-0">
+                        Swipe for Right →
+                      </span>
                     </div>
                   </div>
 
                   {/* Right Perspective */}
-                  <div className="rounded-2xl bg-white dark:bg-slate-800/90 border-t-4 border-t-sky-500 border border-slate-200 dark:border-slate-700 p-4 sm:p-5 flex flex-col justify-between space-y-3 shadow-2xs">
+                  <div className="w-full lg:w-auto flex-none snap-start lg:snap-align-none rounded-2xl bg-white dark:bg-slate-800/90 border-t-4 border-t-sky-500 border border-slate-200 dark:border-slate-700 p-4 sm:p-5 flex flex-col justify-between space-y-3 shadow-2xs">
                     <div className="space-y-2.5">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-extrabold uppercase tracking-wider text-sky-700 dark:text-sky-300">
-                          Right-Leaning Press
+                          Right-Leaning Press (3/3)
                         </span>
                         <span className="text-[11px] font-semibold text-slate-400">
                           Telegraph • Mail • Times • GB News
@@ -651,15 +666,20 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                         </p>
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {story.wingPerspectives.right.toneKeywords.map((kw, i) => (
-                        <span
-                          key={i}
-                          className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-sky-50 text-sky-700 dark:bg-sky-950/60 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/60"
-                        >
-                          {kw}
-                        </span>
-                      ))}
+                    <div className="flex items-center justify-between pt-1 gap-2">
+                      <div className="flex flex-wrap gap-1.5">
+                        {story.wingPerspectives.right.toneKeywords.map((kw, i) => (
+                          <span
+                            key={i}
+                            className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-sky-50 text-sky-700 dark:bg-sky-950/60 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/60"
+                          >
+                            {kw}
+                          </span>
+                        ))}
+                      </div>
+                      <span className="lg:hidden text-[10px] font-bold text-slate-400 shrink-0">
+                        ← Swipe back
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -667,18 +687,23 @@ export const MediaLens: React.FC<MediaLensProps> = ({
 
               {/* Part 2: Specific Newspaper & Broadcaster Breakdown */}
               <div className="p-5 sm:p-7 space-y-4">
-                <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center space-x-2">
-                  <Newspaper className="w-4 h-4 text-rose-500" />
-                  <span>
-                    2. Outlet-by-Outlet Breakdown: Headlines &amp; Editorial Lens (e.g. Telegraph vs Guardian vs BBC)
+                <div className="flex items-center justify-between gap-2">
+                  <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center space-x-2">
+                    <Newspaper className="w-4 h-4 text-rose-500 shrink-0" />
+                    <span>
+                      2. Outlet-by-Outlet Breakdown (e.g. Telegraph vs Guardian vs BBC)
+                    </span>
+                  </h4>
+                  <span className="md:hidden text-[11px] font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60 px-2.5 py-0.5 rounded-full shrink-0">
+                    Swipe outlets ↔ ({story.outletReports.length})
                   </span>
-                </h4>
+                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] md:grid md:grid-cols-2 gap-4">
                   {story.outletReports.map((rep, idx) => (
                     <div
                       key={idx}
-                      className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/50 p-4 sm:p-5 flex flex-col justify-between space-y-3 hover:border-slate-300 dark:hover:border-slate-700 transition-all"
+                      className="w-full md:w-auto flex-none snap-start md:snap-align-none rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/50 p-4 sm:p-5 flex flex-col justify-between space-y-3 hover:border-slate-300 dark:hover:border-slate-700 transition-all"
                     >
                       <div className="space-y-2.5">
                         <div className="flex flex-wrap items-center justify-between gap-2">
@@ -694,9 +719,14 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                               {getLeanLabel(rep.lean)}
                             </span>
                           </div>
-                          <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
-                            Factuality: {rep.factuality}
-                          </span>
+                          <div className="flex items-center space-x-1.5">
+                            <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
+                              Factuality: {rep.factuality}
+                            </span>
+                            <span className="md:hidden text-[10px] font-bold text-slate-400">
+                              ({idx + 1}/{story.outletReports.length})
+                            </span>
+                          </div>
                         </div>
 
                         <a
