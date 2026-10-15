@@ -200,20 +200,15 @@ export function detectSeatChanges(
 }
 
 /**
- * Execute a live query against Google Gemini 3.8 Flash via Cloud Function with strict timeout
+ * Execute a live server-side action against Google Gemini 3.8 Flash via Cloud Function with strict timeout
  */
-async function queryGemini(prompt: string, timeoutMs: number = 20000): Promise<any> {
+async function queryGemini(payload: Record<string, any>, timeoutMs: number = 20000): Promise<any> {
   const askGemini = httpsCallable(functions, 'askGemini');
   const timeoutPromise = new Promise<never>((_, reject) =>
     setTimeout(() => reject(new Error('Gemini Cloud Function timeout')), timeoutMs)
   );
 
-  const callPromise = askGemini({
-    prompt,
-    useSearchGrounding: true,
-    systemInstruction:
-      'You are a UK political data API with live Google Search access. Return ONLY valid JSON matching the schema implied by the prompt. Never wrap your response in markdown blocks.',
-  });
+  const callPromise = askGemini(payload);
 
   const result = (await Promise.race([callPromise, timeoutPromise])) as any;
   const data = result.data as { text: string };
@@ -435,36 +430,7 @@ export async function refreshFactChecks(): Promise<{
   source: string;
 }> {
   try {
-    const prompt = `You are an expert UK political fact-checker and researcher with live Google Search access.
-Audit and retrieve the latest high-profile political claims and independent fact-checking investigations across all UK political parties (Labour, Conservative, Reform UK, Liberal Democrats, Green Party, SNP, Plaid Cymru, Restore Britain).
-
-GROUNDING & VERIFICATION RULES:
-1. RECENCY FIRST:
-   - Provide the most recent fact-checks first. Dates MUST be formatted as 'YYYY-MM-DD'.
-2. INDEPENDENT SOURCES ONLY:
-   - Citations must come from reputable fact-checking or non-partisan research institutions: Full Fact, BBC Reality Check, Channel 4 FactCheck, Institute for Fiscal Studies (IFS), Office for Budget Responsibility (OBR), National Audit Office (NAO), Migration Observatory, or RUSI.
-   - Include valid sourceUrl and source name.
-3. VERDICT TAXONOMY:
-   - verdict MUST be one of: 'False' | 'Misleading' | 'Disputed' | 'Needs Context' | 'Unproven' | 'Accurate'.
-4. STRICT SCHEMA:
-   - partyId MUST be one of: 'labour' | 'conservative' | 'reform' | 'libdem' | 'green' | 'snp' | 'plaid' | 'restore'.
-   - category MUST be one of: 'defence' | 'economy' | 'welfare' | 'nhs' | 'immigration' | 'energy' | 'housing' | 'education' | 'governance'.
-
-Return a JSON array of 10 to 14 FactCheckItem objects (ordered by newest date descending):
-Array<{
-  id: string;
-  partyId: "labour" | "conservative" | "reform" | "libdem" | "green" | "snp" | "plaid" | "restore";
-  speaker: string;
-  date: string;
-  claim: string;
-  verdict: "False" | "Misleading" | "Disputed" | "Needs Context" | "Unproven" | "Accurate";
-  explanation: string;
-  source: string;
-  sourceUrl: string;
-  category: "defence" | "economy" | "welfare" | "nhs" | "immigration" | "energy" | "housing" | "education" | "governance";
-}>`;
-
-    const liveData = await queryGemini(prompt, 20000);
+    const liveData = await queryGemini({ action: 'factchecks' }, 20000);
     if (Array.isArray(liveData) && liveData.length > 0) {
       const sorted = [...liveData].sort(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -504,31 +470,22 @@ export async function fetchPersonIntelligence(
   timestamp: string;
   source: string;
 }> {
-  const prompt = `You are an expert UK parliamentary researcher and political intelligence analyst.
-Provide an up-to-the-minute factual intelligence dossier on:
-- Name: ${personName}
-- Current Role: ${role}
-- Party: ${partyName}
-${constituency ? `- Constituency / Base: ${constituency}` : ''}
-- Context Date: September 2026
-
-Provide a comprehensive, strictly factual, and non-partisan summary covering:
-1. RECENT KEY ACTIONS & POLICY MOVES (3-4 bullet points detailing specific bills introduced, parliamentary speeches, departmental decisions, committee appearances, or campaign launches).
-2. LATEST PUBLIC STATEMENTS & QUOTES (2 concrete statements or stances on national policy issues like the economy, public services, defence, energy, or party strategy).
-3. CURRENT STRATEGIC CONTEXT (1-2 sentences on their current political influence, standing within their party, or upcoming parliamentary priorities).
-
-Format cleanly with markdown bold headers and bullet points. Be specific with figures, names of initiatives, and dates where known. Keep tone strictly objective and factual.`;
-
   try {
     const askGemini = httpsCallable(functions, 'askGemini');
-    
-    // We'll race the cloud function against a 12-second timeout
+
+    // Race the cloud function against a 12-second timeout
     const timeoutPromise = new Promise<never>((_, reject) => {
       setTimeout(() => reject(new Error('TimeoutError')), 12000);
     });
 
-    const callPromise = askGemini({ prompt });
-    const result = await Promise.race([callPromise, timeoutPromise]) as any;
+    const callPromise = askGemini({
+      action: 'personDossier',
+      personName,
+      role,
+      partyName,
+      constituency,
+    });
+    const result = (await Promise.race([callPromise, timeoutPromise])) as any;
 
     const text = result.data.text || 'No intelligence dossier returned.';
 
@@ -549,7 +506,7 @@ Format cleanly with markdown bold headers and bullet points. Be specific with fi
         source: 'Parliamentary Register Fallback Record',
       };
     }
-    console.error("fetchPersonIntelligence error:", err);
+    console.error('fetchPersonIntelligence error:', err);
     throw err;
   }
 }
