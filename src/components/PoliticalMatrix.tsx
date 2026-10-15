@@ -732,6 +732,64 @@ export const POLICY_LENSES: PolicyLens[] = [
         }
       }
     ]
+  },
+  {
+    id: 'eu',
+    name: 'EU & Trade Relations',
+    shortName: 'EU & Trade',
+    category: 'eu',
+    topicId: 'eu-brexit-and-trade-relations',
+    description: 'Single Market & Customs Union alignment, TCA renegotiation, Erasmus+/youth mobility, and regulatory sovereignty.',
+    partyCoords: {
+      labour: {
+        economic: -1.0,
+        social: 1.5,
+        quadrant: 'Auth-Left',
+        rationale: 'Rules out returning to the Single Market, Customs Union, or freedom of movement; negotiates a veterinary/SPS agrifood pact, mutual professional recognition, and an EU-UK security treaty.'
+      },
+      conservative: {
+        economic: 5.5,
+        social: 5.0,
+        quadrant: 'Auth-Right',
+        rationale: 'Defends Brexit regulatory divergence outside the Single Market and ECJ jurisdiction; prioritises CPTPP and bilateral free-trade agreements while opposing dynamic alignment with Brussels.'
+      },
+      reform: {
+        economic: 8.0,
+        social: 8.0,
+        quadrant: 'Auth-Right',
+        rationale: 'Renegotiates or terminates the EU Trade and Cooperation Agreement (TCA), scraps Windsor Framework checks in Northern Ireland, and purges all remaining retained EU law.'
+      },
+      libdem: {
+        economic: -1.5,
+        social: -5.5,
+        quadrant: 'Lib-Left',
+        rationale: 'Four-stage roadmap to rejoin the EU Single Market (and longer-term EU membership), starting with an immediate Youth Mobility Scheme, Erasmus+ return, and veterinary agreement.'
+      },
+      green: {
+        economic: -6.5,
+        social: -7.5,
+        quadrant: 'Lib-Left',
+        rationale: 'Full UK return to the European Union as soon as politically practicable, beginning with immediate re-entry to the Customs Union, Single Market, and reciprocal freedom of movement.'
+      },
+      snp: {
+        economic: -4.5,
+        social: -5.0,
+        quadrant: 'Lib-Left',
+        rationale: 'Rejoin the European Union as an independent Member State ("Independence in Europe"), restoring Single Market access, Schengen/free movement for Scotland, and Erasmus+.'
+      },
+      plaid: {
+        economic: -5.0,
+        social: -4.5,
+        quadrant: 'Lib-Left',
+        rationale: 'Immediate UK re-entry into the European Single Market and Customs Union to protect Welsh agriculture and manufacturing exports from non-tariff barriers.'
+      },
+      restore: {
+        economic: 8.5,
+        social: 9.0,
+        quadrant: 'Auth-Right',
+        rationale: 'Complete legislative and treaty severance from European institutions: unilateral abrogation of the Windsor Framework, TCA, and ECHR, restoring absolute parliamentary supremacy.'
+      }
+    }
   }
 ];
 
@@ -746,6 +804,7 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
   const [activePerspectiveId, setActivePerspectiveId] = useState<string>('cosmopolitan');
   const [selectedPartyId, setSelectedPartyId] = useState<PartyId>('labour');
   const [selectedPolicyId, setSelectedPolicyId] = useState<string>(policies[0]?.id || 'defence-spending-and-military');
+  const [showUkAverageInPolicies, setShowUkAverageInPolicies] = useState<boolean>(false);
   
   // Head to Head ideological distance calculator
   const [comparePartyA, setComparePartyA] = useState<PartyId>('labour');
@@ -774,6 +833,30 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
 
   // Selected policy in 'policies' mode
   const selectedPolicy = policies.find((p) => p.id === selectedPolicyId) || policies[0];
+
+  // Resolve a party's specific coordinate & rationale for any policy topic (used in Tab 2: Policy Proposals Benchmark)
+  const getTopicCoordForParty = (topic: PolicyTopic, party: Party) => {
+    const matchingLens = POLICY_LENSES.find(
+      (l) => l.topicId === topic.id || l.category === topic.category || l.id === topic.category
+    );
+    if (matchingLens && matchingLens.partyCoords[party.id]) {
+      const pc = matchingLens.partyCoords[party.id];
+      return {
+        econ: pc.economic,
+        soc: pc.social,
+        quadrant: pc.quadrant,
+        rationale: pc.rationale,
+        shortSectorName: matchingLens.shortName,
+      };
+    }
+    return {
+      econ: topic.compass?.economic ?? party.compass?.economicScore ?? 0,
+      soc: topic.compass?.social ?? party.compass?.socialScore ?? 0,
+      quadrant: topic.compass?.quadrant ?? party.compass?.quadrant ?? 'Centrist',
+      rationale: topic.compass?.summary ?? party.compass?.rationale ?? '',
+      shortSectorName: topic.title.split(' ')[0].replace(/[^a-zA-Z0-9&-]/g, ''),
+    };
+  };
 
   // Resolve coordinate for party on active lens or baseline
   const getPartyActiveCoords = (p: Party) => {
@@ -1088,7 +1171,8 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
                 energy: '⚡',
                 education: '🎓',
                 welfare: '🤝',
-                immigration: '🛂'
+                immigration: '🛂',
+                eu: '🇪🇺'
               };
 
               return (
@@ -1180,6 +1264,86 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
         </div>
       )}
 
+      {/* Party Selector Bar for Tab 2 ('policies' mode: Policy Proposals Benchmark) */}
+      {mode === 'policies' && (
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="flex items-center space-x-2">
+              <Users className="w-4 h-4 text-rose-500" />
+              <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100">
+                Select a Party to See Where All 9 of Their Policies Lie on the 2D Spectrum
+              </h3>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowUkAverageInPolicies(!showUkAverageInPolicies)}
+              className={`inline-flex items-center space-x-1.5 text-xs font-bold px-3 py-1.5 rounded-xl border transition-all cursor-pointer self-start sm:self-auto ${
+                showUkAverageInPolicies
+                  ? 'bg-indigo-600 text-white border-indigo-500 shadow-xs'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
+              }`}
+            >
+              <span>🇬🇧</span>
+              <span>{showUkAverageInPolicies ? 'Showing: UK Debate Centre Average' : 'Compare vs UK Debate Average'}</span>
+            </button>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {parties.map((p) => {
+              const isSelected = !showUkAverageInPolicies && selectedPartyId === p.id;
+              return (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => {
+                    setShowUkAverageInPolicies(false);
+                    setSelectedPartyId(p.id);
+                  }}
+                  style={{
+                    backgroundColor: isSelected ? p.color : undefined,
+                    borderColor: p.color,
+                    color: isSelected ? p.textColor || '#ffffff' : undefined,
+                  }}
+                  className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all border cursor-pointer ${
+                    isSelected
+                      ? 'ring-2 ring-offset-1 dark:ring-offset-slate-900 shadow-sm'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700'
+                  }`}
+                >
+                  <span
+                    className="w-2.5 h-2.5 rounded-full shrink-0"
+                    style={{ backgroundColor: isSelected ? p.textColor || '#ffffff' : p.color }}
+                  />
+                  <span>{p.shortName}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="bg-slate-100/80 dark:bg-slate-800/70 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            {!showUkAverageInPolicies ? (
+              <div>
+                <span className="font-extrabold text-slate-900 dark:text-slate-100">
+                  Mapping {selectedParty.name}&apos;s Policy Fingerprint Across All {filteredPolicies.length} Sectors
+                </span>
+                <span className="text-[11px] text-slate-600 dark:text-slate-300 block mt-0.5">
+                  Each pin shows where <strong>{selectedParty.shortName}</strong> sits on that specific policy issue (connected by dashed lines to {selectedParty.shortName}&apos;s overall baseline at {selectedParty.compass?.economicScore ?? 0}, {selectedParty.compass?.socialScore ?? 0}). Tap any policy pin to read {selectedParty.shortName}&apos;s manifesto pledge.
+                </span>
+              </div>
+            ) : (
+              <div>
+                <span className="font-extrabold text-indigo-900 dark:text-indigo-200">
+                  Mapping Overall UK Political Debate Centre-of-Gravity
+                </span>
+                <span className="text-[11px] text-slate-600 dark:text-slate-300 block mt-0.5">
+                  Showing where the broader British debate sits for each policy sector. Tap any party button above to switch back to that party&apos;s specific policy positions.
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Main Grid & Inspector Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* 2D Interactive SVG Compass Canvas (7 cols) */}
@@ -1190,7 +1354,7 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
               <h3 className="font-bold text-sm text-slate-900 dark:text-slate-100">
                 {mode === 'parties' 
                   ? (isPolicyLensActive ? `Parties on ${activeLens.name}` : 'UK Political Parties on the 2D Spectrum') 
-                  : 'Key Policy Proposals on the 2D Spectrum'}
+                  : (!showUkAverageInPolicies ? `${selectedParty.name}: All Policy Positions on the 2D Spectrum` : 'UK Policy Sectors Benchmark on the 2D Spectrum')}
               </h3>
             </div>
             <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
@@ -1427,14 +1591,20 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
                 );
               })()}
 
-              {/* ---------------- PLOTTING: POLICIES BENCHMARK MODE (3-LAYER ANTI-COLLISION) ---------------- */}
+              {/* ---------------- PLOTTING: POLICIES BENCHMARK MODE (PARTY-SPECIFIC OR UK AVERAGE) ---------------- */}
               {mode === 'policies' && (() => {
+                const partyBaseEcon = selectedParty.compass?.economicScore ?? 0;
+                const partyBaseSoc = selectedParty.compass?.socialScore ?? 0;
+                const { x: partyBaseX, y: partyBaseY } = toSvgCoords(partyBaseEcon, partyBaseSoc);
+
                 const rawPolicyItems = filteredPolicies.map((topic) => {
-                  const econ = topic.compass?.economic ?? 0;
-                  const soc = topic.compass?.social ?? 0;
+                  const partyPolicy = getTopicCoordForParty(topic, selectedParty);
+                  const econ = showUkAverageInPolicies ? (topic.compass?.economic ?? 0) : partyPolicy.econ;
+                  const soc = showUkAverageInPolicies ? (topic.compass?.social ?? 0) : partyPolicy.soc;
                   const { x, y } = toSvgCoords(econ, soc);
                   const isSelected = selectedPolicyId === topic.id;
-                  const shortTitle = topic.title.split(' ')[0].replace(/[^a-zA-Z0-9&-]/g, '');
+                  const shortTitle = partyPolicy.shortSectorName;
+                  const coordStr = `(${econ > 0 ? `+${econ}` : econ}, ${soc > 0 ? `+${soc}` : soc})`;
                   return {
                     id: topic.id,
                     topic,
@@ -1443,16 +1613,57 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
                     trueX: x,
                     trueY: y,
                     isSelected,
-                    label: isSelected ? `${shortTitle} (${econ}, ${soc})` : shortTitle,
+                    label: isSelected ? `${shortTitle} ${coordStr}` : shortTitle,
                   };
                 });
 
-                const policyNodes = computeSmartPlotLayout(rawPolicyItems, 34);
+                const policyNodes = computeSmartPlotLayout(rawPolicyItems, 35);
                 const zSortedPolicies = [...policyNodes].sort((a, b) => (a.isSelected ? 1 : 0) - (b.isSelected ? 1 : 0));
+                const activePinColor = showUkAverageInPolicies ? '#4f46e5' : selectedParty.color;
+                const activePinTextColor = showUkAverageInPolicies ? '#ffffff' : (selectedParty.textColor || '#ffffff');
 
                 return (
                   <>
-                    {/* Pin Circles */}
+                    {/* LAYER 1: Selected Party Overall Baseline Hub & Spokes to Each Policy Pin */}
+                    {!showUkAverageInPolicies && (
+                      <g className="pointer-events-none">
+                        {zSortedPolicies.map((n) => (
+                          <line
+                            key={`spoke-${n.id}`}
+                            x1={partyBaseX}
+                            y1={partyBaseY}
+                            x2={n.pinX}
+                            y2={n.pinY}
+                            stroke={selectedParty.color}
+                            strokeWidth={n.isSelected ? '1.8' : '1.1'}
+                            strokeDasharray="3 3"
+                            opacity={n.isSelected ? 0.75 : 0.35}
+                          />
+                        ))}
+                        <circle
+                          cx={partyBaseX}
+                          cy={partyBaseY}
+                          r="9"
+                          fill={selectedParty.color}
+                          fillOpacity={0.22}
+                          stroke={selectedParty.color}
+                          strokeWidth="1.5"
+                          strokeDasharray="2 2"
+                        />
+                        <text
+                          x={partyBaseX}
+                          y={partyBaseY + 3}
+                          textAnchor="middle"
+                          fontSize="6.5"
+                          fontWeight="900"
+                          fill={isDark ? '#e2e8f0' : '#1e293b'}
+                        >
+                          AVG
+                        </text>
+                      </g>
+                    )}
+
+                    {/* LAYER 2: Policy Pin Circles */}
                     {zSortedPolicies.map((n) => (
                       <g
                         key={`pol-pin-${n.id}`}
@@ -1462,26 +1673,28 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
                       >
                         {n.isSelected && (
                           <circle
-                            r="20"
+                            r="22"
                             fill="none"
-                            stroke="#6366f1"
-                            strokeWidth="2"
-                            className="animate-pulse"
+                            stroke={activePinColor}
+                            strokeWidth="2.5"
+                            strokeDasharray="4 4"
+                            className="animate-spin"
+                            style={{ animationDuration: '8s' }}
                           />
                         )}
                         <circle
-                          r="13.5"
-                          fill={n.isSelected ? '#4f46e5' : isDark ? '#334155' : '#0f172a'}
+                          r="14.5"
+                          fill={activePinColor}
                           stroke={isDark ? '#0f172a' : '#ffffff'}
-                          strokeWidth="2"
-                          className="hover:scale-110 drop-shadow-sm"
+                          strokeWidth={n.isSelected ? '2.8' : '2'}
+                          className="hover:scale-110 drop-shadow-md"
                         />
                         <text
                           textAnchor="middle"
                           dy="3.5"
                           fontSize="8"
-                          fontWeight="800"
-                          fill="#ffffff"
+                          fontWeight="900"
+                          fill={activePinTextColor}
                           className="pointer-events-none"
                         >
                           {n.topic.category.slice(0, 3).toUpperCase()}
@@ -1489,7 +1702,7 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
                       </g>
                     ))}
 
-                    {/* Non-Overlapping Policy Label Pills */}
+                    {/* LAYER 3: Non-Overlapping Policy Label Pills */}
                     {zSortedPolicies.map((n) => (
                       <g
                         key={`pol-lbl-${n.id}`}
@@ -1501,9 +1714,9 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
                           y1={n.pinY}
                           x2={n.labelX}
                           y2={n.labelY}
-                          stroke={n.isSelected ? '#6366f1' : '#64748b'}
-                          strokeWidth="1.2"
-                          opacity={0.7}
+                          stroke={activePinColor}
+                          strokeWidth="1.4"
+                          opacity={0.75}
                         />
                         <g transform={`translate(${n.labelX}, ${n.labelY})`}>
                           <rect
@@ -1514,13 +1727,13 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
                             rx="5"
                             fill={isDark ? '#0f172a' : '#ffffff'}
                             fillOpacity={0.96}
-                            stroke={n.isSelected ? '#6366f1' : isDark ? '#475569' : '#cbd5e1'}
+                            stroke={n.isSelected ? activePinColor : isDark ? '#475569' : '#cbd5e1'}
                             strokeWidth={n.isSelected ? '2' : '1.2'}
                           />
                           <text
                             textAnchor="middle"
                             y="3.5"
-                            fontSize="8.8"
+                            fontSize="9"
                             fontWeight={n.isSelected ? '900' : '700'}
                             fill={isDark ? '#f8fafc' : '#0f172a'}
                           >
@@ -1555,40 +1768,41 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
             </div>
           </div>
 
-          {/* Quick Party Selector Pills */}
-          {mode === 'parties' && (
-            <div className="flex flex-wrap items-center gap-1.5 pt-2">
-              <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mr-1">
-                Inspect Party:
-              </span>
-              {parties.map((p) => {
-                const isActive = selectedPartyId === p.id;
-                return (
-                  <button
-                    key={p.id}
-                    onClick={() => setSelectedPartyId(p.id)}
-                    className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                      isActive
-                        ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xs'
-                        : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
-                    }`}
-                  >
-                    <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: p.color }} />
-                    <span>{p.shortName}</span>
-                  </button>
-                );
-              })}
-            </div>
-          )}
+          {/* Quick Party Selector Pills (Available in BOTH Tabs!) */}
+          <div className="flex flex-wrap items-center gap-1.5 pt-2">
+            <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mr-1">
+              {mode === 'parties' ? 'Inspect Party:' : 'Party Policies:'}
+            </span>
+            {parties.map((p) => {
+              const isActive = (!showUkAverageInPolicies || mode === 'parties') && selectedPartyId === p.id;
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => {
+                    if (mode === 'policies') setShowUkAverageInPolicies(false);
+                    setSelectedPartyId(p.id);
+                  }}
+                  className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-xs'
+                      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
+                  }`}
+                >
+                  <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: p.color }} />
+                  <span>{p.shortName}</span>
+                </button>
+              );
+            })}
+          </div>
 
           {/* Quick Policy Category Filter Pills (in 'policies' mode) */}
           {mode === 'policies' && (
-            <div className="flex flex-wrap items-center gap-1.5 pt-2">
+            <div className="flex flex-wrap items-center gap-1.5 pt-1">
               <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mr-1">
                 Filter Sector:
               </span>
               {[
-                { id: 'all', label: 'All Sectors' },
+                { id: 'all', label: 'All 9 Sectors' },
                 { id: 'defence', label: 'Defence' },
                 { id: 'economy', label: 'Economy' },
                 { id: 'education', label: 'Education' },
@@ -1596,6 +1810,8 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
                 { id: 'energy', label: 'Energy' },
                 { id: 'housing', label: 'Housing' },
                 { id: 'nhs', label: 'NHS' },
+                { id: 'welfare', label: 'Welfare' },
+                { id: 'eu', label: 'EU & Trade' },
               ].map((c) => (
                 <button
                   key={c.id}
@@ -1880,74 +2096,160 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
           )}
 
           {/* Policy Proposals Inspector (in 'policies' mode) */}
-          {mode === 'policies' && (
-            <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-5">
-              <div className="flex items-start justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 rounded">
-                    {selectedPolicy.category.toUpperCase()}
-                  </span>
-                  <h3 className="font-extrabold text-slate-900 dark:text-slate-100 text-lg leading-snug mt-1.5">
-                    {selectedPolicy.title}
-                  </h3>
-                </div>
-              </div>
+          {mode === 'policies' && (() => {
+            const selectedPartyTopicCoord = getTopicCoordForParty(selectedPolicy, selectedParty);
+            const selectedPartyTopicPledge = selectedPolicy.pledges?.[selectedPartyId];
 
-              <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-3.5 space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-500 dark:text-slate-400 font-medium">Policy Coordinates:</span>
-                  <span className="font-extrabold text-slate-900 dark:text-slate-100">
-                    Economic: {selectedPolicy.compass?.economic} • Social: {selectedPolicy.compass?.social}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-500 dark:text-slate-400 font-medium">Ideological Sector:</span>
-                  <span className="font-extrabold text-indigo-700 dark:text-indigo-300 bg-white dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700">
-                    {selectedPolicy.compass?.quadrant}
-                  </span>
-                </div>
-                <p className="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
-                  {selectedPolicy.compass?.summary}
-                </p>
-              </div>
-
-              {/* Official Benchmark */}
-              {selectedPolicy.officialFigureBenchmark && (
-                <div className="bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-900/60 rounded-xl p-3 space-y-1">
-                  <span className="text-[10px] uppercase font-bold text-emerald-800 dark:text-emerald-300 block">
-                    {selectedPolicy.officialFigureBenchmark.label}
-                  </span>
-                  <span className="text-xs font-bold text-emerald-950 dark:text-emerald-200 block">
-                    {selectedPolicy.officialFigureBenchmark.value}
-                  </span>
-                  <span className="text-[10px] text-emerald-700 dark:text-emerald-400 block">
-                    Source: {selectedPolicy.officialFigureBenchmark.source}
-                  </span>
-                </div>
-              )}
-
-              {/* Public Opinion */}
-              {selectedPolicy.publicOpinionQuestion && (
-                <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs space-y-1.5">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block">Public Sentiment Benchmark</span>
-                  <p className="text-slate-700 dark:text-slate-300 font-medium italic text-[11px]">
-                    "{selectedPolicy.publicOpinionQuestion}"
-                  </p>
-                  <div className="flex items-center space-x-2 pt-1">
-                    <span className="text-xs font-extrabold text-rose-700 dark:text-rose-400">
-                      {selectedPolicy.publicOpinionSupportOverall}% Public Support
-                    </span>
-                    <div className="flex-1 bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
-                      <div 
-                        className="bg-rose-600 h-full rounded-full" 
-                        style={{ width: `${selectedPolicy.publicOpinionSupportOverall}%` }} 
-                      />
+            return (
+              <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xs space-y-5">
+                <div className="flex items-start justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 rounded">
+                        {selectedPolicy.category.toUpperCase()}
+                      </span>
+                      {!showUkAverageInPolicies && (
+                        <span
+                          className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded"
+                          style={{
+                            backgroundColor: selectedParty.color,
+                            color: selectedParty.textColor || '#ffffff',
+                          }}
+                        >
+                          {selectedParty.shortName} Policy Position
+                        </span>
+                      )}
                     </div>
+                    <h3 className="font-extrabold text-slate-900 dark:text-slate-100 text-lg leading-snug mt-1.5">
+                      {selectedPolicy.title}
+                    </h3>
                   </div>
                 </div>
-              )}
-            </div>
-          )}
+
+                {/* Selected Party's Coordinates & Rationale on this Policy */}
+                {!showUkAverageInPolicies ? (
+                  <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-3.5 space-y-2.5">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-slate-500 dark:text-slate-400 font-bold">
+                        {selectedParty.shortName} Coordinates:
+                      </span>
+                      <span className="font-extrabold text-slate-900 dark:text-slate-100">
+                        Econ: {selectedPartyTopicCoord.econ > 0 ? `+${selectedPartyTopicCoord.econ}` : selectedPartyTopicCoord.econ} • Social: {selectedPartyTopicCoord.soc > 0 ? `+${selectedPartyTopicCoord.soc}` : selectedPartyTopicCoord.soc}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-slate-500 dark:text-slate-400 font-bold">Ideological Quadrant:</span>
+                      <span
+                        className="font-extrabold px-2 py-0.5 rounded text-xs"
+                        style={{
+                          backgroundColor: `${selectedParty.color}25`,
+                          color: isDark ? '#f8fafc' : '#0f172a',
+                          border: `1px solid ${selectedParty.color}70`,
+                        }}
+                      >
+                        {selectedPartyTopicCoord.quadrant}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-700 dark:text-slate-200 mt-1.5 leading-relaxed font-medium">
+                      {selectedPartyTopicCoord.rationale}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-3.5 space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-slate-500 dark:text-slate-400 font-medium">UK Debate Coordinates:</span>
+                      <span className="font-extrabold text-slate-900 dark:text-slate-100">
+                        Economic: {selectedPolicy.compass?.economic} • Social: {selectedPolicy.compass?.social}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-slate-500 dark:text-slate-400 font-medium">Ideological Sector:</span>
+                      <span className="font-extrabold text-indigo-700 dark:text-indigo-300 bg-white dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700">
+                        {selectedPolicy.compass?.quadrant}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                      {selectedPolicy.compass?.summary}
+                    </p>
+                  </div>
+                )}
+
+                {/* Selected Party's Official Manifesto Pledge on this Policy */}
+                {!showUkAverageInPolicies && selectedPartyTopicPledge && (
+                  <div className="bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 block">
+                      {selectedParty.shortName} Official 2026 Manifesto Pledge
+                    </span>
+                    <h5 className="font-bold text-sm text-slate-900 dark:text-slate-100 leading-snug">
+                      {selectedPartyTopicPledge.headline}
+                    </h5>
+                    <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                      {selectedPartyTopicPledge.summary}
+                    </p>
+                    {selectedPartyTopicPledge.keyPoints && selectedPartyTopicPledge.keyPoints.length > 0 && (
+                      <ul className="space-y-1.5 pt-1">
+                        {selectedPartyTopicPledge.keyPoints.slice(0, 3).map((pt, idx) => (
+                          <li key={idx} className="flex items-start space-x-2 text-xs text-slate-700 dark:text-slate-300">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                            <span>{pt}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {selectedPartyTopicPledge.officialSourceUrl && (
+                      <div className="pt-2 border-t border-slate-200/80 dark:border-slate-700 flex justify-end">
+                        <a
+                          href={selectedPartyTopicPledge.officialSourceUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center space-x-1"
+                        >
+                          <span>{selectedPartyTopicPledge.officialSourceTitle || 'Official Manifesto Source'}</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Official UK Benchmark */}
+                {selectedPolicy.officialFigureBenchmark && (
+                  <div className="bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-900/60 rounded-xl p-3 space-y-1">
+                    <span className="text-[10px] uppercase font-bold text-emerald-800 dark:text-emerald-300 block">
+                      {selectedPolicy.officialFigureBenchmark.label}
+                    </span>
+                    <span className="text-xs font-bold text-emerald-950 dark:text-emerald-200 block">
+                      {selectedPolicy.officialFigureBenchmark.value}
+                    </span>
+                    <span className="text-[10px] text-emerald-700 dark:text-emerald-400 block">
+                      Source: {selectedPolicy.officialFigureBenchmark.source}
+                    </span>
+                  </div>
+                )}
+
+                {/* Public Opinion */}
+                {selectedPolicy.publicOpinionQuestion && (
+                  <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-xs space-y-1.5">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 block">Public Sentiment Benchmark</span>
+                    <p className="text-slate-700 dark:text-slate-300 font-medium italic text-[11px]">
+                      "{selectedPolicy.publicOpinionQuestion}"
+                    </p>
+                    <div className="flex items-center space-x-2 pt-1">
+                      <span className="text-xs font-extrabold text-rose-700 dark:text-rose-400">
+                        {selectedPolicy.publicOpinionSupportOverall}% Public Support
+                      </span>
+                      <div className="flex-1 bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                        <div 
+                          className="bg-rose-600 h-full rounded-full" 
+                          style={{ width: `${selectedPolicy.publicOpinionSupportOverall}%` }} 
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
 
           {/* Ideological Distance & Head-to-Head Comparison Calculator */}
           <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-5 border border-slate-700 shadow-xs space-y-4">
