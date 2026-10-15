@@ -41,8 +41,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems: NavItem[] = [
+    { id: 'media', label: 'Media Lens', shortLabel: 'Media Lens', icon: Newspaper, badge: 'Home', accentColor: 'text-sky-400' },
     { id: 'compare', label: 'Compare Policies', shortLabel: 'Policies', icon: Scale, accentColor: 'text-rose-400' },
-    { id: 'media', label: 'Media Lens', shortLabel: 'Media Lens', icon: Newspaper, badge: 'New', accentColor: 'text-sky-400' },
     { id: 'live', label: 'Live Policy Tracker', shortLabel: 'Live Tracker', icon: Radio, badge: 'Live', accentColor: 'text-amber-400' },
     { id: 'polls', label: 'Polls & Public Opinion', shortLabel: 'Polls', icon: BarChart3, accentColor: 'text-emerald-400' },
     { id: 'cabinets', label: 'Cabinets & Leaders', shortLabel: 'Cabinets', icon: Users, accentColor: 'text-violet-400' },
@@ -56,7 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="max-w-[1800px] mx-auto px-3 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16 gap-2">
           {/* Logo & Brand */}
-          <div className="flex items-center space-x-2 sm:space-x-3 cursor-pointer min-w-0" onClick={() => setActiveTab('compare')}>
+          <div className="flex items-center space-x-2 sm:space-x-3 cursor-pointer min-w-0" onClick={() => setActiveTab('media')}>
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-blue-600 via-indigo-600 to-rose-600 flex items-center justify-center shadow-sm text-white font-black text-base sm:text-lg shrink-0 border border-white/20">
               🇬🇧
             </div>

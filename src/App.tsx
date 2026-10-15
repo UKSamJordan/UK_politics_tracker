@@ -74,7 +74,7 @@ export const App: React.FC = () => {
   };
 
   // State
-  const [activeTab, setActiveTab] = useState<string>('compare');
+  const [activeTab, setActiveTab] = useState<string>('media');
   const [pollSubTab, setPollSubTab] = useState<'voting' | 'leaders' | 'bestpm' | 'policies'>('voting');
   const [pollTargetLeader, setPollTargetLeader] = useState<PartyId | undefined>(undefined);
 

@@ -17,6 +17,8 @@ import {
   Clock,
   ChevronDown,
   ChevronUp,
+  ChevronLeft,
+  ChevronRight,
   GraduationCap,
   RefreshCw
 } from 'lucide-react';
@@ -532,9 +534,48 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
         </div>
       )}
 
-      {/* Grid of Ministers / Spokespeople */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 w-full max-w-full min-w-0">
-        {filteredMembers.map((member) => {
+      {/* CUE 1 (Mobile): Interactive Minister Quick-Jump Strip & Swipe Indicator */}
+      {filteredMembers.length > 1 && (
+        <div className="md:hidden bg-slate-900/90 border border-slate-700 rounded-xl p-2.5 space-y-2 shadow-xs">
+          <div className="flex items-center justify-between text-[11px] font-bold text-slate-300 px-0.5">
+            <span className="flex items-center space-x-1.5">
+              <span>👆 Tap a frontbencher or swipe sideways</span>
+              <span className="text-indigo-400 font-extrabold">↔</span>
+            </span>
+            <span
+              className="text-[10px] font-extrabold px-2 py-0.5 rounded-md border"
+              style={{
+                backgroundColor: `${selectedParty.color}25`,
+                borderColor: `${selectedParty.color}70`,
+                color: '#f8fafc',
+              }}
+            >
+              {filteredMembers.length} {selectedParty.shortName} Figures
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none pb-0.5">
+            {filteredMembers.map((m, idx) => (
+              <button
+                key={m.id}
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById(`cabinet-card-${m.id}`);
+                  el?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+                }}
+                style={{ borderColor: selectedParty.color }}
+                className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-extrabold whitespace-nowrap shrink-0 bg-slate-800 hover:bg-slate-700 text-white border border-l-4 shadow-2xs active:scale-95 transition-transform cursor-pointer"
+              >
+                <span className="text-[10px] opacity-75">{idx + 1}.</span>
+                <span>{m.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* CUE 2: Horizontal Snap Carousel on Mobile (`w-[86%]`), Multi-Column Grid on Desktop */}
+      <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 overflow-x-auto md:overflow-visible snap-x snap-mandatory gap-3.5 md:gap-4 pb-3 md:pb-0 -mx-1 px-1 md:mx-0 md:px-0 scrollbar-none w-full max-w-full min-w-0">
+        {filteredMembers.map((member, memberIdx) => {
           const Icon = getRoleIcon(member.role);
           const isLeaderCard = member.isLeader;
           const leaderRating = isLeaderCard ? partyLeaderRating : null;
@@ -543,38 +584,48 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           const hasBriefing = Boolean(briefing);
           const isExpanded = expandedBriefingId === member.id;
           const isLoadingBriefing = loadingMemberId === member.id;
+          const prevMember = memberIdx > 0 ? filteredMembers[memberIdx - 1] : null;
+          const nextMember = memberIdx < filteredMembers.length - 1 ? filteredMembers[memberIdx + 1] : null;
 
           return (
             <div
               key={member.id}
-              className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-5 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden min-w-0 max-w-full"
+              id={`cabinet-card-${member.id}`}
+              style={{ borderColor: `${selectedParty.color}65` }}
+              className="w-[86%] sm:w-[88%] md:w-auto flex-none snap-start bg-white dark:bg-slate-900 rounded-2xl border-2 shadow-md flex flex-col justify-between hover:shadow-lg transition-shadow relative overflow-hidden min-w-0 max-w-full"
             >
-              <div 
-                className="absolute top-0 left-0 bottom-0 w-1.5"
-                style={{ backgroundColor: selectedParty.color }}
-              />
-
-              <div className="pl-1 flex-1 flex flex-col">
-                {/* Header: Role and Icon */}
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 px-2 py-0.5 rounded flex items-center space-x-1">
-                    <Icon className="w-3 h-3" />
-                    <span>{member.isLeader ? 'Party Leader' : 'Cabinet Portfolio'}</span>
-                  </span>
+              {/* Bold Party-Coloured Top Banner */}
+              <div
+                className="px-4 py-2.5 flex items-center justify-between gap-2 border-b border-black/10"
+                style={{
+                  backgroundColor: selectedParty.color,
+                  color: selectedParty.textColor || '#ffffff',
+                }}
+              >
+                <span className="text-[11px] font-extrabold uppercase tracking-wider flex items-center space-x-1.5 truncate">
+                  <Icon className="w-3.5 h-3.5 shrink-0" />
+                  <span className="truncate">{member.isLeader ? `${selectedParty.shortName} Leader` : `${selectedParty.shortName} Frontbench`}</span>
+                </span>
+                <div className="flex items-center space-x-1.5 shrink-0">
                   {member.constituency && (
-                    <span className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-black/25 text-white truncate max-w-[130px]">
                       MP: {member.constituency}
                     </span>
                   )}
+                  <span className="md:hidden text-[10px] font-black px-2 py-0.5 rounded-full bg-black/30 text-white">
+                    {memberIdx + 1}/{filteredMembers.length}
+                  </span>
                 </div>
+              </div>
 
+              <div className="p-4 sm:p-5 flex-1 flex flex-col">
                 {/* Name */}
-                <h4 className="text-lg font-bold text-slate-900 dark:text-slate-100 leading-tight">
+                <h4 className="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-slate-100 leading-tight">
                   {member.name}
                 </h4>
 
                 {/* Specific Portfolio Title */}
-                <h5 className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">
+                <h5 className="text-xs sm:text-sm font-bold text-indigo-600 dark:text-indigo-300 mt-0.5 mb-2.5">
                   {member.role}
                 </h5>
 
@@ -622,7 +673,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 )}
 
                 {/* Bio */}
-                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-3.5">
                   {member.bio}
                 </p>
 
@@ -642,7 +693,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                     <button
                       onClick={() => handleFetchBriefing(member)}
                       disabled={isLoadingBriefing}
-                      className={`flex-1 inline-flex items-center justify-center space-x-1.5 py-1.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs ${
+                      className={`flex-1 inline-flex items-center justify-center space-x-1.5 py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-2xs ${
                         isExpanded
                           ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-200 dark:shadow-none'
                           : hasBriefing
@@ -678,7 +729,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                           handleFetchBriefing(member, true);
                         }}
                         disabled={isLoadingBriefing}
-                        className="p-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
+                        className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
                         title="Scan for most recent updates"
                       >
                         <RefreshCw className={`w-3.5 h-3.5 ${isLoadingBriefing ? 'animate-spin' : ''}`} />
@@ -725,27 +776,72 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                     </div>
                   )}
                 </div>
+
+                {/* Verified badge */}
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500">
+                  <span className="flex items-center space-x-1">
+                    <UserCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    <span>Frontbench Registered</span>
+                  </span>
+                  {onNavigateToPolls && isLeaderCard ? (
+                    <button 
+                      onClick={() => onNavigateToPolls(member.partyId, 'leaders')}
+                      className="font-bold text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 flex items-center space-x-1.5 cursor-pointer bg-rose-50 dark:bg-rose-950/50 hover:bg-rose-100 dark:hover:bg-rose-900/50 px-2.5 py-1 rounded-lg transition-colors border border-rose-200/80 dark:border-rose-900/80 shadow-2xs text-[11px]"
+                      title={`Compare ${member.name}'s personal approval ratings across YouGov, Ipsos & Savanta`}
+                    >
+                      <BarChart3 className="w-3.5 h-3.5" />
+                      <span>Compare Leader Approval ↗</span>
+                    </button>
+                  ) : (
+                    <span className="font-semibold text-slate-700 dark:text-slate-300">{selectedParty.shortName}</span>
+                  )}
+                </div>
               </div>
 
-              {/* Verified badge */}
-              <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 pl-1">
-                <span className="flex items-center space-x-1">
-                  <UserCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                  <span>Frontbench Registered</span>
-                </span>
-                {onNavigateToPolls && isLeaderCard ? (
-                  <button 
-                    onClick={() => onNavigateToPolls(member.partyId, 'leaders')}
-                    className="font-bold text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 flex items-center space-x-1.5 cursor-pointer bg-rose-50 dark:bg-rose-950/50 hover:bg-rose-100 dark:hover:bg-rose-900/50 px-2.5 py-1 rounded-lg transition-colors border border-rose-200/80 dark:border-rose-900/80 shadow-2xs text-[11px]"
-                    title={`Compare ${member.name}'s personal approval ratings across YouGov, Ipsos & Savanta`}
-                  >
-                    <BarChart3 className="w-3.5 h-3.5" />
-                    <span>Compare Leader Approval ↗</span>
-                  </button>
-                ) : (
-                  <span className="font-semibold text-slate-700 dark:text-slate-300">{selectedParty.shortName}</span>
-                )}
-              </div>
+              {/* CUE 3 (Mobile): Explicit Prev / Next Minister Footer Buttons */}
+              {filteredMembers.length > 1 && (
+                <div className="md:hidden px-3.5 py-2.5 bg-slate-950/60 border-t border-slate-800 flex items-center justify-between gap-2">
+                  {prevMember ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const el = document.getElementById(`cabinet-card-${prevMember.id}`);
+                        el?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+                      }}
+                      className="flex items-center space-x-1 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-bold border border-slate-700 cursor-pointer active:scale-95 transition-transform"
+                    >
+                      <ChevronLeft className="w-3.5 h-3.5" />
+                      <span className="truncate max-w-[90px]">{prevMember.name.split(' ').slice(-1)[0]}</span>
+                    </button>
+                  ) : (
+                    <span className="text-[10px] font-semibold text-slate-500">First Card</span>
+                  )}
+
+                  <span className="text-[10px] font-extrabold text-slate-400">
+                    Swipe ↔ ({memberIdx + 1}/{filteredMembers.length})
+                  </span>
+
+                  {nextMember ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const el = document.getElementById(`cabinet-card-${nextMember.id}`);
+                        el?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+                      }}
+                      style={{
+                        backgroundColor: selectedParty.color,
+                        color: selectedParty.textColor || '#ffffff',
+                      }}
+                      className="flex items-center space-x-1 px-3 py-1.5 rounded-lg text-[11px] font-extrabold shadow-xs cursor-pointer active:scale-95 transition-transform"
+                    >
+                      <span className="truncate max-w-[105px]">Next: {nextMember.name.split(' ').slice(-1)[0]}</span>
+                      <ChevronRight className="w-3.5 h-3.5 shrink-0" />
+                    </button>
+                  ) : (
+                    <span className="text-[10px] font-semibold text-slate-500">End of Roster</span>
+                  )}
+                </div>
+              )}
             </div>
           );
         })}

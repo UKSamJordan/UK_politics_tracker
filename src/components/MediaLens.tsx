@@ -260,7 +260,7 @@ export const MediaLens: React.FC<MediaLensProps> = ({
               How UK Newspapers Frame the News — &amp; Why
             </h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Inspired by Ground News: compare how{' '}
+              Compare how{' '}
               <strong className="text-rose-300">Left-leaning</strong> (
               <em>The Guardian, Daily Mirror, Independent, New Statesman</em>),{' '}
               <strong className="text-indigo-300">Centre</strong> (
@@ -530,7 +530,7 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                   </div>
                 )}
 
-                {/* Ground News Style Coverage Distribution Bar */}
+                {/* Cross-Spectrum Coverage Distribution Bar */}
                 <div className="space-y-1.5 pt-1">
                   <div className="flex items-center justify-between text-xs font-extrabold">
                     <span className="text-rose-400">

@@ -826,11 +826,10 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
 
   // SVG coordinate conversion: values range from -10 to +10
   // SVG Canvas viewBox is 0 0 600 600, with center at (300, 300)
-  // X: -10 -> 40, +10 -> 560
-  // Y: -10 (Libertarian, bottom) -> 560, +10 (Authoritarian, top) -> 40
+  // Plotting domain uses radius 215 (X: 85..515, Y: 85..515) so outer 85px ring is a collision-free zone for quadrant & axis labels
   const toSvgCoords = (econ: number, social: number) => {
-    const x = 300 + (econ / 10) * 250;
-    const y = 300 - (social / 10) * 250;
+    const x = 300 + (econ / 10) * 215;
+    const y = 300 - (social / 10) * 215;
     return { x, y };
   };
 
@@ -838,6 +837,127 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
     if (policyCategoryFilter === 'all') return true;
     return topic.category === policyCategoryFilter;
   });
+
+  // Deterministic anti-collision solver for 2D SVG pins and their text pills
+  const computeSmartPlotLayout = <T extends { id: string; trueX: number; trueY: number; label: string; isSelected: boolean }>(
+    rawItems: T[],
+    minPinDist = 36
+  ) => {
+    const nodes = rawItems.map((item) => ({
+      ...item,
+      pinX: item.trueX,
+      pinY: item.trueY,
+      pillW: Math.max(48, Math.round(item.label.length * 6.1 + 14)),
+      pillH: 18,
+      labelX: item.trueX,
+      labelY: item.trueY + 27,
+    }));
+
+    // Pass 1: Nudge nearby pin centers apart so circles never overlap each other's avatar letters
+    for (let iter = 0; iter < 16; iter++) {
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[j].pinX - nodes[i].pinX;
+          const dy = nodes[j].pinY - nodes[i].pinY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < minPinDist) {
+            const overlap = (minPinDist - dist) * 0.52;
+            const angle = dist > 0.1 ? Math.atan2(dy, dx) : (i + j) * 0.9;
+            const nx = Math.cos(angle) * overlap;
+            const ny = Math.sin(angle) * overlap;
+            nodes[i].pinX = Math.max(72, Math.min(528, nodes[i].pinX - nx));
+            nodes[i].pinY = Math.max(72, Math.min(528, nodes[i].pinY - ny));
+            nodes[j].pinX = Math.max(72, Math.min(528, nodes[j].pinX + nx));
+            nodes[j].pinY = Math.max(72, Math.min(528, nodes[j].pinY + ny));
+          }
+        }
+      }
+    }
+
+    // Pass 2: Choose the best non-overlapping label slot around each pin
+    const placedBoxes: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
+
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      const hw = n.pillW / 2;
+      const hh = n.pillH / 2;
+
+      const candidates = [
+        { dx: 0, dy: 27, pref: 0 },                    // Below
+        { dx: 0, dy: -27, pref: 5 },                   // Above
+        { dx: 20 + hw, dy: 0, pref: 12 },              // Right
+        { dx: -(20 + hw), dy: 0, pref: 12 },           // Left
+        { dx: 14 + hw, dy: 22, pref: 18 },             // Bottom-Right
+        { dx: -(14 + hw), dy: -22, pref: 18 },         // Top-Left
+        { dx: 14 + hw, dy: -22, pref: 20 },            // Top-Right
+        { dx: -(14 + hw), dy: 22, pref: 20 },          // Bottom-Left
+      ];
+
+      let bestCand = candidates[0];
+      let bestScore = Infinity;
+
+      for (const cand of candidates) {
+        const cx = n.pinX + cand.dx;
+        const cy = n.pinY + cand.dy;
+        const x1 = cx - hw - 3;
+        const y1 = cy - hh - 2;
+        const x2 = cx + hw + 3;
+        const y2 = cy + hh + 2;
+
+        let score = cand.pref;
+
+        // Keep strictly inside safe SVG viewport away from corner badges
+        if (x1 < 14 || x2 > 586 || y1 < 44 || y2 > 556) {
+          score += 25000;
+        }
+
+        // Avoid axis endpoint text zones
+        if (y1 < 306 && y2 > 276 && (x1 < 145 || x2 > 455)) {
+          score += 900;
+        }
+        if (x2 > 295 && x1 < 430 && (y1 < 68 || y2 > 532)) {
+          score += 900;
+        }
+
+        // Avoid all pin circles
+        for (let j = 0; j < nodes.length; j++) {
+          if (j === i) continue;
+          const other = nodes[j];
+          const closestX = Math.max(x1, Math.min(other.pinX, x2));
+          const closestY = Math.max(y1, Math.min(other.pinY, y2));
+          const distSq = (closestX - other.pinX) ** 2 + (closestY - other.pinY) ** 2;
+          if (distSq < 20 * 20) {
+            score += 14000 + (400 - distSq);
+          }
+        }
+
+        // Avoid already-placed label pills
+        for (const box of placedBoxes) {
+          const overlapX = Math.max(0, Math.min(x2, box.x2) - Math.max(x1, box.x1));
+          const overlapY = Math.max(0, Math.min(y2, box.y2) - Math.max(y1, box.y1));
+          if (overlapX > 0 && overlapY > 0) {
+            score += 10000 + overlapX * overlapY * 10;
+          }
+        }
+
+        if (score < bestScore) {
+          bestScore = score;
+          bestCand = cand;
+        }
+      }
+
+      n.labelX = n.pinX + bestCand.dx;
+      n.labelY = n.pinY + bestCand.dy;
+      placedBoxes.push({
+        x1: n.labelX - hw - 3,
+        y1: n.labelY - hh - 2,
+        x2: n.labelX + hw + 3,
+        y2: n.labelY + hh + 2,
+      });
+    }
+
+    return nodes;
+  };
 
   // Selected party's active coordinates and baseline shift
   const selectedPartyActiveCoords = getPartyActiveCoords(selectedParty);
@@ -1079,268 +1199,360 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
           </div>
 
           {/* SVG 2D Canvas */}
-          <div className="relative w-full aspect-square max-w-[560px] mx-auto bg-slate-50/50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-inner">
-            {/* Quadrant Tint Overlays */}
+          <div className="relative w-full aspect-square max-w-[580px] mx-auto bg-slate-50/50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-inner">
+            {/* Subtle Quadrant Background Tints Only (No floating HTML text to collide on mobile) */}
             <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 pointer-events-none">
-              {/* Top-Left: Authoritarian Left */}
-              <div className="bg-rose-500/5 dark:bg-rose-500/10 p-3 flex flex-col justify-start items-start border-r border-b border-dashed border-slate-300 dark:border-slate-800">
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-rose-800/80 dark:text-rose-300 bg-rose-100/80 dark:bg-rose-950/80 px-2 py-0.5 rounded">
-                  Authoritarian Left
-                </span>
-                <span className="text-[9px] text-slate-400 dark:text-slate-500 mt-0.5 hidden sm:inline">
-                  {currentSubPerspective?.id === 'protectionist'
-                    ? 'State Border Control & Labor Protection'
-                    : 'State Regulation & Public Delivery'}
-                </span>
-              </div>
-              {/* Top-Right: Authoritarian Right */}
-              <div className="bg-blue-500/5 dark:bg-blue-500/10 p-3 flex flex-col justify-start items-end border-b border-dashed border-slate-300 dark:border-slate-800">
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-blue-800/80 dark:text-blue-300 bg-blue-100/80 dark:bg-blue-950/80 px-2 py-0.5 rounded">
-                  Authoritarian Right
-                </span>
-                <span className="text-[9px] text-slate-400 dark:text-slate-500 mt-0.5 hidden sm:inline">
-                  {currentSubPerspective?.id === 'protectionist'
-                    ? 'Border Rhetoric with Corporate Visas'
-                    : 'National Security & Market Order'}
-                </span>
-              </div>
-              {/* Bottom-Left: Libertarian Left */}
-              <div className="bg-emerald-500/5 dark:bg-emerald-500/10 p-3 flex flex-col justify-end items-start border-r border-dashed border-slate-300 dark:border-slate-800">
-                <span className="text-[9px] text-slate-400 dark:text-slate-500 mb-0.5 hidden sm:inline">
-                  {currentSubPerspective?.id === 'protectionist'
-                    ? 'Worker Solidarity & Minimum Wages'
-                    : 'Democratic Social Liberties & Green Rights'}
-                </span>
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800/80 dark:text-emerald-300 bg-emerald-100/80 dark:bg-emerald-950/80 px-2 py-0.5 rounded">
-                  Libertarian Left
-                </span>
-              </div>
-              {/* Bottom-Right: Libertarian Right */}
-              <div className="bg-amber-500/5 dark:bg-amber-500/10 p-3 flex flex-col justify-end items-end">
-                <span className="text-[9px] text-slate-400 dark:text-slate-500 mb-0.5 hidden sm:inline">
-                  {currentSubPerspective?.id === 'protectionist'
-                    ? 'Open Borders & Corporate Labor Supply'
-                    : 'Free-Market Libertarianism & Deregulation'}
-                </span>
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-800/80 dark:text-amber-300 bg-amber-100/80 dark:bg-amber-950/80 px-2 py-0.5 rounded">
-                  Libertarian Right
-                </span>
-              </div>
+              <div className="bg-rose-500/5 dark:bg-rose-500/10 border-r border-b border-dashed border-slate-300/60 dark:border-slate-800/60" />
+              <div className="bg-blue-500/5 dark:bg-blue-500/10 border-b border-dashed border-slate-300/60 dark:border-slate-800/60" />
+              <div className="bg-emerald-500/5 dark:bg-emerald-500/10 border-r border-dashed border-slate-300/60 dark:border-slate-800/60" />
+              <div className="bg-amber-500/5 dark:bg-amber-500/10" />
             </div>
 
-            {/* SVG Elements */}
-            <svg viewBox="0 0 600 600" className="w-full h-full relative z-10">
-              {/* Sub-grid lines */}
-              <g stroke={isDark ? '#334155' : '#cbd5e1'} strokeWidth="0.8" strokeDasharray="3 3">
-                <line x1="175" y1="40" x2="175" y2="560" />
-                <line x1="425" y1="40" x2="425" y2="560" />
-                <line x1="40" y1="175" x2="560" y2="175" />
-                <line x1="40" y1="425" x2="560" y2="425" />
+            {/* Proportionally Scaled SVG Spectrum (0..600 viewBox) */}
+            <svg viewBox="0 0 600 600" className="w-full h-full relative z-10 select-none">
+              {/* Inner Plotting Zone Frame (-10 to +10 maps to 85..515) */}
+              <rect
+                x="85"
+                y="85"
+                width="430"
+                height="430"
+                rx="8"
+                fill="none"
+                stroke={isDark ? '#1e293b' : '#e2e8f0'}
+                strokeWidth="1"
+              />
+
+              {/* Sub-grid lines at -5 and +5 (192.5 and 407.5) */}
+              <g stroke={isDark ? '#334155' : '#cbd5e1'} strokeWidth="0.9" strokeDasharray="3 3">
+                <line x1="192.5" y1="70" x2="192.5" y2="530" />
+                <line x1="407.5" y1="70" x2="407.5" y2="530" />
+                <line x1="70" y1="192.5" x2="530" y2="192.5" />
+                <line x1="70" y1="407.5" x2="530" y2="407.5" />
               </g>
 
               {/* Major Axes */}
-              <g stroke={isDark ? '#94a3b8' : '#64748b'} strokeWidth="1.8">
-                {/* Horizontal X Axis */}
-                <line x1="30" y1="300" x2="570" y2="300" />
-                {/* Vertical Y Axis */}
-                <line x1="300" y1="30" x2="300" y2="570" />
+              <g stroke={isDark ? '#94a3b8' : '#64748b'} strokeWidth="2">
+                <line x1="65" y1="300" x2="535" y2="300" />
+                <line x1="300" y1="65" x2="300" y2="535" />
               </g>
 
-              {/* Axis Label Ticks */}
-              <text x="45" y="295" fontSize="10" fontWeight="bold" fill={isDark ? '#94a3b8' : '#64748b'} textAnchor="start">
-                {currentSubPerspective ? `← ${currentSubPerspective.axisExplanation.left.split('(')[0].trim()}` : '← ECONOMIC LEFT'}
+              {/* Outer Corner Quadrant Badges (Strictly outside the 85..515 plotting domain) */}
+              {/* Top-Left: Authoritarian Left */}
+              <g transform="translate(14, 14)">
+                <rect width="142" height="22" rx="5" fill={isDark ? '#4c0519' : '#ffe4e6'} stroke={isDark ? '#be123c' : '#fda4af'} strokeWidth="1" />
+                <text x="71" y="14.5" textAnchor="middle" fontSize="9.5" fontWeight="800" fill={isDark ? '#fda4af' : '#9f1239'}>
+                  AUTHORITARIAN LEFT
+                </text>
+              </g>
+
+              {/* Top-Right: Authoritarian Right */}
+              <g transform="translate(444, 14)">
+                <rect width="142" height="22" rx="5" fill={isDark ? '#172554' : '#dbeafe'} stroke={isDark ? '#1d4ed8' : '#93c5fd'} strokeWidth="1" />
+                <text x="71" y="14.5" textAnchor="middle" fontSize="9.5" fontWeight="800" fill={isDark ? '#93c5fd' : '#1e40af'}>
+                  AUTHORITARIAN RIGHT
+                </text>
+              </g>
+
+              {/* Bottom-Left: Libertarian Left */}
+              <g transform="translate(14, 564)">
+                <rect width="134" height="22" rx="5" fill={isDark ? '#022c22' : '#d1fae5'} stroke={isDark ? '#047857' : '#6ee7b7'} strokeWidth="1" />
+                <text x="67" y="14.5" textAnchor="middle" fontSize="9.5" fontWeight="800" fill={isDark ? '#6ee7b7' : '#065f46'}>
+                  LIBERTARIAN LEFT
+                </text>
+              </g>
+
+              {/* Bottom-Right: Libertarian Right */}
+              <g transform="translate(452, 564)">
+                <rect width="134" height="22" rx="5" fill={isDark ? '#451a03' : '#fef3c7'} stroke={isDark ? '#b45309' : '#fcd34d'} strokeWidth="1" />
+                <text x="67" y="14.5" textAnchor="middle" fontSize="9.5" fontWeight="800" fill={isDark ? '#fcd34d' : '#92400e'}>
+                  LIBERTARIAN RIGHT
+                </text>
+              </g>
+
+              {/* Axis Pole Labels in Safe Outer Margin */}
+              <text x="300" y="55" fontSize="10.5" fontWeight="800" fill={isDark ? '#cbd5e1' : '#334155'} textAnchor="middle">
+                ↑ AUTHORITARIAN
               </text>
-              <text x="555" y="295" fontSize="10" fontWeight="bold" fill={isDark ? '#94a3b8' : '#64748b'} textAnchor="end">
-                {currentSubPerspective ? `${currentSubPerspective.axisExplanation.right.split('(')[0].trim()} →` : 'ECONOMIC RIGHT →'}
+              <text x="300" y="553" fontSize="10.5" fontWeight="800" fill={isDark ? '#cbd5e1' : '#334155'} textAnchor="middle">
+                ↓ LIBERTARIAN
               </text>
-              <text x="305" y="45" fontSize="11" fontWeight="bold" fill={isDark ? '#94a3b8' : '#64748b'} textAnchor="start">↑ AUTHORITARIAN</text>
-              <text x="305" y="565" fontSize="11" fontWeight="bold" fill={isDark ? '#94a3b8' : '#64748b'} textAnchor="start">↓ LIBERTARIAN</text>
+              <text x="16" y="292" fontSize="9.5" fontWeight="800" fill={isDark ? '#cbd5e1' : '#334155'} textAnchor="start">
+                ← ECON LEFT
+              </text>
+              <text x="584" y="292" fontSize="9.5" fontWeight="800" fill={isDark ? '#cbd5e1' : '#334155'} textAnchor="end">
+                ECON RIGHT →
+              </text>
 
-              {/* ---------------- PLOTTING: PARTIES MODE (WITH POLICY LENS) ---------------- */}
-              {mode === 'parties' && parties.map((p) => {
-                const activeCoords = getPartyActiveCoords(p);
-                const { x, y } = toSvgCoords(activeCoords.econ, activeCoords.soc);
+              {/* ---------------- PLOTTING: PARTIES MODE (3-LAYER ANTI-COLLISION) ---------------- */}
+              {mode === 'parties' && (() => {
+                const rawPartyItems = parties.map((p) => {
+                  const activeCoords = getPartyActiveCoords(p);
+                  const { x, y } = toSvgCoords(activeCoords.econ, activeCoords.soc);
+                  const baseEcon = p.compass?.economicScore ?? 0;
+                  const baseSoc = p.compass?.socialScore ?? 0;
+                  const { x: baseX, y: baseY } = toSvgCoords(baseEcon, baseSoc);
+                  const hasShifted = isPolicyLensActive && (baseX !== x || baseY !== y);
+                  const isSelected = selectedPartyId === p.id;
+                  const coordStr = `(${activeCoords.econ > 0 ? `+${activeCoords.econ}` : activeCoords.econ}, ${activeCoords.soc > 0 ? `+${activeCoords.soc}` : activeCoords.soc})`;
+                  return {
+                    id: p.id,
+                    party: p,
+                    activeCoords,
+                    trueX: x,
+                    trueY: y,
+                    baseX,
+                    baseY,
+                    hasShifted,
+                    isSelected,
+                    label: isSelected ? `${p.shortName} ${coordStr}` : p.shortName,
+                  };
+                });
 
-                // Baseline coordinates for displacement vector
-                const baseEcon = p.compass?.economicScore ?? 0;
-                const baseSoc = p.compass?.socialScore ?? 0;
-                const { x: baseX, y: baseY } = toSvgCoords(baseEcon, baseSoc);
-                const hasShifted = isPolicyLensActive && (baseX !== x || baseY !== y);
-
-                const isSelected = selectedPartyId === p.id;
+                const layoutNodes = computeSmartPlotLayout(rawPartyItems, 37);
+                // Sort so selected party is drawn on top within its layer
+                const zSortedNodes = [...layoutNodes].sort((a, b) => (a.isSelected ? 1 : 0) - (b.isSelected ? 1 : 0));
 
                 return (
-                  <g key={p.id}>
-                    {/* If policy lens is active, draw ghost baseline pin and vector line */}
-                    {hasShifted && (
-                      <g className="pointer-events-none">
-                        {/* Connecting displacement vector */}
-                        <line
-                          x1={baseX}
-                          y1={baseY}
-                          x2={x}
-                          y2={y}
-                          stroke={p.color}
-                          strokeWidth="1.6"
-                          strokeDasharray="3 3"
-                          opacity={0.55}
-                        />
-                        {/* Ghost baseline indicator */}
-                        <circle
-                          cx={baseX}
-                          cy={baseY}
-                          r="7"
-                          fill={p.color}
-                          fillOpacity={0.2}
-                          stroke={p.color}
-                          strokeWidth="1"
-                          strokeDasharray="2 2"
-                        />
-                        <text
-                          x={baseX}
-                          y={baseY + 2.5}
-                          textAnchor="middle"
-                          fontSize="6.5"
-                          fontWeight="bold"
-                          fill={isDark ? '#94a3b8' : '#64748b'}
-                          opacity={0.7}
-                        >
-                          base
-                        </text>
+                  <>
+                    {/* LAYER 1: Displacement vectors & ghost baseline markers */}
+                    {zSortedNodes.map((n) => (
+                      <g key={`vec-${n.id}`} className="pointer-events-none">
+                        {n.hasShifted && (
+                          <>
+                            <line
+                              x1={n.baseX}
+                              y1={n.baseY}
+                              x2={n.pinX}
+                              y2={n.pinY}
+                              stroke={n.party.color}
+                              strokeWidth="1.6"
+                              strokeDasharray="3 3"
+                              opacity={0.6}
+                            />
+                            <circle
+                              cx={n.baseX}
+                              cy={n.baseY}
+                              r="6"
+                              fill={n.party.color}
+                              fillOpacity={0.22}
+                              stroke={n.party.color}
+                              strokeWidth="1"
+                              strokeDasharray="2 2"
+                            />
+                          </>
+                        )}
                       </g>
-                    )}
+                    ))}
 
-                    {/* Active Party Pin Group */}
-                    <g
-                      onClick={() => setSelectedPartyId(p.id)}
-                      className="cursor-pointer transition-all duration-300"
-                      transform={`translate(${x}, ${y})`}
-                    >
-                      {/* Active highlight pulse aura */}
-                      {isSelected && (
+                    {/* LAYER 2: Party Pin Circles & Avatar Text */}
+                    {zSortedNodes.map((n) => (
+                      <g
+                        key={`pin-${n.id}`}
+                        onClick={() => setSelectedPartyId(n.party.id)}
+                        className="cursor-pointer"
+                        transform={`translate(${n.pinX}, ${n.pinY})`}
+                      >
+                        {n.isSelected && (
+                          <circle
+                            r="23"
+                            fill="none"
+                            stroke={n.party.color}
+                            strokeWidth="2.5"
+                            strokeDasharray="4 4"
+                            className="animate-spin"
+                            style={{ animationDuration: '8s' }}
+                          />
+                        )}
                         <circle
-                          r="25"
-                          fill="none"
-                          stroke={p.color}
+                          r="15"
+                          fill={n.party.color}
+                          stroke={isDark ? '#0f172a' : '#ffffff'}
                           strokeWidth="2.5"
-                          strokeDasharray="4 4"
-                          className="animate-spin"
-                          style={{ animationDuration: '8s' }}
-                        />
-                      )}
-                      {/* Shadow & Pin Circle */}
-                      <circle
-                        r="16"
-                        fill={p.color}
-                        stroke={isDark ? '#0f172a' : '#ffffff'}
-                        strokeWidth="2.5"
-                        className="transition-transform hover:scale-115 drop-shadow-md"
-                      />
-                      {/* Text Label */}
-                      <text
-                        textAnchor="middle"
-                        dy="4"
-                        fontSize="9"
-                        fontWeight="900"
-                        fill={p.textColor || '#ffffff'}
-                        className="select-none pointer-events-none"
-                      >
-                        {p.avatarText}
-                      </text>
-                      {/* Party Tag Label */}
-                      <g transform="translate(0, 24)" className="pointer-events-none select-none">
-                        <rect
-                          x="-42"
-                          y="-7"
-                          width="84"
-                          height="15"
-                          rx="4"
-                          fill={isDark ? '#1e293b' : '#ffffff'}
-                          stroke={isSelected ? p.color : isDark ? '#334155' : '#e2e8f0'}
-                          strokeWidth={isSelected ? '1.5' : '1'}
-                          filter="drop-shadow(0 1px 2px rgba(0,0,0,0.1))"
+                          className="transition-transform hover:scale-110 drop-shadow-md"
                         />
                         <text
                           textAnchor="middle"
-                          y="4"
-                          fontSize="8"
-                          fontWeight={isSelected ? '800' : '600'}
-                          fill={isDark ? '#f8fafc' : '#0f172a'}
+                          dy="3.5"
+                          fontSize="8.8"
+                          fontWeight="900"
+                          fill={n.party.textColor || '#ffffff'}
+                          className="pointer-events-none"
                         >
-                          {p.shortName} ({activeCoords.econ > 0 ? `+${activeCoords.econ}` : activeCoords.econ}, {activeCoords.soc > 0 ? `+${activeCoords.soc}` : activeCoords.soc})
+                          {n.party.avatarText}
                         </text>
                       </g>
-                    </g>
-                  </g>
-                );
-              })}
+                    ))}
 
-              {/* ---------------- PLOTTING: POLICIES BENCHMARK MODE ---------------- */}
-              {mode === 'policies' && filteredPolicies.map((topic) => {
-                const econ = topic.compass?.economic ?? 0;
-                const soc = topic.compass?.social ?? 0;
-                const { x, y } = toSvgCoords(econ, soc);
-                const isSelected = selectedPolicyId === topic.id;
+                    {/* LAYER 3: Connector Ticks & Non-Overlapping Party Label Pills (Always on Top) */}
+                    {zSortedNodes.map((n) => (
+                      <g
+                        key={`lbl-${n.id}`}
+                        onClick={() => setSelectedPartyId(n.party.id)}
+                        className="cursor-pointer"
+                      >
+                        <line
+                          x1={n.pinX}
+                          y1={n.pinY}
+                          x2={n.labelX}
+                          y2={n.labelY}
+                          stroke={n.party.color}
+                          strokeWidth="1.5"
+                          opacity={0.75}
+                        />
+                        <g transform={`translate(${n.labelX}, ${n.labelY})`}>
+                          <rect
+                            x={-n.pillW / 2}
+                            y={-n.pillH / 2}
+                            width={n.pillW}
+                            height={n.pillH}
+                            rx="5"
+                            fill={isDark ? '#0f172a' : '#ffffff'}
+                            fillOpacity={0.96}
+                            stroke={n.isSelected ? n.party.color : isDark ? '#475569' : '#cbd5e1'}
+                            strokeWidth={n.isSelected ? '2' : '1.2'}
+                          />
+                          <text
+                            textAnchor="middle"
+                            y="3.5"
+                            fontSize="9.2"
+                            fontWeight={n.isSelected ? '900' : '700'}
+                            fill={isDark ? '#f8fafc' : '#0f172a'}
+                          >
+                            {n.label}
+                          </text>
+                        </g>
+                      </g>
+                    ))}
+                  </>
+                );
+              })()}
+
+              {/* ---------------- PLOTTING: POLICIES BENCHMARK MODE (3-LAYER ANTI-COLLISION) ---------------- */}
+              {mode === 'policies' && (() => {
+                const rawPolicyItems = filteredPolicies.map((topic) => {
+                  const econ = topic.compass?.economic ?? 0;
+                  const soc = topic.compass?.social ?? 0;
+                  const { x, y } = toSvgCoords(econ, soc);
+                  const isSelected = selectedPolicyId === topic.id;
+                  const shortTitle = topic.title.split(' ')[0].replace(/[^a-zA-Z0-9&-]/g, '');
+                  return {
+                    id: topic.id,
+                    topic,
+                    econ,
+                    soc,
+                    trueX: x,
+                    trueY: y,
+                    isSelected,
+                    label: isSelected ? `${shortTitle} (${econ}, ${soc})` : shortTitle,
+                  };
+                });
+
+                const policyNodes = computeSmartPlotLayout(rawPolicyItems, 34);
+                const zSortedPolicies = [...policyNodes].sort((a, b) => (a.isSelected ? 1 : 0) - (b.isSelected ? 1 : 0));
 
                 return (
-                  <g
-                    key={topic.id}
-                    onClick={() => setSelectedPolicyId(topic.id)}
-                    className="cursor-pointer transition-all duration-200"
-                    transform={`translate(${x}, ${y})`}
-                  >
-                    {isSelected && (
-                      <circle
-                        r="20"
-                        fill="none"
-                        stroke="#4f46e5"
-                        strokeWidth="2"
-                        className="animate-pulse"
-                      />
-                    )}
-                    <circle
-                      r="13"
-                      fill={isSelected ? '#4f46e5' : isDark ? '#334155' : '#0f172a'}
-                      stroke={isDark ? '#0f172a' : '#ffffff'}
-                      strokeWidth="2"
-                      className="hover:scale-110 drop-shadow-sm"
-                    />
-                    <text
-                      textAnchor="middle"
-                      dy="3.5"
-                      fontSize="8"
-                      fontWeight="bold"
-                      fill="#ffffff"
-                      className="select-none pointer-events-none"
-                    >
-                      {topic.category.slice(0, 3).toUpperCase()}
-                    </text>
-                    <g transform="translate(0, 20)" className="pointer-events-none select-none">
-                      <rect
-                        x="-45"
-                        y="-7"
-                        width="90"
-                        height="15"
-                        rx="4"
-                        fill={isDark ? '#1e293b' : '#ffffff'}
-                        stroke={isSelected ? '#4f46e5' : isDark ? '#334155' : '#e2e8f0'}
-                        strokeWidth={isSelected ? '1.5' : '1'}
-                        filter="drop-shadow(0 1px 2px rgba(0,0,0,0.1))"
-                      />
-                      <text
-                        textAnchor="middle"
-                        y="4"
-                        fontSize="8"
-                        fontWeight={isSelected ? '800' : '600'}
-                        fill={isDark ? '#f8fafc' : '#0f172a'}
+                  <>
+                    {/* Pin Circles */}
+                    {zSortedPolicies.map((n) => (
+                      <g
+                        key={`pol-pin-${n.id}`}
+                        onClick={() => setSelectedPolicyId(n.id)}
+                        className="cursor-pointer"
+                        transform={`translate(${n.pinX}, ${n.pinY})`}
                       >
-                        {topic.title.split(' ')[0]} ({econ}, {soc})
-                      </text>
-                    </g>
-                  </g>
+                        {n.isSelected && (
+                          <circle
+                            r="20"
+                            fill="none"
+                            stroke="#6366f1"
+                            strokeWidth="2"
+                            className="animate-pulse"
+                          />
+                        )}
+                        <circle
+                          r="13.5"
+                          fill={n.isSelected ? '#4f46e5' : isDark ? '#334155' : '#0f172a'}
+                          stroke={isDark ? '#0f172a' : '#ffffff'}
+                          strokeWidth="2"
+                          className="hover:scale-110 drop-shadow-sm"
+                        />
+                        <text
+                          textAnchor="middle"
+                          dy="3.5"
+                          fontSize="8"
+                          fontWeight="800"
+                          fill="#ffffff"
+                          className="pointer-events-none"
+                        >
+                          {n.topic.category.slice(0, 3).toUpperCase()}
+                        </text>
+                      </g>
+                    ))}
+
+                    {/* Non-Overlapping Policy Label Pills */}
+                    {zSortedPolicies.map((n) => (
+                      <g
+                        key={`pol-lbl-${n.id}`}
+                        onClick={() => setSelectedPolicyId(n.id)}
+                        className="cursor-pointer"
+                      >
+                        <line
+                          x1={n.pinX}
+                          y1={n.pinY}
+                          x2={n.labelX}
+                          y2={n.labelY}
+                          stroke={n.isSelected ? '#6366f1' : '#64748b'}
+                          strokeWidth="1.2"
+                          opacity={0.7}
+                        />
+                        <g transform={`translate(${n.labelX}, ${n.labelY})`}>
+                          <rect
+                            x={-n.pillW / 2}
+                            y={-n.pillH / 2}
+                            width={n.pillW}
+                            height={n.pillH}
+                            rx="5"
+                            fill={isDark ? '#0f172a' : '#ffffff'}
+                            fillOpacity={0.96}
+                            stroke={n.isSelected ? '#6366f1' : isDark ? '#475569' : '#cbd5e1'}
+                            strokeWidth={n.isSelected ? '2' : '1.2'}
+                          />
+                          <text
+                            textAnchor="middle"
+                            y="3.5"
+                            fontSize="8.8"
+                            fontWeight={n.isSelected ? '900' : '700'}
+                            fill={isDark ? '#f8fafc' : '#0f172a'}
+                          >
+                            {n.label}
+                          </text>
+                        </g>
+                      </g>
+                    ))}
+                  </>
                 );
-              })}
+              })()}
             </svg>
+          </div>
+
+          {/* Compact 4-Quadrant Key Below Canvas (Clear on All Screen Sizes Without Cluttering Chart) */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+            <div className="p-2 rounded-xl bg-rose-500/10 border border-rose-500/25">
+              <span className="font-extrabold text-rose-300 block">↖ Auth-Left</span>
+              <span className="text-[10px] text-slate-300">State Regulation &amp; Public Delivery</span>
+            </div>
+            <div className="p-2 rounded-xl bg-blue-500/10 border border-blue-500/25">
+              <span className="font-extrabold text-blue-300 block">↗ Auth-Right</span>
+              <span className="text-[10px] text-slate-300">National Security &amp; Market Order</span>
+            </div>
+            <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/25">
+              <span className="font-extrabold text-emerald-300 block">↙ Lib-Left</span>
+              <span className="text-[10px] text-slate-300">Social Liberties &amp; Green Rights</span>
+            </div>
+            <div className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/25">
+              <span className="font-extrabold text-amber-300 block">↘ Lib-Right</span>
+              <span className="text-[10px] text-slate-300">Free Markets &amp; Deregulation</span>
+            </div>
           </div>
 
           {/* Quick Party Selector Pills */}
