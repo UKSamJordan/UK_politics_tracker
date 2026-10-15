@@ -64,6 +64,16 @@ export interface SeatChangeItem {
   delta: number;
 }
 
+// Automatically purge any legacy client-side key from browser localStorage on startup
+try {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    window.localStorage.removeItem(STORAGE_KEYS.API_KEY);
+    window.localStorage.removeItem('GEMINI_USER_KEY');
+  }
+} catch {
+  // Ignore storage access errors
+}
+
 // All Gemini queries run server-side via Firebase Cloud Functions.
 export const getStoredApiKey = (): string => {
   return '';
