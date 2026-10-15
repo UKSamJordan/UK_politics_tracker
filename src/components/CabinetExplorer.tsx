@@ -151,9 +151,20 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
 
   const filteredMembers = cabinetMembers.filter((m) => {
     const matchesParty = m.partyId === selectedPartyId;
-    const matchesRole = 
-      roleFilter === 'all' ||
-      m.role.toLowerCase().includes(roleFilter.toLowerCase());
+    const roleLower = m.role.toLowerCase();
+    const filterLower = roleFilter.toLowerCase();
+    let matchesRole = roleFilter === 'all' || roleLower.includes(filterLower);
+    if (!matchesRole) {
+      if (filterLower === 'leader') {
+        matchesRole = Boolean(m.isLeader) || roleLower.includes('prime minister') || roleLower.includes('first secretary') || roleLower.includes('deputy leader');
+      } else if (filterLower === 'chancellor') {
+        matchesRole = roleLower.includes('treasury') || roleLower.includes('economy') || roleLower.includes('finance');
+      } else if (filterLower === 'work & pensions') {
+        matchesRole = roleLower.includes('work') || roleLower.includes('pension') || roleLower.includes('welfare');
+      } else if (filterLower === 'business & trade') {
+        matchesRole = roleLower.includes('business') || roleLower.includes('trade') || roleLower.includes('enterprise');
+      }
+    }
     return matchesParty && matchesRole;
   });
 
@@ -292,7 +303,24 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
           {/* Quick Role Filter */}
           <div className="flex items-center space-x-1.5 self-stretch sm:self-auto bg-slate-50 dark:bg-slate-800/80 p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 overflow-x-auto max-w-full scrollbar-none min-w-0">
             <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 pl-2 shrink-0">Portfolio:</span>
-            {['all', 'defence', 'chancellor', 'home', 'health', 'education'].map((role) => (
+            {[
+              'all',
+              'leader',
+              'chancellor',
+              'foreign',
+              'home',
+              'defence',
+              'health',
+              'justice',
+              'education',
+              'work & pensions',
+              'business & trade',
+              'housing',
+              'energy',
+              'transport',
+              'environment',
+              'culture',
+            ].map((role) => (
               <button
                 key={role}
                 onClick={() => setRoleFilter(role)}
@@ -395,15 +423,15 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
             </div>
             <div>
               <span className="font-bold text-rose-900 dark:text-rose-200 block text-sm">
-                His Majesty's Government (Burnham Administration, July 2026)
+                His Majesty's Government — Full 25-Member Cabinet Roster (Burnham Ministry, July 2026)
               </span>
               <p className="text-rose-700 dark:text-rose-300 mt-0.5">
-                Took office July 20, 2026, following Keir Starmer's resignation. All 9 ministerial appointments verified with exact appointment dates: Prime Minister <strong>Andy Burnham</strong>, First Secretary <strong>Louise Haigh</strong>, Chancellor <strong>John Healey</strong>, Defence Secretary <strong>Wes Streeting</strong>, and Health Secretary <strong>Yvette Cooper</strong>.
+                Complete Cabinet and Cabinet-attending roster across every Whitehall department following the July 2026 transition: Prime Minister <strong>Andy Burnham</strong>, First Secretary <strong>Louise Haigh</strong>, Chancellor <strong>John Healey</strong>, Foreign Secretary <strong>Ed Miliband</strong>, Home Secretary <strong>Shabana Mahmood</strong>, Defence Secretary <strong>Wes Streeting</strong>, Health Secretary <strong>Yvette Cooper</strong>, Lord Chancellor <strong>Alex Norris</strong>, plus all 17 departmental & parliamentary Cabinet posts.
               </p>
             </div>
           </div>
           <span className="shrink-0 font-bold bg-rose-200/70 dark:bg-rose-900/60 text-rose-900 dark:text-rose-200 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            July 2026 Reshuffle
+            25 Cabinet Posts
           </span>
         </div>
       )}
@@ -416,15 +444,15 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
             </div>
             <div>
               <span className="font-bold text-blue-900 dark:text-blue-200 block text-sm">
-                Official Opposition Frontbench (Kemi Badenoch)
+                His Majesty's Official Opposition — Full 25-Member Shadow Cabinet (Kemi Badenoch)
               </span>
               <p className="text-blue-700 dark:text-blue-300 mt-0.5">
-                9 verified shadow ministers. Following Robert Jenrick's defection to Reform UK, <strong>Nick Timothy</strong> was appointed Shadow Justice Secretary (Feb 2026), alongside <strong>Mel Stride</strong> (Shadow Chancellor, Nov 2024), <strong>Chris Philp</strong> (Shadow Home, Nov 2024), <strong>Victoria Atkins</strong> (Shadow Health, Nov 2024), and <strong>Laura Trott</strong> (Shadow Education, Nov 2024).
+                Complete 25-member Shadow Cabinet updated for the 2026 reshuffle: Leader <strong>Kemi Badenoch</strong>, Deputy Leader <strong>Alex Burghart</strong>, Shadow Chancellor <strong>Andrew Griffith</strong>, Shadow Foreign Secretary <strong>Tom Tugendhat</strong>, Shadow Home Secretary <strong>Chris Philp</strong>, Shadow Defence Secretary <strong>James Cartlidge</strong>, Shadow Health Secretary <strong>Damian Hinds</strong>, and Shadow Justice Secretary <strong>Nick Timothy</strong>.
               </p>
             </div>
           </div>
           <span className="shrink-0 font-bold bg-blue-200/70 dark:bg-blue-900/60 text-blue-900 dark:text-blue-200 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            Nov 2024 / Feb 2026
+            25 Shadow Posts
           </span>
         </div>
       )}
@@ -440,7 +468,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
                 Official Reform UK "Shadow Cabinet" (Announced Feb 17, 2026)
               </span>
               <p className="text-cyan-700 dark:text-cyan-300 mt-0.5">
-                8 verified members. Nigel Farage formed Reform's first official frontbench team in February 2026 to prepare for government, featuring defectors <strong>Robert Jenrick</strong> (Shadow Chancellor) and <strong>Suella Braverman</strong> (Shadow Education), alongside Chairman <strong>Zia Yusuf</strong> (Shadow Home Secretary) and <strong>Richard Tice</strong> (Shadow Business & Energy).
+                8 verified members. Nigel Farage formed Reform's first official frontbench team in February 2026 to prepare for government, featuring defectors <strong>Robert Jenrick</strong> (Shadow Chancellor) and <strong>Suella Braverman</strong> (Shadow Education), alongside <strong>Zia Yusuf</strong> (Shadow Home Secretary) and <strong>Richard Tice</strong> (Shadow Business & Energy).
               </p>
             </div>
           </div>
@@ -458,15 +486,15 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
             </div>
             <div>
               <span className="font-bold text-amber-900 dark:text-amber-200 block text-sm">
-                Liberal Democrats Parliamentary Frontbench (72 MPs)
+                Liberal Democrats Full Parliamentary Frontbench (16 Spokespersons • 72 MPs)
               </span>
               <p className="text-amber-700 dark:text-amber-300 mt-0.5">
-                Comprehensive 11-member frontbench team appointed following the July 2024 general election, led by <strong>Sir Ed Davey</strong> and Deputy Leader <strong>Daisy Cooper</strong> (Treasury), with key spokespeople including <strong>Helen Morgan</strong> (Health), <strong>Munira Wilson</strong> (Education), <strong>Tim Farron</strong> (Environment/Sewage), and <strong>Sarah Olney</strong> (Business).
+                Complete 16-member frontbench team led by <strong>Sir Ed Davey</strong> and Deputy Leader <strong>Daisy Cooper</strong> (Treasury), covering Health (<strong>Helen Morgan</strong>), Foreign Affairs (<strong>Calum Miller</strong>), Home (<strong>Lisa Smart</strong>), Justice (<strong>Jess Brown-Fuller</strong>), Education (<strong>Munira Wilson</strong>), Work & Pensions (<strong>Steve Darling</strong>), Business (<strong>Sarah Olney</strong>), Housing (<strong>Gideon Amos</strong>), Energy (<strong>Pippa Heylings</strong>), Transport (<strong>Olly Glover</strong>), and Environment (<strong>Tim Farron</strong>).
               </p>
             </div>
           </div>
           <span className="shrink-0 font-bold bg-amber-200/70 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            July 2024 Frontbench
+            16 Frontbench Posts
           </span>
         </div>
       )}
@@ -500,15 +528,15 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
             </div>
             <div>
               <span className="font-bold text-yellow-900 dark:text-yellow-200 block text-sm">
-                SNP Parliamentary & Scottish Government Leadership
+                SNP Parliamentary & Scottish Government Leadership (6 Frontbenchers)
               </span>
               <p className="text-yellow-700 dark:text-yellow-300 mt-0.5">
-                Party Leader & First Minister <strong>John Swinney</strong> (May 2024), Westminster Group Leader <strong>Stephen Flynn</strong> (Dec 2022 / July 2024), Work & Pensions Spokesperson <strong>Kirsty Blackman</strong> (July 2024), and Foreign Affairs & Defence Spokesperson <strong>Dave Doogan</strong> (July 2024).
+                Party Leader & First Minister <strong>John Swinney</strong>, Westminster Group Leader <strong>Stephen Flynn</strong>, Deputy Westminster Leader <strong>Pete Wishart</strong> (Home & Constitution), Chief Whip <strong>Kirsty Blackman</strong> (Economy & Pensions), <strong>Dave Doogan</strong> (Defence & Energy), and <strong>Brendan O'Hara</strong> (Foreign Affairs & Justice).
               </p>
             </div>
           </div>
           <span className="shrink-0 font-bold bg-yellow-200/70 dark:bg-yellow-900/60 text-yellow-900 dark:text-yellow-200 px-3 py-1 rounded-xl text-[11px] self-start sm:self-auto">
-            May 2024 / July 2024
+            6 Frontbench Posts
           </span>
         </div>
       )}

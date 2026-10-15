@@ -25,13 +25,13 @@ REQUIRED_PARTIES = [
 ]
 
 MIN_FRONTBENCH_THRESHOLDS = {
-    'labour': 8,
-    'conservative': 8,
-    'reform': 6,
-    'libdem': 8,
-    'green': 4,
-    'snp': 4,
-    'plaid': 4,
+    'labour': 22,
+    'conservative': 22,
+    'reform': 8,
+    'libdem': 14,
+    'green': 6,
+    'snp': 6,
+    'plaid': 5,
     'restore': 2
 }
 
