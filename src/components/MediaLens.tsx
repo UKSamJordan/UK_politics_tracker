@@ -16,6 +16,10 @@ import {
   Layers,
   Info,
   ArrowRight,
+  ChevronDown,
+  ChevronUp,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 
 interface MediaLensProps {
@@ -51,6 +55,26 @@ export const MediaLens: React.FC<MediaLensProps> = ({
   const [isScanningLive, setIsScanningLive] = useState(false);
   const [isAnalyzingCustom, setIsAnalyzingCustom] = useState(false);
   const [statusBanner, setStatusBanner] = useState<string | null>(null);
+  const [expandedStories, setExpandedStories] = useState<Record<string, boolean>>({});
+  const [expandedWingWhy, setExpandedWingWhy] = useState<Record<string, boolean>>({});
+
+  const toggleStoryExpanded = (storyId: string, isFirst: boolean) => {
+    setExpandedStories((prev) => {
+      const current = prev[storyId] !== undefined ? prev[storyId] : isFirst;
+      return { ...prev, [storyId]: !current };
+    });
+  };
+
+  const toggleWingWhy = (key: string) => {
+    setExpandedWingWhy((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const scrollToElement = (elementId: string) => {
+    const el = document.getElementById(elementId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    }
+  };
 
   const updateAllStories = (merged: MediaClusterStory[]) => {
     setLocalStories(merged);
@@ -433,57 +457,59 @@ export const MediaLens: React.FC<MediaLensProps> = ({
       </div>
 
       {/* Story Cluster Cards */}
-      <div className="space-y-8">
-        {filteredStories.map((story) => {
+      <div className="space-y-6">
+        {filteredStories.map((story, storyIdx) => {
           const isLeftBlindspot = story.blindspot === 'left_blindspot';
           const isRightBlindspot = story.blindspot === 'right_blindspot';
+          const isFirst = storyIdx === 0;
+          const isExpanded = expandedStories[story.id] !== undefined ? expandedStories[story.id] : isFirst;
 
           return (
             <article
               key={story.id}
-              className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-sm overflow-hidden transition-all"
+              className="bg-slate-900 rounded-3xl border border-slate-700 shadow-md overflow-hidden transition-all"
             >
               {/* Top Story Header & Coverage Bias Bar */}
-              <div className="p-5 sm:p-7 border-b border-slate-100 dark:border-slate-800 space-y-4">
+              <div className="p-5 sm:p-7 border-b border-slate-800 space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase tracking-wider bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200">
+                    <span className="px-2.5 py-1 rounded-lg text-[11px] font-extrabold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
                       {story.category}
                     </span>
-                    <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                    <span className="text-xs text-slate-300 font-medium">
                       {story.publishedAt}
                     </span>
-                    <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 px-2.5 py-0.5 rounded-full">
+                    <span className="text-xs font-bold text-indigo-300 bg-indigo-950/70 border border-indigo-700/50 px-2.5 py-0.5 rounded-full">
                       {story.totalSourcesCount} UK Media Outlets Tracking
                     </span>
                   </div>
 
                   {/* Blindspot Indicator Badge */}
                   {isLeftBlindspot && (
-                    <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-sky-100 text-sky-900 border border-sky-300 dark:bg-sky-950/80 dark:text-sky-200 dark:border-sky-700">
-                      <EyeOff className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
+                    <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-sky-950/90 text-sky-200 border border-sky-500/60">
+                      <EyeOff className="w-3.5 h-3.5 text-sky-400" />
                       <span>
-                        LEFT BLINDSPOT • {story.coverageSplit.right}% Covered by Right-Leaning Press
+                        LEFT BLINDSPOT • {story.coverageSplit.right}% Covered by Right Press
                       </span>
                     </span>
                   )}
                   {isRightBlindspot && (
-                    <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-rose-100 text-rose-900 border border-rose-300 dark:bg-rose-950/80 dark:text-rose-200 dark:border-rose-700">
-                      <EyeOff className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" />
+                    <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-rose-950/90 text-rose-200 border border-rose-500/60">
+                      <EyeOff className="w-3.5 h-3.5 text-rose-400" />
                       <span>
-                        RIGHT BLINDSPOT • {story.coverageSplit.left}% Covered by Left-Leaning Press
+                        RIGHT BLINDSPOT • {story.coverageSplit.left}% Covered by Left Press
                       </span>
                     </span>
                   )}
                   {!isLeftBlindspot && !isRightBlindspot && (
-                    <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800">
-                      <Scale className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-950/70 text-emerald-300 border border-emerald-600/50">
+                      <Scale className="w-3.5 h-3.5 text-emerald-400" />
                       <span>High Cross-Spectrum Coverage</span>
                     </span>
                   )}
                 </div>
 
-                <h3 className="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-snug">
+                <h3 className="text-lg sm:text-2xl font-extrabold text-white leading-snug">
                   {story.title}
                 </h3>
 
@@ -492,8 +518,8 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                   <div
                     className={`p-3.5 rounded-2xl border text-xs sm:text-sm flex items-start space-x-2.5 ${
                       isLeftBlindspot
-                        ? 'bg-sky-50/70 border-sky-200 text-sky-950 dark:bg-sky-950/30 dark:border-sky-800/70 dark:text-sky-200'
-                        : 'bg-rose-50/70 border-rose-200 text-rose-950 dark:bg-rose-950/30 dark:border-rose-800/70 dark:text-rose-200'
+                        ? 'bg-sky-950/40 border-sky-700/70 text-sky-200'
+                        : 'bg-rose-950/40 border-rose-700/70 text-rose-200'
                     }`}
                   >
                     <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
@@ -506,18 +532,18 @@ export const MediaLens: React.FC<MediaLensProps> = ({
 
                 {/* Ground News Style Coverage Distribution Bar */}
                 <div className="space-y-1.5 pt-1">
-                  <div className="flex items-center justify-between text-xs font-bold">
-                    <span className="text-rose-600 dark:text-rose-400">
-                      Left: {story.coverageSplit.left}%
+                  <div className="flex items-center justify-between text-xs font-extrabold">
+                    <span className="text-rose-400">
+                      🌹 Left Press: {story.coverageSplit.left}%
                     </span>
-                    <span className="text-indigo-600 dark:text-indigo-400">
-                      Centre: {story.coverageSplit.center}%
+                    <span className="text-indigo-300">
+                      ⚖️ Centre: {story.coverageSplit.center}%
                     </span>
-                    <span className="text-sky-600 dark:text-sky-400">
-                      Right: {story.coverageSplit.right}%
+                    <span className="text-sky-400">
+                      🦁 Right Press: {story.coverageSplit.right}%
                     </span>
                   </div>
-                  <div className="w-full h-3.5 rounded-full overflow-hidden flex bg-slate-100 dark:bg-slate-800 p-0.5 gap-0.5">
+                  <div className="w-full h-4 rounded-full overflow-hidden flex bg-slate-800 p-0.5 gap-0.5 border border-slate-700">
                     <div
                       style={{ width: `${story.coverageSplit.left}%` }}
                       className="bg-rose-500 h-full rounded-l-full transition-all"
@@ -537,223 +563,436 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                 </div>
 
                 {/* The Spin-Free Neutral Gist Box */}
-                <div className="bg-slate-50 dark:bg-slate-800/70 rounded-2xl p-4 sm:p-5 border border-slate-200/80 dark:border-slate-700/80 space-y-1.5">
-                  <div className="flex items-center space-x-1.5 text-[11px] font-extrabold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-                    <Info className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                <div className="bg-slate-800/80 rounded-2xl p-4 sm:p-5 border border-slate-700 space-y-1.5">
+                  <div className="flex items-center space-x-1.5 text-[11px] font-extrabold uppercase tracking-wider text-indigo-300">
+                    <Info className="w-3.5 h-3.5 text-indigo-400" />
                     <span>The Neutral Gist (Agreed Underlying Facts)</span>
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-medium">
+                  <p className="text-xs sm:text-sm text-slate-100 leading-relaxed font-medium">
                     {story.neutralGist}
                   </p>
                 </div>
-              </div>
 
-              {/* Part 1: Left vs Centre vs Right Editorial Framing Columns */}
-              <div className="p-5 sm:p-7 bg-slate-50/50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-800">
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center space-x-2">
-                    <Scale className="w-4 h-4 text-indigo-500 shrink-0" />
-                    <span>
-                      1. Ideological Wing Comparison: Left, Centre &amp; Right
+                {/* Progressive Disclosure Toggle Button to Expand/Collapse Spin Comparison */}
+                <div className="pt-1">
+                  <button
+                    type="button"
+                    onClick={() => toggleStoryExpanded(story.id, isFirst)}
+                    className={`w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold flex items-center justify-between transition-all cursor-pointer border ${
+                      isExpanded
+                        ? 'bg-slate-800 text-slate-200 border-slate-600'
+                        : 'bg-indigo-600 hover:bg-indigo-500 text-white border-indigo-400 shadow-sm'
+                    }`}
+                  >
+                    <span className="flex items-center space-x-2">
+                      <Scale className="w-4 h-4" />
+                      <span>
+                        {isExpanded
+                          ? 'Hide Left / Centre / Right Spin & Newspaper Cards'
+                          : `Compare Left, Centre & Right Spin + ${story.outletReports.length} Newspapers`}
+                      </span>
                     </span>
-                  </h4>
-                  <span className="lg:hidden text-[11px] font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-0.5 rounded-full shrink-0">
-                    Swipe cards ↔ (3)
-                  </span>
-                </div>
-
-                <div className="flex overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-3 gap-4">
-                  {/* Left Perspective */}
-                  <div className="w-full lg:w-auto flex-none snap-start lg:snap-align-none rounded-2xl bg-white dark:bg-slate-800/90 border-t-4 border-t-rose-500 border border-slate-200 dark:border-slate-700 p-4 sm:p-5 flex flex-col justify-between space-y-3 shadow-2xs">
-                    <div className="space-y-2.5">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-extrabold uppercase tracking-wider text-rose-700 dark:text-rose-300">
-                          Left-Leaning Press (1/3)
-                        </span>
-                        <span className="text-[11px] font-semibold text-slate-400">
-                          Guardian • Mirror • Independent
-                        </span>
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
-                        {story.wingPerspectives.left.summary}
-                      </p>
-                      <div className="pt-2 border-t border-slate-100 dark:border-slate-700/70">
-                        <span className="block text-[10px] font-extrabold uppercase tracking-wider text-rose-600 dark:text-rose-400 mb-1">
-                          Why They View It This Way:
-                        </span>
-                        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                          {story.wingPerspectives.left.whyThisFraming}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between pt-1 gap-2">
-                      <div className="flex flex-wrap gap-1.5">
-                        {story.wingPerspectives.left.toneKeywords.map((kw, i) => (
-                          <span
-                            key={i}
-                            className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 dark:bg-rose-950/60 dark:text-rose-300 border border-rose-200/60 dark:border-rose-800/60"
-                          >
-                            {kw}
-                          </span>
-                        ))}
-                      </div>
-                      <span className="lg:hidden text-[10px] font-bold text-slate-400 shrink-0">
-                        Swipe for Centre →
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Centre Perspective */}
-                  <div className="w-full lg:w-auto flex-none snap-start lg:snap-align-none rounded-2xl bg-white dark:bg-slate-800/90 border-t-4 border-t-indigo-500 border border-slate-200 dark:border-slate-700 p-4 sm:p-5 flex flex-col justify-between space-y-3 shadow-2xs">
-                    <div className="space-y-2.5">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-700 dark:text-indigo-300">
-                          Centre &amp; Broadcasters (2/3)
-                        </span>
-                        <span className="text-[11px] font-semibold text-slate-400">
-                          BBC • Sky News • FT
-                        </span>
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
-                        {story.wingPerspectives.center.summary}
-                      </p>
-                      <div className="pt-2 border-t border-slate-100 dark:border-slate-700/70">
-                        <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-1">
-                          Why They View It This Way:
-                        </span>
-                        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                          {story.wingPerspectives.center.whyThisFraming}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between pt-1 gap-2">
-                      <div className="flex flex-wrap gap-1.5">
-                        {story.wingPerspectives.center.toneKeywords.map((kw, i) => (
-                          <span
-                            key={i}
-                            className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60"
-                          >
-                            {kw}
-                          </span>
-                        ))}
-                      </div>
-                      <span className="lg:hidden text-[10px] font-bold text-slate-400 shrink-0">
-                        Swipe for Right →
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Right Perspective */}
-                  <div className="w-full lg:w-auto flex-none snap-start lg:snap-align-none rounded-2xl bg-white dark:bg-slate-800/90 border-t-4 border-t-sky-500 border border-slate-200 dark:border-slate-700 p-4 sm:p-5 flex flex-col justify-between space-y-3 shadow-2xs">
-                    <div className="space-y-2.5">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-extrabold uppercase tracking-wider text-sky-700 dark:text-sky-300">
-                          Right-Leaning Press (3/3)
-                        </span>
-                        <span className="text-[11px] font-semibold text-slate-400">
-                          Telegraph • Mail • Times • GB News
-                        </span>
-                      </div>
-                      <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
-                        {story.wingPerspectives.right.summary}
-                      </p>
-                      <div className="pt-2 border-t border-slate-100 dark:border-slate-700/70">
-                        <span className="block text-[10px] font-extrabold uppercase tracking-wider text-sky-600 dark:text-sky-400 mb-1">
-                          Why They View It This Way:
-                        </span>
-                        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                          {story.wingPerspectives.right.whyThisFraming}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between pt-1 gap-2">
-                      <div className="flex flex-wrap gap-1.5">
-                        {story.wingPerspectives.right.toneKeywords.map((kw, i) => (
-                          <span
-                            key={i}
-                            className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-sky-50 text-sky-700 dark:bg-sky-950/60 dark:text-sky-300 border border-sky-200/60 dark:border-sky-800/60"
-                          >
-                            {kw}
-                          </span>
-                        ))}
-                      </div>
-                      <span className="lg:hidden text-[10px] font-bold text-slate-400 shrink-0">
-                        ← Swipe back
-                      </span>
-                    </div>
-                  </div>
+                    {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                  </button>
                 </div>
               </div>
 
-              {/* Part 2: Specific Newspaper & Broadcaster Breakdown */}
-              <div className="p-5 sm:p-7 space-y-4">
-                <div className="flex items-center justify-between gap-2">
-                  <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center space-x-2">
-                    <Newspaper className="w-4 h-4 text-rose-500 shrink-0" />
-                    <span>
-                      2. Outlet-by-Outlet Breakdown (e.g. Telegraph vs Guardian vs BBC)
-                    </span>
-                  </h4>
-                  <span className="md:hidden text-[11px] font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60 px-2.5 py-0.5 rounded-full shrink-0">
-                    Swipe outlets ↔ ({story.outletReports.length})
-                  </span>
-                </div>
+              {isExpanded && (
+                <>
+                  {/* Part 1: Left vs Centre vs Right Editorial Framing Columns */}
+                  <div className="p-4 sm:p-7 bg-slate-950/60 border-b border-slate-800 space-y-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <h4 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white flex items-center space-x-2">
+                        <Scale className="w-4 h-4 text-indigo-400 shrink-0" />
+                        <span>
+                          1. Ideological Wing Comparison: Left, Centre &amp; Right
+                        </span>
+                      </h4>
+                    </div>
 
-                <div className="flex overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] md:grid md:grid-cols-2 gap-4">
-                  {story.outletReports.map((rep, idx) => (
-                    <div
-                      key={idx}
-                      className="w-full md:w-auto flex-none snap-start md:snap-align-none rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/50 p-4 sm:p-5 flex flex-col justify-between space-y-3 hover:border-slate-300 dark:hover:border-slate-700 transition-all"
-                    >
-                      <div className="space-y-2.5">
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                          <div className="flex items-center space-x-2">
-                            <span className="font-extrabold text-sm text-slate-900 dark:text-white">
-                              {rep.outletName}
-                            </span>
-                            <span
-                              className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${getLeanBadgeStyle(
-                                rep.lean
-                              )}`}
-                            >
-                              {getLeanLabel(rep.lean)}
-                            </span>
-                          </div>
-                          <div className="flex items-center space-x-1.5">
-                            <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">
-                              Factuality: {rep.factuality}
-                            </span>
-                            <span className="md:hidden text-[10px] font-bold text-slate-400">
-                              ({idx + 1}/{story.outletReports.length})
-                            </span>
-                          </div>
-                        </div>
-
-                        <a
-                          href={rep.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block group"
+                    {/* CUE 1 (Mobile): Interactive Wing Switcher Pills */}
+                    <div className="lg:hidden bg-slate-900 p-2.5 rounded-xl border border-slate-700 space-y-2">
+                      <div className="flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider text-indigo-300">
+                        <span>👆 Tap a media bias or swipe cards sideways ↔</span>
+                        <span className="text-slate-400">3 Wings</span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => scrollToElement(`wing-${story.id}-left`)}
+                          className="py-1.5 px-2 rounded-lg bg-rose-600 text-white text-xs font-extrabold text-center shadow-xs cursor-pointer"
                         >
-                          <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-snug">
-                            &ldquo;{rep.headline}&rdquo;
-                            <ExternalLink className="w-3 h-3 inline-block ml-1.5 opacity-60 group-hover:opacity-100" />
-                          </p>
-                        </a>
+                          1. Left Press
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => scrollToElement(`wing-${story.id}-center`)}
+                          className="py-1.5 px-2 rounded-lg bg-indigo-600 text-white text-xs font-extrabold text-center shadow-xs cursor-pointer"
+                        >
+                          2. Centre / BBC
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => scrollToElement(`wing-${story.id}-right`)}
+                          className="py-1.5 px-2 rounded-lg bg-sky-600 text-white text-xs font-extrabold text-center shadow-xs cursor-pointer"
+                        >
+                          3. Right Press
+                        </button>
+                      </div>
+                    </div>
 
-                        <div className="bg-slate-50 dark:bg-slate-900/70 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
-                          <span className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
-                            How {rep.outletName} Views It &amp; Why:
-                          </span>
-                          <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
-                            {rep.framingAnalysis}
-                          </p>
+                    {/* CUE 2: 86% Peek Cards on Mobile + Full Coloured Headers */}
+                    <div className="flex overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] lg:grid lg:grid-cols-3 gap-3.5 sm:gap-4">
+                      {/* Left Perspective */}
+                      <div
+                        id={`wing-${story.id}-left`}
+                        className="w-[86%] sm:w-[88%] lg:w-auto flex-none snap-start lg:snap-align-none rounded-2xl bg-slate-900 border-2 border-rose-500 overflow-hidden flex flex-col justify-between shadow-lg"
+                      >
+                        <div>
+                          <div className="bg-rose-600 text-white px-4 py-3 flex items-center justify-between">
+                            <div>
+                              <div className="font-black text-sm">🌹 Left-Leaning Press</div>
+                              <div className="text-[11px] font-semibold text-rose-100">
+                                Guardian • Mirror • New Statesman
+                              </div>
+                            </div>
+                            <span className="px-2 py-0.5 rounded-full bg-black/25 text-[10px] font-extrabold">
+                              1 of 3
+                            </span>
+                          </div>
+
+                          <div className="p-4 sm:p-5 space-y-3">
+                            <div>
+                              <span className="text-[10px] font-extrabold uppercase tracking-wider text-rose-300 block mb-1">
+                                How the Left Frames It:
+                              </span>
+                              <p className="text-xs sm:text-sm text-white leading-relaxed font-medium">
+                                {story.wingPerspectives.left.summary}
+                              </p>
+                            </div>
+
+                            <div className="flex flex-wrap gap-1.5">
+                              {story.wingPerspectives.left.toneKeywords.map((kw, i) => (
+                                <span
+                                  key={i}
+                                  className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-rose-950/80 text-rose-300 border border-rose-700/60"
+                                >
+                                  {kw}
+                                </span>
+                              ))}
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => toggleWingWhy(`${story.id}-left`)}
+                              className="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-rose-200 text-xs font-extrabold flex items-center justify-between cursor-pointer"
+                            >
+                              <span>🔍 Why They View It This Way</span>
+                              {expandedWingWhy[`${story.id}-left`] ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                            </button>
+
+                            {expandedWingWhy[`${story.id}-left`] && (
+                              <div className="p-3 rounded-xl bg-slate-800/90 border border-rose-500/30 text-xs text-slate-200 leading-relaxed">
+                                {story.wingPerspectives.left.whyThisFraming}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* CUE 3: Mobile Next Button */}
+                        <div className="lg:hidden px-4 py-2.5 border-t border-slate-800 flex items-center justify-between">
+                          <span className="text-[11px] text-slate-400">Swipe sideways ↔</span>
+                          <button
+                            type="button"
+                            onClick={() => scrollToElement(`wing-${story.id}-center`)}
+                            className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-[11px] font-extrabold flex items-center space-x-1 cursor-pointer"
+                          >
+                            <span>Next: Centre / BBC</span>
+                            <ChevronRight className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Centre Perspective */}
+                      <div
+                        id={`wing-${story.id}-center`}
+                        className="w-[86%] sm:w-[88%] lg:w-auto flex-none snap-start lg:snap-align-none rounded-2xl bg-slate-900 border-2 border-indigo-500 overflow-hidden flex flex-col justify-between shadow-lg"
+                      >
+                        <div>
+                          <div className="bg-indigo-600 text-white px-4 py-3 flex items-center justify-between">
+                            <div>
+                              <div className="font-black text-sm">⚖️ Centre &amp; Broadcasters</div>
+                              <div className="text-[11px] font-semibold text-indigo-100">
+                                BBC News • Sky News • Financial Times
+                              </div>
+                            </div>
+                            <span className="px-2 py-0.5 rounded-full bg-black/25 text-[10px] font-extrabold">
+                              2 of 3
+                            </span>
+                          </div>
+
+                          <div className="p-4 sm:p-5 space-y-3">
+                            <div>
+                              <span className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-300 block mb-1">
+                                How the Centre Frames It:
+                              </span>
+                              <p className="text-xs sm:text-sm text-white leading-relaxed font-medium">
+                                {story.wingPerspectives.center.summary}
+                              </p>
+                            </div>
+
+                            <div className="flex flex-wrap gap-1.5">
+                              {story.wingPerspectives.center.toneKeywords.map((kw, i) => (
+                                <span
+                                  key={i}
+                                  className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-950/80 text-indigo-300 border border-indigo-700/60"
+                                >
+                                  {kw}
+                                </span>
+                              ))}
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => toggleWingWhy(`${story.id}-center`)}
+                              className="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-indigo-200 text-xs font-extrabold flex items-center justify-between cursor-pointer"
+                            >
+                              <span>🔍 Why They View It This Way</span>
+                              {expandedWingWhy[`${story.id}-center`] ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                            </button>
+
+                            {expandedWingWhy[`${story.id}-center`] && (
+                              <div className="p-3 rounded-xl bg-slate-800/90 border border-indigo-500/30 text-xs text-slate-200 leading-relaxed">
+                                {story.wingPerspectives.center.whyThisFraming}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* CUE 3: Mobile Prev / Next Buttons */}
+                        <div className="lg:hidden px-4 py-2.5 border-t border-slate-800 flex items-center justify-between">
+                          <button
+                            type="button"
+                            onClick={() => scrollToElement(`wing-${story.id}-left`)}
+                            className="px-2.5 py-1.5 rounded-lg bg-slate-800 text-slate-200 border border-slate-700 text-[11px] font-bold flex items-center space-x-1 cursor-pointer"
+                          >
+                            <ChevronLeft className="w-3.5 h-3.5" />
+                            <span>Left Press</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => scrollToElement(`wing-${story.id}-right`)}
+                            className="px-3 py-1.5 rounded-lg bg-sky-600 text-white text-[11px] font-extrabold flex items-center space-x-1 cursor-pointer"
+                          >
+                            <span>Next: Right Press</span>
+                            <ChevronRight className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Right Perspective */}
+                      <div
+                        id={`wing-${story.id}-right`}
+                        className="w-[86%] sm:w-[88%] lg:w-auto flex-none snap-start lg:snap-align-none rounded-2xl bg-slate-900 border-2 border-sky-500 overflow-hidden flex flex-col justify-between shadow-lg"
+                      >
+                        <div>
+                          <div className="bg-sky-600 text-white px-4 py-3 flex items-center justify-between">
+                            <div>
+                              <div className="font-black text-sm">🦁 Right-Leaning Press</div>
+                              <div className="text-[11px] font-semibold text-sky-100">
+                                Telegraph • Mail • Times • GB News
+                              </div>
+                            </div>
+                            <span className="px-2 py-0.5 rounded-full bg-black/25 text-[10px] font-extrabold">
+                              3 of 3
+                            </span>
+                          </div>
+
+                          <div className="p-4 sm:p-5 space-y-3">
+                            <div>
+                              <span className="text-[10px] font-extrabold uppercase tracking-wider text-sky-300 block mb-1">
+                                How the Right Frames It:
+                              </span>
+                              <p className="text-xs sm:text-sm text-white leading-relaxed font-medium">
+                                {story.wingPerspectives.right.summary}
+                              </p>
+                            </div>
+
+                            <div className="flex flex-wrap gap-1.5">
+                              {story.wingPerspectives.right.toneKeywords.map((kw, i) => (
+                                <span
+                                  key={i}
+                                  className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-sky-950/80 text-sky-300 border border-sky-700/60"
+                                >
+                                  {kw}
+                                </span>
+                              ))}
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => toggleWingWhy(`${story.id}-right`)}
+                              className="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-sky-200 text-xs font-extrabold flex items-center justify-between cursor-pointer"
+                            >
+                              <span>🔍 Why They View It This Way</span>
+                              {expandedWingWhy[`${story.id}-right`] ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                            </button>
+
+                            {expandedWingWhy[`${story.id}-right`] && (
+                              <div className="p-3 rounded-xl bg-slate-800/90 border border-sky-500/30 text-xs text-slate-200 leading-relaxed">
+                                {story.wingPerspectives.right.whyThisFraming}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* CUE 3: Mobile Prev Button */}
+                        <div className="lg:hidden px-4 py-2.5 border-t border-slate-800 flex items-center justify-between">
+                          <button
+                            type="button"
+                            onClick={() => scrollToElement(`wing-${story.id}-center`)}
+                            className="px-2.5 py-1.5 rounded-lg bg-slate-800 text-slate-200 border border-slate-700 text-[11px] font-bold flex items-center space-x-1 cursor-pointer"
+                          >
+                            <ChevronLeft className="w-3.5 h-3.5" />
+                            <span>Centre / BBC</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => scrollToElement(`wing-${story.id}-left`)}
+                            className="px-2.5 py-1.5 rounded-lg bg-slate-800 text-slate-200 border border-slate-700 text-[11px] font-bold cursor-pointer"
+                          >
+                            ↺ Back to Left Press
+                          </button>
                         </div>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </div>
+
+                  {/* Part 2: Specific Newspaper & Broadcaster Breakdown */}
+                  <div className="p-4 sm:p-7 space-y-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <h4 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white flex items-center space-x-2">
+                        <Newspaper className="w-4 h-4 text-rose-400 shrink-0" />
+                        <span>
+                          2. Individual Newspaper &amp; Broadcaster Reports ({story.outletReports.length})
+                        </span>
+                      </h4>
+                    </div>
+
+                    {/* CUE 1 (Mobile): Interactive Newspaper Switcher Pills */}
+                    <div className="md:hidden bg-slate-950/80 p-2.5 rounded-xl border border-slate-700 space-y-2">
+                      <div className="flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider text-indigo-300">
+                        <span>👆 Tap a newspaper or swipe sideways ↔</span>
+                        <span className="text-slate-400">{story.outletReports.length} Outlets</span>
+                      </div>
+                      <div className="flex items-center space-x-1.5 overflow-x-auto pb-0.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                        {story.outletReports.map((rep, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => scrollToElement(`outlet-${story.id}-${idx}`)}
+                            className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-indigo-600 text-white border border-slate-600 text-xs font-extrabold whitespace-nowrap shrink-0 cursor-pointer"
+                          >
+                            {idx + 1}. {rep.outletName}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* CUE 2: 86% Peek Newspaper Cards on Mobile */}
+                    <div className="flex overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] md:grid md:grid-cols-2 gap-3.5 sm:gap-4">
+                      {story.outletReports.map((rep, idx) => {
+                        const prevOutlet = idx > 0 ? story.outletReports[idx - 1] : null;
+                        const nextOutlet = idx < story.outletReports.length - 1 ? story.outletReports[idx + 1] : null;
+
+                        return (
+                          <div
+                            key={idx}
+                            id={`outlet-${story.id}-${idx}`}
+                            className="w-[86%] sm:w-[88%] md:w-auto flex-none snap-start md:snap-align-none rounded-2xl border-2 border-slate-700 bg-slate-800/80 p-4 sm:p-5 flex flex-col justify-between space-y-3 shadow-md"
+                          >
+                            <div className="space-y-2.5">
+                              <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-700">
+                                <div className="flex items-center space-x-2">
+                                  <span className="font-extrabold text-sm sm:text-base text-white">
+                                    {rep.outletName}
+                                  </span>
+                                  <span
+                                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${getLeanBadgeStyle(
+                                      rep.lean
+                                    )}`}
+                                  >
+                                    {getLeanLabel(rep.lean)}
+                                  </span>
+                                </div>
+                                <span className="text-[10px] font-extrabold text-slate-300 bg-slate-900 px-2 py-0.5 rounded-full border border-slate-700">
+                                  {idx + 1} of {story.outletReports.length}
+                                </span>
+                              </div>
+
+                              <a
+                                href={rep.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block group"
+                              >
+                                <p className="text-xs sm:text-sm font-extrabold text-white group-hover:text-indigo-300 transition-colors leading-snug">
+                                  &ldquo;{rep.headline}&rdquo;
+                                  <ExternalLink className="w-3 h-3 inline-block ml-1.5 opacity-75 group-hover:opacity-100" />
+                                </p>
+                              </a>
+
+                              <div className="bg-slate-900/90 rounded-xl p-3 border border-slate-700">
+                                <span className="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-300 mb-1">
+                                  How {rep.outletName} Views It &amp; Why:
+                                </span>
+                                <p className="text-xs text-slate-200 leading-relaxed">
+                                  {rep.framingAnalysis}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* CUE 3: Mobile Prev / Next Newspaper Buttons */}
+                            <div className="md:hidden pt-2 border-t border-slate-700 flex items-center justify-between gap-2">
+                              {prevOutlet ? (
+                                <button
+                                  type="button"
+                                  onClick={() => scrollToElement(`outlet-${story.id}-${idx - 1}`)}
+                                  className="px-2.5 py-1.5 rounded-lg bg-slate-900 text-slate-200 border border-slate-600 text-[11px] font-bold flex items-center space-x-1 cursor-pointer"
+                                >
+                                  <ChevronLeft className="w-3.5 h-3.5" />
+                                  <span>{prevOutlet.outletName}</span>
+                                </button>
+                              ) : (
+                                <span className="text-[11px] text-slate-400">Swipe outlets ↔</span>
+                              )}
+
+                              {nextOutlet ? (
+                                <button
+                                  type="button"
+                                  onClick={() => scrollToElement(`outlet-${story.id}-${idx + 1}`)}
+                                  className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-[11px] font-extrabold flex items-center space-x-1 cursor-pointer ml-auto"
+                                >
+                                  <span>Next: {nextOutlet.outletName}</span>
+                                  <ChevronRight className="w-3.5 h-3.5" />
+                                </button>
+                              ) : (
+                                <button
+                                  type="button"
+                                  onClick={() => scrollToElement(`outlet-${story.id}-0`)}
+                                  className="px-2.5 py-1.5 rounded-lg bg-slate-900 text-slate-200 border border-slate-600 text-[11px] font-bold cursor-pointer ml-auto"
+                                >
+                                  ↺ Back to {story.outletReports[0]?.outletName}
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </>
+              )}
             </article>
           );
         })}
