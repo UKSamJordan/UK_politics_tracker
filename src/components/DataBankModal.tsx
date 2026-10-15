@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { X, Database, Zap, ShieldCheck, Cloud, Key, RefreshCw, CheckCircle2 } from 'lucide-react';
-import { getStoredApiKey, setStoredApiKey } from '../services/liveUpdater';
+import { X, Database, Zap, ShieldCheck, Cloud, Key, RefreshCw } from 'lucide-react';
 
 interface DataBankModalProps {
   isOpen: boolean;
@@ -9,18 +8,10 @@ interface DataBankModalProps {
 }
 
 export const DataBankModal: React.FC<DataBankModalProps> = ({ isOpen, onClose, onSyncAll }) => {
-  const [apiKey, setApiKey] = useState(getStoredApiKey());
-  const [isSaved, setIsSaved] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncSuccess, setSyncSuccess] = useState(false);
 
   if (!isOpen) return null;
-
-  const handleSaveKey = () => {
-    setStoredApiKey(apiKey);
-    setIsSaved(true);
-    setTimeout(() => setIsSaved(false), 2500);
-  };
 
   const handleSync = async () => {
     if (!onSyncAll || isSyncing) return;
@@ -48,7 +39,7 @@ export const DataBankModal: React.FC<DataBankModalProps> = ({ isOpen, onClose, o
             </div>
             <div>
               <h3 className="font-bold text-base text-slate-900 dark:text-slate-100">Live Data Bank & Verification Engine</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Real-time HTTP updates + Optional Live Intelligence query</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Real-time HTTP updates + Server-Side Cloud Intelligence</p>
             </div>
           </div>
           <button
@@ -59,43 +50,19 @@ export const DataBankModal: React.FC<DataBankModalProps> = ({ isOpen, onClose, o
           </button>
         </div>
 
-        {/* Live Browser API Key Configuration */}
-        <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 space-y-3">
+        {/* Server-Side Cloud Function Intelligence Status */}
+        <div className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 space-y-2.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Key className="w-4 h-4 text-rose-600 dark:text-rose-400" />
-              <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100">Live Intelligence Service Key</h4>
+              <Key className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100">Server-Side Parliamentary Intelligence</h4>
             </div>
-            {(apiKey || getStoredApiKey()) ? (
-              <span className="text-[10px] text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 px-2 py-0.5 rounded font-bold">
-                ✓ Active Key Connected
-              </span>
-            ) : (
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded">
-                Saved locally in browser
-              </span>
-            )}
+            <span className="text-[10px] text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 px-2 py-0.5 rounded font-bold">
+              ✓ Cloud Functions Active
+            </span>
           </div>
           <p className="text-xs text-slate-600 dark:text-slate-300">
-            Clicking <strong>"Update [Section]"</strong> queries Live Parliamentary Intelligence directly from your browser with search grounding to discover real-time political reshuffles, new polling, and fact checks.
-          </p>
-          <div className="flex items-center space-x-2">
-            <input
-              type="password"
-              placeholder="Enter Live Intelligence API key..."
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
-              className="flex-1 px-3 py-1.5 text-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-blue-500 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
-            />
-            <button
-              onClick={handleSaveKey}
-              className="px-3.5 py-1.5 bg-slate-900 dark:bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-slate-800 dark:hover:bg-blue-700 transition-all cursor-pointer"
-            >
-              {isSaved ? 'Saved!' : 'Save Key'}
-            </button>
-          </div>
-          <p className="text-[10px] text-slate-400 dark:text-slate-500">
-            🔒 Pre-configured with active parliamentary intelligence service. You can also override or update anytime.
+            Clicking <strong>"Update [Section]"</strong> executes secure server-side Cloud Functions with Google Search grounding to discover real-time political reshuffles, new polling, and fact checks without exposing any API credentials to the browser.
           </p>
         </div>
 

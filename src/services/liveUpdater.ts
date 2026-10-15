@@ -64,25 +64,14 @@ export interface SeatChangeItem {
   delta: number;
 }
 
-// Retrieve optional user-supplied Gemini API key if stored locally
+// All Gemini queries run server-side via Firebase Cloud Functions.
 export const getStoredApiKey = (): string => {
-  return (
-    localStorage.getItem(STORAGE_KEYS.API_KEY) ||
-    localStorage.getItem('GEMINI_USER_KEY') ||
-    (import.meta as any).env?.VITE_GEMINI_API_KEY ||
-    ''
-  );
+  return '';
 };
 
-export const setStoredApiKey = (key: string): void => {
-  const trimmed = key.trim();
-  if (trimmed) {
-    localStorage.setItem(STORAGE_KEYS.API_KEY, trimmed);
-    localStorage.setItem('GEMINI_USER_KEY', trimmed);
-  } else {
-    localStorage.removeItem(STORAGE_KEYS.API_KEY);
-    localStorage.removeItem('GEMINI_USER_KEY');
-  }
+export const setStoredApiKey = (_key: string): void => {
+  localStorage.removeItem(STORAGE_KEYS.API_KEY);
+  localStorage.removeItem('GEMINI_USER_KEY');
 };
 
 /**
