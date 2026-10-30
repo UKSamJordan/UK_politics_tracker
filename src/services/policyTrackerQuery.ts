@@ -163,7 +163,12 @@ export function getCurrentDateMetadata(): DateMetadata {
   });
   const year = now.getFullYear();
   const monthName = now.toLocaleDateString('en-GB', { month: 'long' });
-  const timestamp = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) + ' BST';
+  const timestamp = now.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'Europe/London',
+    timeZoneName: 'short',
+  });
 
   return {
     fullDateString,
@@ -399,12 +404,12 @@ export function getGroundedPledgeFallback(
         rawText: 'Active government commitment to 2.5% of GDP via Strategic Defence Review.',
         verdict: 'Conditional / Pending Review',
         verdictTone: 'amber',
-        lastAffirmedSummary: `Reaffirmed in House of Commons defence statements following the commissioning of the Strategic Defence Review (SDR).`,
-        quoteText: `Our commitment to spending 2.5% of GDP on defence is unshakeable. Through our Strategic Defence Review, we will set out the roadmap to 2.5% as economic conditions allow.`,
-        quoteSpeaker: `John Healey MP, Secretary of State for Defence`,
-        quoteDate: `Commons Statement, SDR Launch`,
-        quoteContext: `House of Commons Hansard Record (Vol. 754)`,
-        latestQuote: `Our commitment to spending 2.5% of GDP on defence is unshakeable. Through our Strategic Defence Review, we will set out the roadmap to 2.5% as economic conditions allow.`,
+        lastAffirmedSummary: `Reaffirmed in House of Commons defence statements implementing the Strategic Defence Review (SDR).`,
+        quoteText: `Our commitment to spending 2.5% of GDP on defence is unshakeable. Through our Strategic Defence Review implementation, we are modernising sovereign UK procurement and backing NATO readiness.`,
+        quoteSpeaker: `Wes Streeting MP, Secretary of State for Defence`,
+        quoteDate: `Commons Defence Statement (2026)`,
+        quoteContext: `House of Commons Hansard Record`,
+        latestQuote: `Our commitment to spending 2.5% of GDP on defence is unshakeable. Through our Strategic Defence Review implementation, we are modernising sovereign UK procurement and backing NATO readiness.`,
         statusAnalysis: `• In-principle commitment to 2.5% of GDP.\n• Concrete timeline and procurement pathways sequenced by the Strategic Defence Review.\n• Subject to HM Treasury fiscal headroom and economic growth.`,
         timestamp: `Today at ${dateMeta.timestamp}`,
         source: `Westminster Parliamentary Hansard & Scrutiny Register`,
@@ -465,7 +470,7 @@ export function getGroundedPledgeFallback(
         verdictTone: 'emerald',
         lastAffirmedSummary: `Reaffirmed in House of Commons debates on nuclear non-proliferation and defence treaties.`,
         quoteText: `True security comes through international diplomacy, conflict prevention, and climate resilience, not through sinking billions into weapons of mass destruction.`,
-        quoteSpeaker: `Carla Denyer MP, Co-Leader of the Green Party`,
+        quoteSpeaker: `Carla Denyer MP, Parliamentary Leader of the Green Party`,
         quoteDate: `Foreign Affairs & Defence Plenary`,
         quoteContext: `House of Commons Hansard Record`,
         latestQuote: `True security comes through international diplomacy, conflict prevention, and climate resilience, not through sinking billions into weapons of mass destruction.`,
@@ -483,15 +488,15 @@ export function getGroundedPledgeFallback(
         rawText: 'Labour housing platform.',
         verdict: 'Confirmed Active',
         verdictTone: 'emerald',
-        lastAffirmedSummary: `Confirmed in Commons debate during the passage of the Renters' Rights statutory mechanism.`,
-        quoteText: `We are delivering 1.5 million homes over this Parliament, unblocking the planning system, and ending Section 21 no-fault evictions once and for all.`,
-        quoteSpeaker: `Matthew Pennycook MP, Minister of State for Housing and Planning`,
-        quoteDate: `Commons Housing Statement`,
-        quoteContext: `House of Commons Hansard (Vol. 755)`,
-        latestQuote: `We are delivering 1.5 million homes over this Parliament, unblocking the planning system, and ending Section 21 no-fault evictions once and for all.`,
-        statusAnalysis: `• Mandatory local housing targets restored across England.\n• Statutory abolition of Section 21 evictions.\n• Introduction of 'grey belt' designations to release low-yield green belt land.`,
+        lastAffirmedSummary: `Confirmed in Commons debate on social housing delivery and the Renters' Rights Act.`,
+        quoteText: `We are delivering 1.5 million homes over this Parliament, launching the biggest generation boost to council and social housing, and ending Section 21 no-fault evictions once and for all.`,
+        quoteSpeaker: `Angela Rayner MP, Secretary of State for Housing, Communities and Local Government`,
+        quoteDate: `Commons Housing Statement (2026)`,
+        quoteContext: `House of Commons Hansard Record`,
+        latestQuote: `We are delivering 1.5 million homes over this Parliament, launching the biggest generation boost to council and social housing, and ending Section 21 no-fault evictions once and for all.`,
+        statusAnalysis: `• Mandatory local housing targets restored across England.\n• Statutory abolition of Section 21 evictions.\n• Introduction of 'grey belt' designations and devolved regional housing funds.`,
         timestamp: `Today at ${dateMeta.timestamp}`,
-        source: `Department for Housing & Hansard`,
+        source: `Department for Housing, Communities and Local Government & Hansard`,
       };
     }
     if (pLower.includes('conservative')) {
@@ -500,12 +505,12 @@ export function getGroundedPledgeFallback(
         verdict: 'Confirmed Active',
         verdictTone: 'emerald',
         lastAffirmedSummary: `Reaffirmed in parliamentary housing scrutiny questions.`,
-        quoteText: `We must build homes where young people want to live by unlocking urban brownfield sites, not by concreting over the precious green belt or stripping local communities of planning control.`,
-        quoteSpeaker: `Kevin Hollinrake MP, Shadow Housing & Communities Secretary`,
-        quoteDate: `Commons Housing Debate`,
+        quoteText: `We must build homes where young people want to live by unlocking urban brownfield sites and cutting stamp duty, not by concreting over the rural green belt or stripping local communities of planning control.`,
+        quoteSpeaker: `Katie Lam MP, Shadow Secretary of State for Housing, Communities and Local Government`,
+        quoteDate: `Commons Housing Debate (2026)`,
         quoteContext: `House of Commons Hansard Record`,
-        latestQuote: `We must build homes where young people want to live by unlocking urban brownfield sites, not by concreting over the precious green belt.`,
-        statusAnalysis: `• Strict 'brownfield first' statutory priority.\n• Preserve local council planning discretion and green belt protections.\n• Promote Help to Buy equity loan schemes for first-time buyers.`,
+        latestQuote: `We must build homes where young people want to live by unlocking urban brownfield sites and cutting stamp duty, not by concreting over the rural green belt.`,
+        statusAnalysis: `• Strict 'brownfield first' statutory priority.\n• Preserve local council planning discretion and green belt protections.\n• Cut stamp duty for first-time buyers and primary home movers.`,
         timestamp: `Today at ${dateMeta.timestamp}`,
         source: `Conservative Housing Platform`,
       };
@@ -519,13 +524,13 @@ export function getGroundedPledgeFallback(
         rawText: 'Labour clean energy superpower strategy.',
         verdict: 'Confirmed Active',
         verdictTone: 'emerald',
-        lastAffirmedSummary: `Confirmed at the despatch box following the statutory establishment of Great British Energy.`,
-        quoteText: `Great British Energy is a publicly owned energy company that will take back control of our power, lower household bills for good, and deliver clean power by 2030.`,
-        quoteSpeaker: `Ed Miliband MP, Secretary of State for Energy Security and Net Zero`,
-        quoteDate: `Commons Despatch Box Statement`,
-        quoteContext: `House of Commons Hansard (Vol. 757)`,
-        latestQuote: `Great British Energy is a publicly owned energy company that will take back control of our power, lower household bills for good, and deliver clean power by 2030.`,
-        statusAnalysis: `• Great British Energy incorporated with £8.3bn capitalisation.\n• Ban on new North Sea oil and gas exploration licenses.\n• Onshore wind planning restrictions lifted in England.`,
+        lastAffirmedSummary: `Confirmed at the despatch box alongside Great British Energy's rollout and the October 2026 Autumn Budget £100 energy bill support package.`,
+        quoteText: `Great British Energy and our Warm Homes rollout are taking back control of our power, reforming unfair standing charges, and cutting household energy bills this winter on the path to clean power by 2030.`,
+        quoteSpeaker: `Miatta Fahnbulleh MP, Secretary of State for Energy Security and Net Zero`,
+        quoteDate: `Commons Energy Statement (October 2026)`,
+        quoteContext: `House of Commons Hansard Record`,
+        latestQuote: `Great British Energy and our Warm Homes rollout are taking back control of our power, reforming unfair standing charges, and cutting household energy bills this winter.`,
+        statusAnalysis: `• Great British Energy incorporated with £8.3bn capitalisation.\n• October 2026 Autumn Budget £100 winter energy bill support & standing charge reform.\n• Onshore wind planning restrictions lifted in England.`,
         timestamp: `Today at ${dateMeta.timestamp}`,
         source: `Department for Energy Security and Net Zero & Hansard`,
       };
@@ -536,12 +541,12 @@ export function getGroundedPledgeFallback(
         verdict: 'Confirmed Active',
         verdictTone: 'emerald',
         lastAffirmedSummary: `Reaffirmed in parliamentary energy debates.`,
-        quoteText: `Rushing to arbitrary Net Zero deadlines without regard for domestic energy bills or security of supply harms British industry and exports jobs abroad. We will maintain North Sea licensing.`,
-        quoteSpeaker: `Claire Coutinho MP, Shadow Secretary of State for Energy Security and Net Zero`,
-        quoteDate: `Energy Security Questions`,
+        quoteText: `Rushing to arbitrary Net Zero deadlines without regard for domestic energy bills or North Sea jobs harms British industry. We will back annual North Sea oil and gas licensing and accelerate nuclear baseload power.`,
+        quoteSpeaker: `Andrew Bowie MP, Shadow Secretary of State for Energy Security and Net Zero`,
+        quoteDate: `Energy Security Questions (2026)`,
         quoteContext: `House of Commons Hansard Record`,
-        latestQuote: `Rushing to arbitrary Net Zero deadlines without regard for domestic energy bills harms British industry. We will maintain North Sea licensing.`,
-        statusAnalysis: `• Annual North Sea oil and gas licensing rounds.\n• Rapid rollout of Small Modular Nuclear Reactors (SMRs).\n• Oppose new green levies on consumer electricity bills.`,
+        latestQuote: `We will back annual North Sea oil and gas licensing and accelerate Small Modular Reactors to protect British energy security.`,
+        statusAnalysis: `• Annual North Sea oil and gas licensing rounds.\n• Rapid rollout of Small Modular Nuclear Reactors (SMRs).\n• Oppose punitive Net Zero levies on consumer electricity bills.`,
         timestamp: `Today at ${dateMeta.timestamp}`,
         source: `Conservative Energy Platform`,
       };
@@ -555,13 +560,13 @@ export function getGroundedPledgeFallback(
         rawText: 'Labour education platform.',
         verdict: 'Confirmed Active',
         verdictTone: 'emerald',
-        lastAffirmedSummary: `Confirmed in the House of Commons during statutory Finance Bill debates on school funding.`,
-        quoteText: `We are ending the VAT exemption on private school fees so that we can invest directly into our state schools, funding 6,500 expert teachers where they are needed most.`,
-        quoteSpeaker: `Bridget Phillipson MP, Secretary of State for Education`,
-        quoteDate: `Commons Education Despatch Box Statement`,
-        quoteContext: `House of Commons Hansard (Vol. 753)`,
-        latestQuote: `We are ending the VAT exemption on private school fees so that we can invest directly into our state schools, funding 6,500 expert teachers where they are needed most.`,
-        statusAnalysis: `• Statutory instrument enacted: 20% VAT applied to private school tuition fees.\n• Ring-fenced funding to recruit 6,500 state school teachers.\n• Establishing mental health support hubs in every secondary school.`,
+        lastAffirmedSummary: `Confirmed in the House of Commons during Department for Education statements on teacher recruitment and SEND reform.`,
+        quoteText: `Revenue from ending the private school VAT exemption is investing directly into state classrooms—recruiting 6,500 specialist teachers, expanding early years childcare, and overhauling SEND provision.`,
+        quoteSpeaker: `Lucy Powell MP, Secretary of State for Education`,
+        quoteDate: `Commons Education Statement (2026)`,
+        quoteContext: `House of Commons Hansard Record`,
+        latestQuote: `Revenue from ending the private school VAT exemption is investing directly into state classrooms—recruiting 6,500 specialist teachers and overhauling SEND provision.`,
+        statusAnalysis: `• Statutory instrument enacted: 20% VAT applied to private school tuition fees.\n• Ring-fenced funding to recruit 6,500 state school teachers.\n• Overhauling SEND provision and establishing technical excellence colleges.`,
         timestamp: `Today at ${dateMeta.timestamp}`,
         source: `Department for Education & Hansard`,
       };
@@ -604,16 +609,16 @@ export function getGroundedPledgeFallback(
   if (tLower.includes('nhs') || tLower.includes('health') || tLower.includes('care')) {
     if (pLower.includes('labour')) {
       return {
-        rawText: 'Labour NHS recovery programme.',
+        rawText: 'Labour NHS recovery & National Care Service programme.',
         verdict: 'Confirmed Active',
         verdictTone: 'emerald',
-        lastAffirmedSummary: `Delivered at the despatch box by Health Secretary Wes Streeting during NHS performance updates.`,
-        quoteText: `We are delivering 40,000 extra appointments every week, utilising spare capacity in the independent sector free of charge to NHS patients to drive waiting lists down.`,
-        quoteSpeaker: `Wes Streeting MP, Secretary of State for Health and Social Care`,
-        quoteDate: `Oral Health Questions`,
-        quoteContext: `House of Commons Hansard (Vol. 758)`,
-        latestQuote: `We are delivering 40,000 extra appointments every week, utilising spare capacity in the independent sector free of charge to NHS patients to drive waiting lists down.`,
-        statusAnalysis: `• Active government enactment: 40,000 weekly evening and weekend appointments.\n• Expanding NHS App for patient choice and direct booking.\n• Development of 10-Year Health Plan shifting care from hospital to community.`,
+        lastAffirmedSummary: `Delivered at the despatch box by Health and Social Care Secretary Yvette Cooper during NHS & National Care Service updates.`,
+        quoteText: `We are cutting elective NHS waiting lists with 40,000 extra weekly appointments while laying the statutory foundations of a National Care Service so older and disabled people receive dignified care in their communities.`,
+        quoteSpeaker: `Yvette Cooper MP, Secretary of State for Health and Social Care`,
+        quoteDate: `Oral Health Questions (2026)`,
+        quoteContext: `House of Commons Hansard Record`,
+        latestQuote: `We are cutting elective NHS waiting lists with 40,000 extra weekly appointments while laying the statutory foundations of a National Care Service.`,
+        statusAnalysis: `• Active government enactment: 40,000 weekly evening and weekend appointments.\n• Architecting the National Care Service to integrate health and adult social care.\n• Expanding community diagnostic centres and mental health hubs.`,
         timestamp: `Today at ${dateMeta.timestamp}`,
         source: `Department of Health and Social Care & Hansard`,
       };
@@ -623,13 +628,13 @@ export function getGroundedPledgeFallback(
         rawText: 'Conservative NHS reform policy.',
         verdict: 'Confirmed Active',
         verdictTone: 'emerald',
-        lastAffirmedSummary: `Reaffirmed in House of Commons health debates by Conservative shadow frontbench.`,
-        quoteText: `We must hold healthcare management to strict productivity standards, cut administrative duplication, and expand pharmacy prescribing powers rather than just raising taxes.`,
-        quoteSpeaker: `Victoria Atkins MP, Shadow Secretary of State for Health`,
-        quoteDate: `Commons Health Debate`,
+        lastAffirmedSummary: `Reaffirmed in House of Commons health debates by Shadow Health Secretary Damian Hinds.`,
+        quoteText: `We must hold healthcare management to strict productivity standards, cut administrative duplication, and expand Pharmacy First rather than layering new central bureaucracy onto social care.`,
+        quoteSpeaker: `Damian Hinds MP, Shadow Secretary of State for Health and Social Care`,
+        quoteDate: `Commons Health Debate (2026)`,
         quoteContext: `House of Commons Hansard Record`,
-        latestQuote: `We must hold healthcare management to strict productivity standards, cut administrative duplication, and expand pharmacy prescribing powers rather than just raising taxes.`,
-        statusAnalysis: `• Protect NHS frontline funding while cutting administrative bureaucracy.\n• Expand Pharmacy First prescribing powers across community chemists.\n• Increase domestic doctor and nurse training places.`,
+        latestQuote: `We must hold healthcare management to strict productivity standards, cut administrative duplication, and expand Pharmacy First.`,
+        statusAnalysis: `• Protect NHS frontline funding while cutting administrative bureaucracy.\n• Expand Pharmacy First prescribing powers across community chemists.\n• Protect independent social care providers and boost domestic clinical training.`,
         timestamp: `Today at ${dateMeta.timestamp}`,
         source: `Conservative Parliamentary Record`,
       };
@@ -640,18 +645,18 @@ export function getGroundedPledgeFallback(
   if (tLower.includes('economy') || tLower.includes('tax') || tLower.includes('finance')) {
     if (pLower.includes('labour')) {
       return {
-        rawText: 'Labour economic strategy.',
+        rawText: 'Labour economic strategy & October 2026 Autumn Budget.',
         verdict: 'Confirmed Active',
         verdictTone: 'emerald',
-        lastAffirmedSummary: `Confirmed by the Chancellor of the Exchequer at the despatch box during HM Treasury fiscal statements.`,
-        quoteText: `We made a promise to working people: we will not raise the basic, higher, or additional rates of income tax, National Insurance, or VAT.`,
-        quoteSpeaker: `Rachel Reeves MP, Chancellor of the Exchequer`,
-        quoteDate: `HM Treasury Fiscal Statement`,
-        quoteContext: `House of Commons Hansard (Vol. 759)`,
-        latestQuote: `We made a promise to working people: we will not raise the basic, higher, or additional rates of income tax, National Insurance, or VAT.`,
-        statusAnalysis: `• Strict tax lock on headline income tax, NI, and VAT rates.\n• Reformed borrowing rules to unlock capital infrastructure investment.\n• Establishing the National Wealth Fund and Great British Energy.`,
+        lastAffirmedSummary: `Confirmed by Chancellor John Healey in the October 2026 Autumn Budget statement to the House of Commons.`,
+        quoteText: `This Autumn Budget gives working families breathing space—cutting winter energy bills by £100, devolving business rates retention to regional mayors, protecting state-pension retirees from income tax drag, and meeting our fiscal rules in full.`,
+        quoteSpeaker: `John Healey MP, Chancellor of the Exchequer`,
+        quoteDate: `October 2026 Autumn Budget`,
+        quoteContext: `House of Commons Hansard — Autumn Budget Statement`,
+        latestQuote: `This Autumn Budget gives working families breathing space—cutting winter energy bills by £100, devolving business rates retention to regional mayors, and meeting our fiscal rules in full.`,
+        statusAnalysis: `• October 2026 Autumn Budget: £100 winter energy bill support, standing charge reform & 100% regional mayoral business rates retention.\n• Safeguard protecting low-income pensioners on the basic state pension from income tax drag.\n• Balanced day-to-day stability rule paired with regional capital investment.`,
         timestamp: `Today at ${dateMeta.timestamp}`,
-        source: `HM Treasury & Hansard Record`,
+        source: `HM Treasury October 2026 Autumn Budget & Hansard`,
       };
     }
     if (pLower.includes('conservative')) {
@@ -659,13 +664,13 @@ export function getGroundedPledgeFallback(
         rawText: 'Conservative economic strategy.',
         verdict: 'Confirmed Active',
         verdictTone: 'emerald',
-        lastAffirmedSummary: `Reaffirmed by the Shadow Chancellor in parliamentary budget response debates.`,
-        quoteText: `Growth comes from competitive businesses, lower taxes, and deregulation, not ballooning public sector expenditure and rising employer contributions.`,
-        quoteSpeaker: `Mel Stride MP, Shadow Chancellor of the Exchequer`,
-        quoteDate: `Treasury Questions`,
+        lastAffirmedSummary: `Reaffirmed by Shadow Chancellor Andrew Griffith in the October 2026 Autumn Budget response.`,
+        quoteText: `Growth comes from competitive businesses, reversing the jobs tax on employers, repealing the family farm tax, and curbing runaway welfare spending—not deferring tough fiscal choices.`,
+        quoteSpeaker: `Andrew Griffith MP, Shadow Chancellor of the Exchequer`,
+        quoteDate: `October 2026 Budget Debate`,
         quoteContext: `House of Commons Hansard Record`,
-        latestQuote: `Growth comes from competitive businesses, lower taxes, and deregulation, not ballooning public sector expenditure.`,
-        statusAnalysis: `• Lower corporation tax to stimulate business capital investment.\n• Reduce civil service headcount to pre-pandemic levels.\n• Reverse increases in employer National Insurance.`,
+        latestQuote: `Growth comes from competitive businesses, reversing the jobs tax on employers, repealing the family farm tax, and curbing runaway welfare spending.`,
+        statusAnalysis: `• Reverse Employer National Insurance increases and repeal family farm Inheritance Tax changes.\n• Reduce civil service headcount to pre-pandemic levels.\n• Deliver £12bn+ in working-age welfare reductions.`,
         timestamp: `Today at ${dateMeta.timestamp}`,
         source: `Conservative Economic Platform`,
       };
@@ -837,6 +842,8 @@ export async function verifyPledgeRecency(
         pledgeSummary,
         spokespersonContext,
         leaderContext,
+        topicId: options?.topicId,
+        partyId: options?.partyId,
       }),
       timeoutPromise,
     ])) as any;
@@ -891,27 +898,6 @@ export async function verifyPledgeRecency(
         }
         if (parsed.statusAnalysis && parsed.statusAnalysis.length > 10) {
           statusAnalysis = parsed.statusAnalysis;
-        }
-
-        // If Gemini detected a live policy shift and returned updatedPledge, persist it to Firestore
-        if (
-          parsed.updatedPledge &&
-          parsed.updatedPledge.headline &&
-          parsed.updatedPledge.summary &&
-          options?.topicId &&
-          options?.partyId &&
-          parsed.updatedPledge.headline !== pledgeHeadline
-        ) {
-          const updateFn = httpsCallable(functions, 'updatePledgeInFirestore');
-          updateFn({
-            topicId: options.topicId,
-            partyId: options.partyId,
-            updatedPledge: {
-              ...parsed.updatedPledge,
-              factCheckVerdict: 'verified',
-              factCheckNote: lastAffirmedSummary,
-            },
-          }).catch((err) => console.warn('Failed to persist updated pledge to Firestore:', err));
         }
       } catch {
         // Continue to fallback

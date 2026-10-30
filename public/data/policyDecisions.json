@@ -1,5 +1,19 @@
 [
   {
+    "id": "decision-econ-oct26",
+    "time": "Oct 2026 • Autumn Budget",
+    "title": "October 2026 Autumn Budget: £100 Energy Bill Rebate, Standing Charge Reform & 100% Mayoral Business Rates Retention",
+    "party": "Labour",
+    "partyColor": "#E4003B",
+    "category": "Economy",
+    "tag": "HM Treasury Budget",
+    "summary": "Chancellor John Healey delivers the Burnham Government's first Autumn Budget: enacting a £100 winter household energy bill rebate, capping unfair standing charges, granting 100% business rates growth retention to regional mayors, and shielding state-pension-only retirees from income tax drag.",
+    "statutoryVehicle": "Finance (No. 2) Bill 2026 & OBR Economic and Fiscal Outlook",
+    "fiscalImpact": "£2.8bn targeted winter energy relief & devolved regional capital settlements within OBR stability rule",
+    "crossPartyStance": "Rated 'fairest Budget in five years' in snap YouGov polling; Conservatives attack deferred welfare cuts; Reform UK demands £20k tax threshold.",
+    "deepDiveDetails": "Delivering his first Autumn Budget at the despatch box under Prime Minister Andy Burnham, Chancellor John Healey positioned the fiscal package around giving working households 'breathing space' while accelerating English regional devolution.\n\nKey enacted measures include a £100 winter household energy bill support rebate paired with Ofgem standing charge restructuring, multi-year 100% business rates growth retention deals for Combined Authority Metro Mayors to fund regional transport and housing, and a statutory safeguard ensuring pensioners whose sole income is the basic or new State Pension are exempted from income tax drag throughout this Parliament.\n\nWhile Healey held back from immediate aggressive cuts to working-age disability benefits, Opposition Leader Kemi Badenoch and Shadow Chancellor Andrew Griffith argued the Treasury failed to tackle economic inactivity, and the IFS noted post-2028 departmental spending envelopes remain tight."
+  },
+  {
     "id": "decision-imm-8",
     "time": "Oct 2026 • Hythe Policy Launch",
     "title": "Reform UK Hythe Border Plan: 5-Yr Asylum Freeze, Void 90k Claims, 1M+ Deportations & 6-Nation Visa Ban",
@@ -63,7 +77,7 @@
     "partyColor": "#0087DC",
     "category": "Economy",
     "tag": "Opposition Policy Paper",
-    "summary": "Kemi Badenoch and Shadow Chancellor Mel Stride set out the Conservative economic platform: repealing Labour's 20% Inheritance Tax on family farms and businesses, cutting £12bn from the welfare bill, abolishing Stamp Duty on primary residences, and reversing employer National Insurance hikes.",
+    "summary": "Kemi Badenoch and Shadow Chancellor Andrew Griffith set out the Conservative economic platform: repealing Labour's 20% Inheritance Tax on family farms and businesses, cutting £12bn from the welfare bill, abolishing Stamp Duty on primary residences, and reversing employer National Insurance hikes.",
     "statutoryVehicle": "Official Opposition Fiscal & Enterprise Platform",
     "fiscalImpact": "£12bn annual welfare savings & Whitehall headcount reductions",
     "crossPartyStance": "Labour attacks the proposal as a tax cut for the wealthiest 4% of estates; Lib Dems prioritize cutting employee taxes.",
@@ -161,7 +175,7 @@
     "partyColor": "#0087DC",
     "category": "Defence",
     "tag": "Opposition Policy",
-    "summary": "Kemi Badenoch and Shadow Chancellor Mel Stride confirm official Conservative policy to raise UK defence spending to 3.0% of GDP (£100bn+/yr) by 2030, reversing regular Army headcount reductions.",
+    "summary": "Kemi Badenoch and Shadow Chancellor Andrew Griffith confirm official Conservative policy to raise UK defence spending to 3.0% of GDP (£100bn+/yr) by 2030, reversing regular Army headcount reductions.",
     "statutoryVehicle": "Official Opposition Costed Platform & Policy Motion",
     "fiscalImpact": "Estimated ~£25bn/year uplift above the current ~2.3% baseline",
     "crossPartyStance": "Labour highlights absence of identified civil service cuts; Reform UK pledges 3% within 6 years.",

@@ -4,6 +4,7 @@ exports.autonomousPoliticalAgent = void 0;
 exports.fetchMultiSourceNewsDigest = fetchMultiSourceNewsDigest;
 exports.extractJsonFromText = extractJsonFromText;
 exports.runAutonomousAudit = runAutonomousAudit;
+exports.sanitizeFirestoreCollections = sanitizeFirestoreCollections;
 exports.runMediaLensAnalysis = runMediaLensAnalysis;
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 const params_1 = require("firebase-functions/params");
@@ -173,12 +174,20 @@ Return ONLY valid JSON matching this exact structure (no markdown fences):
     for (const topicId of modifiedTopicIds) {
         const updatedTopic = topicMap.get(topicId);
         if (updatedTopic) {
-            batch.set(db.collection("policies").doc(topicId), updatedTopic, { merge: true });
+            batch.set(db.collection("policies").doc(topicId), Object.assign(Object.assign({}, updatedTopic), { updatedAt: todayStr }), { merge: true });
         }
     }
-    // Apply fact check updates to Firestore
+    // Apply validated, non-duplicate fact check updates to Firestore
+    const validParties = new Set([
+        "labour", "conservative", "reform", "libdem", "green", "snp", "plaid", "restore",
+    ]);
     for (const fc of factCheckUpdates) {
-        if (fc.id && fc.partyId && fc.claim) {
+        if ((fc === null || fc === void 0 ? void 0 : fc.id) &&
+            (fc === null || fc === void 0 ? void 0 : fc.partyId) &&
+            validParties.has(fc.partyId) &&
+            (fc === null || fc === void 0 ? void 0 : fc.claim) &&
+            (fc === null || fc === void 0 ? void 0 : fc.speaker) &&
+            !["environment agency", "ons"].includes(String(fc.speaker).toLowerCase())) {
             batch.set(db.collection("factchecks").doc(fc.id), fc, { merge: true });
         }
     }
@@ -194,10 +203,97 @@ Return ONLY valid JSON matching this exact structure (no markdown fences):
     };
     batch.set(db.collection("system_status").doc("autonomous_agent"), statusRecord, { merge: true });
     await batch.commit();
+    await sanitizeFirestoreCollections();
     return Object.assign(Object.assign({}, statusRecord), { updatedPolicies: Array.from(topicMap.values()) });
 }
 /**
- * Ground News-Style UK Media Lens Analyzer:
+ * Cleans up any legacy custom user queries in media_lens and deduplicates factchecks in Firestore
+ */
+async function sanitizeFirestoreCollections() {
+    try {
+        const [mediaSnap, fcSnap] = await Promise.all([
+            db.collection("media_lens").get(),
+            db.collection("factchecks").get(),
+        ]);
+        const cleanupBatch = db.batch();
+        let ops = 0;
+        // 1. Remove any user custom-* searches that were previously written to global media_lens
+        mediaSnap.forEach((doc) => {
+            if (doc.id.startsWith("custom-")) {
+                cleanupBatch.delete(doc.ref);
+                ops++;
+            }
+        });
+        // 2. Deduplicate factchecks & fix stale speaker names
+        const validParties = new Set([
+            "labour", "conservative", "reform", "libdem", "green", "snp", "plaid", "restore",
+        ]);
+        const stopWords = new Set([
+            "about", "after", "again", "against", "almost", "alone", "along", "already",
+            "although", "always", "among", "annual", "annually", "around", "because",
+            "before", "being", "between", "billion", "britain", "british", "clear",
+            "claim", "could", "every", "first", "government", "million", "ministers",
+            "never", "other", "party", "people", "percent", "policy", "public", "should",
+            "state", "still", "their", "there", "these", "think", "those", "through",
+            "under", "united", "voters", "which", "while", "would", "years",
+        ]);
+        const extractWords = (text) => Array.from(new Set((text || "")
+            .toLowerCase()
+            .replace(/[^a-z0-9\s]/g, " ")
+            .split(/\s+/)
+            .filter((w) => w.length >= 5 && !stopWords.has(w))));
+        const sortedFcDocs = [...fcSnap.docs].sort((a, b) => {
+            var _a, _b;
+            const da = String(((_a = a.data()) === null || _a === void 0 ? void 0 : _a.date) || "");
+            const dbDate = String(((_b = b.data()) === null || _b === void 0 ? void 0 : _b.date) || "");
+            return dbDate.localeCompare(da);
+        });
+        const kept = [];
+        for (const doc of sortedFcDocs) {
+            const d = doc.data() || {};
+            const speakerLower = String(d.speaker || "").toLowerCase();
+            if (doc.id === "fc-2026-01" && speakerLower.includes("rachel reeves")) {
+                cleanupBatch.set(doc.ref, { speaker: "Andy Burnham & John Healey" }, { merge: true });
+                ops++;
+            }
+            if (!validParties.has(d.partyId) || speakerLower === "environment agency" || !d.claim) {
+                cleanupBatch.delete(doc.ref);
+                ops++;
+                continue;
+            }
+            const words = extractWords(d.claim);
+            const claimLower = String(d.claim).trim().toLowerCase();
+            const isDup = kept.some((k) => {
+                if (k.claimLower === claimLower)
+                    return true;
+                if (k.partyId !== d.partyId)
+                    return false;
+                let shared = 0;
+                for (const w of words) {
+                    if (k.words.has(w))
+                        shared++;
+                }
+                return shared >= 3;
+            });
+            if (isDup && !doc.id.startsWith("fc-")) {
+                cleanupBatch.delete(doc.ref);
+                ops++;
+            }
+            else {
+                kept.push({ partyId: d.partyId, words: new Set(words), claimLower });
+            }
+        }
+        if (ops > 0) {
+            await cleanupBatch.commit();
+            console.log(`Sanitized ${ops} stale/duplicate Firestore record(s).`);
+        }
+    }
+    catch (err) {
+        console.warn("Firestore sanitization warning:", err);
+    }
+}
+/**
+ * Multi-Spectrum UK Media Lens Analyzer:
  * Clusters live Left, Centre, and Right UK political RSS & Google Search stories,
  * computes Left/Centre/Right coverage percentages and Blindspots, and explains
  * how and why different outlets (e.g. The Telegraph vs The Guardian vs BBC) frame each story.
@@ -206,10 +302,11 @@ async function runMediaLensAnalysis(apiKey, customTopic) {
     const monthYearStr = new Date().toLocaleDateString("en-GB", { month: "short", year: "numeric" });
     const recentNews = await fetchMultiSourceNewsDigest(5);
     const ai = new genai_1.GoogleGenAI({ apiKey });
-    const taskInstruction = customTopic
-        ? `Analyze how Left-leaning, Centre, and Right-leaning UK newspapers and broadcasters are reporting on this specific UK political topic: "${customTopic}". Return a JSON array containing 1 comprehensive MediaClusterStory object for this topic.`
+    const cleanTopic = customTopic ? String(customTopic).trim().slice(0, 160) : "";
+    const taskInstruction = cleanTopic
+        ? `Analyze how Left-leaning, Centre, and Right-leaning UK newspapers and broadcasters are reporting on this specific UK political topic: "${cleanTopic}". Return a JSON array containing 1 comprehensive MediaClusterStory object for this topic.`
         : `From the live Left, Centre, and Right UK media RSS digest above and live Google Search, identify the 4 biggest current UK political stories (including at least 1 story primarily covered by Right-leaning press as a 'left_blindspot' or primarily covered by Left-leaning press as a 'right_blindspot'). Return a JSON array of 4 MediaClusterStory objects.`;
-    const prompt = `You are the UK Media Lens ('Ground News for Westminster') Political Framing & Bias Analyst with live Google Search access.
+    const prompt = `You are the UK Media Lens Political Framing & Bias Analyst with live Google Search access.
 Current Date Context: ${monthYearStr}.
 
 Live Multi-Spectrum UK Media RSS Digest (Left: Guardian, Mirror, New Statesman | Centre: BBC, Sky | Right: Telegraph, Times, Express, GB News):
@@ -292,18 +389,21 @@ Return ONLY a valid JSON array matching this exact schema (no markdown fences):
     });
     const parsed = extractJsonFromText(response.text || "[]");
     const stories = Array.isArray(parsed) ? parsed : [];
-    if (stories.length > 0) {
+    const now = Date.now();
+    stories.forEach((s, idx) => {
+        s.id = cleanTopic
+            ? `custom-${now}-${idx}`
+            : s.id || `live-media-${idx + 1}`;
+        s.createdAt = now - idx;
+    });
+    // Never persist custom user queries to the shared global media_lens collection
+    if (!cleanTopic && stories.length > 0) {
         const batch = db.batch();
-        const now = Date.now();
-        stories.forEach((s, idx) => {
-            const docId = customTopic
-                ? `custom-${now}-${idx}`
-                : s.id || `live-media-${now}-${idx}`;
-            s.id = docId;
-            s.createdAt = now - idx;
-            batch.set(db.collection("media_lens").doc(docId), s, { merge: true });
+        stories.forEach((s) => {
+            batch.set(db.collection("media_lens").doc(s.id), s, { merge: true });
         });
         await batch.commit();
+        await sanitizeFirestoreCollections();
     }
     return { stories };
 }

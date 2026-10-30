@@ -94,7 +94,7 @@ export const DefenceSpecial: React.FC<DefenceSpecialProps> = ({
             </div>
             <SectionRefreshButton
               sectionName="Defence Brief"
-              defaultDate="September 2026 Review"
+              defaultDate="October 2026 Review"
               onRefresh={onRefreshDefence}
             />
           </div>

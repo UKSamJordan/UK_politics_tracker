@@ -214,7 +214,10 @@ def audit_all():
                 print(f"  ✓ Fact-Checker: {len(factchecks)} investigations verified ({c_2026} recent 2026 checks, 100% cited)")
 
     # Direct symmetry check between src/data and public/data
-    for fname in ['parties.json', 'cabinets.json', 'policies.json', 'polls.json', 'factchecks.json']:
+    for fname in [
+        'parties.json', 'cabinets.json', 'policies.json', 'polls.json',
+        'factchecks.json', 'mediaLens.json', 'policyDecisions.json', 'categories.json'
+    ]:
         src_raw = (Path('src/data') / fname).read_text(encoding='utf-8')
         pub_raw = (Path('public/data') / fname).read_text(encoding='utf-8')
         if src_raw != pub_raw:

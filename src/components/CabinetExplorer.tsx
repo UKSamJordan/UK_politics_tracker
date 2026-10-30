@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Party, PartyId, CabinetMember, LeaderRating } from '../types/politics';
 import { 
   Users, 
@@ -37,6 +37,7 @@ interface CabinetExplorerProps {
   parties: Party[];
   cabinetMembers: CabinetMember[];
   leaderRatings?: LeaderRating[];
+  initialPartyId?: PartyId;
   onNavigateToPolls?: (partyId?: PartyId, subTab?: 'voting' | 'leaders' | 'bestpm' | 'policies') => void;
   onRefreshRoster?: () => Promise<CabinetChangeReport | void> | void;
   onOpenSystemHealthModal?: () => void;
@@ -46,11 +47,18 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
   parties,
   cabinetMembers,
   leaderRatings = [],
+  initialPartyId,
   onNavigateToPolls,
   onRefreshRoster,
   onOpenSystemHealthModal,
 }) => {
-  const [selectedPartyId, setSelectedPartyId] = useState<PartyId>('labour');
+  const [selectedPartyId, setSelectedPartyId] = useState<PartyId>(initialPartyId || 'labour');
+
+  useEffect(() => {
+    if (initialPartyId) {
+      setSelectedPartyId(initialPartyId);
+    }
+  }, [initialPartyId]);
   const [roleFilter, setRoleFilter] = useState<string>('all');
   const [lastChangeReport, setLastChangeReport] = useState<CabinetChangeReport | null>(null);
   const [showReportDetails, setShowReportDetails] = useState(false);
@@ -295,7 +303,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-2 border-t border-slate-100 dark:border-slate-800 w-full min-w-0">
           <SectionRefreshButton
             sectionName="Cabinet Roster"
-            defaultDate="September 2026 • Verified Public Record"
+            defaultDate="October 2026 • Verified Public Record"
             onRefresh={handleRefreshWithDiff}
             className="w-full sm:w-auto"
           />
@@ -407,7 +415,7 @@ export const CabinetExplorer: React.FC<CabinetExplorerProps> = ({
             <span className="text-[11px] block opacity-80 uppercase font-semibold">House of Commons</span>
             <span className="text-2xl font-black">{selectedParty.seats} MPs</span>
             <span className="text-[10px] block opacity-75 mt-0.5">
-              Verified: {selectedParty.seatsLastVerified || 'September 2026'}
+              Verified: {selectedParty.seatsLastVerified || 'October 2026'}
             </span>
             <span className="text-[11px] block opacity-85 mt-0.5">Leader: {selectedParty.leader}</span>
           </div>

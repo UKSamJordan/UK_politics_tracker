@@ -115,7 +115,10 @@ export const App: React.FC = () => {
     setSelectedParties(['labour', 'conservative', 'reform', 'libdem']);
   };
 
+  const [cabinetTargetParty, setCabinetTargetParty] = useState<PartyId | undefined>(undefined);
+
   const handleSelectPartyFromHealthModal = (partyId: string) => {
+    setCabinetTargetParty(partyId as PartyId);
     setActiveTab('cabinets');
   };
 
@@ -160,7 +163,8 @@ export const App: React.FC = () => {
             parties={parties}
             policies={policies}
             isDark={isDark}
-            onSelectPartyForCabinet={() => {
+            onSelectPartyForCabinet={(partyId?: PartyId) => {
+              if (partyId) setCabinetTargetParty(partyId);
               setActiveTab('cabinets');
             }}
           />
@@ -171,6 +175,7 @@ export const App: React.FC = () => {
             parties={parties}
             cabinetMembers={cabinets}
             leaderRatings={leaderRatings}
+            initialPartyId={cabinetTargetParty}
             onNavigateToPolls={handleNavigateToPolls}
             onRefreshRoster={handleRefreshCabinets}
             onOpenSystemHealthModal={() => setIsSystemHealthModalOpen(true)}

@@ -111,7 +111,7 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
         <div className="flex flex-col items-start md:items-end gap-2 shrink-0">
           <SectionRefreshButton
             sectionName="Fact Checks"
-            defaultDate="September 2026 Audit"
+            defaultDate="October 2026 Audit"
             onRefresh={onRefreshFactChecks}
           />
           <div className="flex items-center space-x-2 text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
@@ -183,7 +183,7 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
       {/* Results Count & Recency Notice */}
       <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1">
         <span>Showing {filteredChecks.length} fact check investigations (ordered by recency)</span>
-        <span className="font-semibold text-slate-700 dark:text-slate-300">Latest check: September 2026</span>
+        <span className="font-semibold text-slate-700 dark:text-slate-300">Latest check: October 2026</span>
       </div>
 
       {/* List of Fact Checks */}

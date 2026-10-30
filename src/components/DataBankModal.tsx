@@ -73,7 +73,7 @@ export const DataBankModal: React.FC<DataBankModalProps> = ({ isOpen, onClose, o
             <div>
               <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100">100% Free Edge CDN Delivery</h4>
               <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5 leading-relaxed">
-                By default, all visitors load verified JSON from Cloudflare’s CDN edge in &lt;100ms with zero server cost and zero API bills.
+                By default, all visitors load verified JSON from Firebase Hosting’s global CDN edge in &lt;100ms with zero client credentials exposed.
               </p>
             </div>
           </div>

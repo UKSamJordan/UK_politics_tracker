@@ -1,8 +1,13 @@
-import { onCall } from "firebase-functions/v2/https";
+import { onCall, HttpsError } from "firebase-functions/v2/https";
 import { defineSecret } from "firebase-functions/params";
 import { GoogleGenAI } from "@google/genai";
 import * as admin from "firebase-admin";
-import { autonomousPoliticalAgent, runAutonomousAudit, runMediaLensAnalysis } from "./autonomousAgent";
+import {
+  autonomousPoliticalAgent,
+  extractJsonFromText,
+  runAutonomousAudit,
+  runMediaLensAnalysis,
+} from "./autonomousAgent";
 
 if (!admin.apps.length) {
   admin.initializeApp();
@@ -308,6 +313,17 @@ IMPORTANT:
   }
 }
 
+const VALID_PARTIES = new Set([
+  "labour",
+  "conservative",
+  "reform",
+  "libdem",
+  "green",
+  "snp",
+  "plaid",
+  "restore",
+]);
+
 /**
  * Live Grounded Gemini Query Endpoint
  * All prompts and systemInstructions are constructed strictly server-side based on a whitelisted action.
@@ -316,7 +332,8 @@ export const askGemini = onCall(
   { secrets: [geminiApiKey], cors: true, timeoutSeconds: 120 },
   async (request) => {
     try {
-      const { prompt, systemInstruction, disableSearch } = buildServerActionPrompt(request.data || {});
+      const reqData = request.data || {};
+      const { prompt, systemInstruction, disableSearch } = buildServerActionPrompt(reqData);
 
       const ai = new GoogleGenAI({ apiKey: geminiApiKey.value() });
 
@@ -336,6 +353,58 @@ export const askGemini = onCall(
         config,
       });
 
+      const responseText = response.text || "";
+
+      // Server-side persistence when Gemini itself verifies a modified or superseded pledge
+      if (
+        reqData.action === "verifyPledge" &&
+        typeof reqData.topicId === "string" &&
+        typeof reqData.partyId === "string" &&
+        VALID_PARTIES.has(reqData.partyId)
+      ) {
+        try {
+          const parsed = extractJsonFromText(responseText);
+          const vLower = String(parsed?.verdict || "").toLowerCase();
+          if (
+            (vLower.includes("modified") || vLower.includes("superseded")) &&
+            parsed?.updatedPledge?.headline &&
+            parsed?.updatedPledge?.summary &&
+            parsed.updatedPledge.headline !== reqData.pledgeHeadline
+          ) {
+            const topicId = reqData.topicId.slice(0, 100);
+            const partyId = reqData.partyId;
+            const docRef = db.collection("policies").doc(topicId);
+            const snap = await docRef.get();
+            if (snap.exists) {
+              const existingData = snap.data() || {};
+              const pledges = existingData.pledges || {};
+              const dateMeta = getServerDateMetadata();
+              pledges[partyId] = {
+                ...(pledges[partyId] || {}),
+                headline: String(parsed.updatedPledge.headline).slice(0, 300),
+                summary: String(parsed.updatedPledge.summary).slice(0, 1000),
+                ...(Array.isArray(parsed.updatedPledge.keyPoints)
+                  ? { keyPoints: parsed.updatedPledge.keyPoints.slice(0, 5).map((k: any) => String(k).slice(0, 300)) }
+                  : {}),
+                ...(parsed.updatedPledge.costEstimate
+                  ? { costEstimate: String(parsed.updatedPledge.costEstimate).slice(0, 200) }
+                  : {}),
+                ...(parsed.updatedPledge.timeline
+                  ? { targetTimeline: String(parsed.updatedPledge.timeline).slice(0, 200) }
+                  : {}),
+                partyId,
+                factCheckVerdict: "verified",
+                lastVerifiedDate: `Verified ${dateMeta.monthName} ${dateMeta.year}`,
+              };
+              const todayStr = new Date().toISOString().split("T")[0];
+              await docRef.set({ ...existingData, pledges, updatedAt: todayStr }, { merge: true });
+            }
+          }
+        } catch (persistErr) {
+          console.warn("Server-side verifyPledge persistence skipped:", persistErr);
+        }
+      }
+
       const groundingMeta = response.candidates?.[0]?.groundingMetadata;
       const searchQueries = groundingMeta?.webSearchQueries || [];
       const sources =
@@ -347,7 +416,7 @@ export const askGemini = onCall(
           .filter((s: any) => s.uri) || [];
 
       return {
-        text: response.text || "",
+        text: responseText,
         searchQueries,
         sources: sources.slice(0, 8),
       };
@@ -360,31 +429,17 @@ export const askGemini = onCall(
 
 /**
  * On-Demand Live Policy & News Audit (Callable from 'Update Policy Matrix' & 'Sync All')
+ * Never accepts arbitrary client-supplied policy documents.
  */
 export const auditAndSyncPolicies = onCall(
   { secrets: [geminiApiKey], cors: true, timeoutSeconds: 180 },
   async (request) => {
     try {
-      const { category, seedPolicies, forceSeed } = request.data || {};
+      const rawCategory = request.data?.category;
+      const safeCategory =
+        typeof rawCategory === "string" ? rawCategory.trim().slice(0, 60) : "all";
 
-      if (Array.isArray(seedPolicies) && seedPolicies.length > 0) {
-        const existingSnap = await db.collection("policies").select().get();
-        const existingIds = new Set(existingSnap.docs.map((d) => d.id));
-        const seedBatch = db.batch();
-        let hasWrites = false;
-
-        for (const topic of seedPolicies) {
-          if (topic && topic.id && (forceSeed === true || !existingIds.has(topic.id))) {
-            seedBatch.set(db.collection("policies").doc(topic.id), topic, { merge: true });
-            hasWrites = true;
-          }
-        }
-        if (hasWrites) {
-          await seedBatch.commit();
-        }
-      }
-
-      const result = await runAutonomousAudit(geminiApiKey.value(), category || "all", {
+      const result = await runAutonomousAudit(geminiApiKey.value(), safeCategory || "all", {
         includeFactChecks: false,
       });
       return result;
@@ -396,61 +451,33 @@ export const auditAndSyncPolicies = onCall(
 );
 
 /**
- * Persist an updated single party pledge or collection item to Firestore
+ * Locked-down legacy endpoint: direct client pledge writes are strictly forbidden.
+ * Pledge updates are verified and persisted exclusively server-side inside askGemini.
  */
 export const updatePledgeInFirestore = onCall(
-  { cors: true, timeoutSeconds: 60 },
-  async (request) => {
-    try {
-      const { topicId, partyId, updatedPledge } = request.data || {};
-      if (!topicId || !partyId || !updatedPledge) {
-        throw new Error("topicId, partyId, and updatedPledge are required.");
-      }
-
-      const docRef = db.collection("policies").doc(topicId);
-      const snap = await docRef.get();
-      if (!snap.exists) {
-        throw new Error(`Policy topic ${topicId} not found in Firestore.`);
-      }
-
-      const data = snap.data() || {};
-      const pledges = data.pledges || {};
-      pledges[partyId] = {
-        ...(pledges[partyId] || {}),
-        ...updatedPledge,
-        partyId,
-      };
-
-      await docRef.set({ ...data, pledges }, { merge: true });
-      return { success: true, topicId, partyId };
-    } catch (error: any) {
-      console.error("updatePledgeInFirestore Error:", error);
-      throw new Error(`Failed to update pledge in Firestore: ${error.message}`);
-    }
+  { cors: true, timeoutSeconds: 15 },
+  async () => {
+    throw new HttpsError(
+      "permission-denied",
+      "Direct client writes are disabled. Pledge updates are verified and persisted strictly server-side."
+    );
   }
 );
 
 /**
  * On-Demand Media Lens Multi-Spectrum Newspaper Analyzer
+ * Never accepts arbitrary client-supplied story documents.
  */
 export const analyzeMediaLens = onCall(
   { secrets: [geminiApiKey], cors: true, timeoutSeconds: 120 },
   async (request) => {
     try {
-      const { customTopic, seedStories } = request.data || {};
-      if (Array.isArray(seedStories) && seedStories.length > 0) {
-        const batch = db.batch();
-        for (const story of seedStories) {
-          if (story && story.id) {
-            batch.set(db.collection("media_lens").doc(story.id), story, { merge: true });
-          }
-        }
-        await batch.commit();
-        if (!customTopic && request.data?.seedOnly) {
-          return { stories: seedStories };
-        }
-      }
-      const result = await runMediaLensAnalysis(geminiApiKey.value(), customTopic);
+      const rawTopic = request.data?.customTopic;
+      const safeTopic =
+        typeof rawTopic === "string" && rawTopic.trim().length > 0
+          ? rawTopic.trim().slice(0, 160)
+          : undefined;
+      const result = await runMediaLensAnalysis(geminiApiKey.value(), safeTopic);
       return result;
     } catch (error: any) {
       console.error("analyzeMediaLens Error:", error);

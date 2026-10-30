@@ -27,7 +27,7 @@ interface MediaLensProps {
   onUpdateStories?: (stories: MediaClusterStory[]) => void;
 }
 
-const MEDIA_LENS_STORAGE_KEY = 'uk_politics_media_lens_v1';
+const MEDIA_LENS_STORAGE_KEY = 'uk_politics_media_lens_v2';
 
 export const MediaLens: React.FC<MediaLensProps> = ({
   stories: propStories,
@@ -35,6 +35,7 @@ export const MediaLens: React.FC<MediaLensProps> = ({
 }) => {
   const [localStories, setLocalStories] = useState<MediaClusterStory[]>(() => {
     try {
+      localStorage.removeItem('uk_politics_media_lens_v1');
       const saved = localStorage.getItem(MEDIA_LENS_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);

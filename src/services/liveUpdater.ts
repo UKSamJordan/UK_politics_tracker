@@ -359,7 +359,6 @@ export async function refreshPolicyMatrix(
     const result = (await Promise.race([
       auditFn({
         category: category && category !== 'all' ? category : undefined,
-        seedPolicies: cdnBaseline,
       }),
       timeoutPromise,
     ])) as any;

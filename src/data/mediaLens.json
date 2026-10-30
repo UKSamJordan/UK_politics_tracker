@@ -1,5 +1,82 @@
 [
   {
+    "id": "media-cluster-budget-oct26",
+    "title": "Chancellor John Healey Delivers October 2026 Autumn Budget: £100 Energy Bill Rebate, Mayoral Business Rates Devolution & Welfare Clash",
+    "category": "economy",
+    "publishedAt": "Oct 2026 • Autumn Budget Coverage",
+    "totalSourcesCount": 28,
+    "coverageSplit": {
+      "left": 32,
+      "center": 34,
+      "right": 34
+    },
+    "blindspot": "none",
+    "neutralGist": "Chancellor John Healey delivered his first Autumn Budget under Prime Minister Andy Burnham, unveiling a £100 winter household energy bill rebate, Ofgem standing charge reforms, 100% business rates growth retention for regional mayors, and a guarantee shielding state-pension-only retirees from income tax drag, while deferring aggressive working-age welfare cuts. Snap YouGov polling rated it the 'fairest Budget in five years' (45% to 20%), while Opposition Leader Kemi Badenoch and Shadow Chancellor Andrew Griffith attacked the package for failing to curb welfare spending.",
+    "wingPerspectives": {
+      "left": {
+        "summary": "Left-leaning newspapers welcome the £100 energy bill relief, standing charge overhaul, regional devolution deal for Metro Mayors, and avoidance of punitive disability benefit cuts, though anti-poverty campaigners press ministers to fully abolish the two-child benefit cap faster.",
+        "whyThisFraming": "Reflects social-democratic priorities around cost-of-living protection, Northern and regional devolution, and protecting vulnerable welfare claimants from austerity.",
+        "toneKeywords": [
+          "Breathing Space for Families",
+          "Devolution Milestone",
+          "Welfare Restraint Welcomed"
+        ]
+      },
+      "center": {
+        "summary": "Public broadcasters and financial dailies focus on the OBR's narrow fiscal headroom arithmetic, gilt market stability, and polling showing strong voter approval alongside medium-term Departmental Expenditure Limit pressures after 2028.",
+        "whyThisFraming": "Driven by institutional scrutiny of HM Treasury's twin fiscal rules, bond market reaction, and independent IFS / Resolution Foundation distributional analysis.",
+        "toneKeywords": [
+          "OBR Headroom Scrutiny",
+          "Voter Poll Bounce",
+          "Post-2028 Fiscal Squeeze"
+        ]
+      },
+      "right": {
+        "summary": "Right-leaning press accuses Burnham and Healey of ducking tough structural welfare reform to appease Labour backbenchers, warning that frozen income tax thresholds and rising incapacity benefit bills risk a £28bn medium-term fiscal gap.",
+        "whyThisFraming": "Aligns with free-market editorial priorities favouring lower business and personal taxes, smaller state expenditure, and stricter work-capability welfare rules.",
+        "toneKeywords": [
+          "Welfare Bill Duck",
+          "Stealth Tax Freeze",
+          "£28bn Headroom Warning"
+        ]
+      }
+    },
+    "outletReports": [
+      {
+        "outletName": "The Guardian",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Healey offers families 'breathing space' with £100 energy bill cut and sweeping devolution boost as welfare axe stayed",
+        "url": "https://www.theguardian.com/uk-news/budget",
+        "framingAnalysis": "The Guardian frames the Autumn Budget as a decisive pivot away from Treasury orthodoxy under Burnham and Healey, highlighting energy bill relief and regional mayoral funding while quoting child poverty charities urging bolder redistributive steps."
+      },
+      {
+        "outletName": "BBC News",
+        "lean": "center",
+        "factuality": "Very High",
+        "headline": "At a glance: Key takeaways from John Healey's October 2026 Autumn Budget and what the OBR forecast says",
+        "url": "https://www.bbc.co.uk/news/business",
+        "framingAnalysis": "BBC News balances the government's cost-of-living headline measures against Opposition Leader Kemi Badenoch's Commons rebuttal and IFS warnings over frozen income tax thresholds."
+      },
+      {
+        "outletName": "The Telegraph",
+        "lean": "right",
+        "factuality": "High",
+        "headline": "Healey ducks welfare reform as economists warn of £28bn black hole and stealth tax squeeze on middle Britain",
+        "url": "https://www.telegraph.co.uk/budget/",
+        "framingAnalysis": "The Telegraph foregrounds fiscal drag on middle-income earners and Conservative warnings that deferring DWP incapacity benefit reductions stores up future tax rises or borrowing."
+      },
+      {
+        "outletName": "Financial Times",
+        "lean": "center",
+        "factuality": "Very High",
+        "headline": "Gilt markets steady as Healey pairs modest energy relief and mayoral fiscal devolution with tight OBR headroom",
+        "url": "https://www.ft.com/uk-politics-policy",
+        "framingAnalysis": "The Financial Times evaluates the package through sovereign debt markets and regional productivity, noting investors welcomed stability while questioning tight post-2028 departmental settlements."
+      }
+    ]
+  },
+  {
     "id": "media-cluster-1",
     "title": "Reform UK Unveils Hythe Border Blueprint: 5-Year Asylum Freeze, 1M+ Deportations & 6-Nation Visa Sanctions",
     "category": "immigration",

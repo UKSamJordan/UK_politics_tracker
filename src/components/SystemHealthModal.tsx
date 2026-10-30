@@ -56,16 +56,13 @@ export const SystemHealthModal: React.FC<SystemHealthModalProps> = ({
     setIsAuditing(true);
     setAuditSuccess(false);
     try {
-      // Clear localStorage cache (both legacy v2 and current v3/v4 keys) to force fresh pull
-      localStorage.removeItem('uk_politics_cabinets_v2');
-      localStorage.removeItem('uk_politics_policies_v2');
-      localStorage.removeItem('uk_politics_polls_v2');
-      localStorage.removeItem('uk_politics_factchecks_v2');
-      localStorage.removeItem('uk_politics_cabinets_v3');
-      localStorage.removeItem('uk_politics_policies_v3');
-      localStorage.removeItem('uk_politics_polls_v3');
-      localStorage.removeItem('uk_politics_factchecks_v3');
-      localStorage.removeItem('uk_politics_pledge_verifications_v4');
+      // Clear localStorage cache to force fresh pull
+      [
+        'uk_politics_cabinets_v2', 'uk_politics_policies_v2', 'uk_politics_polls_v2', 'uk_politics_factchecks_v2',
+        'uk_politics_cabinets_v3', 'uk_politics_policies_v3', 'uk_politics_polls_v3', 'uk_politics_factchecks_v3',
+        'uk_politics_cabinets_v5', 'uk_politics_policies_v5', 'uk_politics_polls_v5', 'uk_politics_factchecks_v5',
+        'uk_politics_pledge_verifications_v4', 'uk_politics_media_lens_v1', 'uk_politics_media_lens_v2',
+      ].forEach((k) => localStorage.removeItem(k));
 
       await onSyncAll();
       setLastAuditTimestamp(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
@@ -81,21 +78,21 @@ export const SystemHealthModal: React.FC<SystemHealthModalProps> = ({
   const getPartyAuditBadge = (partyId: string, count: number) => {
     switch (partyId) {
       case 'labour':
-        return '9 Cabinet Portfolios • Burnham Administration';
+        return `${count} Cabinet & Attending Ministers • Burnham Administration`;
       case 'conservative':
-        return '9 Shadow Portfolios • Timothy in Justice, Jenrick excluded';
+        return `${count} Shadow Cabinet Ministers • Badenoch 2026 Team`;
       case 'reform':
-        return '8 Shadow Cabinet • Farage, Jenrick & Braverman confirmed';
+        return `${count} Shadow Cabinet • Farage, Jenrick & Braverman confirmed`;
       case 'libdem':
-        return '11 Frontbench Spokespeople • Full 72-MP team';
+        return `${count} Frontbench Spokespeople • Full 72-MP Parliamentary Team`;
       case 'green':
-        return '4/4 MPs Included • Denyer, Ramsay, Chowns, Berry';
+        return `${count} Leadership & MPs • Polanski, Denyer, Ramsay, Chowns & Berry`;
       case 'snp':
-        return '4 Frontbenchers • Swinney, Flynn, Blackman, Doogan';
+        return `${count} Leaders & Westminster Team • Swinney, Flynn & Spokespeople`;
       case 'plaid':
-        return '5 Leaders & MPs • All 4 Westminster MPs + Senedd';
+        return `${count} Leaders & MPs • All 4 Westminster MPs + Senedd Leader`;
       case 'restore':
-        return '2 Movement Spokespeople • Traditionalist Platform';
+        return `${count} Movement Spokespeople • Traditionalist Platform`;
       default:
         return `${count} Frontbench Records`;
     }
