@@ -198,7 +198,9 @@ export const PolicyQuiz: React.FC<PolicyQuizProps> = ({ parties }) => {
                 <Compass className="w-5 h-5" />
                 <h4 className="font-bold text-lg text-slate-900 dark:text-slate-100">Ideological Compass</h4>
               </div>
-              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed" dangerouslySetInnerHTML={{__html: quadrantAnalysis.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}}></p>
+              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                {quadrantAnalysis.split('**').map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : part))}
+              </p>
               
               <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-100 dark:border-slate-800">
                 <div className="flex justify-between text-xs mb-1">

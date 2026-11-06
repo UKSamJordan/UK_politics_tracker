@@ -11,6 +11,7 @@ const params_1 = require("firebase-functions/params");
 const genai_1 = require("@google/genai");
 const admin = require("firebase-admin");
 const Parser = require("rss-parser");
+const security_1 = require("./security");
 if (!admin.apps.length) {
     admin.initializeApp();
 }
@@ -160,7 +161,12 @@ Return ONLY valid JSON matching this exact structure (no markdown fences):
             continue;
         const existingPledge = topic.pledges[upd.partyId] || { partyId: upd.partyId };
         const oldHeadline = existingPledge.headline;
-        topic.pledges[upd.partyId] = Object.assign(Object.assign({}, existingPledge), { partyId: upd.partyId, headline: upd.headline || existingPledge.headline, summary: upd.summary || existingPledge.summary, keyPoints: Array.isArray(upd.keyPoints) && upd.keyPoints.length > 0 ? upd.keyPoints : existingPledge.keyPoints, costEstimate: upd.costEstimate || existingPledge.costEstimate, targetTimeline: upd.targetTimeline || existingPledge.targetTimeline, factCheckSnippet: upd.factCheckSnippet || existingPledge.factCheckSnippet, factCheckSource: upd.factCheckSource || existingPledge.factCheckSource, officialSourceTitle: upd.officialSourceTitle || existingPledge.officialSourceTitle, lastVerifiedDate: `Verified ${monthYearStr}` });
+        const validPartyIds = ["labour", "conservative", "reform", "libdem", "green", "snp", "plaid", "restore"];
+        if (!validPartyIds.includes(upd.partyId))
+            continue;
+        topic.pledges[upd.partyId] = Object.assign(Object.assign({}, existingPledge), { partyId: upd.partyId, headline: (0, security_1.str)(upd.headline, 300) || existingPledge.headline, summary: (0, security_1.str)(upd.summary, 1000) || existingPledge.summary, keyPoints: Array.isArray(upd.keyPoints) && upd.keyPoints.length > 0
+                ? upd.keyPoints.slice(0, 5).map((k) => (0, security_1.str)(k, 300)).filter(Boolean)
+                : existingPledge.keyPoints, costEstimate: (0, security_1.str)(upd.costEstimate, 200) || existingPledge.costEstimate, targetTimeline: (0, security_1.str)(upd.targetTimeline, 200) || existingPledge.targetTimeline, factCheckSnippet: (0, security_1.str)(upd.factCheckSnippet, 500) || existingPledge.factCheckSnippet, factCheckSource: (0, security_1.str)(upd.factCheckSource, 150) || existingPledge.factCheckSource, officialSourceTitle: (0, security_1.str)(upd.officialSourceTitle, 200) || existingPledge.officialSourceTitle, lastVerifiedDate: `Verified ${monthYearStr}` });
         modifiedTopicIds.add(topic.id);
         appliedPolicyChanges.push({
             category: topic.category,
@@ -188,7 +194,19 @@ Return ONLY valid JSON matching this exact structure (no markdown fences):
             (fc === null || fc === void 0 ? void 0 : fc.claim) &&
             (fc === null || fc === void 0 ? void 0 : fc.speaker) &&
             !["environment agency", "ons"].includes(String(fc.speaker).toLowerCase())) {
-            batch.set(db.collection("factchecks").doc(fc.id), fc, { merge: true });
+            const cleanId = String(fc.id).replace(/[^a-zA-Z0-9_-]/g, "-").slice(0, 100);
+            batch.set(db.collection("factchecks").doc(cleanId), {
+                id: cleanId,
+                partyId: fc.partyId,
+                speaker: (0, security_1.str)(fc.speaker, 150),
+                date: (0, security_1.str)(fc.date, 10),
+                claim: (0, security_1.str)(fc.claim, 500),
+                verdict: (0, security_1.str)(fc.verdict, 30),
+                explanation: (0, security_1.str)(fc.explanation, 1500),
+                source: (0, security_1.str)(fc.source, 150),
+                sourceUrl: (0, security_1.safeHttpUrl)(fc.sourceUrl),
+                category: (0, security_1.str)(fc.category, 30),
+            }, { merge: true });
         }
     }
     // Log agent execution status in Firestore
@@ -390,6 +408,11 @@ Return ONLY a valid JSON array matching this exact schema (no markdown fences):
     const parsed = extractJsonFromText(response.text || "[]");
     const stories = Array.isArray(parsed) ? parsed : [];
     const now = Date.now();
+    stories.forEach((s) => {
+        if (Array.isArray(s === null || s === void 0 ? void 0 : s.outletReports)) {
+            s.outletReports = s.outletReports.slice(0, 6).map((r) => (Object.assign(Object.assign({}, r), { url: (0, security_1.safeHttpUrl)(r === null || r === void 0 ? void 0 : r.url) })));
+        }
+    });
     stories.forEach((s, idx) => {
         s.id = cleanTopic
             ? `custom-${now}-${idx}`

@@ -1,3 +1,4 @@
+import { safeUrl } from '../utils/safeUrl';
 import React, { useState } from 'react';
 import { Party, PartyId, PolicyTopic } from '../types/politics';
 import { 
@@ -1072,7 +1073,7 @@ export const PolicyMatrix: React.FC<PolicyMatrixProps> = ({
                                   </span>
                                   {pledge.officialSourceUrl && (
                                     <a
-                                      href={pledge.officialSourceUrl}
+                                      href={safeUrl(pledge.officialSourceUrl)}
                                       target="_blank"
                                       rel="noopener noreferrer"
                                       className="font-bold text-indigo-300 hover:text-indigo-200 hover:underline flex items-center space-x-1"

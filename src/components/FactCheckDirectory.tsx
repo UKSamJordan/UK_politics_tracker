@@ -1,3 +1,4 @@
+import { safeUrl } from '../utils/safeUrl';
 import React, { useState } from 'react';
 import { Party, PartyId, FactCheckItem, PolicyCategory } from '../types/politics';
 import { 
@@ -261,7 +262,7 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
               <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
                 <span className="text-slate-400 dark:text-slate-500 font-medium">Fact-checked by:</span>
                 <a
-                  href={fc.sourceUrl}
+                  href={safeUrl(fc.sourceUrl)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-bold text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center space-x-1"

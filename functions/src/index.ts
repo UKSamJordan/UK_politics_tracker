@@ -4,15 +4,14 @@ import { GoogleGenAI } from "@google/genai";
 import * as admin from "firebase-admin";
 import {
   autonomousPoliticalAgent,
-  extractJsonFromText,
   runAutonomousAudit,
   runMediaLensAnalysis,
 } from "./autonomousAgent";
+import { ALLOWED_ORIGINS, enforceRateLimit } from "./security";
 
 if (!admin.apps.length) {
   admin.initializeApp();
 }
-const db = admin.firestore();
 
 const geminiApiKey = defineSecret("GEMINI_API_KEY");
 
@@ -313,24 +312,15 @@ IMPORTANT:
   }
 }
 
-const VALID_PARTIES = new Set([
-  "labour",
-  "conservative",
-  "reform",
-  "libdem",
-  "green",
-  "snp",
-  "plaid",
-  "restore",
-]);
 
 /**
  * Live Grounded Gemini Query Endpoint
  * All prompts and systemInstructions are constructed strictly server-side based on a whitelisted action.
  */
 export const askGemini = onCall(
-  { secrets: [geminiApiKey], cors: true, timeoutSeconds: 120 },
+  { secrets: [geminiApiKey], cors: ALLOWED_ORIGINS, timeoutSeconds: 120, maxInstances: 5 },
   async (request) => {
+    enforceRateLimit(request, "askGemini", 15, 10 * 60 * 1000);
     try {
       const reqData = request.data || {};
       const { prompt, systemInstruction, disableSearch } = buildServerActionPrompt(reqData);
@@ -355,55 +345,8 @@ export const askGemini = onCall(
 
       const responseText = response.text || "";
 
-      // Server-side persistence when Gemini itself verifies a modified or superseded pledge
-      if (
-        reqData.action === "verifyPledge" &&
-        typeof reqData.topicId === "string" &&
-        typeof reqData.partyId === "string" &&
-        VALID_PARTIES.has(reqData.partyId)
-      ) {
-        try {
-          const parsed = extractJsonFromText(responseText);
-          const vLower = String(parsed?.verdict || "").toLowerCase();
-          if (
-            (vLower.includes("modified") || vLower.includes("superseded")) &&
-            parsed?.updatedPledge?.headline &&
-            parsed?.updatedPledge?.summary &&
-            parsed.updatedPledge.headline !== reqData.pledgeHeadline
-          ) {
-            const topicId = reqData.topicId.slice(0, 100);
-            const partyId = reqData.partyId;
-            const docRef = db.collection("policies").doc(topicId);
-            const snap = await docRef.get();
-            if (snap.exists) {
-              const existingData = snap.data() || {};
-              const pledges = existingData.pledges || {};
-              const dateMeta = getServerDateMetadata();
-              pledges[partyId] = {
-                ...(pledges[partyId] || {}),
-                headline: String(parsed.updatedPledge.headline).slice(0, 300),
-                summary: String(parsed.updatedPledge.summary).slice(0, 1000),
-                ...(Array.isArray(parsed.updatedPledge.keyPoints)
-                  ? { keyPoints: parsed.updatedPledge.keyPoints.slice(0, 5).map((k: any) => String(k).slice(0, 300)) }
-                  : {}),
-                ...(parsed.updatedPledge.costEstimate
-                  ? { costEstimate: String(parsed.updatedPledge.costEstimate).slice(0, 200) }
-                  : {}),
-                ...(parsed.updatedPledge.timeline
-                  ? { targetTimeline: String(parsed.updatedPledge.timeline).slice(0, 200) }
-                  : {}),
-                partyId,
-                factCheckVerdict: "verified",
-                lastVerifiedDate: `Verified ${dateMeta.monthName} ${dateMeta.year}`,
-              };
-              const todayStr = new Date().toISOString().split("T")[0];
-              await docRef.set({ ...existingData, pledges, updatedAt: todayStr }, { merge: true });
-            }
-          }
-        } catch (persistErr) {
-          console.warn("Server-side verifyPledge persistence skipped:", persistErr);
-        }
-      }
+      // NOTE: responses to anonymous callers are never persisted. Policy changes are
+      // written only by the scheduled agent (RSS + search), never from user-supplied prompt text.
 
       const groundingMeta = response.candidates?.[0]?.groundingMetadata;
       const searchQueries = groundingMeta?.webSearchQueries || [];
@@ -422,7 +365,8 @@ export const askGemini = onCall(
       };
     } catch (error: any) {
       console.error("Gemini AI Error:", error);
-      throw new Error(`Failed to generate AI response: ${error.message}`);
+      if (error instanceof HttpsError) throw error;
+      throw new HttpsError("internal", "Failed to generate AI response.");
     }
   }
 );
@@ -432,8 +376,9 @@ export const askGemini = onCall(
  * Never accepts arbitrary client-supplied policy documents.
  */
 export const auditAndSyncPolicies = onCall(
-  { secrets: [geminiApiKey], cors: true, timeoutSeconds: 180 },
+  { secrets: [geminiApiKey], cors: ALLOWED_ORIGINS, timeoutSeconds: 180, maxInstances: 2 },
   async (request) => {
+    enforceRateLimit(request, "audit", 3, 10 * 60 * 1000);
     try {
       const rawCategory = request.data?.category;
       const safeCategory =
@@ -445,7 +390,8 @@ export const auditAndSyncPolicies = onCall(
       return result;
     } catch (error: any) {
       console.error("auditAndSyncPolicies Error:", error);
-      throw new Error(`Live policy audit failed: ${error.message}`);
+      if (error instanceof HttpsError) throw error;
+      throw new HttpsError("internal", "Live policy audit failed.");
     }
   }
 );
@@ -455,7 +401,7 @@ export const auditAndSyncPolicies = onCall(
  * Pledge updates are verified and persisted exclusively server-side inside askGemini.
  */
 export const updatePledgeInFirestore = onCall(
-  { cors: true, timeoutSeconds: 15 },
+  { cors: ALLOWED_ORIGINS, timeoutSeconds: 15, maxInstances: 1 },
   async () => {
     throw new HttpsError(
       "permission-denied",
@@ -469,8 +415,9 @@ export const updatePledgeInFirestore = onCall(
  * Never accepts arbitrary client-supplied story documents.
  */
 export const analyzeMediaLens = onCall(
-  { secrets: [geminiApiKey], cors: true, timeoutSeconds: 120 },
+  { secrets: [geminiApiKey], cors: ALLOWED_ORIGINS, timeoutSeconds: 120, maxInstances: 2 },
   async (request) => {
+    enforceRateLimit(request, "media", 5, 10 * 60 * 1000);
     try {
       const rawTopic = request.data?.customTopic;
       const safeTopic =
@@ -481,7 +428,8 @@ export const analyzeMediaLens = onCall(
       return result;
     } catch (error: any) {
       console.error("analyzeMediaLens Error:", error);
-      throw new Error(`Failed to analyze UK media framing: ${error.message}`);
+      if (error instanceof HttpsError) throw error;
+      throw new HttpsError("internal", "Failed to analyze UK media framing.");
     }
   }
 );

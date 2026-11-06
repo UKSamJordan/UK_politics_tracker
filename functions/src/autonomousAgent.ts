@@ -3,6 +3,7 @@ import { defineSecret } from "firebase-functions/params";
 import { GoogleGenAI } from "@google/genai";
 import * as admin from "firebase-admin";
 const Parser = require("rss-parser");
+import { safeHttpUrl, str } from "./security";
 
 if (!admin.apps.length) {
   admin.initializeApp();
@@ -184,17 +185,23 @@ Return ONLY valid JSON matching this exact structure (no markdown fences):
     const existingPledge = topic.pledges[upd.partyId] || { partyId: upd.partyId };
     const oldHeadline = existingPledge.headline;
 
+    const validPartyIds = ["labour","conservative","reform","libdem","green","snp","plaid","restore"];
+    if (!validPartyIds.includes(upd.partyId)) continue;
+
     topic.pledges[upd.partyId] = {
       ...existingPledge,
       partyId: upd.partyId,
-      headline: upd.headline || existingPledge.headline,
-      summary: upd.summary || existingPledge.summary,
-      keyPoints: Array.isArray(upd.keyPoints) && upd.keyPoints.length > 0 ? upd.keyPoints : existingPledge.keyPoints,
-      costEstimate: upd.costEstimate || existingPledge.costEstimate,
-      targetTimeline: upd.targetTimeline || existingPledge.targetTimeline,
-      factCheckSnippet: upd.factCheckSnippet || existingPledge.factCheckSnippet,
-      factCheckSource: upd.factCheckSource || existingPledge.factCheckSource,
-      officialSourceTitle: upd.officialSourceTitle || existingPledge.officialSourceTitle,
+      headline: str(upd.headline, 300) || existingPledge.headline,
+      summary: str(upd.summary, 1000) || existingPledge.summary,
+      keyPoints:
+        Array.isArray(upd.keyPoints) && upd.keyPoints.length > 0
+          ? upd.keyPoints.slice(0, 5).map((k: unknown) => str(k, 300)).filter(Boolean)
+          : existingPledge.keyPoints,
+      costEstimate: str(upd.costEstimate, 200) || existingPledge.costEstimate,
+      targetTimeline: str(upd.targetTimeline, 200) || existingPledge.targetTimeline,
+      factCheckSnippet: str(upd.factCheckSnippet, 500) || existingPledge.factCheckSnippet,
+      factCheckSource: str(upd.factCheckSource, 150) || existingPledge.factCheckSource,
+      officialSourceTitle: str(upd.officialSourceTitle, 200) || existingPledge.officialSourceTitle,
       lastVerifiedDate: `Verified ${monthYearStr}`,
     };
 
@@ -233,7 +240,23 @@ Return ONLY valid JSON matching this exact structure (no markdown fences):
       fc?.speaker &&
       !["environment agency", "ons"].includes(String(fc.speaker).toLowerCase())
     ) {
-      batch.set(db.collection("factchecks").doc(fc.id), fc, { merge: true });
+      const cleanId = String(fc.id).replace(/[^a-zA-Z0-9_-]/g, "-").slice(0, 100);
+      batch.set(
+        db.collection("factchecks").doc(cleanId),
+        {
+          id: cleanId,
+          partyId: fc.partyId,
+          speaker: str(fc.speaker, 150),
+          date: str(fc.date, 10),
+          claim: str(fc.claim, 500),
+          verdict: str(fc.verdict, 30),
+          explanation: str(fc.explanation, 1500),
+          source: str(fc.source, 150),
+          sourceUrl: safeHttpUrl(fc.sourceUrl),
+          category: str(fc.category, 30),
+        },
+        { merge: true }
+      );
     }
   }
 
@@ -457,6 +480,15 @@ Return ONLY a valid JSON array matching this exact schema (no markdown fences):
   const parsed = extractJsonFromText(response.text || "[]");
   const stories = Array.isArray(parsed) ? parsed : [];
   const now = Date.now();
+
+  stories.forEach((s: any) => {
+    if (Array.isArray(s?.outletReports)) {
+      s.outletReports = s.outletReports.slice(0, 6).map((r: any) => ({
+        ...r,
+        url: safeHttpUrl(r?.url),
+      }));
+    }
+  });
 
   stories.forEach((s: any, idx: number) => {
     s.id = cleanTopic

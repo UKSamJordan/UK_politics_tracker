@@ -1,3 +1,4 @@
+import { safeUrl } from '../utils/safeUrl';
 import React, { useState } from 'react';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '../firebase';
@@ -932,7 +933,7 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                               </div>
 
                               <a
-                                href={rep.url}
+                                href={safeUrl(rep.url)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="block group"

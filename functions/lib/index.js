@@ -7,10 +7,10 @@ const genai_1 = require("@google/genai");
 const admin = require("firebase-admin");
 const autonomousAgent_1 = require("./autonomousAgent");
 Object.defineProperty(exports, "autonomousPoliticalAgent", { enumerable: true, get: function () { return autonomousAgent_1.autonomousPoliticalAgent; } });
+const security_1 = require("./security");
 if (!admin.apps.length) {
     admin.initializeApp();
 }
-const db = admin.firestore();
 const geminiApiKey = (0, params_1.defineSecret)("GEMINI_API_KEY");
 function getServerDateMetadata() {
     const now = new Date();
@@ -292,22 +292,13 @@ IMPORTANT:
             throw new Error("Unsupported or missing action parameter.");
     }
 }
-const VALID_PARTIES = new Set([
-    "labour",
-    "conservative",
-    "reform",
-    "libdem",
-    "green",
-    "snp",
-    "plaid",
-    "restore",
-]);
 /**
  * Live Grounded Gemini Query Endpoint
  * All prompts and systemInstructions are constructed strictly server-side based on a whitelisted action.
  */
-exports.askGemini = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: true, timeoutSeconds: 120 }, async (request) => {
-    var _a, _b, _c, _d, _e;
+exports.askGemini = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: security_1.ALLOWED_ORIGINS, timeoutSeconds: 120, maxInstances: 5 }, async (request) => {
+    var _a, _b, _c;
+    (0, security_1.enforceRateLimit)(request, "askGemini", 15, 10 * 60 * 1000);
     try {
         const reqData = request.data || {};
         const { prompt, systemInstruction, disableSearch } = buildServerActionPrompt(reqData);
@@ -327,45 +318,11 @@ exports.askGemini = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: true, t
             config,
         });
         const responseText = response.text || "";
-        // Server-side persistence when Gemini itself verifies a modified or superseded pledge
-        if (reqData.action === "verifyPledge" &&
-            typeof reqData.topicId === "string" &&
-            typeof reqData.partyId === "string" &&
-            VALID_PARTIES.has(reqData.partyId)) {
-            try {
-                const parsed = (0, autonomousAgent_1.extractJsonFromText)(responseText);
-                const vLower = String((parsed === null || parsed === void 0 ? void 0 : parsed.verdict) || "").toLowerCase();
-                if ((vLower.includes("modified") || vLower.includes("superseded")) &&
-                    ((_a = parsed === null || parsed === void 0 ? void 0 : parsed.updatedPledge) === null || _a === void 0 ? void 0 : _a.headline) &&
-                    ((_b = parsed === null || parsed === void 0 ? void 0 : parsed.updatedPledge) === null || _b === void 0 ? void 0 : _b.summary) &&
-                    parsed.updatedPledge.headline !== reqData.pledgeHeadline) {
-                    const topicId = reqData.topicId.slice(0, 100);
-                    const partyId = reqData.partyId;
-                    const docRef = db.collection("policies").doc(topicId);
-                    const snap = await docRef.get();
-                    if (snap.exists) {
-                        const existingData = snap.data() || {};
-                        const pledges = existingData.pledges || {};
-                        const dateMeta = getServerDateMetadata();
-                        pledges[partyId] = Object.assign(Object.assign(Object.assign(Object.assign(Object.assign(Object.assign({}, (pledges[partyId] || {})), { headline: String(parsed.updatedPledge.headline).slice(0, 300), summary: String(parsed.updatedPledge.summary).slice(0, 1000) }), (Array.isArray(parsed.updatedPledge.keyPoints)
-                            ? { keyPoints: parsed.updatedPledge.keyPoints.slice(0, 5).map((k) => String(k).slice(0, 300)) }
-                            : {})), (parsed.updatedPledge.costEstimate
-                            ? { costEstimate: String(parsed.updatedPledge.costEstimate).slice(0, 200) }
-                            : {})), (parsed.updatedPledge.timeline
-                            ? { targetTimeline: String(parsed.updatedPledge.timeline).slice(0, 200) }
-                            : {})), { partyId, factCheckVerdict: "verified", lastVerifiedDate: `Verified ${dateMeta.monthName} ${dateMeta.year}` });
-                        const todayStr = new Date().toISOString().split("T")[0];
-                        await docRef.set(Object.assign(Object.assign({}, existingData), { pledges, updatedAt: todayStr }), { merge: true });
-                    }
-                }
-            }
-            catch (persistErr) {
-                console.warn("Server-side verifyPledge persistence skipped:", persistErr);
-            }
-        }
-        const groundingMeta = (_d = (_c = response.candidates) === null || _c === void 0 ? void 0 : _c[0]) === null || _d === void 0 ? void 0 : _d.groundingMetadata;
+        // NOTE: responses to anonymous callers are never persisted. Policy changes are
+        // written only by the scheduled agent (RSS + search), never from user-supplied prompt text.
+        const groundingMeta = (_b = (_a = response.candidates) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.groundingMetadata;
         const searchQueries = (groundingMeta === null || groundingMeta === void 0 ? void 0 : groundingMeta.webSearchQueries) || [];
-        const sources = ((_e = groundingMeta === null || groundingMeta === void 0 ? void 0 : groundingMeta.groundingChunks) === null || _e === void 0 ? void 0 : _e.map((c) => {
+        const sources = ((_c = groundingMeta === null || groundingMeta === void 0 ? void 0 : groundingMeta.groundingChunks) === null || _c === void 0 ? void 0 : _c.map((c) => {
             var _a, _b;
             return ({
                 title: ((_a = c.web) === null || _a === void 0 ? void 0 : _a.title) || "Verified Web Source",
@@ -380,15 +337,18 @@ exports.askGemini = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: true, t
     }
     catch (error) {
         console.error("Gemini AI Error:", error);
-        throw new Error(`Failed to generate AI response: ${error.message}`);
+        if (error instanceof https_1.HttpsError)
+            throw error;
+        throw new https_1.HttpsError("internal", "Failed to generate AI response.");
     }
 });
 /**
  * On-Demand Live Policy & News Audit (Callable from 'Update Policy Matrix' & 'Sync All')
  * Never accepts arbitrary client-supplied policy documents.
  */
-exports.auditAndSyncPolicies = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: true, timeoutSeconds: 180 }, async (request) => {
+exports.auditAndSyncPolicies = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: security_1.ALLOWED_ORIGINS, timeoutSeconds: 180, maxInstances: 2 }, async (request) => {
     var _a;
+    (0, security_1.enforceRateLimit)(request, "audit", 3, 10 * 60 * 1000);
     try {
         const rawCategory = (_a = request.data) === null || _a === void 0 ? void 0 : _a.category;
         const safeCategory = typeof rawCategory === "string" ? rawCategory.trim().slice(0, 60) : "all";
@@ -399,22 +359,25 @@ exports.auditAndSyncPolicies = (0, https_1.onCall)({ secrets: [geminiApiKey], co
     }
     catch (error) {
         console.error("auditAndSyncPolicies Error:", error);
-        throw new Error(`Live policy audit failed: ${error.message}`);
+        if (error instanceof https_1.HttpsError)
+            throw error;
+        throw new https_1.HttpsError("internal", "Live policy audit failed.");
     }
 });
 /**
  * Locked-down legacy endpoint: direct client pledge writes are strictly forbidden.
  * Pledge updates are verified and persisted exclusively server-side inside askGemini.
  */
-exports.updatePledgeInFirestore = (0, https_1.onCall)({ cors: true, timeoutSeconds: 15 }, async () => {
+exports.updatePledgeInFirestore = (0, https_1.onCall)({ cors: security_1.ALLOWED_ORIGINS, timeoutSeconds: 15, maxInstances: 1 }, async () => {
     throw new https_1.HttpsError("permission-denied", "Direct client writes are disabled. Pledge updates are verified and persisted strictly server-side.");
 });
 /**
  * On-Demand Media Lens Multi-Spectrum Newspaper Analyzer
  * Never accepts arbitrary client-supplied story documents.
  */
-exports.analyzeMediaLens = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: true, timeoutSeconds: 120 }, async (request) => {
+exports.analyzeMediaLens = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: security_1.ALLOWED_ORIGINS, timeoutSeconds: 120, maxInstances: 2 }, async (request) => {
     var _a;
+    (0, security_1.enforceRateLimit)(request, "media", 5, 10 * 60 * 1000);
     try {
         const rawTopic = (_a = request.data) === null || _a === void 0 ? void 0 : _a.customTopic;
         const safeTopic = typeof rawTopic === "string" && rawTopic.trim().length > 0
@@ -425,7 +388,9 @@ exports.analyzeMediaLens = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: 
     }
     catch (error) {
         console.error("analyzeMediaLens Error:", error);
-        throw new Error(`Failed to analyze UK media framing: ${error.message}`);
+        if (error instanceof https_1.HttpsError)
+            throw error;
+        throw new https_1.HttpsError("internal", "Failed to analyze UK media framing.");
     }
 });
 //# sourceMappingURL=index.js.map

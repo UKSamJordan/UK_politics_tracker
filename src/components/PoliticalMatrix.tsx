@@ -1,3 +1,4 @@
+import { safeUrl } from '../utils/safeUrl';
 import React, { useState } from 'react';
 import { Party, PartyId, PolicyTopic } from '../types/politics';
 import { 
@@ -2069,7 +2070,7 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
                       )}
                       {partyPledge.officialSourceUrl && (
                         <a
-                          href={partyPledge.officialSourceUrl}
+                          href={safeUrl(partyPledge.officialSourceUrl)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center space-x-1 ml-auto"
@@ -2199,7 +2200,7 @@ export const PoliticalMatrix: React.FC<PoliticalMatrixProps> = ({
                     {selectedPartyTopicPledge.officialSourceUrl && (
                       <div className="pt-2 border-t border-slate-200/80 dark:border-slate-700 flex justify-end">
                         <a
-                          href={selectedPartyTopicPledge.officialSourceUrl}
+                          href={safeUrl(selectedPartyTopicPledge.officialSourceUrl)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center space-x-1"
