@@ -7,11 +7,12 @@ import {
   runAutonomousAudit,
   runMediaLensAnalysis,
 } from "./autonomousAgent";
-import { ALLOWED_ORIGINS, enforceRateLimit } from "./security";
+import { ALLOWED_ORIGINS, enforceRateLimit, enforceSharedRateLimit } from "./security";
 
 if (!admin.apps.length) {
   admin.initializeApp();
 }
+const db = admin.firestore();
 
 const geminiApiKey = defineSecret("GEMINI_API_KEY");
 
@@ -378,7 +379,7 @@ export const askGemini = onCall(
 export const auditAndSyncPolicies = onCall(
   { secrets: [geminiApiKey], cors: ALLOWED_ORIGINS, timeoutSeconds: 180, maxInstances: 2 },
   async (request) => {
-    enforceRateLimit(request, "audit", 3, 10 * 60 * 1000);
+    await enforceSharedRateLimit(db, request, "audit", 3, 10 * 60 * 1000);
     try {
       const rawCategory = request.data?.category;
       const safeCategory =
@@ -417,7 +418,7 @@ export const updatePledgeInFirestore = onCall(
 export const analyzeMediaLens = onCall(
   { secrets: [geminiApiKey], cors: ALLOWED_ORIGINS, timeoutSeconds: 120, maxInstances: 2 },
   async (request) => {
-    enforceRateLimit(request, "media", 5, 10 * 60 * 1000);
+    await enforceSharedRateLimit(db, request, "media", 5, 10 * 60 * 1000);
     try {
       const rawTopic = request.data?.customTopic;
       const safeTopic =

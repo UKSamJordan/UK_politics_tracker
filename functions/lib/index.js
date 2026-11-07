@@ -11,6 +11,7 @@ const security_1 = require("./security");
 if (!admin.apps.length) {
     admin.initializeApp();
 }
+const db = admin.firestore();
 const geminiApiKey = (0, params_1.defineSecret)("GEMINI_API_KEY");
 function getServerDateMetadata() {
     const now = new Date();
@@ -348,7 +349,7 @@ exports.askGemini = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: securit
  */
 exports.auditAndSyncPolicies = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: security_1.ALLOWED_ORIGINS, timeoutSeconds: 180, maxInstances: 2 }, async (request) => {
     var _a;
-    (0, security_1.enforceRateLimit)(request, "audit", 3, 10 * 60 * 1000);
+    await (0, security_1.enforceSharedRateLimit)(db, request, "audit", 3, 10 * 60 * 1000);
     try {
         const rawCategory = (_a = request.data) === null || _a === void 0 ? void 0 : _a.category;
         const safeCategory = typeof rawCategory === "string" ? rawCategory.trim().slice(0, 60) : "all";
@@ -377,7 +378,7 @@ exports.updatePledgeInFirestore = (0, https_1.onCall)({ cors: security_1.ALLOWED
  */
 exports.analyzeMediaLens = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: security_1.ALLOWED_ORIGINS, timeoutSeconds: 120, maxInstances: 2 }, async (request) => {
     var _a;
-    (0, security_1.enforceRateLimit)(request, "media", 5, 10 * 60 * 1000);
+    await (0, security_1.enforceSharedRateLimit)(db, request, "media", 5, 10 * 60 * 1000);
     try {
         const rawTopic = (_a = request.data) === null || _a === void 0 ? void 0 : _a.customTopic;
         const safeTopic = typeof rawTopic === "string" && rawTopic.trim().length > 0

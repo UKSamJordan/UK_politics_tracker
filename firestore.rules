@@ -1,9 +1,72 @@
 rules_version = '2';
+
+// ===============================================================
+// Assumed Data Model & Access Architecture
+// ===============================================================
+//
+// All writes are performed exclusively via Cloud Functions using
+// the Firebase Admin SDK (which bypasses Firestore Security Rules).
+// Client write access is strictly denied across the entire database.
+//
+// Public Read-Only Collections (Frontend Consumed):
+//   - /parties/{docId}
+//   - /cabinets/{docId}
+//   - /policies/{docId}
+//   - /polls/{docId}
+//   - /factchecks/{docId}
+//   - /media_lens/{docId}
+//   - /system_status/autonomous_agent
+//
+// Internal / Admin-Only Collections (Denied to Clients):
+//   - /_internal_ratelimits/{docId}
+//   - All other unenumerated paths
+// ===============================================================
+
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    match /parties/{docId} {
+      allow get, list: if true;
+      allow write: if false;
+    }
+
+    match /cabinets/{docId} {
+      allow get, list: if true;
+      allow write: if false;
+    }
+
+    match /policies/{docId} {
+      allow get, list: if true;
+      allow write: if false;
+    }
+
+    match /polls/{docId} {
+      allow get, list: if true;
+      allow write: if false;
+    }
+
+    match /factchecks/{docId} {
+      allow get, list: if true;
+      allow write: if false;
+    }
+
+    match /media_lens/{docId} {
+      allow get, list: if true;
+      allow write: if false;
+    }
+
+    match /system_status/autonomous_agent {
+      allow get, list: if true;
+      allow write: if false;
+    }
+
+    match /_internal_ratelimits/{docId} {
+      allow read, write: if false;
+    }
+
+    // Default deny for all other paths
     match /{document=**} {
-      allow read: if true;
-      allow write: if false; 
+      allow read, write: if false;
     }
   }
 }
