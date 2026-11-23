@@ -24,6 +24,8 @@ import {
   fetchLatestPolicyDecisions,
   defaultPolicyDecisions
 } from '../services/policyTrackerQuery';
+import { refreshPolicyDecisions } from '../services/liveUpdater';
+import { useFirebaseData } from '../providers/FirebaseDataProvider';
 
 interface LiveAIFeedProps {
   parties: Party[];
@@ -31,7 +33,6 @@ interface LiveAIFeedProps {
   cabinets?: CabinetMember[];
 }
 
-const POLICY_FEED_STORAGE_KEY = 'uk_politics_policy_decisions_feed_v5';
 const POLICY_FEED_LIMIT_KEY = 'uk_politics_policy_feed_limit';
 
 export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({ 
@@ -39,8 +40,8 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
   policies = [], 
   cabinets = [] 
 }) => {
-  // Stored API key (reads from unified persistent storage and built-in configured key)
-      const [question, setQuestion] = useState('');
+  const { policyDecisions, setPolicyDecisions } = useFirebaseData();
+  const [question, setQuestion] = useState('');
   const [isQuerying, setIsQuerying] = useState(false);
   const [aiAnswer, setAiAnswer] = useState<string | null>(null);
   const [answerSource, setAnswerSource] = useState<string>('');
@@ -69,37 +70,16 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
   const currentDateMeta = getCurrentDateMetadata();
 
   const quickSuggestions = [
-    { label: "Reform UK Hythe Border Plan & 1M+ Deportations", query: "What is Reform UK's latest Hythe border security plan, 5-year asylum freeze, and deportation policy?" },
-    { label: "Reform UK Britannia Card & £20k Tax Threshold", query: "Explain Reform UK's £250k Britannia Card non-dom dividend, UK DOGE unit, and £20,000 tax threshold." },
+    { label: "UK–EU Summit Reset & Trade Mobility Deal", query: "What has been agreed in the latest UK-EU reset negotiations on agrifood, youth mobility, and trade?" },
+    { label: "Autumn Budget & Bank Tax / Energy Rebate", query: "Explain Chancellor John Healey's £100 energy bill rebate, bank tax dispute, and welfare reform stance." },
     { label: "Immigration Comparison: Labour vs Tories vs Reform", query: "Compare Labour's 10-year Earned Settlement ILR, Conservative ECHR exit, and Reform UK's asylum freeze." },
     { label: "Triple Lock & Welfare Reforms (20-Hr Work Mandate)", query: "Compare party positions on the State Pension Triple Lock, Winter Fuel Payments, and Reform's welfare ban for non-citizens." },
-    { label: "Energy & Net Zero: British Steel & Public Water", query: "Compare Labour's Great British Energy with Reform UK's plan to scrap Net Zero, nationalise British Steel, and take 50% public ownership of water." }
+    { label: "Energy & Net Zero: Rosebank, Steel & Public Water", query: "Compare Labour's North Sea & Great British Energy stance with Reform UK and Conservative energy plans." }
   ];
 
-  const [feedItems, setFeedItems] = useState<PolicyNewsItem[]>(() => {
-    try {
-      // Purge outdated v3/v4 caches that had fake "Today" timestamps on 2024 items
-      localStorage.removeItem('uk_politics_policy_decisions_feed_v3');
-      localStorage.removeItem('uk_politics_policy_decisions_feed_v4');
-      const saved = localStorage.getItem(POLICY_FEED_STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (
-          Array.isArray(parsed) &&
-          parsed.length >= 10 &&
-          !parsed.some((i: any) => typeof i?.time === 'string' && /^(today|yesterday)/i.test(i.time.trim()))
-        ) {
-          return parsed;
-        }
-      }
-      return defaultPolicyDecisions;
-    } catch {
-      return defaultPolicyDecisions;
-    }
-  });
+  const feedItems: PolicyNewsItem[] =
+    policyDecisions && policyDecisions.length > 0 ? policyDecisions : defaultPolicyDecisions;
 
-
-  
   const handleAskTracker = async (e?: React.FormEvent, customQuestion?: string) => {
     if (e) e.preventDefault();
     const queryToUse = customQuestion || question;
@@ -113,7 +93,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
         policies,
         cabinets,
         parties,
-              });
+      });
 
       setAiAnswer(result.answer);
       setAnswerSource(result.source);
@@ -121,9 +101,7 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
       setMatchedTopic(result.matchedTopicTitle);
     } catch (err: any) {
       console.error(err);
-      if (err.message?.includes('No active Gemini API key')) {
-      }
-      setAiAnswer(`Could not complete query: ${err.message}. If using your custom API key, ensure it has Generative Language API access.`);
+      setAiAnswer(`Could not complete query: ${err.message}.`);
     } finally {
       setIsQuerying(false);
     }
@@ -156,19 +134,31 @@ export const LiveAIFeed: React.FC<LiveAIFeedProps> = ({
   const handleRefreshPolicyDecisions = async () => {
     setIsFetchingDecisions(true);
     try {
+      const res = await refreshPolicyDecisions(
+        categoryFilter !== 'all' ? categoryFilter : undefined
+      );
+      if (Array.isArray(res.decisions) && res.decisions.length > 0) {
+        const freshTitles = new Set(res.decisions.map((f: any) => String(f.title || '').toLowerCase()));
+        const merged = [
+          ...res.decisions,
+          ...defaultPolicyDecisions.filter((d) => !freshTitles.has(d.title.toLowerCase())),
+        ];
+        setPolicyDecisions(merged);
+        return;
+      }
+      // Fallback to askGemini latestDecisions if syncSection returned empty
       const freshItems = await fetchLatestPolicyDecisions({
         category: categoryFilter !== 'all' ? categoryFilter : undefined,
-        limit: displayLimit === 'all' ? 30 : Math.max(displayLimit, 20)
+        limit: displayLimit === 'all' ? 30 : Math.max(displayLimit, 20),
       });
-      // Merge with defaultPolicyDecisions to preserve breadth
-      const freshTitles = new Set(freshItems.map(f => f.title.toLowerCase()));
-      const merged = [...freshItems, ...defaultPolicyDecisions.filter(d => !freshTitles.has(d.title.toLowerCase()))];
-      setFeedItems(merged);
-      localStorage.setItem(POLICY_FEED_STORAGE_KEY, JSON.stringify(merged));
+      const freshTitles = new Set(freshItems.map((f) => f.title.toLowerCase()));
+      const merged = [
+        ...freshItems,
+        ...defaultPolicyDecisions.filter((d) => !freshTitles.has(d.title.toLowerCase())),
+      ];
+      setPolicyDecisions(merged);
     } catch (err: any) {
       console.error('Failed to fetch latest policy decisions:', err);
-      if (err.message?.includes('No active Gemini API key')) {
-      }
     } finally {
       setIsFetchingDecisions(false);
     }

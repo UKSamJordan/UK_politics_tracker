@@ -184,7 +184,17 @@ export const FactCheckDirectory: React.FC<FactCheckDirectoryProps> = ({
       {/* Results Count & Recency Notice */}
       <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 px-1">
         <span>Showing {filteredChecks.length} fact check investigations (ordered by recency)</span>
-        <span className="font-semibold text-slate-700 dark:text-slate-300">Latest check: October 2026</span>
+        <span className="font-semibold text-slate-700 dark:text-slate-300">
+          Latest check:{' '}
+          {(() => {
+            const newest = [...factChecks].sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')))[0]?.date;
+            if (!newest) return 'Live Verified';
+            const d = new Date(newest);
+            return isNaN(d.getTime())
+              ? newest
+              : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+          })()}
+        </span>
       </div>
 
       {/* List of Fact Checks */}

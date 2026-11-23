@@ -28,12 +28,28 @@ import {
   refreshCabinetRoster, 
   refreshPollData, 
   refreshPolicyMatrix, 
-  refreshFactChecks 
+  refreshFactChecks,
+  refreshAllSiteSections
 } from './services/liveUpdater';
 
 export const App: React.FC = () => {
   const { isDark, toggleTheme } = useTheme();
-  const { parties, cabinets, policies, polls, factChecks, mediaLens, loading, setCabinets, setPolicies, setPolls, setFactChecks, setMediaLens } = useFirebaseData();
+  const {
+    parties,
+    cabinets,
+    policies,
+    polls,
+    factChecks,
+    mediaLens,
+    systemStatus,
+    loading,
+    setParties,
+    setCabinets,
+    setPolicies,
+    setPolls,
+    setFactChecks,
+    setMediaLens,
+  } = useFirebaseData();
 
   const timeSeries: PollPoint[] = (polls.timeSeries || pollsData.timeSeries) as PollPoint[];
   const policyPopularity: PolicyPopularityItem[] = (polls.policyPopularity || pollsData.policyPopularity) as PolicyPopularityItem[];
@@ -45,6 +61,9 @@ export const App: React.FC = () => {
   const handleRefreshCabinets = async () => {
     const res = await refreshCabinetRoster(cabinets);
     setCabinets(res.data);
+    if (res.updatedParties && res.updatedParties.length > 0) {
+      setParties(res.updatedParties);
+    }
     return res.changeReport;
   };
 
@@ -65,12 +84,7 @@ export const App: React.FC = () => {
   };
 
   const handleSyncAll = async () => {
-    await Promise.all([
-      handleRefreshCabinets(),
-      handleRefreshPolls(),
-      handleRefreshPolicies(),
-      handleRefreshFactChecks(),
-    ]);
+    await refreshAllSiteSections();
   };
 
   // State
@@ -264,10 +278,10 @@ export const App: React.FC = () => {
               ✓ 8/8 Parties Verified (100%)
             </button>
             <span className="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium">
-              Cloudflare Pages Ready
+              Auto-Updated Every 6h
             </span>
             <span className="px-2.5 py-1 rounded-md bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 font-medium">
-              Live Intelligence Synced
+              {systemStatus.lastSyncLabel}
             </span>
           </div>
         </div>

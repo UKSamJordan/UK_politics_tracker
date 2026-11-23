@@ -15,6 +15,9 @@ rules_version = '2';
 //   - /polls/{docId}
 //   - /factchecks/{docId}
 //   - /media_lens/{docId}
+//   - /policy_decisions/{docId} (fields: id, time, title, party, partyColor,
+//       category, tag, summary, statutoryVehicle?, fiscalImpact?,
+//       crossPartyStance?, deepDiveDetails?, createdAt?, updatedAt?)
 //   - /system_status/autonomous_agent
 //
 // Internal / Admin-Only Collections (Denied to Clients):
@@ -51,6 +54,11 @@ service cloud.firestore {
     }
 
     match /media_lens/{docId} {
+      allow get, list: if true;
+      allow write: if false;
+    }
+
+    match /policy_decisions/{docId} {
       allow get, list: if true;
       allow write: if false;
     }

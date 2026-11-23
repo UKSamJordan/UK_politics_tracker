@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { RefreshCw, CheckCircle2, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react';
+import { useFirebaseData } from '../providers/FirebaseDataProvider';
 
 interface SectionRefreshButtonProps {
   sectionName: string;
@@ -11,17 +12,27 @@ interface SectionRefreshButtonProps {
 
 export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
   sectionName,
-  defaultDate = 'October 2026',
+  defaultDate,
   verificationSource = 'UK Parliament registers, Cabinet Office & official party frontbench announcements',
   onRefresh,
   className = '',
 }) => {
+  const { systemStatus } = useFirebaseData();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [refreshStep, setRefreshStep] = useState('');
   const [justUpdated, setJustUpdated] = useState(false);
   const [refreshError, setRefreshError] = useState<string | null>(null);
-  const [lastUpdatedText, setLastUpdatedText] = useState(defaultDate);
+  const [manualLabel, setManualLabel] = useState<string | null>(null);
   const [showAuditInfo, setShowAuditInfo] = useState(false);
+
+  const computedDefaultLabel =
+    defaultDate && defaultDate.startsWith('Synced:')
+      ? defaultDate
+      : systemStatus.lastRunAt
+      ? systemStatus.lastSyncLabel
+      : defaultDate || 'Live Cloud Auto-Sync';
+
+  const lastUpdatedText = manualLabel || computedDefaultLabel;
 
   const handleRefresh = async () => {
     if (isRefreshing) return;
@@ -31,27 +42,26 @@ export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
 
     const getStep2Text = () => {
       if (sectionName.toLowerCase().includes('policy')) return 'Running live Google Search & RSS policy audit...';
-      if (sectionName.toLowerCase().includes('poll')) return 'Aggregating voting intention polls...';
-      if (sectionName.toLowerCase().includes('fact')) return 'Scanning live independent fact-checks...';
-      return 'Cross-referencing parliamentary registers...';
+      if (sectionName.toLowerCase().includes('poll')) return 'Searching latest BPC voting & leader polls...';
+      if (sectionName.toLowerCase().includes('fact')) return 'Auditing live Full Fact, BBC Verify & IFS checks...';
+      return 'Cross-referencing live UK parliamentary registers...';
     };
 
     const getStep3Text = () => {
       if (sectionName.toLowerCase().includes('policy')) return 'Syncing verified pledges to Firestore...';
-      if (sectionName.toLowerCase().includes('poll')) return 'Calculating multi-pollster averages...';
-      if (sectionName.toLowerCase().includes('fact')) return 'Verifying Full Fact & BBC citations...';
-      return 'Validating active ministerial appointments...';
+      if (sectionName.toLowerCase().includes('poll')) return 'Updating Poll of Polls & Firestore...';
+      if (sectionName.toLowerCase().includes('fact')) return 'Saving verified citations to Firestore...';
+      return 'Persisting verified roster & seats to Firestore...';
     };
 
     try {
       setRefreshStep('Connecting to live verification engine...');
-      await new Promise((r) => setTimeout(r, 200));
-      
+      await new Promise((r) => setTimeout(r, 150));
+
       setRefreshStep(getStep2Text());
       if (onRefresh) {
-        // Allow up to 65 seconds for live Google Search Grounding + Firestore sync
         const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Live search timed out after 65s')), 65000)
+          setTimeout(() => reject(new Error('Live search timed out after 90s')), 90000)
         );
         await Promise.race([Promise.resolve(onRefresh()), timeoutPromise]);
       } else {
@@ -59,11 +69,11 @@ export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
       }
 
       setRefreshStep(getStep3Text());
-      await new Promise((r) => setTimeout(r, 200));
+      await new Promise((r) => setTimeout(r, 150));
 
       const now = new Date();
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      setLastUpdatedText(`Verified Live at ${timeStr}`);
+      setManualLabel(`Verified Live at ${timeStr}`);
       setJustUpdated(true);
 
       setTimeout(() => {
@@ -74,7 +84,7 @@ export const SectionRefreshButton: React.FC<SectionRefreshButtonProps> = ({
       const now = new Date();
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       setRefreshError(err?.message || 'Live check timed out');
-      setLastUpdatedText(`Fallback Cache (${timeStr})`);
+      setManualLabel(`Fallback Cache (${timeStr})`);
       setTimeout(() => {
         setRefreshError(null);
       }, 6000);

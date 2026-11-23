@@ -1,0 +1,1105 @@
+{
+  "lastUpdated": "2026-10-28",
+  "average": {
+    "labour": 29,
+    "conservative": 22,
+    "reform": 21,
+    "libdem": 11,
+    "green": 10,
+    "snp": 3,
+    "others": 4
+  },
+  "bestPrimeMinister": {
+    "date": "2026-10-26",
+    "pollster": "YouGov Best PM Tracker (Post-Autumn Budget)",
+    "burnham": 45,
+    "badenoch": 24,
+    "farage": 17,
+    "davey": 8,
+    "neitherUnsure": 6
+  },
+  "leaderRatings": [
+    {
+      "partyId": "labour",
+      "leaderName": "Andy Burnham",
+      "role": "Prime Minister & Labour Leader",
+      "approvePct": 47,
+      "disapprovePct": 39,
+      "netRating": 8,
+      "dontKnowPct": 14,
+      "pollster": "YouGov Leader Approval Tracker",
+      "date": "2026-10-26",
+      "trend": "+1"
+    },
+    {
+      "partyId": "conservative",
+      "leaderName": "Kemi Badenoch",
+      "role": "Leader of the Opposition & Conservative Leader",
+      "approvePct": 29,
+      "disapprovePct": 44,
+      "netRating": -15,
+      "dontKnowPct": 27,
+      "pollster": "Ipsos Political Monitor",
+      "date": "2026-10-22",
+      "trend": "+2"
+    },
+    {
+      "partyId": "reform",
+      "leaderName": "Nigel Farage",
+      "role": "Reform UK Leader & MP",
+      "approvePct": 28,
+      "disapprovePct": 54,
+      "netRating": -26,
+      "dontKnowPct": 18,
+      "pollster": "Savanta / Daily Telegraph",
+      "date": "2026-10-25",
+      "trend": "0"
+    },
+    {
+      "partyId": "libdem",
+      "leaderName": "Sir Ed Davey",
+      "role": "Liberal Democrat Leader & MP",
+      "approvePct": 34,
+      "disapprovePct": 31,
+      "netRating": 3,
+      "dontKnowPct": 35,
+      "pollster": "YouGov Leader Tracker",
+      "date": "2026-10-26",
+      "trend": "0"
+    },
+    {
+      "partyId": "green",
+      "leaderName": "Zack Polanski",
+      "role": "Green Party Leader",
+      "approvePct": 27,
+      "disapprovePct": 24,
+      "netRating": 3,
+      "dontKnowPct": 49,
+      "pollster": "More in Common",
+      "date": "2026-10-24",
+      "trend": "+1"
+    },
+    {
+      "partyId": "snp",
+      "leaderName": "John Swinney",
+      "role": "First Minister of Scotland & SNP Leader",
+      "approvePct": 37,
+      "disapprovePct": 41,
+      "netRating": -4,
+      "dontKnowPct": 22,
+      "pollster": "Survation (Scotland Sample)",
+      "date": "2026-10-20",
+      "trend": "+1"
+    },
+    {
+      "partyId": "plaid",
+      "leaderName": "Rhun ap Iorwerth",
+      "role": "Plaid Cymru Leader & MS",
+      "approvePct": 33,
+      "disapprovePct": 27,
+      "netRating": 6,
+      "dontKnowPct": 40,
+      "pollster": "YouGov Wales / ITV Cymru",
+      "date": "2026-10-18",
+      "trend": "0"
+    }
+  ],
+  "timeSeries": [
+    {
+      "date": "2024-07-04",
+      "pollster": "General Election Result",
+      "sampleSize": 28800000,
+      "labour": 33.7,
+      "conservative": 23.7,
+      "reform": 14.3,
+      "libdem": 12.2,
+      "green": 6.7,
+      "snp": 2.5,
+      "others": 6.9,
+      "leadParty": "labour",
+      "leadMargin": 10.0
+    },
+    {
+      "date": "2024-08-20",
+      "pollster": "YouGov",
+      "sampleSize": 2050,
+      "labour": 32.0,
+      "conservative": 24.0,
+      "reform": 16.5,
+      "libdem": 12.0,
+      "green": 7.5,
+      "snp": 3.0,
+      "others": 5.0,
+      "leadParty": "labour",
+      "leadMargin": 8.0
+    },
+    {
+      "date": "2024-10-15",
+      "pollster": "More in Common (Winter Fuel Cuts)",
+      "sampleSize": 2020,
+      "labour": 28.0,
+      "conservative": 25.0,
+      "reform": 19.5,
+      "libdem": 12.5,
+      "green": 7.5,
+      "snp": 3.0,
+      "others": 4.5,
+      "leadParty": "labour",
+      "leadMargin": 3.0
+    },
+    {
+      "date": "2024-11-20",
+      "pollster": "Savanta (Post-Budget)",
+      "sampleSize": 2180,
+      "labour": 26.5,
+      "conservative": 25.0,
+      "reform": 21.0,
+      "libdem": 12.5,
+      "green": 7.5,
+      "snp": 3.0,
+      "others": 4.5,
+      "leadParty": "labour",
+      "leadMargin": 1.5
+    },
+    {
+      "date": "2024-12-18",
+      "pollster": "Opinium",
+      "sampleSize": 2000,
+      "labour": 25.5,
+      "conservative": 24.5,
+      "reform": 23.0,
+      "libdem": 12.5,
+      "green": 7.5,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "labour",
+      "leadMargin": 1.0
+    },
+    {
+      "date": "2025-01-20",
+      "pollster": "Deltapoll (Labour-Reform Dead Heat)",
+      "sampleSize": 1950,
+      "labour": 25.0,
+      "conservative": 23.5,
+      "reform": 25.0,
+      "libdem": 12.5,
+      "green": 7.5,
+      "snp": 3.0,
+      "others": 3.5,
+      "leadParty": "labour",
+      "leadMargin": 0.0
+    },
+    {
+      "date": "2025-02-18",
+      "pollster": "YouGov (Reform Takes Lead)",
+      "sampleSize": 2100,
+      "labour": 24.0,
+      "conservative": 22.0,
+      "reform": 27.0,
+      "libdem": 12.5,
+      "green": 7.5,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 3.0
+    },
+    {
+      "date": "2025-03-25",
+      "pollster": "Redfield & Wilton",
+      "sampleSize": 2000,
+      "labour": 23.5,
+      "conservative": 21.0,
+      "reform": 28.5,
+      "libdem": 12.0,
+      "green": 8.0,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 5.0
+    },
+    {
+      "date": "2025-04-22",
+      "pollster": "Techne UK",
+      "sampleSize": 1900,
+      "labour": 23.0,
+      "conservative": 20.5,
+      "reform": 29.0,
+      "libdem": 12.5,
+      "green": 8.0,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 6.0
+    },
+    {
+      "date": "2025-05-15",
+      "pollster": "Savanta (Local Elections Reform Surge)",
+      "sampleSize": 2240,
+      "labour": 23.0,
+      "conservative": 19.0,
+      "reform": 31.0,
+      "libdem": 12.0,
+      "green": 8.0,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 8.0
+    },
+    {
+      "date": "2025-06-20",
+      "pollster": "More in Common",
+      "sampleSize": 2060,
+      "labour": 22.5,
+      "conservative": 19.5,
+      "reform": 30.5,
+      "libdem": 12.5,
+      "green": 8.0,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 8.0
+    },
+    {
+      "date": "2025-07-28",
+      "pollster": "YouGov (Reform 10pt Lead)",
+      "sampleSize": 2150,
+      "labour": 22.0,
+      "conservative": 18.5,
+      "reform": 32.0,
+      "libdem": 12.0,
+      "green": 8.5,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 10.0
+    },
+    {
+      "date": "2025-08-24",
+      "pollster": "Ipsos Political Monitor",
+      "sampleSize": 1820,
+      "labour": 22.5,
+      "conservative": 18.0,
+      "reform": 31.5,
+      "libdem": 12.5,
+      "green": 8.5,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 9.0
+    },
+    {
+      "date": "2025-09-28",
+      "pollster": "Opinium (Polanski Green Bounce)",
+      "sampleSize": 2050,
+      "labour": 23.0,
+      "conservative": 18.5,
+      "reform": 30.0,
+      "libdem": 12.0,
+      "green": 9.5,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 7.0
+    },
+    {
+      "date": "2025-10-25",
+      "pollster": "Survation (MRP National Model)",
+      "sampleSize": 12000,
+      "labour": 21.5,
+      "conservative": 17.5,
+      "reform": 33.0,
+      "libdem": 12.0,
+      "green": 9.0,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 11.5
+    },
+    {
+      "date": "2025-11-20",
+      "pollster": "YouGov",
+      "sampleSize": 2180,
+      "labour": 22.5,
+      "conservative": 18.5,
+      "reform": 31.0,
+      "libdem": 12.5,
+      "green": 8.5,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 8.5
+    },
+    {
+      "date": "2025-12-16",
+      "pollster": "Savanta",
+      "sampleSize": 2010,
+      "labour": 23.5,
+      "conservative": 19.0,
+      "reform": 30.0,
+      "libdem": 12.5,
+      "green": 8.0,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 6.5
+    },
+    {
+      "date": "2026-01-20",
+      "pollster": "Deltapoll (Jenrick Defection)",
+      "sampleSize": 1980,
+      "labour": 23.0,
+      "conservative": 17.0,
+      "reform": 32.5,
+      "libdem": 12.0,
+      "green": 8.5,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 9.5
+    },
+    {
+      "date": "2026-02-18",
+      "pollster": "More in Common (Braverman Defection)",
+      "sampleSize": 2080,
+      "labour": 23.5,
+      "conservative": 17.5,
+      "reform": 31.5,
+      "libdem": 12.5,
+      "green": 8.0,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 8.0
+    },
+    {
+      "date": "2026-03-22",
+      "pollster": "Techne UK",
+      "sampleSize": 1950,
+      "labour": 24.5,
+      "conservative": 19.0,
+      "reform": 29.5,
+      "libdem": 12.0,
+      "green": 8.0,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "reform",
+      "leadMargin": 5.0
+    },
+    {
+      "date": "2026-04-18",
+      "pollster": "YouGov",
+      "sampleSize": 2120,
+      "labour": 25.0,
+      "conservative": 19.5,
+      "reform": 29.0,
+      "libdem": 12.0,
+      "green": 8.0,
+      "snp": 3.0,
+      "others": 3.5,
+      "leadParty": "reform",
+      "leadMargin": 4.0
+    },
+    {
+      "date": "2026-05-15",
+      "pollster": "Savanta (Burnham Campaign Launch)",
+      "sampleSize": 2260,
+      "labour": 26.5,
+      "conservative": 20.0,
+      "reform": 27.5,
+      "libdem": 12.0,
+      "green": 8.0,
+      "snp": 3.0,
+      "others": 3.0,
+      "leadParty": "reform",
+      "leadMargin": 1.0
+    },
+    {
+      "date": "2026-06-20",
+      "pollster": "More in Common (Labour Surge)",
+      "sampleSize": 2040,
+      "labour": 28.0,
+      "conservative": 19.5,
+      "reform": 26.5,
+      "libdem": 12.0,
+      "green": 8.0,
+      "snp": 3.0,
+      "others": 3.0,
+      "leadParty": "labour",
+      "leadMargin": 1.5
+    },
+    {
+      "date": "2026-07-22",
+      "pollster": "YouGov (Burnham Becomes PM)",
+      "sampleSize": 2150,
+      "labour": 30.0,
+      "conservative": 19.0,
+      "reform": 25.0,
+      "libdem": 12.5,
+      "green": 7.5,
+      "snp": 3.0,
+      "others": 3.0,
+      "leadParty": "labour",
+      "leadMargin": 5.0
+    },
+    {
+      "date": "2026-08-18",
+      "pollster": "Redfield & Wilton",
+      "sampleSize": 2000,
+      "labour": 29.0,
+      "conservative": 20.0,
+      "reform": 24.5,
+      "libdem": 12.5,
+      "green": 8.0,
+      "snp": 3.0,
+      "others": 3.0,
+      "leadParty": "labour",
+      "leadMargin": 4.5
+    },
+    {
+      "date": "2026-09-15",
+      "pollster": "Electoral Reform Society Monthly Benchmark",
+      "sampleSize": 8500,
+      "labour": 27.2,
+      "conservative": 19.7,
+      "reform": 23.4,
+      "libdem": 13.0,
+      "green": 8.7,
+      "snp": 3.0,
+      "others": 5.0,
+      "leadParty": "labour",
+      "leadMargin": 3.8
+    },
+    {
+      "date": "2026-09-28",
+      "pollster": "YouGov / The Times & Sky News",
+      "sampleSize": 2110,
+      "labour": 24.0,
+      "conservative": 19.0,
+      "reform": 25.0,
+      "libdem": 12.0,
+      "green": 11.0,
+      "snp": 3.0,
+      "others": 6.0,
+      "leadParty": "reform",
+      "leadMargin": 1.0
+    },
+    {
+      "date": "2026-09-30",
+      "pollster": "Wikipedia Aggregated Poll of Polls / Britain Elects",
+      "sampleSize": 14200,
+      "labour": 27.0,
+      "conservative": 20.0,
+      "reform": 24.0,
+      "libdem": 13.0,
+      "green": 9.0,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "labour",
+      "leadMargin": 3.0
+    },
+    {
+      "date": "2026-10-14",
+      "pollster": "More in Common (Post-Conference)",
+      "sampleSize": 2085,
+      "labour": 28.0,
+      "conservative": 21.0,
+      "reform": 22.0,
+      "libdem": 12.0,
+      "green": 10.0,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "labour",
+      "leadMargin": 6.0
+    },
+    {
+      "date": "2026-10-22",
+      "pollster": "Ipsos Political Monitor",
+      "sampleSize": 1084,
+      "labour": 32.0,
+      "conservative": 24.0,
+      "reform": 20.0,
+      "libdem": 9.0,
+      "green": 8.0,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "labour",
+      "leadMargin": 8.0
+    },
+    {
+      "date": "2026-10-26",
+      "pollster": "YouGov / The Times (Post-Autumn Budget)",
+      "sampleSize": 2140,
+      "labour": 27.0,
+      "conservative": 22.0,
+      "reform": 20.0,
+      "libdem": 11.0,
+      "green": 10.0,
+      "snp": 3.0,
+      "others": 7.0,
+      "leadParty": "labour",
+      "leadMargin": 5.0
+    },
+    {
+      "date": "2026-10-28",
+      "pollster": "Aggregated Poll of Polls / Britain Elects",
+      "sampleSize": 14600,
+      "labour": 29.0,
+      "conservative": 22.0,
+      "reform": 21.0,
+      "libdem": 11.0,
+      "green": 10.0,
+      "snp": 3.0,
+      "others": 4.0,
+      "leadParty": "labour",
+      "leadMargin": 7.0
+    }
+  ],
+  "policyPopularity": [
+    {
+      "policy": "Guarantee GP appointment within 7 days for all patients",
+      "category": "nhs",
+      "supportPct": 86,
+      "opposePct": 6,
+      "unsurePct": 8,
+      "pollster": "Ipsos Political Monitor",
+      "date": "2026-09",
+      "partiesSupporting": [
+        "libdem",
+        "labour"
+      ]
+    },
+    {
+      "policy": "Re-nationalise passenger train operators as contracts expire",
+      "category": "economy",
+      "supportPct": 79,
+      "opposePct": 10,
+      "unsurePct": 11,
+      "pollster": "YouGov Public Ownership Tracker",
+      "date": "2026-09",
+      "partiesSupporting": [
+        "labour",
+        "green",
+        "snp",
+        "plaid"
+      ]
+    },
+    {
+      "policy": "Nationalise water companies to eliminate sewage dumping",
+      "category": "energy",
+      "supportPct": 78,
+      "opposePct": 11,
+      "unsurePct": 11,
+      "pollster": "YouGov Issue Tracker",
+      "date": "2026-08",
+      "partiesSupporting": [
+        "green",
+        "snp",
+        "plaid"
+      ]
+    },
+    {
+      "policy": "Introduce an annual 1-2% wealth tax on assets over £10 million",
+      "category": "economy",
+      "supportPct": 74,
+      "opposePct": 14,
+      "unsurePct": 12,
+      "pollster": "Survation / Tax Justice UK",
+      "date": "2026-07",
+      "partiesSupporting": [
+        "green",
+        "snp",
+        "plaid",
+        "libdem"
+      ]
+    },
+    {
+      "policy": "Abolish 'no fault' Section 21 evictions for private renters",
+      "category": "housing",
+      "supportPct": 72,
+      "opposePct": 12,
+      "unsurePct": 16,
+      "pollster": "YouGov / Shelter",
+      "date": "2026-06",
+      "partiesSupporting": [
+        "labour",
+        "libdem",
+        "green",
+        "snp",
+        "plaid"
+      ]
+    },
+    {
+      "policy": "Apply standard 20% VAT to private school fees",
+      "category": "education",
+      "supportPct": 68,
+      "opposePct": 22,
+      "unsurePct": 10,
+      "pollster": "YouGov / Sunday Times",
+      "date": "2026-08",
+      "partiesSupporting": [
+        "labour",
+        "green",
+        "snp",
+        "plaid"
+      ]
+    },
+    {
+      "policy": "Phased generational ban on tobacco sales (raising smoking age each year)",
+      "category": "nhs",
+      "supportPct": 67,
+      "opposePct": 21,
+      "unsurePct": 12,
+      "pollster": "YouGov Health Monitor",
+      "date": "2026-07",
+      "partiesSupporting": [
+        "labour",
+        "conservative",
+        "libdem"
+      ]
+    },
+    {
+      "policy": "Introduce a legally binding annual cap on net migration",
+      "category": "immigration",
+      "supportPct": 66,
+      "opposePct": 21,
+      "unsurePct": 13,
+      "pollster": "More in Common",
+      "date": "2026-08",
+      "partiesSupporting": [
+        "conservative",
+        "reform",
+        "restore"
+      ]
+    },
+    {
+      "policy": "Increase UK defence spending to at least 2.5% of GDP",
+      "category": "defence",
+      "supportPct": 64,
+      "opposePct": 18,
+      "unsurePct": 18,
+      "pollster": "YouGov / RUSI Tracker",
+      "date": "2026-08",
+      "partiesSupporting": [
+        "labour",
+        "conservative",
+        "reform",
+        "libdem",
+        "restore"
+      ]
+    },
+    {
+      "policy": "Build 1.5M homes by easing planning on low-quality 'grey belt'",
+      "category": "housing",
+      "supportPct": 61,
+      "opposePct": 24,
+      "unsurePct": 15,
+      "pollster": "Savanta / RTPI",
+      "date": "2026-07",
+      "partiesSupporting": [
+        "labour"
+      ]
+    },
+    {
+      "policy": "Legalise assisted dying for terminally ill adults with mental capacity",
+      "category": "nhs",
+      "supportPct": 69,
+      "opposePct": 16,
+      "unsurePct": 15,
+      "pollster": "Ipsos UK Social Trends",
+      "date": "2026-09",
+      "partiesSupporting": [
+        "free_vote"
+      ]
+    },
+    {
+      "policy": "Scrap the two-child benefit cap to reduce child poverty",
+      "category": "welfare",
+      "supportPct": 42,
+      "opposePct": 46,
+      "unsurePct": 12,
+      "pollster": "YouGov Welfare Tracker",
+      "date": "2026-08",
+      "partiesSupporting": [
+        "snp",
+        "plaid",
+        "green",
+        "libdem"
+      ]
+    },
+    {
+      "policy": "Means-test the Winter Fuel Allowance (restricting to pension credit recipients)",
+      "category": "welfare",
+      "supportPct": 38,
+      "opposePct": 51,
+      "unsurePct": 11,
+      "pollster": "Ipsos / Evening Standard",
+      "date": "2026-09",
+      "partiesSupporting": [
+        "labour"
+      ]
+    },
+    {
+      "policy": "UK rejoining the European Union Single Market and Customs Union",
+      "category": "economy",
+      "supportPct": 54,
+      "opposePct": 33,
+      "unsurePct": 13,
+      "pollster": "YouGov Brexit Tracker",
+      "date": "2026-09",
+      "partiesSupporting": [
+        "libdem",
+        "green",
+        "snp",
+        "plaid"
+      ]
+    },
+    {
+      "policy": "Abolish the 2050 Net Zero greenhouse gas target",
+      "category": "energy",
+      "supportPct": 32,
+      "opposePct": 56,
+      "unsurePct": 12,
+      "pollster": "YouGov Climate Tracker",
+      "date": "2026-08",
+      "partiesSupporting": [
+        "reform",
+        "restore"
+      ]
+    }
+  ],
+  "leaderRatingsByPollster": [
+    {
+      "pollsterId": "poll-of-polls",
+      "pollsterName": "Aggregated Poll of Polls (Britain Elects)",
+      "date": "2026-10-28",
+      "sampleSize": 12500,
+      "methodology": "Weighted aggregate across all major British Polling Council (BPC) members",
+      "ratings": [
+        {
+          "partyId": "labour",
+          "leaderName": "Andy Burnham",
+          "role": "Prime Minister & Labour Leader",
+          "approvePct": 46,
+          "disapprovePct": 38,
+          "netRating": 8,
+          "dontKnowPct": 16,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-10-28",
+          "trend": "+4"
+        },
+        {
+          "partyId": "conservative",
+          "leaderName": "Kemi Badenoch",
+          "role": "Leader of the Opposition & Conservative Leader",
+          "approvePct": 27,
+          "disapprovePct": 46,
+          "netRating": -19,
+          "dontKnowPct": 27,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-10-28",
+          "trend": "+1"
+        },
+        {
+          "partyId": "reform",
+          "leaderName": "Nigel Farage",
+          "role": "Reform UK Leader & MP",
+          "approvePct": 29,
+          "disapprovePct": 54,
+          "netRating": -25,
+          "dontKnowPct": 17,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-10-28",
+          "trend": "+2"
+        },
+        {
+          "partyId": "libdem",
+          "leaderName": "Sir Ed Davey",
+          "role": "Liberal Democrat Leader & MP",
+          "approvePct": 34,
+          "disapprovePct": 31,
+          "netRating": 3,
+          "dontKnowPct": 35,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-10-28",
+          "trend": "+1"
+        },
+        {
+          "partyId": "green",
+          "leaderName": "Zack Polanski",
+          "role": "Green Party Leader",
+          "approvePct": 26,
+          "disapprovePct": 24,
+          "netRating": 2,
+          "dontKnowPct": 50,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-10-28",
+          "trend": "+1"
+        },
+        {
+          "partyId": "snp",
+          "leaderName": "John Swinney",
+          "role": "First Minister of Scotland & SNP Leader",
+          "approvePct": 36,
+          "disapprovePct": 41,
+          "netRating": -5,
+          "dontKnowPct": 23,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-10-28",
+          "trend": "+2"
+        },
+        {
+          "partyId": "plaid",
+          "leaderName": "Rhun ap Iorwerth",
+          "role": "Plaid Cymru Leader & MS",
+          "approvePct": 33,
+          "disapprovePct": 27,
+          "netRating": 6,
+          "dontKnowPct": 40,
+          "pollster": "Aggregated Poll of Polls",
+          "date": "2026-10-28",
+          "trend": "+1"
+        }
+      ]
+    },
+    {
+      "pollsterId": "yougov",
+      "pollsterName": "YouGov Leader Tracker",
+      "date": "2026-10-26",
+      "sampleSize": 2150,
+      "methodology": "Nationally representative online panel of UK adults 18+",
+      "ratings": [
+        {
+          "partyId": "labour",
+          "leaderName": "Andy Burnham",
+          "role": "Prime Minister & Labour Leader",
+          "approvePct": 46,
+          "disapprovePct": 39,
+          "netRating": 7,
+          "dontKnowPct": 15,
+          "pollster": "YouGov",
+          "date": "2026-10-26",
+          "trend": "+4"
+        },
+        {
+          "partyId": "conservative",
+          "leaderName": "Kemi Badenoch",
+          "role": "Leader of the Opposition & Conservative Leader",
+          "approvePct": 27,
+          "disapprovePct": 47,
+          "netRating": -20,
+          "dontKnowPct": 26,
+          "pollster": "YouGov",
+          "date": "2026-10-26",
+          "trend": "-1"
+        },
+        {
+          "partyId": "reform",
+          "leaderName": "Nigel Farage",
+          "role": "Reform UK Leader & MP",
+          "approvePct": 28,
+          "disapprovePct": 56,
+          "netRating": -28,
+          "dontKnowPct": 16,
+          "pollster": "YouGov",
+          "date": "2026-10-26",
+          "trend": "+1"
+        },
+        {
+          "partyId": "libdem",
+          "leaderName": "Sir Ed Davey",
+          "role": "Liberal Democrat Leader & MP",
+          "approvePct": 33,
+          "disapprovePct": 31,
+          "netRating": 2,
+          "dontKnowPct": 36,
+          "pollster": "YouGov",
+          "date": "2026-10-26",
+          "trend": "+1"
+        },
+        {
+          "partyId": "green",
+          "leaderName": "Zack Polanski",
+          "role": "Green Party Leader",
+          "approvePct": 25,
+          "disapprovePct": 25,
+          "netRating": 0,
+          "dontKnowPct": 50,
+          "pollster": "YouGov",
+          "date": "2026-10-26",
+          "trend": "0"
+        }
+      ]
+    },
+    {
+      "pollsterId": "ipsos",
+      "pollsterName": "Ipsos Political Monitor",
+      "date": "2026-10-22",
+      "sampleSize": 1050,
+      "methodology": "Telephone & online quota sample of UK adults 18+",
+      "ratings": [
+        {
+          "partyId": "labour",
+          "leaderName": "Andy Burnham",
+          "role": "Prime Minister & Labour Leader",
+          "approvePct": 48,
+          "disapprovePct": 38,
+          "netRating": 10,
+          "dontKnowPct": 14,
+          "pollster": "Ipsos",
+          "date": "2026-10-22",
+          "trend": "+5"
+        },
+        {
+          "partyId": "conservative",
+          "leaderName": "Kemi Badenoch",
+          "role": "Leader of the Opposition & Conservative Leader",
+          "approvePct": 28,
+          "disapprovePct": 45,
+          "netRating": -17,
+          "dontKnowPct": 27,
+          "pollster": "Ipsos",
+          "date": "2026-10-22",
+          "trend": "+2"
+        },
+        {
+          "partyId": "reform",
+          "leaderName": "Nigel Farage",
+          "role": "Reform UK Leader & MP",
+          "approvePct": 30,
+          "disapprovePct": 54,
+          "netRating": -24,
+          "dontKnowPct": 16,
+          "pollster": "Ipsos",
+          "date": "2026-10-22",
+          "trend": "+3"
+        },
+        {
+          "partyId": "libdem",
+          "leaderName": "Sir Ed Davey",
+          "role": "Liberal Democrat Leader & MP",
+          "approvePct": 35,
+          "disapprovePct": 30,
+          "netRating": 5,
+          "dontKnowPct": 35,
+          "pollster": "Ipsos",
+          "date": "2026-10-22",
+          "trend": "+2"
+        }
+      ]
+    },
+    {
+      "pollsterId": "savanta",
+      "pollsterName": "Savanta / Daily Telegraph Tracker",
+      "date": "2026-10-23",
+      "sampleSize": 2240,
+      "methodology": "Online interview panel weighted to UK demographic profile",
+      "ratings": [
+        {
+          "partyId": "labour",
+          "leaderName": "Andy Burnham",
+          "role": "Prime Minister & Labour Leader",
+          "approvePct": 44,
+          "disapprovePct": 38,
+          "netRating": 6,
+          "dontKnowPct": 18,
+          "pollster": "Savanta",
+          "date": "2026-10-23",
+          "trend": "+3"
+        },
+        {
+          "partyId": "conservative",
+          "leaderName": "Kemi Badenoch",
+          "role": "Leader of the Opposition & Conservative Leader",
+          "approvePct": 26,
+          "disapprovePct": 46,
+          "netRating": -20,
+          "dontKnowPct": 28,
+          "pollster": "Savanta",
+          "date": "2026-10-23",
+          "trend": "0"
+        },
+        {
+          "partyId": "reform",
+          "leaderName": "Nigel Farage",
+          "role": "Reform UK Leader & MP",
+          "approvePct": 29,
+          "disapprovePct": 55,
+          "netRating": -26,
+          "dontKnowPct": 16,
+          "pollster": "Savanta",
+          "date": "2026-10-23",
+          "trend": "+2"
+        },
+        {
+          "partyId": "libdem",
+          "leaderName": "Sir Ed Davey",
+          "role": "Liberal Democrat Leader & MP",
+          "approvePct": 32,
+          "disapprovePct": 29,
+          "netRating": 3,
+          "dontKnowPct": 39,
+          "pollster": "Savanta",
+          "date": "2026-10-23",
+          "trend": "0"
+        }
+      ]
+    },
+    {
+      "pollsterId": "redfield",
+      "pollsterName": "Redfield & Wilton Strategies",
+      "date": "2026-10-21",
+      "sampleSize": 2000,
+      "methodology": "Online panel of UK eligible voters",
+      "ratings": [
+        {
+          "partyId": "labour",
+          "leaderName": "Andy Burnham",
+          "role": "Prime Minister & Labour Leader",
+          "approvePct": 47,
+          "disapprovePct": 38,
+          "netRating": 9,
+          "dontKnowPct": 15,
+          "pollster": "Redfield & Wilton",
+          "date": "2026-10-21",
+          "trend": "+5"
+        },
+        {
+          "partyId": "conservative",
+          "leaderName": "Kemi Badenoch",
+          "role": "Leader of the Opposition & Conservative Leader",
+          "approvePct": 27,
+          "disapprovePct": 48,
+          "netRating": -21,
+          "dontKnowPct": 25,
+          "pollster": "Redfield & Wilton",
+          "date": "2026-10-21",
+          "trend": "-1"
+        },
+        {
+          "partyId": "reform",
+          "leaderName": "Nigel Farage",
+          "role": "Reform UK Leader & MP",
+          "approvePct": 31,
+          "disapprovePct": 53,
+          "netRating": -22,
+          "dontKnowPct": 16,
+          "pollster": "Redfield & Wilton",
+          "date": "2026-10-21",
+          "trend": "+3"
+        },
+        {
+          "partyId": "libdem",
+          "leaderName": "Sir Ed Davey",
+          "role": "Liberal Democrat Leader & MP",
+          "approvePct": 30,
+          "disapprovePct": 29,
+          "netRating": 1,
+          "dontKnowPct": 41,
+          "pollster": "Redfield & Wilton",
+          "date": "2026-10-21",
+          "trend": "-1"
+        }
+      ]
+    }
+  ]
+}

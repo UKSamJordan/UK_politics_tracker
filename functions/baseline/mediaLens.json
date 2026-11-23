@@ -1,0 +1,580 @@
+[
+  {
+    "title": "Government Defends Landmark UK-EU Cooperation Pact Ahead of Commons Address",
+    "publishedAt": "23 Nov 2026 • Live Press Analysis",
+    "totalSourcesCount": 38,
+    "outletReports": [
+      {
+        "outletName": "The Guardian",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Burnham not ‘backtracking’ on creating closer links with EU, officials say",
+        "url": "https://www.theguardian.com/politics",
+        "framingAnalysis": "The Guardian reports on government assurances that Downing Street is committed to deepening structural ties with Europe despite right-wing pushback. Its coverage emphasizes economic modernization and frames conservative opposition as ideologically motivated resistance to pragmatic trade solutions."
+      },
+      {
+        "outletName": "BBC News",
+        "lean": "center",
+        "factuality": "Very High",
+        "headline": "Burnham to tell MPs 'landmark' EU deal could make next decade 'much better'",
+        "url": "https://www.bbc.co.uk/news/politics",
+        "framingAnalysis": "BBC News centers on the Prime Minister's anticipated parliamentary address, contrasting the administration's economic projections directly against Conservative pledges to scrap the pact. The piece maintains institutional balance by presenting government claims of lower trade barriers alongside shadow cabinet warnings over consumer prices."
+      },
+      {
+        "outletName": "The Telegraph",
+        "lean": "right",
+        "factuality": "High",
+        "headline": "Tories warn Burnham’s EU agreement leaves Britain bound by Brussels rules",
+        "url": "https://www.telegraph.co.uk/politics/",
+        "framingAnalysis": "The Telegraph highlights opposition claims that the SPS arrangement deprives MPs of the power to reject incoming European regulations. The reporting reflects its editorial defense of constitutional independence and skepticism toward supranational alignment."
+      },
+      {
+        "outletName": "Daily Mirror",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "KEVIN MAGUIRE: 'Andy Burnham's EU diplomacy is slaying the Brexit zombies like Nigel Farage'",
+        "url": "https://www.mirror.co.uk/news/politics/",
+        "framingAnalysis": "The Daily Mirror adopts an assertive polemical tone, describing right-wing critics of the summit as out-of-touch figures defending obsolete dogmas. Its editorial stance champions the administration's intervention as an unambiguous victory for working households facing import-driven food costs."
+      }
+    ],
+    "blindspot": "none",
+    "createdAt": 1795430373635,
+    "neutralGist": "According to statements from Downing Street reported by the BBC, Prime Minister Andy Burnham will address MPs on Monday to defend a newly negotiated UK-EU sanitary and phytosanitary (SPS) and trade agreement agreed in Brussels. Official government briefings indicate the pact aims to lower border frictions for agri-food exporters while remaining outside the single market and customs union. Opposition leaders and Conservative frontbenchers, speaking on weekend broadcast rounds, countered that the deal effectively subjects British domestic standards to European dynamic alignment without parliamentary veto powers.",
+    "coverageSplit": {
+      "left": 35,
+      "center": 35,
+      "right": 30
+    },
+    "id": "nov23-live-1",
+    "blindspotNote": "Covered extensively across the entire UK political spectrum, though with stark divergence between economic normalization and sovereignty critiques.",
+    "category": "westminster",
+    "wingPerspectives": {
+      "center": {
+        "whyThisFraming": "Public service broadcasting remits require balancing governmental economic claims with legal analyses of parliamentary oversight and opposition pushback.",
+        "summary": "According to BBC News and Sky News correspondents, the prime minister frames the agreement as a necessary choice between a broken status quo and practical economic delivery, while balancing sharp domestic political opposition over parliamentary sovereignty.",
+        "toneKeywords": [
+          "Diplomatic balance",
+          "Regulatory scrutiny",
+          "Parliamentary test"
+        ]
+      },
+      "right": {
+        "whyThisFraming": "Right-leaning editorial culture prioritizes national sovereignty, legislative autonomy, and preventing any gradual slide back toward Brussels institutions.",
+        "toneKeywords": [
+          "Sovereignty surrender",
+          "Rule-taker trap",
+          "Brexit betrayal"
+        ],
+        "summary": "According to reports in The Daily Telegraph and Daily Express, critics view the deal as a capitulation that locks the UK into European regulations by stealth, surrendering regulatory sovereignty won in the 2016 referendum."
+      },
+      "left": {
+        "summary": "According to left-leaning commentators in The Guardian and Daily Mirror, the agreement represents pragmatic, overdue statecraft that repairs post-2016 trade friction, lowering food inflation and putting public economic interest ahead of dogmatic euroscepticism.",
+        "toneKeywords": [
+          "Pragmatic reset",
+          "Economic relief",
+          "Brexit realism"
+        ],
+        "whyThisFraming": "Editorial priority focuses on reducing cost-of-living burdens, restoring cross-border regulatory stability, and dismantling hardline Brexit barriers."
+      }
+    }
+  },
+  {
+    "outletReports": [
+      {
+        "outletName": "Daily Express",
+        "lean": "right",
+        "factuality": "Mixed",
+        "headline": "The 6 former Prime Ministers who’ve warned Andy Burnham not to rejoin the EU",
+        "url": "https://www.express.co.uk/news/politics",
+        "framingAnalysis": "The Daily Express frames the statements from May, Cameron, Sunak, and others as a patriotic alarm bell against government plans to unpick national sovereignty. The paper leans heavily on urgent rhetorical markers to mobilize its core Eurosceptic readership."
+      },
+      {
+        "outletName": "The Times",
+        "lean": "center-right",
+        "factuality": "High",
+        "headline": "Theresa May and Rishi Sunak urge Burnham to respect Brexit boundaries",
+        "url": "https://www.thetimes.com/politics",
+        "framingAnalysis": "The Times provides a measured assessment of the political weight behind the former leaders' interventions, examining the potential legislative friction Downing Street faces in the Lords. Its analysis reflects an institutional concern for constitutional precedent and party-political stability."
+      },
+      {
+        "outletName": "BBC News",
+        "lean": "center",
+        "factuality": "Very High",
+        "headline": "'Move on!' Former PMs pile in with advice for Andy Burnham, but will he listen?",
+        "url": "https://www.bbc.co.uk/news/politics",
+        "framingAnalysis": "The BBC focuses on the contrasting advice offered by May, Cameron, and Tony Blair, weighing how each historical premiership informs the present standoff. Its reporting seeks to evaluate whether Downing Street's policy signals represent a genuine strategic pivot or ambiguous political rhetoric."
+      }
+    ],
+    "blindspot": "left_blindspot",
+    "category": "westminster",
+    "id": "nov23-live-2",
+    "publishedAt": "23 Nov 2026 • Live Press Analysis",
+    "createdAt": 1795430373634,
+    "wingPerspectives": {
+      "left": {
+        "toneKeywords": [
+          "Discredited records",
+          "Old battles",
+          "Public fatigue"
+        ],
+        "whyThisFraming": "Editorial priorities seek to delegitimize austerity-era Conservative records and validate democratic mandates to reform failed market models.",
+        "summary": "According to left-leaning commentators in the Mirror and Guardian, the interventions of former Conservative prime ministers are an irrelevant rearguard action by leaders who presided over economic stagnation and damaged public infrastructure."
+      },
+      "right": {
+        "toneKeywords": [
+          "Dire warning",
+          "Dismantling Thatcherism",
+          "National heritage"
+        ],
+        "whyThisFraming": "Right-wing publications defend the 1980s market reforms and the 2016 referendum as foundational milestones of modern British liberty and self-determination.",
+        "summary": "According to extensive coverage in the Daily Express and conservative commentary, six former premiers represent an unprecedented cross-party consensus warning that Downing Street is actively dismantling both Brexit and the Thatcherite free-market settlement."
+      },
+      "center": {
+        "summary": "According to BBC News analysis, the interventions highlight the enduring political sensitivity of the Brexit settlement, demonstrating how any shift toward European regulatory norms instantly mobilizes cross-generational Conservative figures.",
+        "toneKeywords": [
+          "Constitutional friction",
+          "Elder statesmen",
+          "Policy boundary"
+        ],
+        "whyThisFraming": "Neutral analysis focuses on party-political dynamics, examining how former premiers retain significant influence among backbenchers and traditional voting blocs."
+      }
+    },
+    "coverageSplit": {
+      "left": 15,
+      "center": 25,
+      "right": 60
+    },
+    "neutralGist": "As reported by the Daily Express and confirmed in BBC broadcast interviews, six former prime ministers—including Theresa May, David Cameron, and Rishi Sunak—have publicly cautioned Downing Street against unpicking core elements of the post-Brexit settlement and deregulatory economic models. In a broadcast appearance on Sunday with Laura Kuenssberg, May stated she was 'aghast' at proposals that risk reopening constitutional divisions, urging the government to 'accept Brexit and move on'. Downing Street maintained that its planned multi-year policy framework addresses structural deficiencies in privatized national infrastructure without returning the country to pre-referendum arrangements.",
+    "blindspotNote": "Right-leaning outlets heavily emphasized warnings from former prime ministers and framed policy shifts as an assault on Margaret Thatcher's legacy, while left-leaning media largely ignored or dismissed the interventions.",
+    "title": "Former Prime Ministers Issue Coordinated Warnings Over Reversing Brexit and 1980s Reforms",
+    "totalSourcesCount": 26
+  },
+  {
+    "createdAt": 1795430373633,
+    "outletReports": [
+      {
+        "outletName": "Daily Mirror",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Robert Jenrick squirms during live TV challenge over Reform 'sexism' claims",
+        "url": "https://www.mirror.co.uk/news/politics/",
+        "framingAnalysis": "The Daily Mirror highlights presenter Susanna Reid's aggressive questioning to depict Jenrick as morally compromised by his refusal to condemn Farage's dismissal of a female colleague. The story serves the outlet's broader critique of what it characterizes as toxic right-wing political culture."
+      },
+      {
+        "outletName": "The Guardian",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Reform UK under fire as Farage dismisses female MP's comments as alcohol-fuelled",
+        "url": "https://www.theguardian.com/politics",
+        "framingAnalysis": "The Guardian treats the incident as symptomatic of structural governance problems and chauvinism inside Reform UK, quoting feminist campaign groups and opposition MPs. Its framing underscores concerns regarding candidate welfare and political accountability."
+      },
+      {
+        "outletName": "Sky News",
+        "lean": "center",
+        "factuality": "High",
+        "headline": "Badenoch and Farage: The battle for business",
+        "url": "https://news.sky.com/politics",
+        "framingAnalysis": "Sky News contextualizes the exchange within the wider tactical rivalry between Conservative figures and Reform UK leadership. The broadcaster analyzes how unforced personal controversies disrupt attempts to project seriousness on economic and legislative policy."
+      }
+    ],
+    "blindspot": "right_blindspot",
+    "coverageSplit": {
+      "center": 25,
+      "right": 15,
+      "left": 60
+    },
+    "wingPerspectives": {
+      "center": {
+        "summary": "According to Sky News, the clash exposes the delicate maneuvering facing mainstream Conservatives who seek to attract Reform voters while maintaining professional standards of political discourse.",
+        "toneKeywords": [
+          "Political tightrope",
+          "Internal friction",
+          "Electoral fallout"
+        ],
+        "whyThisFraming": "Broadcasters concentrate on the electoral dilemma facing the center-right and the strategic tension between parliamentary discipline and grassroots populist rhetoric."
+      },
+      "left": {
+        "toneKeywords": [
+          "Systemic sexism",
+          "Casual misogyny",
+          "Broadcast squirming"
+        ],
+        "summary": "According to The Guardian and Daily Mirror, Farage's comment demonstrates deep-seated misogyny and an authoritarian party structure within Reform UK, while exposing Conservative reluctance to challenge populist allies.",
+        "whyThisFraming": "Editorial strategy highlights equality standards, gender accountability, and attempts to expose moral inconsistencies within right-wing political alliances."
+      },
+      "right": {
+        "summary": "According to limited commentary in right-leaning outlets, the controversy is an overblown media distraction manufactured by liberal interviewers to evade substantive debates on migration and enterprise.",
+        "whyThisFraming": "Conservative and populist outlets tend to treat interpersonal party disputes as secondary compared to frontline economic and national security issues.",
+        "toneKeywords": [
+          "Manufactured row",
+          "Media distraction",
+          "Tempest in teacup"
+        ]
+      }
+    },
+    "blindspotNote": "Left-leaning outlets covered the fallout and live broadcast grillings extensively to highlight party culture on the right, while right-leaning outlets largely ignored the controversy.",
+    "title": "Farage Dismissal of Reform MP Remarks Sparks Broadcast Clash and Sexism Row",
+    "category": "westminster",
+    "totalSourcesCount": 21,
+    "neutralGist": "According to reporting by the Daily Mirror and television footage from ITV's Good Morning Britain, Conservative frontbencher Robert Jenrick faced intense questioning regarding remarks made by Reform UK leader Nigel Farage about Reform MP Sarah Pochin. Farage had publicly brushed aside Pochin's critical comments regarding party organization by asserting she was 'downwind of a few drinks'. Cross-party critics condemned the statement as patronizing and discriminatory, while Farage's representatives maintained the comment was a colloquial quip taken out of context.",
+    "id": "nov23-live-3",
+    "publishedAt": "23 Nov 2026 • Live Press Analysis"
+  },
+  {
+    "coverageSplit": {
+      "right": 25,
+      "left": 40,
+      "center": 35
+    },
+    "id": "nov23-live-4",
+    "totalSourcesCount": 32,
+    "publishedAt": "23 Nov 2026 • Live Press Analysis",
+    "blindspotNote": "Right-leaning outlets heavily reported this story to highlight immigration pressures, whereas left-leaning press provided minimal coverage.",
+    "category": "economy",
+    "outletReports": [
+      {
+        "outletName": "The Guardian",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Capita boss exits and shares crash after civil service pensions failures",
+        "url": "https://www.theguardian.com/business",
+        "framingAnalysis": "The Guardian highlights the human cost on thousands of retired public sector workers left without payments, framing the crisis as a direct indictment of government outsourcing models. Its reporting emphasizes union calls to strip private companies of essential state administration contracts."
+      },
+      {
+        "outletName": "Financial Times",
+        "lean": "center",
+        "factuality": "Very High",
+        "headline": "Capita shares drop 70% on cash call after civil service pension failures",
+        "url": "https://www.ft.com/companies/uk",
+        "framingAnalysis": "The Financial Times provides detailed corporate finance analysis, focusing on the emergency £190 million rights issue, debt reduction necessities, and the replacement of Hernandez by CFO Pablo Andres. The coverage remains detached, zeroing in on contractual liabilities and institutional investor reactions."
+      },
+      {
+        "outletName": "The Telegraph",
+        "lean": "right",
+        "factuality": "High",
+        "headline": "Capita chief quits as botched civil service pension contract triggers £190m cash call",
+        "url": "https://www.telegraph.co.uk/business/",
+        "framingAnalysis": "The Telegraph focuses on the catastrophic destruction of shareholder value and questions the competence of both Capita's board and Cabinet Office oversight. Its analysis reflects a market-oriented critique of corporate operational negligence combined with state procurement inefficiency."
+      }
+    ],
+    "blindspot": "none",
+    "neutralGist": "As reported by the Financial Times and The Guardian, Capita chief executive Adolfo Hernandez has resigned with immediate effect after the outsourcing giant disclosed severe ongoing failures in administering the 1.7-million-member Civil Service Pension Scheme. The company announced a 2027 profit warning of £85 million to £95 million alongside plans for an emergency £190 million equity raise, causing Capita's share price to drop by as much as 70% in London trading. In an official statement, Hernandez admitted the firm had 'not delivered the service that members of the Civil Service Pension Scheme deserve' following severe payment backlogs.",
+    "wingPerspectives": {
+      "center": {
+        "whyThisFraming": "Financial analysis focuses on governance, corporate balance sheet health, procurement risk management, and shareholder dilution.",
+        "summary": "According to the Financial Times and City AM, Capita's crisis is driven by operational execution failures on complex public contracts, unsustainable leverage, and severe regulatory scrutiny from the National Audit Office.",
+        "toneKeywords": [
+          "Profit warning",
+          "Operational collapse",
+          "Contractual risk"
+        ]
+      },
+      "right": {
+        "whyThisFraming": "Right-leaning editorial outlook blames civil service procurement bureaucracy for poorly designed specifications alongside demanding accountability from underperforming executives.",
+        "toneKeywords": [
+          "Whitehall incompetence",
+          "Executive failure",
+          "Procurement shambles"
+        ],
+        "summary": "According to business commentary in The Daily Telegraph, the fiasco underscores chronic mismanagement within state procurement frameworks and poor operational oversight by Whitehall officials alongside contractor failure."
+      },
+      "left": {
+        "toneKeywords": [
+          "Outsourcing failure",
+          "Corporate greed",
+          "Pension chaos"
+        ],
+        "summary": "According to The Guardian and left-leaning union advocates, Capita's collapse proves the inherent bankruptcy of outsourcing essential public services to private, profit-driven contractors.",
+        "whyThisFraming": "Editorial ideology strongly advocates for insourcing, public sector integrity, and protecting public workers' retirement security from private corporate failure."
+      }
+    },
+    "title": "Capita Chief Executive Steps Down as Shares Crash Over Civil Service Pension Failure",
+    "createdAt": 1795430373632
+  },
+  {
+    "id": "media-cluster-1",
+    "title": "Reform UK Unveils Hythe Border Blueprint: 5-Year Asylum Freeze, 1M+ Deportations & 6-Nation Visa Sanctions",
+    "category": "immigration",
+    "publishedAt": "Oct 2026 • Border & Migration Coverage",
+    "totalSourcesCount": 24,
+    "coverageSplit": {
+      "left": 25,
+      "center": 30,
+      "right": 45
+    },
+    "blindspot": "none",
+    "neutralGist": "Nigel Farage and Shadow Home Secretary Zia Yusuf launched Reform UK's updated border security blueprint in Hythe, Kent, proposing an immediate 5-year freeze on asylum claims, voiding ~90,000 pending applications, establishing a UK Deportation Command to remove over 1 million people, abolishing Indefinite Leave to Remain (ILR), and imposing visa bans and London asset freezes on Pakistan, Afghanistan, Syria, Eritrea, Sudan, and Somalia if they refuse returnees.",
+    "wingPerspectives": {
+      "left": {
+        "summary": "Left-leaning outlets condemn the proposals as legally unworkable, economically damaging to the NHS and social care workforce, and a breach of international human rights treaties.",
+        "whyThisFraming": "Driven by editorial commitments to the 1951 Refugee Convention, ECHR protections, and concern over how retrospecting ILR abolition would destabilise settled migrant families and key public service sectors.",
+        "toneKeywords": [
+          "Human Rights Breach",
+          "Economically Damaging",
+          "Retrospective Threat"
+        ]
+      },
+      "center": {
+        "summary": "Public broadcasters and financial press focus on the logistical, diplomatic, and fiscal mechanics—scrutinising whether 5 daily deportation flights and bilateral return deals with nations like Afghanistan and Eritrea are operationally deliverable.",
+        "whyThisFraming": "Public service impartiality standards and institutional analysis prioritise testing party blueprints against Home Office capacity, diplomatic precedent, and independent Migration Observatory costings.",
+        "toneKeywords": [
+          "Logistical Scrutiny",
+          "Diplomatic Feasibility",
+          "Electoral Escalation"
+        ]
+      },
+      "right": {
+        "summary": "Right-leaning newspapers frame the Hythe blueprint as a decisive, overdue restoration of British border sovereignty that exposes both Labour's tribunal delays and previous Conservative failures.",
+        "whyThisFraming": "Reflects strong editorial focus on voter frustration over Channel crossings, the £8m/day taxpayer cost of asylum hotels, ECHR judicial blocks on deportations, and demographic pressures on housing and welfare.",
+        "toneKeywords": [
+          "Border Sovereignty",
+          "Taxpayer Relief",
+          "Ending Judicial Blocks"
+        ]
+      }
+    },
+    "outletReports": [
+      {
+        "outletName": "The Telegraph",
+        "lean": "right",
+        "factuality": "High",
+        "headline": "Farage and Yusuf throw down gauntlet with plan to deport 1m illegal migrants and sanction recalcitrant states",
+        "url": "https://www.telegraph.co.uk/politics/",
+        "framingAnalysis": "The Telegraph frames the package as a serious constitutional and diplomatic blueprint that outflanks both main parties on ECHR sovereignty and foreign visa leverage. It emphasises the £7bn annual taxpayer saving from ending asylum accommodation and non-citizen Universal Credit."
+      },
+      {
+        "outletName": "The Guardian",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Reform UK's mass deportation and ILR abolition plan branded 'cruel and unworkable' by legal and care leaders",
+        "url": "https://www.theguardian.com/politics",
+        "framingAnalysis": "The Guardian leads with warnings from human rights barristers, NHS trusts, and refugee charities. Its editorial lens focuses on the human cost of revoking settled status (ILR) and the diplomatic impossibility of returning asylum seekers to Taliban-controlled Afghanistan."
+      },
+      {
+        "outletName": "BBC News",
+        "lean": "center",
+        "factuality": "Very High",
+        "headline": "What is in Reform UK's new deportation and visa sanctions plan—and how does it compare with Labour and the Tories?",
+        "url": "https://www.bbc.co.uk/news/politics",
+        "framingAnalysis": "BBC News adopts an explanatory, comparative approach, contrasting Reform's 5-year asylum freeze and ILR abolition against Labour's 10-year Earned Settlement white paper and Kemi Badenoch's 150,000/yr Removals Force."
+      },
+      {
+        "outletName": "Daily Mail",
+        "lean": "right",
+        "factuality": "Mixed",
+        "headline": "No more Mr Nice Guy! Reform vows visa bans and elite London property freezes on six countries that refuse deportees",
+        "url": "https://www.dailymail.co.uk/news/uk-politics/index.html",
+        "framingAnalysis": "The Daily Mail highlights the diplomatic tough-talk—specifically targeting foreign elites' London assets and suspending foreign aid—because its readership strongly favours punitive leverage against states that refuse returns."
+      }
+    ]
+  },
+  {
+    "id": "media-cluster-2",
+    "title": "Reform UK Councils & 'UK DOGE' Unit Clash with Unions Over Local Authority Spending & DEI Audits",
+    "category": "economy",
+    "publishedAt": "Oct 2026 • Local Government & Fiscal Scrutiny",
+    "totalSourcesCount": 14,
+    "coverageSplit": {
+      "left": 12,
+      "center": 23,
+      "right": 65
+    },
+    "blindspot": "left_blindspot",
+    "blindspotNote": "Left Blindspot: 65% of coverage is driven by Right-leaning outlets highlighting wasteful council procurement uncovered by Reform's UK DOGE unit, while Left-leaning outlets largely omit the procurement findings.",
+    "neutralGist": "Zia Yusuf's Reform UK 'Department of Government Efficiency' (UK DOGE) audit teams entered several Reform-controlled county councils to review procurement contracts, net-zero consultancy spend, and Diversity, Equity, and Inclusion (DEI) roles, sparking formal dispute threats from UNISON and statutory warnings from local government chief executives.",
+    "wingPerspectives": {
+      "left": {
+        "summary": "Minimal coverage; where reported, Left-leaning outlets portray the UK DOGE unit as an imported American culture-war stunt that intimidates civil servants and ignores statutory social care obligations.",
+        "whyThisFraming": "Left-leaning editors view local council financial distress as the result of 14 years of central government grant cuts and rising adult social care demand rather than internal DEI or green spending.",
+        "toneKeywords": [
+          "Culture War Stunt",
+          "Union Resistance",
+          "Statutory Care Pressures"
+        ]
+      },
+      "center": {
+        "summary": "Centrist outlets examine the legal boundaries of political auditors accessing council data and note that statutory adult and children's social care consumes up to 75% of county council budgets.",
+        "whyThisFraming": "Focuses on governance rules, data protection law, and the arithmetic reality of local government balance sheets.",
+        "toneKeywords": [
+          "Governance Rules",
+          "Social Care Arithmetic",
+          "Audit Powers"
+        ]
+      },
+      "right": {
+        "summary": "Right-leaning press heavily spotlights specific examples of consultancy fees, climate officers, and DEI training contracts flagged by the DOGE team as proof that Council Tax rises can be avoided.",
+        "whyThisFraming": "Aligns with Conservative and Reform editorial priorities of exposing public sector bureaucracy, curbing Council Tax bills, and dismantling progressive institutional mandates.",
+        "toneKeywords": [
+          "Taxpayer Waste Exposed",
+          "War on Woke",
+          "Council Tax Relief"
+        ]
+      }
+    },
+    "outletReports": [
+      {
+        "outletName": "The Telegraph",
+        "lean": "right",
+        "factuality": "High",
+        "headline": "Inside Reform's UK DOGE unit: How Zia Yusuf's auditors are tearing up net-zero and DEI contracts in county halls",
+        "url": "https://www.telegraph.co.uk/politics/",
+        "framingAnalysis": "The Telegraph gives prominent investigative space to the specific consultancy contracts flagged by Reform auditors, framing the initiative as a blueprint for a future Whitehall efficiency drive."
+      },
+      {
+        "outletName": "GB News",
+        "lean": "right",
+        "factuality": "Mixed",
+        "headline": "Council bosses try to block Reform's DOGE squad from exposing millions in taxpayer waste",
+        "url": "https://www.gbnews.com/politics",
+        "framingAnalysis": "GB News frames friction between council chief executives and Reform councillors as ”the blob” obstructing democratic accountability."
+      },
+      {
+        "outletName": "The Guardian",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Unions warn of strike action as Reform UK 'DOGE' auditors target council equality and climate staff",
+        "url": "https://www.theguardian.com/politics",
+        "framingAnalysis": "The Guardian focuses on public sector workforce morale, union legal challenges, and testimony from local government experts explaining that cutting DEI roles saves less than 0.1% of social care budgets."
+      }
+    ]
+  },
+  {
+    "id": "media-cluster-3",
+    "title": "DWP Figures Reveal Surge in Working Families Affected by Two-Child Benefit Cap Amid Welfare Reform Row",
+    "category": "welfare",
+    "publishedAt": "Oct 2026 • Welfare & Child Poverty",
+    "totalSourcesCount": 16,
+    "coverageSplit": {
+      "left": 68,
+      "center": 22,
+      "right": 10
+    },
+    "blindspot": "right_blindspot",
+    "blindspotNote": "Right Blindspot: 68% of coverage comes from Left-leaning outlets investigating child poverty statistics and Labour backbench rebellions, with minimal coverage in Right-leaning newspapers.",
+    "neutralGist": "New Department for Work and Pensions (DWP) and Child Poverty Action Group statistics show over 1.6 million children live in households affected by the two-child Universal Credit limit—59% of which have at least one working parent—intensifying pressure on Ministers as Labour, Reform UK, and the Liberal Democrats clash over welfare eligibility.",
+    "wingPerspectives": {
+      "left": {
+        "summary": "Left-leaning media leads extensively on the human impact of the two-child cap, amplifying calls from Labour backbenchers, the Greens, and anti-poverty charities for its immediate, unconditional abolition.",
+        "whyThisFraming": "Rooted in social justice priorities, viewing benefit caps as a direct driver of child poverty and foodbank dependency that disproportionately harms low-income working families.",
+        "toneKeywords": [
+          "Child Poverty Crisis",
+          "Austerity Legacy",
+          "Moral Imperative"
+        ]
+      },
+      "center": {
+        "summary": "Broadcasters and economic outlets weigh the £3.4bn annual Treasury cost of abolishing the cap against Reform UK's competing proposal to lift the cap solely for working British couples funded by barring non-citizens from Universal Credit.",
+        "whyThisFraming": "Centres on fiscal trade-offs within Treasury rules and the tactical battle for working-class voters.",
+        "toneKeywords": [
+          "£3.4bn Fiscal Trade-off",
+          "Political Triangulation",
+          "DWP Data"
+        ]
+      },
+      "right": {
+        "summary": "Right-leaning outlets give scant coverage to the poverty charity report, instead emphasizing the £100bn+ working-age sickness and disability benefit bill and arguing that welfare must require work and citizenship.",
+        "whyThisFraming": "Prioritises fiscal restraint and the principle that families on benefits should face the same financial choices as taxpayers not receiving state support.",
+        "toneKeywords": [
+          "Welfare Bill Surge",
+          "Taxpayer Fairness",
+          "Work Incentives"
+        ]
+      }
+    },
+    "outletReports": [
+      {
+        "outletName": "The Guardian",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Record 1.6m children hit by two-child benefit cap as charities warn Ministers against delay",
+        "url": "https://www.theguardian.com/politics",
+        "framingAnalysis": "The Guardian places the statistics on its front page, pairing DWP data with interviews from struggling working parents and Labour MPs demanding immediate abolition."
+      },
+      {
+        "outletName": "Daily Mirror",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Six in ten families hit by cruel two-child benefit limit ARE IN WORK, damning figures reveal",
+        "url": "https://www.mirror.co.uk/news/politics/",
+        "framingAnalysis": "The Mirror emphasises that the majority of affected households are in employment, directly challenging the narrative that the cap only affects workless households."
+      },
+      {
+        "outletName": "The Times",
+        "lean": "center-right",
+        "factuality": "High",
+        "headline": "Treasury resists £3.4bn two-child cap repeal as Reform pitches 'working British families' exemption",
+        "url": "https://www.thetimes.com/uk/politics",
+        "framingAnalysis": "The Times analyses the Westminster political squeeze: how Reform UK's selective exemption for working British couples pressures both Labour and the Conservatives."
+      }
+    ]
+  },
+  {
+    "id": "media-cluster-4",
+    "title": "Reform UK's £250,000 'Britannia Card' Non-Dom Dividend Sparks Treasury & IFS Costing Clash",
+    "category": "economy",
+    "publishedAt": "Oct 2026 • Tax & Fiscal Policy",
+    "totalSourcesCount": 21,
+    "coverageSplit": {
+      "left": 35,
+      "center": 30,
+      "right": 35
+    },
+    "blindspot": "none",
+    "neutralGist": "Nigel Farage and Zia Yusuf unveiled the 'Britannia Card'—offering wealthy international residents a 10-year UK tax residence permit for a flat £250,000 fee, with 100% of proceeds distributed as a tax-free annual 'Britannia Dividend' to the lowest-paid 10% of full-time British workers. The Institute for Fiscal Studies (IFS) and Labour warned it could cost the Exchequer billions in foregone income and capital gains taxes.",
+    "wingPerspectives": {
+      "left": {
+        "summary": "Left-leaning press characterizes the Britannia Card as a 'golden ticket for oligarchs and tax exiles' that would hollow out progressive taxation while offering only a modest payout to low-paid workers.",
+        "whyThisFraming": "Prioritises tax equity and public service funding, arguing that ultra-wealthy residents should pay standard UK marginal tax rates rather than a flat fee.",
+        "toneKeywords": [
+          "Oligarch Tax Break",
+          "Two-Tier Tax System",
+          "Revenue Hole"
+        ]
+      },
+      "center": {
+        "summary": "Financial and broadcast outlets focus on the IFS and Treasury modelling: whether attracting 10,000+ wealthy newcomers at £250k each offsets the tax loss from existing wealthy UK residents switching to the card.",
+        "whyThisFraming": "Driven by empirical fiscal modelling, deadweight loss calculations, and international comparisons with Italy's flat-tax regime.",
+        "toneKeywords": [
+          "IFS Deadweight Warning",
+          "Italian Flat-Tax Model",
+          "Yield Uncertainty"
+        ]
+      },
+      "right": {
+        "summary": "Right-leaning newspapers praise the policy as an imaginative supply-side masterstroke that reverses the millionaire exodus caused by Labour's non-dom abolition while directly rewarding low-paid British workers.",
+        "whyThisFraming": "Grounded in Laffer-curve economics and concern that wealth flight from London is shrinking Britain's tax base and hospitality investment.",
+        "toneKeywords": [
+          "Reversing Wealth Flight",
+          "Worker Dividend",
+          "Supply-Side Boost"
+        ]
+      }
+    },
+    "outletReports": [
+      {
+        "outletName": "Financial Times",
+        "lean": "center",
+        "factuality": "Very High",
+        "headline": "IFS warns Reform UK's £250k 'Britannia Card' for wealthy foreigners risks multibillion-pound tax shortfall",
+        "url": "https://www.ft.com/uk-politics-policy",
+        "framingAnalysis": "The FT dissects the fiscal arithmetic, quoting tax lawyers and the IFS on the risk that wealthy individuals who would have paid millions in UK tax anyway will opt into the £250k cap."
+      },
+      {
+        "outletName": "The Telegraph",
+        "lean": "right",
+        "factuality": "High",
+        "headline": "Farage's Britannia Card is a bold bid to lure back the wealth creators fleeing Britain",
+        "url": "https://www.telegraph.co.uk/politics/",
+        "framingAnalysis": "The Telegraph views the proposal favourably through the lens of international competitiveness, contrasting it with high tax burdens in London and linking the worker dividend to populist appeal."
+      },
+      {
+        "outletName": "The Guardian",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Labour brands Farage's £250k 'Britannia Card' a sweetheart deal for billionaires at expense of NHS",
+        "url": "https://www.theguardian.com/politics",
+        "framingAnalysis": "The Guardian highlights the contrast between a flat £250k fee for multi-millionaires and the tax burden on ordinary professionals, framing the dividend as a populist fig leaf."
+      }
+    ]
+  }
+]

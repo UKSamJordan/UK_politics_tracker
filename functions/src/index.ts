@@ -6,6 +6,11 @@ import {
   autonomousPoliticalAgent,
   runAutonomousAudit,
   runMediaLensAnalysis,
+  runPollsAudit,
+  runCabinetsAudit,
+  runFactChecksAudit,
+  runPolicyDecisionsAudit,
+  runFullAllSectionsSync,
 } from "./autonomousAgent";
 import { ALLOWED_ORIGINS, enforceRateLimit, enforceSharedRateLimit } from "./security";
 
@@ -377,9 +382,9 @@ export const askGemini = onCall(
  * Never accepts arbitrary client-supplied policy documents.
  */
 export const auditAndSyncPolicies = onCall(
-  { secrets: [geminiApiKey], cors: ALLOWED_ORIGINS, timeoutSeconds: 180, maxInstances: 2 },
+  { secrets: [geminiApiKey], cors: ALLOWED_ORIGINS, timeoutSeconds: 180, memory: "512MiB", maxInstances: 3 },
   async (request) => {
-    await enforceSharedRateLimit(db, request, "audit", 3, 10 * 60 * 1000);
+    await enforceSharedRateLimit(db, request, "audit", 6, 10 * 60 * 1000);
     try {
       const rawCategory = request.data?.category;
       const safeCategory =
@@ -399,7 +404,6 @@ export const auditAndSyncPolicies = onCall(
 
 /**
  * Locked-down legacy endpoint: direct client pledge writes are strictly forbidden.
- * Pledge updates are verified and persisted exclusively server-side inside askGemini.
  */
 export const updatePledgeInFirestore = onCall(
   { cors: ALLOWED_ORIGINS, timeoutSeconds: 15, maxInstances: 1 },
@@ -413,12 +417,11 @@ export const updatePledgeInFirestore = onCall(
 
 /**
  * On-Demand Media Lens Multi-Spectrum Newspaper Analyzer
- * Never accepts arbitrary client-supplied story documents.
  */
 export const analyzeMediaLens = onCall(
-  { secrets: [geminiApiKey], cors: ALLOWED_ORIGINS, timeoutSeconds: 120, maxInstances: 2 },
+  { secrets: [geminiApiKey], cors: ALLOWED_ORIGINS, timeoutSeconds: 150, memory: "512MiB", maxInstances: 3 },
   async (request) => {
-    await enforceSharedRateLimit(db, request, "media", 5, 10 * 60 * 1000);
+    await enforceSharedRateLimit(db, request, "media", 8, 10 * 60 * 1000);
     try {
       const rawTopic = request.data?.customTopic;
       const safeTopic =
@@ -431,6 +434,46 @@ export const analyzeMediaLens = onCall(
       console.error("analyzeMediaLens Error:", error);
       if (error instanceof HttpsError) throw error;
       throw new HttpsError("internal", "Failed to analyze UK media framing.");
+    }
+  }
+);
+
+/**
+ * Unified Live Sync Endpoint for Polls, Cabinets, Fact-Checks, Policy Decisions & Full-Site Sync
+ */
+export const syncSection = onCall(
+  { secrets: [geminiApiKey], cors: ALLOWED_ORIGINS, timeoutSeconds: 300, memory: "512MiB", maxInstances: 3 },
+  async (request) => {
+    const rawSection = String(request.data?.section || "").trim().toLowerCase();
+    const rawCategory =
+      typeof request.data?.category === "string" ? request.data.category.trim().slice(0, 60) : undefined;
+
+    await enforceSharedRateLimit(db, request, `sync_${rawSection || "misc"}`, 6, 10 * 60 * 1000);
+
+    try {
+      const key = geminiApiKey.value();
+      switch (rawSection) {
+        case "polls":
+          return await runPollsAudit(key);
+        case "cabinets":
+          return await runCabinetsAudit(key);
+        case "factchecks":
+          return await runFactChecksAudit(key);
+        case "decisions":
+          return await runPolicyDecisionsAudit(key, rawCategory);
+        case "media":
+          return await runMediaLensAnalysis(key);
+        case "policies":
+          return await runAutonomousAudit(key, rawCategory || "all", { includeFactChecks: false });
+        case "all":
+          return await runFullAllSectionsSync(key);
+        default:
+          throw new HttpsError("invalid-argument", "Unsupported sync section.");
+      }
+    } catch (error: any) {
+      console.error(`syncSection(${rawSection}) Error:`, error);
+      if (error instanceof HttpsError) throw error;
+      throw new HttpsError("internal", `Live sync failed for ${rawSection}.`);
     }
   }
 );

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { collection, doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Party, CabinetMember, PolicyTopic, FactCheckItem, MediaClusterStory } from '../types/politics';
+import { PolicyNewsItem } from '../services/policyTrackerQuery';
 
 import partiesData from '../data/parties.json';
 import cabinetsData from '../data/cabinets.json';
@@ -10,6 +11,12 @@ import pollsData from '../data/polls.json';
 import factchecksData from '../data/factchecks.json';
 import quizQuestionsData from '../data/quizQuestions.json';
 import mediaLensData from '../data/mediaLens.json';
+import policyDecisionsData from '../data/policyDecisions.json';
+
+export interface SystemSyncStatus {
+  lastRunAt?: string;
+  lastSyncLabel: string;
+}
 
 interface FirebaseDataContextType {
   parties: Party[];
@@ -19,12 +26,16 @@ interface FirebaseDataContextType {
   factChecks: FactCheckItem[];
   quizQuestions: any[];
   mediaLens: MediaClusterStory[];
+  policyDecisions: PolicyNewsItem[];
+  systemStatus: SystemSyncStatus;
   loading: boolean;
+  setParties: (p: Party[]) => void;
   setCabinets: (c: CabinetMember[]) => void;
   setPolicies: (p: PolicyTopic[]) => void;
   setPolls: (p: any) => void;
   setFactChecks: (f: FactCheckItem[]) => void;
   setMediaLens: (m: MediaClusterStory[]) => void;
+  setPolicyDecisions: (d: PolicyNewsItem[]) => void;
 }
 
 const FirebaseDataContext = createContext<FirebaseDataContextType | null>(null);
@@ -40,6 +51,22 @@ const VALID_PARTY_IDS = new Set([
   'plaid',
   'restore',
 ]);
+
+function formatUkSyncLabel(iso?: string): string {
+  if (!iso) return 'Live Cloud Auto-Sync Active';
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return 'Live Cloud Auto-Sync Active';
+  const datePart = d.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+  const timePart = d.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+  return `${datePart}, ${timePart} • Live Synced`;
+}
 
 function extractClaimKeywords(claim: string): string[] {
   const stopWords = new Set([
@@ -101,9 +128,33 @@ export const FirebaseDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [factChecks, setFactChecks] = useState<FactCheckItem[]>(factchecksData as FactCheckItem[]);
   const [quizQuestions, setQuizQuestions] = useState<any[]>(quizQuestionsData);
   const [mediaLens, setMediaLens] = useState<MediaClusterStory[]>(mediaLensData as MediaClusterStory[]);
+  const [policyDecisions, setPolicyDecisions] = useState<PolicyNewsItem[]>(
+    policyDecisionsData as PolicyNewsItem[]
+  );
+  const [systemStatus, setSystemStatus] = useState<SystemSyncStatus>({
+    lastSyncLabel: 'Live Cloud Auto-Sync Active',
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Purge stale legacy localStorage caches that previously masked live Firestore snapshots
+    try {
+      localStorage.removeItem('uk_politics_media_lens_v1');
+      localStorage.removeItem('uk_politics_media_lens_v2');
+    } catch {
+      // ignore storage errors
+    }
+
+    const unsubStatus = onSnapshot(doc(db, 'system_status', 'autonomous_agent'), (snap) => {
+      if (snap.exists()) {
+        const d = snap.data() || {};
+        setSystemStatus({
+          lastRunAt: d.lastRunAt,
+          lastSyncLabel: formatUkSyncLabel(d.lastRunAt),
+        });
+      }
+    });
+
     const unsubCabinets = onSnapshot(collection(db, 'cabinets'), (snap) => {
       if (!snap.empty) {
         const liveMap = new Map<string, CabinetMember & { updatedAt?: string }>();
@@ -162,7 +213,6 @@ export const FirebaseDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
           }
           liveMap.delete(baseTopic.id);
         }
-        // Append custom or newly created topics from Firestore only if created recently
         for (const extraTopic of liveMap.values()) {
           if (extraTopic.category !== 'custom') {
             merged.unshift(extraTopic);
@@ -186,20 +236,25 @@ export const FirebaseDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
           livePolls?.lastUpdated &&
           String(livePolls.lastUpdated) >= String(pollsData.lastUpdated)
         ) {
-          setPolls(livePolls);
+          setPolls({
+            ...pollsData,
+            ...livePolls,
+            policyPopularity: livePolls.policyPopularity || pollsData.policyPopularity,
+            leaderRatingsByPollster:
+              livePolls.leaderRatingsByPollster || (pollsData as any).leaderRatingsByPollster,
+          });
         }
       }
     });
 
     const unsubFactChecks = onSnapshot(collection(db, 'factchecks'), (snap) => {
       if (!snap.empty) {
-        const baseById = new Map((factchecksData as FactCheckItem[]).map((fc) => [fc.id, fc]));
         const liveDocs = snap.docs
           .map((d) => d.data() as FactCheckItem)
-          .filter((fc) => fc?.id && !baseById.has(fc.id));
+          .filter((fc) => fc?.id && fc?.claim);
         const combined = deduplicateFactChecks([
-          ...(factchecksData as FactCheckItem[]),
           ...liveDocs,
+          ...(factchecksData as FactCheckItem[]),
         ]);
         setFactChecks(combined);
       }
@@ -213,22 +268,14 @@ export const FirebaseDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     const unsubMediaLens = onSnapshot(collection(db, 'media_lens'), (snap) => {
       if (!snap.empty) {
-        const baselineList = mediaLensData as MediaClusterStory[];
-        const baselineById = new Map(baselineList.map((m) => [m.id, m]));
         const liveItems = snap.docs
-          .filter((d) => !d.id.startsWith('custom-') && !baselineById.has(d.id))
+          .filter((d) => !d.id.startsWith('custom-') && !d.id.startsWith('media-cluster-'))
           .map((d) => d.data() as MediaClusterStory & { createdAt?: number })
           .filter((item) => item?.id && !String(item.id).startsWith('custom-') && item?.title)
           .sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0));
 
         const seenTitles = new Set<string>();
         const merged: MediaClusterStory[] = [];
-
-        // Keep flagship baseline lead cluster first if it's the October 2026 Budget special, followed by live press clusters, then remaining baseline clusters
-        if (baselineList.length > 0 && baselineList[0].id === 'media-cluster-budget-oct26') {
-          merged.push(baselineList[0]);
-          seenTitles.add(baselineList[0].title.toLowerCase());
-        }
 
         for (const item of liveItems) {
           const tLower = item.title.toLowerCase();
@@ -238,20 +285,56 @@ export const FirebaseDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
           }
         }
 
-        for (const baseItem of baselineList) {
-          const tLower = baseItem.title.toLowerCase();
+        // Only append static fallback items if fewer than 4 live stories are in Firestore
+        if (merged.length < 4) {
+          for (const baseItem of mediaLensData as MediaClusterStory[]) {
+            const tLower = baseItem.title.toLowerCase();
+            if (!seenTitles.has(tLower)) {
+              merged.push(baseItem);
+              seenTitles.add(tLower);
+            }
+          }
+        }
+
+        if (merged.length > 0) {
+          setMediaLens(merged);
+        }
+      }
+    });
+
+    const unsubDecisions = onSnapshot(collection(db, 'policy_decisions'), (snap) => {
+      if (!snap.empty) {
+        const liveItems = snap.docs
+          .map((d) => d.data() as PolicyNewsItem & { createdAt?: number })
+          .filter((item) => item?.id && item?.title)
+          .sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0));
+
+        const seenTitles = new Set<string>();
+        const merged: PolicyNewsItem[] = [];
+
+        for (const item of liveItems) {
+          const tLower = item.title.toLowerCase();
           if (!seenTitles.has(tLower)) {
-            merged.push(baseItem);
+            merged.push(item);
             seenTitles.add(tLower);
           }
         }
 
-        setMediaLens(merged);
+        for (const baseDec of policyDecisionsData as PolicyNewsItem[]) {
+          const tLower = baseDec.title.toLowerCase();
+          if (!seenTitles.has(tLower)) {
+            merged.push(baseDec);
+            seenTitles.add(tLower);
+          }
+        }
+
+        setPolicyDecisions(merged);
       }
     });
 
     setLoading(false);
     return () => {
+      unsubStatus();
       unsubCabinets();
       unsubParties();
       unsubPolicies();
@@ -259,11 +342,32 @@ export const FirebaseDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
       unsubFactChecks();
       unsubQuiz();
       unsubMediaLens();
+      unsubDecisions();
     };
   }, []);
 
   return (
-    <FirebaseDataContext.Provider value={{ parties, cabinets, policies, polls, factChecks, quizQuestions, mediaLens, loading, setCabinets, setPolicies, setPolls, setFactChecks, setMediaLens }}>
+    <FirebaseDataContext.Provider
+      value={{
+        parties,
+        cabinets,
+        policies,
+        polls,
+        factChecks,
+        quizQuestions,
+        mediaLens,
+        policyDecisions,
+        systemStatus,
+        loading,
+        setParties,
+        setCabinets,
+        setPolicies,
+        setPolls,
+        setFactChecks,
+        setMediaLens,
+        setPolicyDecisions,
+      }}
+    >
       {children}
     </FirebaseDataContext.Provider>
   );
@@ -271,7 +375,6 @@ export const FirebaseDataProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
 export const useFirebaseData = () => {
   const ctx = useContext(FirebaseDataContext);
-  if (!ctx) throw new Error("useFirebaseData must be used within FirebaseDataProvider");
+  if (!ctx) throw new Error('useFirebaseData must be used within FirebaseDataProvider');
   return ctx;
 };
-

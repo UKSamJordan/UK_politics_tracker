@@ -200,36 +200,56 @@ export function detectSeatChanges(
 }
 
 /**
- * Execute a live server-side action against Google Gemini 3.8 Flash via Cloud Function with strict timeout
+ * Helper to call syncSection Cloud Function with a safe timeout
  */
-async function queryGemini(payload: Record<string, any>, timeoutMs: number = 20000): Promise<any> {
-  const askGemini = httpsCallable(functions, 'askGemini');
+async function callSyncSection(
+  section: 'polls' | 'cabinets' | 'factchecks' | 'decisions' | 'media' | 'policies' | 'all',
+  extra: Record<string, any> = {},
+  timeoutMs: number = 70000
+): Promise<any> {
+  const syncFn = httpsCallable(functions, 'syncSection');
   const timeoutPromise = new Promise<never>((_, reject) =>
-    setTimeout(() => reject(new Error('Gemini Cloud Function timeout')), timeoutMs)
+    setTimeout(() => reject(new Error(`Sync (${section}) timed out`)), timeoutMs)
   );
-
-  const callPromise = askGemini(payload);
-
-  const result = (await Promise.race([callPromise, timeoutPromise])) as any;
-  const data = result.data as { text: string };
-
-  const cleanText = data.text
-    .replace(/^\s*```(json)?/m, '')
-    .replace(/```\s*$/, '');
-  const jsonMatch = cleanText.match(/[\[\{][\s\S]*[\]\}]/);
-  return JSON.parse((jsonMatch ? jsonMatch[0] : cleanText).trim());
+  const res = (await Promise.race([
+    syncFn({ section, ...extra }),
+    timeoutPromise,
+  ])) as any;
+  return res?.data;
 }
 
 /**
- * Live Update: Cabinet Roster with Change Detection
+ * Live Update: Cabinet Roster & MP Seats with Live Parliamentary Search + Firestore Sync
  */
 export async function refreshCabinetRoster(currentMembers: CabinetMember[]): Promise<{
   data: CabinetMember[];
+  updatedParties?: Party[];
   source: string;
   updatedCount: number;
   changeReport: CabinetChangeReport;
 }> {
-  // First fetch the verified CDN baseline
+  try {
+    const payload = await callSyncSection('cabinets', {}, 70000);
+    if (payload && Array.isArray(payload.updatedCabinets) && payload.updatedCabinets.length > 0) {
+      localStorage.setItem(STORAGE_KEYS.CABINETS, JSON.stringify(payload.updatedCabinets));
+      const report = detectCabinetChanges(currentMembers, payload.updatedCabinets);
+      if (Array.isArray(payload.appliedChanges) && payload.appliedChanges.length > 0 && !report.hasChanges) {
+        report.changes = payload.appliedChanges;
+        report.hasChanges = true;
+        report.summary = `Identified ${payload.appliedChanges.length} live parliamentary frontbench update(s).`;
+      }
+      return {
+        data: payload.updatedCabinets,
+        updatedParties: Array.isArray(payload.updatedParties) ? payload.updatedParties : undefined,
+        source: 'Live Parliamentary Register + Google Search & Firestore Sync',
+        updatedCount: payload.updatedCabinets.length,
+        changeReport: report,
+      };
+    }
+  } catch (err) {
+    console.warn('Live syncSection(cabinets) failed, falling back to CDN:', err);
+  }
+
   const cdnData = await fetchLiveCdnData<CabinetMember[]>('cabinets.json', 6000);
   localStorage.setItem(STORAGE_KEYS.CABINETS, JSON.stringify(cdnData));
   const report = detectCabinetChanges(currentMembers, cdnData);
@@ -243,12 +263,25 @@ export async function refreshCabinetRoster(currentMembers: CabinetMember[]): Pro
 }
 
 /**
- * Live Update: Polling & Approval Ratings
+ * Live Update: Polling, Leader Approval & Best PM via Live BPC Search + Firestore Sync
  */
 export async function refreshPollData(): Promise<{
   data: any;
   source: string;
 }> {
+  try {
+    const payload = await callSyncSection('polls', {}, 70000);
+    if (payload && payload.polls) {
+      localStorage.setItem(STORAGE_KEYS.POLLS, JSON.stringify(payload.polls));
+      return {
+        data: payload.polls,
+        source: 'Live BPC Polling Audit (YouGov • Ipsos • More in Common • Savanta) & Firestore Sync',
+      };
+    }
+  } catch (err) {
+    console.warn('Live syncSection(polls) failed, falling back to CDN:', err);
+  }
+
   const cdnData = await fetchLiveCdnData<any>('polls.json', 6000);
   localStorage.setItem(STORAGE_KEYS.POLLS, JSON.stringify(cdnData));
   return {
@@ -321,14 +354,6 @@ export function detectPolicyChanges(
 
 /**
  * Live Update: Policy Matrix with Live Google-Search Grounding & Firestore Sync
- * ----------------------------------------------------------------------------
- * 1. Fetches the latest verified baseline from /data/policies.json
- * 2. Invokes the `auditAndSyncPolicies` Cloud Function which:
- *    - Synchronizes baseline records into Firestore (`policies` collection)
- *    - Scrapes live UK political RSS feeds (BBC, Guardian, Sky News)
- *    - Queries Gemini 3.8 Flash with live Google Search Grounding (`googleSearch`)
- *      to detect and persist any brand-new party policy announcements
- * 3. Computes a full algorithmic diff between the user's previous view and the newly synced state.
  */
 export async function refreshPolicyMatrix(
   currentPolicies: PolicyTopic[] = [],
@@ -349,11 +374,10 @@ export async function refreshPolicyMatrix(
     console.warn('CDN fetch failed in refreshPolicyMatrix, continuing with current baseline:', err);
   }
 
-  // Call the live Google-Search-grounded Cloud Function audit & Firestore sync
   try {
     const auditFn = httpsCallable(functions, 'auditAndSyncPolicies');
     const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error('Live policy audit timed out')), 60000)
+      setTimeout(() => reject(new Error('Live policy audit timed out')), 75000)
     );
 
     const result = (await Promise.race([
@@ -365,7 +389,6 @@ export async function refreshPolicyMatrix(
 
     const payload = result?.data;
     if (payload && Array.isArray(payload.updatedPolicies) && payload.updatedPolicies.length > 0) {
-      // Preserve canonical ordering from cdnBaseline
       const orderMap = new Map(cdnBaseline.map((t, idx) => [t.id, idx]));
       const orderedPolicies = [...payload.updatedPolicies].sort(
         (a: PolicyTopic, b: PolicyTopic) => (orderMap.get(a.id) ?? 99) - (orderMap.get(b.id) ?? 99)
@@ -374,7 +397,6 @@ export async function refreshPolicyMatrix(
       localStorage.setItem(STORAGE_KEYS.POLICIES, JSON.stringify(orderedPolicies));
       const changeReport = detectPolicyChanges(currentPolicies, orderedPolicies);
 
-      // Merge any server-reported AI discoveries if not already in changeReport
       const serverChanges = payload.appliedPolicyChanges || payload.changes || [];
       if (Array.isArray(serverChanges) && serverChanges.length > 0) {
         const existingKeys = new Set(changeReport.changes.map((c) => `${c.partyId}-${c.newHeadline}`));
@@ -407,7 +429,6 @@ export async function refreshPolicyMatrix(
     console.warn('Live Cloud Function auditAndSyncPolicies failed or timed out, applying CDN baseline:', err);
   }
 
-  // Fallback to freshly fetched CDN baseline if Cloud Function timed out
   if (Array.isArray(cdnBaseline) && cdnBaseline.length > 0) {
     localStorage.setItem(STORAGE_KEYS.POLICIES, JSON.stringify(cdnBaseline));
     const changeReport = detectPolicyChanges(currentPolicies, cdnBaseline);
@@ -422,26 +443,23 @@ export async function refreshPolicyMatrix(
 }
 
 /**
- * Live Update: Fact Checks
+ * Live Update: Fact Checks with Server-Side Firestore Persistence
  */
 export async function refreshFactChecks(): Promise<{
   data: FactCheckItem[];
   source: string;
 }> {
   try {
-    const liveData = await queryGemini({ action: 'factchecks' }, 20000);
-    if (Array.isArray(liveData) && liveData.length > 0) {
-      const sorted = [...liveData].sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-      );
-      localStorage.setItem(STORAGE_KEYS.FACTCHECKS, JSON.stringify(sorted));
+    const payload = await callSyncSection('factchecks', {}, 70000);
+    if (payload && Array.isArray(payload.factChecks) && payload.factChecks.length > 0) {
+      localStorage.setItem(STORAGE_KEYS.FACTCHECKS, JSON.stringify(payload.factChecks));
       return {
-        data: sorted,
-        source: 'Gemini 3.8 Flash + Google Search (Live Fact-Checking Grounding)',
+        data: payload.factChecks,
+        source: 'Live Fact-Check Audit (Full Fact • BBC Verify • IFS • OBR) & Firestore Sync',
       };
     }
   } catch (err) {
-    console.warn('Gemini fact-check refresh failed, falling back to CDN:', err);
+    console.warn('syncSection(factchecks) failed, falling back to CDN:', err);
   }
 
   const cdnData = await fetchLiveCdnData<FactCheckItem[]>('factchecks.json', 6000);
@@ -452,6 +470,46 @@ export async function refreshFactChecks(): Promise<{
   return {
     data: sorted,
     source: 'Live CDN Data Bank (/data/factchecks.json)',
+  };
+}
+
+/**
+ * Live Update: Policy Decisions Timeline (`policy_decisions`)
+ */
+export async function refreshPolicyDecisions(category?: string): Promise<{
+  decisions: any[];
+  source: string;
+}> {
+  const payload = await callSyncSection(
+    'decisions',
+    { category: category && category !== 'all' ? category : undefined },
+    70000
+  );
+  return {
+    decisions: Array.isArray(payload?.decisions) ? payload.decisions : [],
+    source: 'Live Westminster Policy Decisions Sync',
+  };
+}
+
+/**
+ * Unified Full-Site Sync across all 6 Firestore collections in parallel (~40-50s total)
+ */
+export async function refreshAllSiteSections(): Promise<any> {
+  const analyzeMediaFn = httpsCallable(functions, 'analyzeMediaLens');
+  const auditPoliciesFn = httpsCallable(functions, 'auditAndSyncPolicies');
+
+  const results = await Promise.allSettled([
+    analyzeMediaFn({}),
+    auditPoliciesFn({}),
+    callSyncSection('polls', {}, 85000),
+    callSyncSection('cabinets', {}, 85000),
+    callSyncSection('factchecks', {}, 85000),
+    callSyncSection('decisions', {}, 85000),
+  ]);
+
+  return {
+    completed: results.filter((r) => r.status === 'fulfilled').length,
+    total: results.length,
   };
 }
 

@@ -1,9 +1,10 @@
-import { safeUrl } from '../utils/safeUrl';
 import React, { useState } from 'react';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '../firebase';
-import { MediaClusterStory } from '../types/politics';
+import { MediaClusterStory, MediaOutletReport } from '../types/politics';
 import defaultMediaLensData from '../data/mediaLens.json';
+import { useFirebaseData } from '../providers/FirebaseDataProvider';
+import { OutletLogo, getOutletBrand, resolveOutletArticleUrl } from './OutletLogo';
 import {
   Newspaper,
   EyeOff,
@@ -16,7 +17,6 @@ import {
   AlertTriangle,
   Layers,
   Info,
-  ArrowRight,
   ChevronDown,
   ChevronUp,
   ChevronLeft,
@@ -28,23 +28,14 @@ interface MediaLensProps {
   onUpdateStories?: (stories: MediaClusterStory[]) => void;
 }
 
-const MEDIA_LENS_STORAGE_KEY = 'uk_politics_media_lens_v2';
-
 export const MediaLens: React.FC<MediaLensProps> = ({
   stories: propStories,
   onUpdateStories,
 }) => {
-  const [localStories, setLocalStories] = useState<MediaClusterStory[]>(() => {
-    try {
-      localStorage.removeItem('uk_politics_media_lens_v1');
-      const saved = localStorage.getItem(MEDIA_LENS_STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-      }
-    } catch {}
-    return defaultMediaLensData as MediaClusterStory[];
-  });
+  const { systemStatus } = useFirebaseData();
+  const [localStories, setLocalStories] = useState<MediaClusterStory[]>(
+    defaultMediaLensData as MediaClusterStory[]
+  );
 
   const activeStories =
     propStories && propStories.length > 0 ? propStories : localStories;
@@ -81,9 +72,6 @@ export const MediaLens: React.FC<MediaLensProps> = ({
   const updateAllStories = (merged: MediaClusterStory[]) => {
     setLocalStories(merged);
     if (onUpdateStories) onUpdateStories(merged);
-    try {
-      localStorage.setItem(MEDIA_LENS_STORAGE_KEY, JSON.stringify(merged));
-    } catch {}
   };
 
   const handleScanLivePress = async () => {
@@ -94,7 +82,7 @@ export const MediaLens: React.FC<MediaLensProps> = ({
     try {
       const analyzeFn = httpsCallable(functions, 'analyzeMediaLens');
       const timeoutPromise = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('Live media scan timed out')), 55000)
+        setTimeout(() => reject(new Error('Live media scan timed out')), 75000)
       );
 
       const res = (await Promise.race([analyzeFn({}), timeoutPromise])) as any;
@@ -112,7 +100,7 @@ export const MediaLens: React.FC<MediaLensProps> = ({
         ];
         updateAllStories(merged);
         setStatusBanner(
-          `Scanned 9 Left, Centre & Right UK news feeds and updated ${freshStories.length} live story clusters.`
+          `Scanned 12 Left, Centre & Right UK news feeds + live Google Search and updated ${freshStories.length} story clusters.`
         );
       } else {
         setStatusBanner(
@@ -122,7 +110,7 @@ export const MediaLens: React.FC<MediaLensProps> = ({
     } catch (err: any) {
       console.warn('Live media scan error:', err);
       setStatusBanner(
-        'Showing verified UK newspaper framing clusters (live scan busy or timed out).'
+        'Showing latest synced UK newspaper clusters (live scan busy or rate-limited — try again shortly).'
       );
     } finally {
       setIsScanningLive(false);
@@ -275,7 +263,7 @@ export const MediaLens: React.FC<MediaLensProps> = ({
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row lg:flex-col items-stretch sm:items-center lg:items-end gap-3 shrink-0">
+          <div className="flex flex-col sm:flex-row lg:flex-col items-stretch sm:items-center lg:items-end gap-2.5 shrink-0">
             <button
               onClick={handleScanLivePress}
               disabled={isScanningLive}
@@ -286,10 +274,14 @@ export const MediaLens: React.FC<MediaLensProps> = ({
               />
               <span>
                 {isScanningLive
-                  ? 'Scanning 9 UK Newspaper Feeds...'
-                  : 'Scan Live UK Press (RSS + Search)'}
+                  ? 'Scanning 12 UK Press Feeds...'
+                  : 'Scan Live UK Press (12 Feeds + Search)'}
               </span>
             </button>
+            <div className="flex items-center space-x-2 text-[11px] text-emerald-300 bg-emerald-950/60 border border-emerald-700/50 px-3 py-1 rounded-lg font-semibold">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse inline-block" />
+              <span>Auto-Updates Every 6h • {systemStatus.lastSyncLabel}</span>
+            </div>
             <div className="flex items-center space-x-3 text-[11px] text-slate-300 bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
               <span className="flex items-center space-x-1">
                 <span className="w-2 h-2 rounded-full bg-rose-500 inline-block" />
@@ -575,6 +567,29 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                   </p>
                 </div>
 
+                {/* Clickable Source Outlet Logos Strip (Always Visible — Click Any Logo to Read Story) */}
+                {story.outletReports && story.outletReports.length > 0 && (
+                  <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mr-0.5">
+                      Sources (Click to Read):
+                    </span>
+                    {story.outletReports.map((rep, idx) => (
+                      <a
+                        key={idx}
+                        href={resolveOutletArticleUrl(rep.url, rep.outletName, rep.headline)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title={`Read ${rep.outletName}: "${rep.headline}"`}
+                        className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-indigo-400 text-xs font-bold text-white transition-all shadow-2xs group"
+                      >
+                        <OutletLogo outletName={rep.outletName} size="xs" />
+                        <span className="group-hover:text-indigo-200">{getOutletBrand(rep.outletName).shortLabel}</span>
+                        <ExternalLink className="w-3 h-3 text-slate-400 group-hover:text-indigo-300" />
+                      </a>
+                    ))}
+                  </div>
+                )}
+
                 {/* Progressive Disclosure Toggle Button to Expand/Collapse Spin Comparison */}
                 <div className="pt-1">
                   <button
@@ -599,7 +614,18 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                 </div>
               </div>
 
-              {isExpanded && (
+              {isExpanded && (() => {
+                const leftSources: MediaOutletReport[] = story.outletReports.filter(
+                  (r) => r.lean === 'left' || r.lean === 'center-left'
+                );
+                const centerSources: MediaOutletReport[] = story.outletReports.filter(
+                  (r) => r.lean === 'center'
+                );
+                const rightSources: MediaOutletReport[] = story.outletReports.filter(
+                  (r) => r.lean === 'right' || r.lean === 'center-right'
+                );
+
+                return (
                 <>
                   {/* Part 1: Left vs Centre vs Right Editorial Framing Columns */}
                   <div className="p-4 sm:p-7 bg-slate-950/60 border-b border-slate-800 space-y-3">
@@ -651,14 +677,19 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                         className="w-[86%] sm:w-[88%] lg:w-auto flex-none snap-start lg:snap-align-none rounded-2xl bg-slate-900 border-2 border-rose-500 overflow-hidden flex flex-col justify-between shadow-lg"
                       >
                         <div>
-                          <div className="bg-rose-600 text-white px-4 py-3 flex items-center justify-between">
-                            <div>
+                          <div className="bg-rose-600 text-white px-4 py-3 flex items-center justify-between gap-2">
+                            <div className="space-y-1">
                               <div className="font-black text-sm">🌹 Left-Leaning Press</div>
-                              <div className="text-[11px] font-semibold text-rose-100">
-                                Guardian • Mirror • New Statesman
+                              <div className="flex flex-wrap items-center gap-1">
+                                {['The Guardian', 'Daily Mirror', 'The Independent', 'New Statesman'].map((o) => (
+                                  <span key={o} className="inline-flex items-center space-x-1 bg-black/25 px-1.5 py-0.5 rounded-md text-[10px] font-bold">
+                                    <OutletLogo outletName={o} size="xs" />
+                                    <span>{getOutletBrand(o).shortLabel}</span>
+                                  </span>
+                                ))}
                               </div>
                             </div>
-                            <span className="px-2 py-0.5 rounded-full bg-black/25 text-[10px] font-extrabold">
+                            <span className="px-2 py-0.5 rounded-full bg-black/25 text-[10px] font-extrabold shrink-0">
                               1 of 3
                             </span>
                           </div>
@@ -683,6 +714,40 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                                 </span>
                               ))}
                             </div>
+
+                            {/* Clickable Cited Left Sources */}
+                            {leftSources.length > 0 && (
+                              <div className="pt-1 space-y-1.5">
+                                <span className="text-[10px] font-extrabold uppercase tracking-wider text-rose-300 block">
+                                  📰 Cited Left Sources — Click to Read Story:
+                                </span>
+                                {leftSources.map((src, i) => (
+                                  <a
+                                    key={i}
+                                    href={resolveOutletArticleUrl(src.url, src.outletName, src.headline)}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-start space-x-2.5 p-2.5 rounded-xl bg-slate-800/90 hover:bg-rose-950/50 border border-slate-700 hover:border-rose-400 transition-all group"
+                                  >
+                                    <OutletLogo outletName={src.outletName} size="sm" className="mt-0.5" />
+                                    <div className="min-w-0 flex-1">
+                                      <div className="flex items-center justify-between gap-1">
+                                        <span className="text-[11px] font-extrabold text-rose-200">
+                                          {src.outletName}
+                                        </span>
+                                        <span className="text-[10px] font-bold text-rose-300 inline-flex items-center space-x-0.5 shrink-0">
+                                          <span>Read</span>
+                                          <ExternalLink className="w-2.5 h-2.5" />
+                                        </span>
+                                      </div>
+                                      <p className="text-xs text-white font-semibold leading-snug line-clamp-2 group-hover:text-rose-100 mt-0.5">
+                                        &ldquo;{src.headline}&rdquo;
+                                      </p>
+                                    </div>
+                                  </a>
+                                ))}
+                              </div>
+                            )}
 
                             <button
                               type="button"
@@ -721,14 +786,19 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                         className="w-[86%] sm:w-[88%] lg:w-auto flex-none snap-start lg:snap-align-none rounded-2xl bg-slate-900 border-2 border-indigo-500 overflow-hidden flex flex-col justify-between shadow-lg"
                       >
                         <div>
-                          <div className="bg-indigo-600 text-white px-4 py-3 flex items-center justify-between">
-                            <div>
+                          <div className="bg-indigo-600 text-white px-4 py-3 flex items-center justify-between gap-2">
+                            <div className="space-y-1">
                               <div className="font-black text-sm">⚖️ Centre &amp; Broadcasters</div>
-                              <div className="text-[11px] font-semibold text-indigo-100">
-                                BBC News • Sky News • Financial Times
+                              <div className="flex flex-wrap items-center gap-1">
+                                {['BBC News', 'Sky News', 'Financial Times'].map((o) => (
+                                  <span key={o} className="inline-flex items-center space-x-1 bg-black/25 px-1.5 py-0.5 rounded-md text-[10px] font-bold">
+                                    <OutletLogo outletName={o} size="xs" />
+                                    <span>{getOutletBrand(o).shortLabel}</span>
+                                  </span>
+                                ))}
                               </div>
                             </div>
-                            <span className="px-2 py-0.5 rounded-full bg-black/25 text-[10px] font-extrabold">
+                            <span className="px-2 py-0.5 rounded-full bg-black/25 text-[10px] font-extrabold shrink-0">
                               2 of 3
                             </span>
                           </div>
@@ -753,6 +823,40 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                                 </span>
                               ))}
                             </div>
+
+                            {/* Clickable Cited Centre Sources */}
+                            {centerSources.length > 0 && (
+                              <div className="pt-1 space-y-1.5">
+                                <span className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-300 block">
+                                  📰 Cited Centre Sources — Click to Read Story:
+                                </span>
+                                {centerSources.map((src, i) => (
+                                  <a
+                                    key={i}
+                                    href={resolveOutletArticleUrl(src.url, src.outletName, src.headline)}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-start space-x-2.5 p-2.5 rounded-xl bg-slate-800/90 hover:bg-indigo-950/60 border border-slate-700 hover:border-indigo-400 transition-all group"
+                                  >
+                                    <OutletLogo outletName={src.outletName} size="sm" className="mt-0.5" />
+                                    <div className="min-w-0 flex-1">
+                                      <div className="flex items-center justify-between gap-1">
+                                        <span className="text-[11px] font-extrabold text-indigo-200">
+                                          {src.outletName}
+                                        </span>
+                                        <span className="text-[10px] font-bold text-indigo-300 inline-flex items-center space-x-0.5 shrink-0">
+                                          <span>Read</span>
+                                          <ExternalLink className="w-2.5 h-2.5" />
+                                        </span>
+                                      </div>
+                                      <p className="text-xs text-white font-semibold leading-snug line-clamp-2 group-hover:text-indigo-100 mt-0.5">
+                                        &ldquo;{src.headline}&rdquo;
+                                      </p>
+                                    </div>
+                                  </a>
+                                ))}
+                              </div>
+                            )}
 
                             <button
                               type="button"
@@ -798,14 +902,19 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                         className="w-[86%] sm:w-[88%] lg:w-auto flex-none snap-start lg:snap-align-none rounded-2xl bg-slate-900 border-2 border-sky-500 overflow-hidden flex flex-col justify-between shadow-lg"
                       >
                         <div>
-                          <div className="bg-sky-600 text-white px-4 py-3 flex items-center justify-between">
-                            <div>
+                          <div className="bg-sky-600 text-white px-4 py-3 flex items-center justify-between gap-2">
+                            <div className="space-y-1">
                               <div className="font-black text-sm">🦁 Right-Leaning Press</div>
-                              <div className="text-[11px] font-semibold text-sky-100">
-                                Telegraph • Mail • Times • GB News
+                              <div className="flex flex-wrap items-center gap-1">
+                                {['The Telegraph', 'Daily Mail', 'The Times', 'GB News', 'Daily Express'].map((o) => (
+                                  <span key={o} className="inline-flex items-center space-x-1 bg-black/25 px-1.5 py-0.5 rounded-md text-[10px] font-bold">
+                                    <OutletLogo outletName={o} size="xs" />
+                                    <span>{getOutletBrand(o).shortLabel}</span>
+                                  </span>
+                                ))}
                               </div>
                             </div>
-                            <span className="px-2 py-0.5 rounded-full bg-black/25 text-[10px] font-extrabold">
+                            <span className="px-2 py-0.5 rounded-full bg-black/25 text-[10px] font-extrabold shrink-0">
                               3 of 3
                             </span>
                           </div>
@@ -830,6 +939,40 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                                 </span>
                               ))}
                             </div>
+
+                            {/* Clickable Cited Right Sources */}
+                            {rightSources.length > 0 && (
+                              <div className="pt-1 space-y-1.5">
+                                <span className="text-[10px] font-extrabold uppercase tracking-wider text-sky-300 block">
+                                  📰 Cited Right Sources — Click to Read Story:
+                                </span>
+                                {rightSources.map((src, i) => (
+                                  <a
+                                    key={i}
+                                    href={resolveOutletArticleUrl(src.url, src.outletName, src.headline)}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-start space-x-2.5 p-2.5 rounded-xl bg-slate-800/90 hover:bg-sky-950/60 border border-slate-700 hover:border-sky-400 transition-all group"
+                                  >
+                                    <OutletLogo outletName={src.outletName} size="sm" className="mt-0.5" />
+                                    <div className="min-w-0 flex-1">
+                                      <div className="flex items-center justify-between gap-1">
+                                        <span className="text-[11px] font-extrabold text-sky-200">
+                                          {src.outletName}
+                                        </span>
+                                        <span className="text-[10px] font-bold text-sky-300 inline-flex items-center space-x-0.5 shrink-0">
+                                          <span>Read</span>
+                                          <ExternalLink className="w-2.5 h-2.5" />
+                                        </span>
+                                      </div>
+                                      <p className="text-xs text-white font-semibold leading-snug line-clamp-2 group-hover:text-sky-100 mt-0.5">
+                                        &ldquo;{src.headline}&rdquo;
+                                      </p>
+                                    </div>
+                                  </a>
+                                ))}
+                              </div>
+                            )}
 
                             <button
                               type="button"
@@ -893,9 +1036,10 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                             key={idx}
                             type="button"
                             onClick={() => scrollToElement(`outlet-${story.id}-${idx}`)}
-                            className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-indigo-600 text-white border border-slate-600 text-xs font-extrabold whitespace-nowrap shrink-0 cursor-pointer"
+                            className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-indigo-600 text-white border border-slate-600 text-xs font-extrabold whitespace-nowrap shrink-0 cursor-pointer"
                           >
-                            {idx + 1}. {rep.outletName}
+                            <OutletLogo outletName={rep.outletName} size="xs" />
+                            <span>{rep.outletName}</span>
                           </button>
                         ))}
                       </div>
@@ -906,6 +1050,7 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                       {story.outletReports.map((rep, idx) => {
                         const prevOutlet = idx > 0 ? story.outletReports[idx - 1] : null;
                         const nextOutlet = idx < story.outletReports.length - 1 ? story.outletReports[idx + 1] : null;
+                        const storyUrl = resolveOutletArticleUrl(rep.url, rep.outletName, rep.headline);
 
                         return (
                           <div
@@ -915,7 +1060,8 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                           >
                             <div className="space-y-2.5">
                               <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-700">
-                                <div className="flex items-center space-x-2">
+                                <div className="flex items-center space-x-2.5">
+                                  <OutletLogo outletName={rep.outletName} size="md" />
                                   <span className="font-extrabold text-sm sm:text-base text-white">
                                     {rep.outletName}
                                   </span>
@@ -927,13 +1073,19 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                                     {getLeanLabel(rep.lean)}
                                   </span>
                                 </div>
-                                <span className="text-[10px] font-extrabold text-slate-300 bg-slate-900 px-2 py-0.5 rounded-full border border-slate-700">
-                                  {idx + 1} of {story.outletReports.length}
-                                </span>
+                                <a
+                                  href={storyUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center space-x-1 text-[11px] font-extrabold text-indigo-200 hover:text-white bg-indigo-950/80 hover:bg-indigo-600 px-2.5 py-1 rounded-full border border-indigo-600/60 transition-colors"
+                                >
+                                  <span>Read Story</span>
+                                  <ExternalLink className="w-3 h-3" />
+                                </a>
                               </div>
 
                               <a
-                                href={safeUrl(rep.url)}
+                                href={storyUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="block group"
@@ -994,7 +1146,8 @@ export const MediaLens: React.FC<MediaLensProps> = ({
                     </div>
                   </div>
                 </>
-              )}
+                );
+              })()}
             </article>
           );
         })}

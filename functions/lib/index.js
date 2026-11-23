@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.autonomousPoliticalAgent = exports.analyzeMediaLens = exports.updatePledgeInFirestore = exports.auditAndSyncPolicies = exports.askGemini = void 0;
+exports.autonomousPoliticalAgent = exports.syncSection = exports.analyzeMediaLens = exports.updatePledgeInFirestore = exports.auditAndSyncPolicies = exports.askGemini = void 0;
 const https_1 = require("firebase-functions/v2/https");
 const params_1 = require("firebase-functions/params");
 const genai_1 = require("@google/genai");
@@ -347,9 +347,9 @@ exports.askGemini = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: securit
  * On-Demand Live Policy & News Audit (Callable from 'Update Policy Matrix' & 'Sync All')
  * Never accepts arbitrary client-supplied policy documents.
  */
-exports.auditAndSyncPolicies = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: security_1.ALLOWED_ORIGINS, timeoutSeconds: 180, maxInstances: 2 }, async (request) => {
+exports.auditAndSyncPolicies = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: security_1.ALLOWED_ORIGINS, timeoutSeconds: 180, memory: "512MiB", maxInstances: 3 }, async (request) => {
     var _a;
-    await (0, security_1.enforceSharedRateLimit)(db, request, "audit", 3, 10 * 60 * 1000);
+    await (0, security_1.enforceSharedRateLimit)(db, request, "audit", 6, 10 * 60 * 1000);
     try {
         const rawCategory = (_a = request.data) === null || _a === void 0 ? void 0 : _a.category;
         const safeCategory = typeof rawCategory === "string" ? rawCategory.trim().slice(0, 60) : "all";
@@ -367,18 +367,16 @@ exports.auditAndSyncPolicies = (0, https_1.onCall)({ secrets: [geminiApiKey], co
 });
 /**
  * Locked-down legacy endpoint: direct client pledge writes are strictly forbidden.
- * Pledge updates are verified and persisted exclusively server-side inside askGemini.
  */
 exports.updatePledgeInFirestore = (0, https_1.onCall)({ cors: security_1.ALLOWED_ORIGINS, timeoutSeconds: 15, maxInstances: 1 }, async () => {
     throw new https_1.HttpsError("permission-denied", "Direct client writes are disabled. Pledge updates are verified and persisted strictly server-side.");
 });
 /**
  * On-Demand Media Lens Multi-Spectrum Newspaper Analyzer
- * Never accepts arbitrary client-supplied story documents.
  */
-exports.analyzeMediaLens = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: security_1.ALLOWED_ORIGINS, timeoutSeconds: 120, maxInstances: 2 }, async (request) => {
+exports.analyzeMediaLens = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: security_1.ALLOWED_ORIGINS, timeoutSeconds: 150, memory: "512MiB", maxInstances: 3 }, async (request) => {
     var _a;
-    await (0, security_1.enforceSharedRateLimit)(db, request, "media", 5, 10 * 60 * 1000);
+    await (0, security_1.enforceSharedRateLimit)(db, request, "media", 8, 10 * 60 * 1000);
     try {
         const rawTopic = (_a = request.data) === null || _a === void 0 ? void 0 : _a.customTopic;
         const safeTopic = typeof rawTopic === "string" && rawTopic.trim().length > 0
@@ -392,6 +390,42 @@ exports.analyzeMediaLens = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: 
         if (error instanceof https_1.HttpsError)
             throw error;
         throw new https_1.HttpsError("internal", "Failed to analyze UK media framing.");
+    }
+});
+/**
+ * Unified Live Sync Endpoint for Polls, Cabinets, Fact-Checks, Policy Decisions & Full-Site Sync
+ */
+exports.syncSection = (0, https_1.onCall)({ secrets: [geminiApiKey], cors: security_1.ALLOWED_ORIGINS, timeoutSeconds: 300, memory: "512MiB", maxInstances: 3 }, async (request) => {
+    var _a, _b;
+    const rawSection = String(((_a = request.data) === null || _a === void 0 ? void 0 : _a.section) || "").trim().toLowerCase();
+    const rawCategory = typeof ((_b = request.data) === null || _b === void 0 ? void 0 : _b.category) === "string" ? request.data.category.trim().slice(0, 60) : undefined;
+    await (0, security_1.enforceSharedRateLimit)(db, request, `sync_${rawSection || "misc"}`, 6, 10 * 60 * 1000);
+    try {
+        const key = geminiApiKey.value();
+        switch (rawSection) {
+            case "polls":
+                return await (0, autonomousAgent_1.runPollsAudit)(key);
+            case "cabinets":
+                return await (0, autonomousAgent_1.runCabinetsAudit)(key);
+            case "factchecks":
+                return await (0, autonomousAgent_1.runFactChecksAudit)(key);
+            case "decisions":
+                return await (0, autonomousAgent_1.runPolicyDecisionsAudit)(key, rawCategory);
+            case "media":
+                return await (0, autonomousAgent_1.runMediaLensAnalysis)(key);
+            case "policies":
+                return await (0, autonomousAgent_1.runAutonomousAudit)(key, rawCategory || "all", { includeFactChecks: false });
+            case "all":
+                return await (0, autonomousAgent_1.runFullAllSectionsSync)(key);
+            default:
+                throw new https_1.HttpsError("invalid-argument", "Unsupported sync section.");
+        }
+    }
+    catch (error) {
+        console.error(`syncSection(${rawSection}) Error:`, error);
+        if (error instanceof https_1.HttpsError)
+            throw error;
+        throw new https_1.HttpsError("internal", `Live sync failed for ${rawSection}.`);
     }
 });
 //# sourceMappingURL=index.js.map

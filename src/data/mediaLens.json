@@ -1,643 +1,486 @@
 [
   {
-    "id": "media-cluster-budget-oct26",
-    "title": "Chancellor John Healey Delivers October 2026 Autumn Budget: £100 Energy Bill Rebate, Mayoral Business Rates Devolution & Welfare Clash",
-    "category": "economy",
-    "publishedAt": "Oct 2026 • Autumn Budget Coverage",
-    "totalSourcesCount": 28,
-    "coverageSplit": {
-      "left": 32,
-      "center": 34,
-      "right": 34
-    },
-    "blindspot": "none",
-    "neutralGist": "Chancellor John Healey delivered his first Autumn Budget under Prime Minister Andy Burnham, unveiling a £100 winter household energy bill rebate, Ofgem standing charge reforms, 100% business rates growth retention for regional mayors, and a guarantee shielding state-pension-only retirees from income tax drag, while deferring aggressive working-age welfare cuts. Snap YouGov polling rated it the 'fairest Budget in five years' (45% to 20%), while Opposition Leader Kemi Badenoch and Shadow Chancellor Andrew Griffith attacked the package for failing to curb welfare spending.",
-    "wingPerspectives": {
-      "left": {
-        "summary": "Left-leaning newspapers welcome the £100 energy bill relief, standing charge overhaul, regional devolution deal for Metro Mayors, and avoidance of punitive disability benefit cuts, though anti-poverty campaigners press ministers to fully abolish the two-child benefit cap faster.",
-        "whyThisFraming": "Reflects social-democratic priorities around cost-of-living protection, Northern and regional devolution, and protecting vulnerable welfare claimants from austerity.",
-        "toneKeywords": [
-          "Breathing Space for Families",
-          "Devolution Milestone",
-          "Welfare Restraint Welcomed"
-        ]
-      },
-      "center": {
-        "summary": "Public broadcasters and financial dailies focus on the OBR's narrow fiscal headroom arithmetic, gilt market stability, and polling showing strong voter approval alongside medium-term Departmental Expenditure Limit pressures after 2028.",
-        "whyThisFraming": "Driven by institutional scrutiny of HM Treasury's twin fiscal rules, bond market reaction, and independent IFS / Resolution Foundation distributional analysis.",
-        "toneKeywords": [
-          "OBR Headroom Scrutiny",
-          "Voter Poll Bounce",
-          "Post-2028 Fiscal Squeeze"
-        ]
-      },
-      "right": {
-        "summary": "Right-leaning press accuses Burnham and Healey of ducking tough structural welfare reform to appease Labour backbenchers, warning that frozen income tax thresholds and rising incapacity benefit bills risk a £28bn medium-term fiscal gap.",
-        "whyThisFraming": "Aligns with free-market editorial priorities favouring lower business and personal taxes, smaller state expenditure, and stricter work-capability welfare rules.",
-        "toneKeywords": [
-          "Welfare Bill Duck",
-          "Stealth Tax Freeze",
-          "£28bn Headroom Warning"
-        ]
-      }
-    },
     "outletReports": [
       {
         "outletName": "The Guardian",
         "lean": "left",
         "factuality": "High",
-        "headline": "Healey offers families 'breathing space' with £100 energy bill cut and sweeping devolution boost as welfare axe stayed",
-        "url": "https://www.theguardian.com/uk-news/budget",
-        "framingAnalysis": "The Guardian frames the Autumn Budget as a decisive pivot away from Treasury orthodoxy under Burnham and Healey, highlighting energy bill relief and regional mayoral funding while quoting child poverty charities urging bolder redistributive steps."
-      },
-      {
-        "outletName": "BBC News",
-        "lean": "center",
-        "factuality": "Very High",
-        "headline": "At a glance: Key takeaways from John Healey's October 2026 Autumn Budget and what the OBR forecast says",
-        "url": "https://www.bbc.co.uk/news/business",
-        "framingAnalysis": "BBC News balances the government's cost-of-living headline measures against Opposition Leader Kemi Badenoch's Commons rebuttal and IFS warnings over frozen income tax thresholds."
-      },
-      {
-        "outletName": "The Telegraph",
-        "lean": "right",
-        "factuality": "High",
-        "headline": "Healey ducks welfare reform as economists warn of £28bn black hole and stealth tax squeeze on middle Britain",
-        "url": "https://www.telegraph.co.uk/budget/",
-        "framingAnalysis": "The Telegraph foregrounds fiscal drag on middle-income earners and Conservative warnings that deferring DWP incapacity benefit reductions stores up future tax rises or borrowing."
-      },
-      {
-        "outletName": "Financial Times",
-        "lean": "center",
-        "factuality": "Very High",
-        "headline": "Gilt markets steady as Healey pairs modest energy relief and mayoral fiscal devolution with tight OBR headroom",
-        "url": "https://www.ft.com/uk-politics-policy",
-        "framingAnalysis": "The Financial Times evaluates the package through sovereign debt markets and regional productivity, noting investors welcomed stability while questioning tight post-2028 departmental settlements."
-      }
-    ]
-  },
-  {
-    "id": "media-cluster-1",
-    "title": "Reform UK Unveils Hythe Border Blueprint: 5-Year Asylum Freeze, 1M+ Deportations & 6-Nation Visa Sanctions",
-    "category": "immigration",
-    "publishedAt": "Oct 2026 • Border & Migration Coverage",
-    "totalSourcesCount": 24,
-    "coverageSplit": {
-      "left": 25,
-      "center": 30,
-      "right": 45
-    },
-    "blindspot": "none",
-    "neutralGist": "Nigel Farage and Shadow Home Secretary Zia Yusuf launched Reform UK's updated border security blueprint in Hythe, Kent, proposing an immediate 5-year freeze on asylum claims, voiding ~90,000 pending applications, establishing a UK Deportation Command to remove over 1 million people, abolishing Indefinite Leave to Remain (ILR), and imposing visa bans and London asset freezes on Pakistan, Afghanistan, Syria, Eritrea, Sudan, and Somalia if they refuse returnees.",
-    "wingPerspectives": {
-      "left": {
-        "summary": "Left-leaning outlets condemn the proposals as legally unworkable, economically damaging to the NHS and social care workforce, and a breach of international human rights treaties.",
-        "whyThisFraming": "Driven by editorial commitments to the 1951 Refugee Convention, ECHR protections, and concern over how retrospecting ILR abolition would destabilise settled migrant families and key public service sectors.",
-        "toneKeywords": [
-          "Human Rights Breach",
-          "Economically Damaging",
-          "Retrospective Threat"
-        ]
-      },
-      "center": {
-        "summary": "Public broadcasters and financial press focus on the logistical, diplomatic, and fiscal mechanics—scrutinising whether 5 daily deportation flights and bilateral return deals with nations like Afghanistan and Eritrea are operationally deliverable.",
-        "whyThisFraming": "Public service impartiality standards and institutional analysis prioritise testing party blueprints against Home Office capacity, diplomatic precedent, and independent Migration Observatory costings.",
-        "toneKeywords": [
-          "Logistical Scrutiny",
-          "Diplomatic Feasibility",
-          "Electoral Escalation"
-        ]
-      },
-      "right": {
-        "summary": "Right-leaning newspapers frame the Hythe blueprint as a decisive, overdue restoration of British border sovereignty that exposes both Labour's tribunal delays and previous Conservative failures.",
-        "whyThisFraming": "Reflects strong editorial focus on voter frustration over Channel crossings, the £8m/day taxpayer cost of asylum hotels, ECHR judicial blocks on deportations, and demographic pressures on housing and welfare.",
-        "toneKeywords": [
-          "Border Sovereignty",
-          "Taxpayer Relief",
-          "Ending Judicial Blocks"
-        ]
-      }
-    },
-    "outletReports": [
-      {
-        "outletName": "The Telegraph",
-        "lean": "right",
-        "factuality": "High",
-        "headline": "Farage and Yusuf throw down gauntlet with plan to deport 1m illegal migrants and sanction recalcitrant states",
-        "url": "https://www.telegraph.co.uk/politics/",
-        "framingAnalysis": "The Telegraph frames the package as a serious constitutional and diplomatic blueprint that outflanks both main parties on ECHR sovereignty and foreign visa leverage. It emphasises the £7bn annual taxpayer saving from ending asylum accommodation and non-citizen Universal Credit."
-      },
-      {
-        "outletName": "The Guardian",
-        "lean": "left",
-        "factuality": "High",
-        "headline": "Reform UK's mass deportation and ILR abolition plan branded 'cruel and unworkable' by legal and care leaders",
-        "url": "https://www.theguardian.com/politics",
-        "framingAnalysis": "The Guardian leads with warnings from human rights barristers, NHS trusts, and refugee charities. Its editorial lens focuses on the human cost of revoking settled status (ILR) and the diplomatic impossibility of returning asylum seekers to Taliban-controlled Afghanistan."
-      },
-      {
-        "outletName": "BBC News",
-        "lean": "center",
-        "factuality": "Very High",
-        "headline": "What is in Reform UK's new deportation and visa sanctions plan—and how does it compare with Labour and the Tories?",
-        "url": "https://www.bbc.co.uk/news/politics",
-        "framingAnalysis": "BBC News adopts an explanatory, comparative approach, contrasting Reform's 5-year asylum freeze and ILR abolition against Labour's 10-year Earned Settlement white paper and Kemi Badenoch's 150,000/yr Removals Force."
-      },
-      {
-        "outletName": "Daily Mail",
-        "lean": "right",
-        "factuality": "Mixed",
-        "headline": "No more Mr Nice Guy! Reform vows visa bans and elite London property freezes on six countries that refuse deportees",
-        "url": "https://www.dailymail.co.uk/news/uk-politics/index.html",
-        "framingAnalysis": "The Daily Mail highlights the diplomatic tough-talk—specifically targeting foreign elites' London assets and suspending foreign aid—because its readership strongly favours punitive leverage against states that refuse returns."
-      }
-    ]
-  },
-  {
-    "id": "media-cluster-2",
-    "title": "Reform UK Councils & 'UK DOGE' Unit Clash with Unions Over Local Authority Spending & DEI Audits",
-    "category": "economy",
-    "publishedAt": "Oct 2026 • Local Government & Fiscal Scrutiny",
-    "totalSourcesCount": 14,
-    "coverageSplit": {
-      "left": 12,
-      "center": 23,
-      "right": 65
-    },
-    "blindspot": "left_blindspot",
-    "blindspotNote": "Left Blindspot: 65% of coverage is driven by Right-leaning outlets highlighting wasteful council procurement uncovered by Reform's UK DOGE unit, while Left-leaning outlets largely omit the procurement findings.",
-    "neutralGist": "Zia Yusuf's Reform UK 'Department of Government Efficiency' (UK DOGE) audit teams entered several Reform-controlled county councils to review procurement contracts, net-zero consultancy spend, and Diversity, Equity, and Inclusion (DEI) roles, sparking formal dispute threats from UNISON and statutory warnings from local government chief executives.",
-    "wingPerspectives": {
-      "left": {
-        "summary": "Minimal coverage; where reported, Left-leaning outlets portray the UK DOGE unit as an imported American culture-war stunt that intimidates civil servants and ignores statutory social care obligations.",
-        "whyThisFraming": "Left-leaning editors view local council financial distress as the result of 14 years of central government grant cuts and rising adult social care demand rather than internal DEI or green spending.",
-        "toneKeywords": [
-          "Culture War Stunt",
-          "Union Resistance",
-          "Statutory Care Pressures"
-        ]
-      },
-      "center": {
-        "summary": "Centrist outlets examine the legal boundaries of political auditors accessing council data and note that statutory adult and children's social care consumes up to 75% of county council budgets.",
-        "whyThisFraming": "Focuses on governance rules, data protection law, and the arithmetic reality of local government balance sheets.",
-        "toneKeywords": [
-          "Governance Rules",
-          "Social Care Arithmetic",
-          "Audit Powers"
-        ]
-      },
-      "right": {
-        "summary": "Right-leaning press heavily spotlights specific examples of consultancy fees, climate officers, and DEI training contracts flagged by the DOGE team as proof that Council Tax rises can be avoided.",
-        "whyThisFraming": "Aligns with Conservative and Reform editorial priorities of exposing public sector bureaucracy, curbing Council Tax bills, and dismantling progressive institutional mandates.",
-        "toneKeywords": [
-          "Taxpayer Waste Exposed",
-          "War on Woke",
-          "Council Tax Relief"
-        ]
-      }
-    },
-    "outletReports": [
-      {
-        "outletName": "The Telegraph",
-        "lean": "right",
-        "factuality": "High",
-        "headline": "Inside Reform's UK DOGE unit: How Zia Yusuf's auditors are tearing up net-zero and DEI contracts in county halls",
-        "url": "https://www.telegraph.co.uk/politics/",
-        "framingAnalysis": "The Telegraph gives prominent investigative space to the specific consultancy contracts flagged by Reform auditors, framing the initiative as a blueprint for a future Whitehall efficiency drive."
-      },
-      {
-        "outletName": "GB News",
-        "lean": "right",
-        "factuality": "Mixed",
-        "headline": "Council bosses try to block Reform's DOGE squad from exposing millions in taxpayer waste",
-        "url": "https://www.gbnews.com/politics",
-        "framingAnalysis": "GB News frames friction between council chief executives and Reform councillors as ”the blob” obstructing democratic accountability."
-      },
-      {
-        "outletName": "The Guardian",
-        "lean": "left",
-        "factuality": "High",
-        "headline": "Unions warn of strike action as Reform UK 'DOGE' auditors target council equality and climate staff",
-        "url": "https://www.theguardian.com/politics",
-        "framingAnalysis": "The Guardian focuses on public sector workforce morale, union legal challenges, and testimony from local government experts explaining that cutting DEI roles saves less than 0.1% of social care budgets."
-      }
-    ]
-  },
-  {
-    "id": "media-cluster-3",
-    "title": "DWP Figures Reveal Surge in Working Families Affected by Two-Child Benefit Cap Amid Welfare Reform Row",
-    "category": "welfare",
-    "publishedAt": "Oct 2026 • Welfare & Child Poverty",
-    "totalSourcesCount": 16,
-    "coverageSplit": {
-      "left": 68,
-      "center": 22,
-      "right": 10
-    },
-    "blindspot": "right_blindspot",
-    "blindspotNote": "Right Blindspot: 68% of coverage comes from Left-leaning outlets investigating child poverty statistics and Labour backbench rebellions, with minimal coverage in Right-leaning newspapers.",
-    "neutralGist": "New Department for Work and Pensions (DWP) and Child Poverty Action Group statistics show over 1.6 million children live in households affected by the two-child Universal Credit limit—59% of which have at least one working parent—intensifying pressure on Ministers as Labour, Reform UK, and the Liberal Democrats clash over welfare eligibility.",
-    "wingPerspectives": {
-      "left": {
-        "summary": "Left-leaning media leads extensively on the human impact of the two-child cap, amplifying calls from Labour backbenchers, the Greens, and anti-poverty charities for its immediate, unconditional abolition.",
-        "whyThisFraming": "Rooted in social justice priorities, viewing benefit caps as a direct driver of child poverty and foodbank dependency that disproportionately harms low-income working families.",
-        "toneKeywords": [
-          "Child Poverty Crisis",
-          "Austerity Legacy",
-          "Moral Imperative"
-        ]
-      },
-      "center": {
-        "summary": "Broadcasters and economic outlets weigh the £3.4bn annual Treasury cost of abolishing the cap against Reform UK's competing proposal to lift the cap solely for working British couples funded by barring non-citizens from Universal Credit.",
-        "whyThisFraming": "Centres on fiscal trade-offs within Treasury rules and the tactical battle for working-class voters.",
-        "toneKeywords": [
-          "£3.4bn Fiscal Trade-off",
-          "Political Triangulation",
-          "DWP Data"
-        ]
-      },
-      "right": {
-        "summary": "Right-leaning outlets give scant coverage to the poverty charity report, instead emphasizing the £100bn+ working-age sickness and disability benefit bill and arguing that welfare must require work and citizenship.",
-        "whyThisFraming": "Prioritises fiscal restraint and the principle that families on benefits should face the same financial choices as taxpayers not receiving state support.",
-        "toneKeywords": [
-          "Welfare Bill Surge",
-          "Taxpayer Fairness",
-          "Work Incentives"
-        ]
-      }
-    },
-    "outletReports": [
-      {
-        "outletName": "The Guardian",
-        "lean": "left",
-        "factuality": "High",
-        "headline": "Record 1.6m children hit by two-child benefit cap as charities warn Ministers against delay",
-        "url": "https://www.theguardian.com/politics",
-        "framingAnalysis": "The Guardian places the statistics on its front page, pairing DWP data with interviews from struggling working parents and Labour MPs demanding immediate abolition."
+        "headline": "Former Tory PMs ‘can’t face up to their bad Brexit deal’, says Burnham – UK politics live",
+        "url": "https://www.theguardian.com/politics/live/2026/nov/23/andy-burnham-brexit-europe-eu-uk-summit-deal-commons-cbi-farage-badenoch-haigh-politics-latest-news-updates",
+        "framingAnalysis": "The Guardian highlights Burnham's critique of predecessor administrations, framing closer EU engagement as an overdue fix for structural trade flaws. It focuses on the economic costs of past Conservative deals to legitimize the government's new European reset."
       },
       {
         "outletName": "Daily Mirror",
         "lean": "left",
         "factuality": "High",
-        "headline": "Six in ten families hit by cruel two-child benefit limit ARE IN WORK, damning figures reveal",
-        "url": "https://www.mirror.co.uk/news/politics/",
-        "framingAnalysis": "The Mirror emphasises that the majority of affected households are in employment, directly challenging the narrative that the cap only affects workless households."
+        "headline": "Andy Burnham vows Brexit deal will bring down the cost of weekly shop",
+        "url": "https://www.mirror.co.uk/news/politics/brexit-deal-supermarket-prices-burnham-37906289",
+        "framingAnalysis": "The Mirror centers its report on household economics, prominently leading with pledges that supermarket shelf prices will fall due to reduced import paperwork. It frames critics of the deal as detached from everyday working-class financial pressures."
       },
-      {
-        "outletName": "The Times",
-        "lean": "center-right",
-        "factuality": "High",
-        "headline": "Treasury resists £3.4bn two-child cap repeal as Reform pitches 'working British families' exemption",
-        "url": "https://www.thetimes.com/uk/politics",
-        "framingAnalysis": "The Times analyses the Westminster political squeeze: how Reform UK's selective exemption for working British couples pressures both Labour and the Conservatives."
-      }
-    ]
-  },
-  {
-    "id": "media-cluster-4",
-    "title": "Reform UK's £250,000 'Britannia Card' Non-Dom Dividend Sparks Treasury & IFS Costing Clash",
-    "category": "economy",
-    "publishedAt": "Oct 2026 • Tax & Fiscal Policy",
-    "totalSourcesCount": 21,
-    "coverageSplit": {
-      "left": 35,
-      "center": 30,
-      "right": 35
-    },
-    "blindspot": "none",
-    "neutralGist": "Nigel Farage and Zia Yusuf unveiled the 'Britannia Card'—offering wealthy international residents a 10-year UK tax residence permit for a flat £250,000 fee, with 100% of proceeds distributed as a tax-free annual 'Britannia Dividend' to the lowest-paid 10% of full-time British workers. The Institute for Fiscal Studies (IFS) and Labour warned it could cost the Exchequer billions in foregone income and capital gains taxes.",
-    "wingPerspectives": {
-      "left": {
-        "summary": "Left-leaning press characterizes the Britannia Card as a 'golden ticket for oligarchs and tax exiles' that would hollow out progressive taxation while offering only a modest payout to low-paid workers.",
-        "whyThisFraming": "Prioritises tax equity and public service funding, arguing that ultra-wealthy residents should pay standard UK marginal tax rates rather than a flat fee.",
-        "toneKeywords": [
-          "Oligarch Tax Break",
-          "Two-Tier Tax System",
-          "Revenue Hole"
-        ]
-      },
-      "center": {
-        "summary": "Financial and broadcast outlets focus on the IFS and Treasury modelling: whether attracting 10,000+ wealthy newcomers at £250k each offsets the tax loss from existing wealthy UK residents switching to the card.",
-        "whyThisFraming": "Driven by empirical fiscal modelling, deadweight loss calculations, and international comparisons with Italy's flat-tax regime.",
-        "toneKeywords": [
-          "IFS Deadweight Warning",
-          "Italian Flat-Tax Model",
-          "Yield Uncertainty"
-        ]
-      },
-      "right": {
-        "summary": "Right-leaning newspapers praise the policy as an imaginative supply-side masterstroke that reverses the millionaire exodus caused by Labour's non-dom abolition while directly rewarding low-paid British workers.",
-        "whyThisFraming": "Grounded in Laffer-curve economics and concern that wealth flight from London is shrinking Britain's tax base and hospitality investment.",
-        "toneKeywords": [
-          "Reversing Wealth Flight",
-          "Worker Dividend",
-          "Supply-Side Boost"
-        ]
-      }
-    },
-    "outletReports": [
-      {
-        "outletName": "Financial Times",
-        "lean": "center",
-        "factuality": "Very High",
-        "headline": "IFS warns Reform UK's £250k 'Britannia Card' for wealthy foreigners risks multibillion-pound tax shortfall",
-        "url": "https://www.ft.com/uk-politics-policy",
-        "framingAnalysis": "The FT dissects the fiscal arithmetic, quoting tax lawyers and the IFS on the risk that wealthy individuals who would have paid millions in UK tax anyway will opt into the £250k cap."
-      },
-      {
-        "outletName": "The Telegraph",
-        "lean": "right",
-        "factuality": "High",
-        "headline": "Farage's Britannia Card is a bold bid to lure back the wealth creators fleeing Britain",
-        "url": "https://www.telegraph.co.uk/politics/",
-        "framingAnalysis": "The Telegraph views the proposal favourably through the lens of international competitiveness, contrasting it with high tax burdens in London and linking the worker dividend to populist appeal."
-      },
-      {
-        "outletName": "The Guardian",
-        "lean": "left",
-        "factuality": "High",
-        "headline": "Labour brands Farage's £250k 'Britannia Card' a sweetheart deal for billionaires at expense of NHS",
-        "url": "https://www.theguardian.com/politics",
-        "framingAnalysis": "The Guardian highlights the contrast between a flat £250k fee for multi-millionaires and the tax burden on ordinary professionals, framing the dividend as a populist fig leaf."
-      }
-    ]
-  },
-  {
-    "id": "media-cluster-5",
-    "title": "Home Office 'Restoring Order and Control' Bill: 10-Year Earned Settlement ILR & Fast-Track Appeals",
-    "category": "immigration",
-    "publishedAt": "Oct 2026 • Parliamentary Legislation",
-    "totalSourcesCount": 22,
-    "coverageSplit": {
-      "left": 30,
-      "center": 35,
-      "right": 35
-    },
-    "blindspot": "none",
-    "neutralGist": "Home Secretary Shabana Mahmood advanced the government's 'Restoring Order and Control' reforms, doubling the standard qualifying period for Indefinite Leave to Remain (ILR) from 5 to 10 years under an 'Earned Settlement' points system, creating an Independent Immigration Appeals Authority (IIAA) to bypass tribunal backlogs, and tightening Article 8 family-life removal rules.",
-    "wingPerspectives": {
-      "left": {
-        "summary": "Left-leaning outlets criticise Labour for mimicking Reform UK's rhetoric, warning that a 10-to-15 year wait for settlement traps migrant nurses and care workers in precarious, expensive visa renewal cycles.",
-        "whyThisFraming": "Reflects concern over migrant worker exploitation, integration barriers, and Labour alienating progressive voters.",
-        "toneKeywords": [
-          "Performative Cruelty",
-          "Visa Trap",
-          "Chasing Reform Voters"
-        ]
-      },
-      "center": {
-        "summary": "Centrist broadcasters examine whether the new IIAA fast-track body and 10-year ILR threshold will meaningfully reduce net migration and clear the 50,000+ court appeals backlog.",
-        "whyThisFraming": "Evaluates the bill against government delivery targets and constitutional judicial independence.",
-        "toneKeywords": [
-          "Tribunal Backlog",
-          "Earned Settlement",
-          "Delivery Test"
-        ]
-      },
-      "right": {
-        "summary": "Right-leaning press argues that while doubling ILR to 10 years is a step forward, refusing to leave the ECHR or cap visas means foreign criminals and illegal arrivals will still use human rights law to block deportation.",
-        "whyThisFraming": "Views statutory tweaks within the existing ECHR framework as insufficient compared to full ECHR withdrawal.",
-        "toneKeywords": [
-          "Half-Measure",
-          "ECHR Loophole Remains",
-          "Too Little Too Late"
-        ]
-      }
-    },
-    "outletReports": [
       {
         "outletName": "BBC News",
         "lean": "center",
         "factuality": "Very High",
-        "headline": "Migrants face 10-year wait for permanent UK settlement under Home Office overhaul",
-        "url": "https://www.bbc.co.uk/news/politics",
-        "framingAnalysis": "BBC News outlines the practical mechanics of the 10-year Earned Settlement rules, explaining how National Insurance contributions and English proficiency affect the timeline."
-      },
-      {
-        "outletName": "The Independent",
-        "lean": "center-left",
-        "factuality": "High",
-        "headline": "Care sector and unions warn 10-year settlement wait will trigger exodus of vital overseas staff",
-        "url": "https://www.independent.co.uk/news/uk/politics",
-        "framingAnalysis": "The Independent focuses on the economic and human impact on legal skilled migrants, quoting NHS and care leaders who warn international recruits will choose Canada or Australia instead."
+        "headline": "Burnham to tell MPs 'landmark' EU deal could make next decade 'much better'",
+        "url": "https://www.bbc.co.uk/news/articles/cmde1dy82lepo?at_medium=RSS&at_campaign=rss",
+        "framingAnalysis": "BBC News provides balanced parliamentary coverage, setting the Prime Minister's rhetoric of long-term economic renewal against direct counterarguments from former prime ministers and opposition benches. It emphasizes the balance of political forces without endorsing either economic forecast."
       },
       {
         "outletName": "Daily Express",
         "lean": "right",
         "factuality": "Mixed",
-        "headline": "Tories and Reform blast Labour's 10-year migrant plan as 'drop in the ocean' while ECHR stays in place",
-        "url": "https://www.express.co.uk/news/politics",
-        "framingAnalysis": "The Express frames the bill through opposition criticism, emphasising that without leaving the ECHR or halting Channel boats, extending ILR timelines does not solve illegal border crossings."
-      }
-    ]
-  },
-  {
-    "id": "media-cluster-6",
-    "title": "British Steel Nationalisation & 50% Public Water Ownership: Reform UK & Labour Battle for Industrial Heartland",
-    "category": "energy",
-    "publishedAt": "Sep 2026 • Industrial & Utility Strategy",
-    "totalSourcesCount": 17,
-    "coverageSplit": {
-      "left": 30,
-      "center": 35,
-      "right": 35
-    },
-    "blindspot": "none",
-    "neutralGist": "Nigel Farage and Richard Tice campaigned in Scunthorpe and South Wales pledging to scrap Net Zero mandates, bring British Steel into public ownership (#SaveOurSteel), and move failing water utilities into 50% public and 50% UK pension fund ownership—challenging Labour's Great British Energy and green steel transition fund.",
-    "wingPerspectives": {
-      "left": {
-        "summary": "Left-leaning outlets welcome the consensus on public water and steel protection, but warn that Reform's plan to scrap Net Zero and revive coal/blast furnaces ignores global green steel markets and climate science.",
-        "whyThisFraming": "Supports public ownership of natural monopolies (water/steel) while defending decarbonisation and union-backed green industrial transition.",
-        "toneKeywords": [
-          "Climate Denialism",
-          "Green Steel Future",
-          "Public Ownership Debate"
-        ]
-      },
-      "center": {
-        "summary": "Centrist outlets highlight the striking ideological realignment: a right-wing populist party embracing state nationalisation of steel and 50% public water ownership to win traditional Labour Red Wall seats.",
-        "whyThisFraming": "Focuses on electoral geography, industrial economics, and the £10bn+ capital liabilities of troubled water utilities like Thames Water.",
-        "toneKeywords": [
-          "Red Wall Realignment",
-          "Utility Debt Liability",
-          "Industrial Strategy"
-        ]
-      },
-      "right": {
-        "summary": "Right-leaning outlets split between praising Farage's patriotic defence of sovereign British steelmaking against high industrial energy costs, and free-market nervousness over state nationalisation.",
-        "whyThisFraming": "Balances economic nationalism and critique of high UK industrial electricity prices against traditional Thatcherite privatisation principles.",
-        "toneKeywords": [
-          "Save Our Steel",
-          "Industrial Energy Costs",
-          "Economic Nationalism"
-        ]
-      }
-    },
-    "outletReports": [
-      {
-        "outletName": "Sky News",
-        "lean": "center",
-        "factuality": "Very High",
-        "headline": "Why Nigel Farage is embracing nationalisation of steel and water to win Labour's industrial heartlands",
-        "url": "https://news.sky.com/politics",
-        "framingAnalysis": "Sky News analyses the political strategy behind Reform UK shedding pure Thatcherite free-market orthodoxy in favour of economic nationalism in steel and water."
-      },
-      {
-        "outletName": "The Spectator",
-        "lean": "right",
-        "factuality": "High",
-        "headline": "Cheap energy is the only way to save British Steel—not state ownership alone",
-        "url": "https://www.spectator.co.uk/",
-        "framingAnalysis": "The Spectator endorses Reform's attack on industrial green levies and Net Zero electricity prices, while cautioning against open-ended taxpayer subsidies for nationalised industries."
-      },
-      {
-        "outletName": "New Statesman",
-        "lean": "left",
-        "factuality": "High",
-        "headline": "Farage's tank-parking on public water and steel should alarm Downing Street",
-        "url": "https://www.newstatesman.com/politics",
-        "framingAnalysis": "The New Statesman warns Labour strategists that Reform UK's call for 50% public ownership of water utilities outflanks the government's more cautious regulatory approach to Thames Water."
-      }
-    ]
-  },
-  {
-    "id": "media-cluster-7",
-    "title": "Private School 20% VAT Impact: Independent School Closures vs 6,500 State Teacher Recruitment",
-    "category": "education",
-    "publishedAt": "Sep 2026 • Education & Tax Policy",
-    "totalSourcesCount": 15,
-    "coverageSplit": {
-      "left": 18,
-      "center": 22,
-      "right": 60
-    },
-    "blindspot": "left_blindspot",
-    "blindspotNote": "Left Blindspot: 60% of coverage comes from Right-leaning newspapers tracking individual independent school closures and middle-class fee hikes, while Left-leaning outlets focus on state school funding needs.",
-    "neutralGist": "Following the implementation of 20% VAT on independent school fees and the removal of business rates relief, Independent Schools Council (ISC) data showed a ~3.5% dip in private pupil enrolments and several smaller prep school closures, while the Treasury confirmed £1.5bn in revenue is being allocated toward recruiting 6,500 state sector teachers.",
-    "wingPerspectives": {
-      "left": {
-        "summary": "Left-leaning outlets view the policy as a popular, long-overdue end to tax breaks for the privileged 7% who attend private schools, noting that 93% of British children depend on underfunded state schools.",
-        "whyThisFraming": "Driven by egalitarian education principles and the priority of funding state school SEND provision and teacher recruitment.",
-        "toneKeywords": [
-          "State School Priority",
-          "Ending Tax Breaks",
-          "93% Majority"
-        ]
-      },
-      "center": {
-        "summary": "Centrist outlets track whether pupil displacement into state grammar and comprehensive schools in affluent areas creates local capacity pressure or delivers the full £1.5bn net Treasury yield.",
-        "whyThisFraming": "Focuses on empirical IFS modelling, regional state school place availability, and SEND tribunal impacts.",
-        "toneKeywords": [
-          "IFS Yield Check",
-          "Pupil Displacement",
-          "SEND Provision"
-        ]
-      },
-      "right": {
-        "summary": "Right-leaning press campaigns heavily against the 'Education Tax', profiling closing small Christian, military, and specialist SEND independent schools and backing Conservative and Reform pledges to repeal the VAT.",
-        "whyThisFraming": "Views the VAT levy as punitive politics of envy against aspirational parents who already pay taxes for state school places their children do not use.",
-        "toneKeywords": [
-          "Politics of Envy",
-          "School Closures",
-          "Aspirational Parents Hit"
-        ]
-      }
-    },
-    "outletReports": [
-      {
-        "outletName": "The Telegraph",
-        "lean": "right",
-        "factuality": "High",
-        "headline": "Revealed: The historic prep and SEND schools forced to close their doors by Labour's punitive VAT raid",
-        "url": "https://www.telegraph.co.uk/politics/",
-        "framingAnalysis": "The Telegraph runs an ongoing campaign tracking every independent school closure and fee hike, highlighting Reform UK's pledge to repeal the VAT and add 20% tax relief on private fees."
-      },
-      {
-        "outletName": "The Guardian",
-        "lean": "left",
-        "factuality": "High",
-        "headline": "Private school pupil numbers dip just 3% despite warnings of mass exodus over VAT",
-        "url": "https://www.theguardian.com/politics",
-        "framingAnalysis": "The Guardian highlights that predicted mass collapses of the independent sector did not materialise and emphasises how the £1.5bn revenue supports state classrooms."
-      },
-      {
-        "outletName": "BBC News",
-        "lean": "center",
-        "factuality": "Very High",
-        "headline": "How has VAT on private school fees affected parents, independent schools and state admissions?",
-        "url": "https://www.bbc.co.uk/news/politics",
-        "framingAnalysis": "BBC News examines council admissions data across England to verify whether local state schools have experienced a measurable influx of former private pupils."
-      }
-    ]
-  },
-  {
-    "id": "media-cluster-8",
-    "title": "Water Company Sewage Discharges & Executive Bonuses Spark Demands for Full Nationalisation",
-    "category": "energy",
-    "publishedAt": "Sep 2026 • Environment & Utilities",
-    "totalSourcesCount": 19,
-    "coverageSplit": {
-      "left": 62,
-      "center": 25,
-      "right": 13
-    },
-    "blindspot": "right_blindspot",
-    "blindspotNote": "Right Blindspot: 62% of reporting is driven by Left and Centre-Left outlets investigating shareholder dividends and sewage spills, while Right-leaning outlets focus less on utility nationalisation.",
-    "neutralGist": "Environment Agency monitoring data revealed high storm overflow sewage spills across English rivers and coastal waters alongside £15bn+ debt restructuring talks in the water sector, prompting the Green Party, Plaid Cymru, and Reform UK to demand public ownership models while the Lib Dems pushed for a Tougher Regulator (Clean Water Authority).",
-    "wingPerspectives": {
-      "left": {
-        "summary": "Left-leaning outlets frame the sewage crisis as the ultimate indictment of 1989 water privatisation, arguing private equity extracted £78bn in dividends while starving infrastructure of investment.",
-        "whyThisFraming": "Rooted in environmental accountability and opposition to private shareholder extraction from natural public monopolies.",
-        "toneKeywords": [
-          "Privatisation Failure",
-          "River Pollution Scandal",
-          "Full Public Ownership"
-        ]
-      },
-      "center": {
-        "summary": "Centrist outlets examine Ofwat's 5-year price review, consumer water bill increases of ~30% to fund £104bn in pipe upgrades, and the Special Administration regime for distressed utilities.",
-        "whyThisFraming": "Focuses on regulatory enforcement, infrastructure bond markets, and household bill impacts.",
-        "toneKeywords": [
-          "Ofwat Price Review",
-          "£104bn Infrastructure Upgrade",
-          "Special Administration"
-        ]
-      },
-      "right": {
-        "summary": "Right-leaning outlets criticise Ofwat bureaucracy and population growth from high migration overwhelming Victorian sewage networks, while Reform UK breaks ranks on the right to back 50% public/50% UK pension ownership.",
-        "whyThisFraming": "Attributes infrastructure strain to rapid housebuilding/population growth and regulatory mismanagement, while protecting UK pension fund bondholders.",
-        "toneKeywords": [
-          "Population Strain",
-          "Ofwat Failure",
-          "Pension Fund Protection"
-        ]
-      }
-    },
-    "outletReports": [
-      {
-        "outletName": "The Guardian",
-        "lean": "left",
-        "factuality": "High",
-        "headline": "England's rivers endure millions of hours of raw sewage spills as campaigners demand immediate public ownership",
-        "url": "https://www.theguardian.com/politics",
-        "framingAnalysis": "The Guardian leads with environmental data and Green Party / campaigner calls to bring water companies into 100% public ownership without compensating failing shareholders."
-      },
-      {
-        "outletName": "The Independent",
-        "lean": "center-left",
-        "factuality": "High",
-        "headline": "Lib Dems demand abolition of Ofwat and ban on all water boss bonuses until sewage spills end",
-        "url": "https://www.independent.co.uk/news/uk/politics",
-        "framingAnalysis": "The Independent highlights Sir Ed Davey's campaign in Blue Wall coastal and rural seats, focusing on executive pay bans and replacing Ofwat."
+        "headline": "The shocking £164billion cost of Andy Burnham's Brexit betrayal",
+        "url": "https://www.express.co.uk/news/politics/2268600/shocking-164billion-cost-andy-burnhams",
+        "framingAnalysis": "The Express employs sharp adversarial language to characterize the accord as an economic and constitutional capitulation to Brussels. It amplifies Reform UK and eurosceptic calculations predicting long-term financial damage to Britain's autonomy."
       },
       {
         "outletName": "The Times",
         "lean": "center-right",
         "factuality": "High",
-        "headline": "Household water bills set to rise to fund £104bn pipe overhaul as Reform proposes 50% state stake",
-        "url": "https://www.thetimes.com/uk/politics",
-        "framingAnalysis": "The Times focuses on the financial restructuring of water utilities, institutional bondholders, and the political headache of rising household water bills."
+        "headline": "Burnham defends EU compromise in Commons amid backlash from Tory grandees",
+        "url": "https://www.thetimes.com/politics/burnham-eu-deal-commons-clash",
+        "framingAnalysis": "The Times assesses the legal and regulatory concessions required to secure the agreement, alongside the institutional weight of criticisms from Theresa May and David Cameron. It approaches the story analytically, evaluating business reaction against parliamentary risks."
+      }
+    ],
+    "publishedDateIso": "2026-11-23",
+    "category": "westminster",
+    "neutralGist": "The UK government has finalized a framework accord with the European Union aimed at reducing administrative border barriers, sanitary and phytosanitary checks, and deepening security cooperation. Prime Minister Andy Burnham defended the agreement in Parliament as a pragmatic step to lower consumer grocery prices by 2028 and reduce frictions created by the 2020 settlement. Several former Conservative prime ministers, alongside current Conservative and Reform UK leadership, criticized the accord as an unwarranted concession that compromises UK regulatory divergence.",
+    "coverageSplit": {
+      "left": 35,
+      "right": 30,
+      "center": 35
+    },
+    "publishedAt": "23 Nov 2026 • 14:30 GMT",
+    "totalSourcesCount": 38,
+    "wingPerspectives": {
+      "center": {
+        "summary": "Focuses on the technical trade-offs between reduced border friction and regulatory commitments, detailing cross-party parliamentary scrutiny and diplomatic dynamics with Brussels.",
+        "whyThisFraming": "Adopts an institutional stance, weighing projected commercial and supply chain advantages against domestic political vulnerabilities and public Brexit fatigue.",
+        "toneKeywords": [
+          "diplomatic compromise",
+          "trade-off analysis",
+          "parliamentary scrutiny"
+        ]
+      },
+      "left": {
+        "summary": "Frames the agreement as an essential, common-sense correction to post-Brexit trade friction that will directly relieve household grocery expenses, depicting opposition from former Tory prime ministers as defensive obstinacy.",
+        "whyThisFraming": "Aligns with progressive economic priorities favouring closer European cooperation, consumer cost-of-living relief, and holding previous Conservative administrations accountable for trade disruption.",
+        "toneKeywords": [
+          "pragmatic reset",
+          "cost-of-living relief",
+          "tory obstinacy"
+        ]
+      },
+      "right": {
+        "summary": "Denounces the arrangement as a betrayal of Brexit sovereignty and an opening move toward dynamic alignment with EU directives, highlighting warnings from opposition leaders regarding democratic autonomy and costs.",
+        "whyThisFraming": "Reflects eurosceptic editorial principles emphasizing national self-determination, strict divergence from EU bodies, and resistance to supranational oversight.",
+        "toneKeywords": [
+          "brexit betrayal",
+          "sovereignty surrender",
+          "unwarranted concessions"
+        ]
+      }
+    },
+    "createdAt": 1795444397607,
+    "title": "UK Concludes Brussels Accord on Border Red Tape as Opposition and Former PMs Mount Challenge",
+    "blindspot": "none",
+    "id": "live-2026-11-23-uk-concludes-brussels-accord-on-border-red"
+  },
+  {
+    "category": "housing",
+    "id": "live-2026-11-23-government-considers-abolition-of-natural-",
+    "wingPerspectives": {
+      "left": {
+        "toneKeywords": [
+          "environmental dismantling",
+          "nature at risk",
+          "developer giveaway"
+        ],
+        "summary": "Raises alarm that dismantling statutory environmental bodies strips away critical ecological checks, warning that commercial housebuilding targets will supersede nature conservation and flood mitigation.",
+        "whyThisFraming": "Reflects green governance priorities, deep scepticism of corporate deregulation, and commitment to legally binding biodiversity standards."
+      },
+      "center": {
+        "summary": "Analyzes the administrative trade-offs between speeding up planning consents to fix the national housing shortage and maintaining statutory environmental protection benchmarks.",
+        "whyThisFraming": "Maintains an institutional perspective by balancing delivery metrics of planning reform against legal compliance and environmental risk management.",
+        "toneKeywords": [
+          "planning reform",
+          "regulatory overhaul",
+          "housing targets"
+        ]
+      },
+      "right": {
+        "toneKeywords": [
+          "quango cull",
+          "red tape slashed",
+          "pro-growth reform"
+        ],
+        "summary": "Welcomes the prospective quango cull as an overdue strike against unelected bureaucracy, red tape, and environmental obstructionism that has stalled construction across Britain.",
+        "whyThisFraming": "Grounded in free-market principles supporting state-slimming, deregulation, property development, and removing statutory obstacles to economic growth."
+      }
+    },
+    "blindspot": "none",
+    "totalSourcesCount": 20,
+    "createdAt": 1795444396607,
+    "publishedDateIso": "2026-11-23",
+    "title": "Government Considers Abolition of Natural England and Environment Agency in Planning Shake-Up",
+    "neutralGist": "First Secretary of State Louise Haigh confirmed that major arm's-length environmental regulators, including Natural England and the Environment Agency, are undergoing ministerial review with potential abolition under consideration. The proposal aims to remove statutory planning bottlenecks and return direct development authority to elected ministers to accelerate national housebuilding. Conservation charities voiced concern regarding wildlife safeguards, while housing developers have long criticized protracted regulatory delays.",
+    "coverageSplit": {
+      "left": 35,
+      "center": 25,
+      "right": 40
+    },
+    "outletReports": [
+      {
+        "outletName": "The Guardian",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Environment Agency and Natural England face axe in Labour quango cull",
+        "url": "https://www.theguardian.com/politics/2026/nov/23/natural-england-could-be-abolished-quango-cull-louise-haigh",
+        "framingAnalysis": "The Guardian focuses on the environmental risks of dissolving independent regulators, warning that political control over development will compromise nature reserves and flood security. It quotes green advocates who accuse ministers of sacrificing ecological integrity for housing quotas."
+      },
+      {
+        "outletName": "Daily Express",
+        "lean": "right",
+        "factuality": "Mixed",
+        "headline": "Andy Burnham could abolish key quango to boost house building",
+        "url": "https://www.express.co.uk/news/politics/2268594/andy-burnham-could-abolish-key",
+        "framingAnalysis": "The Express frames the announcement as a decisive effort to dismantle unaccountable quangos that have blocked new homes for families. It adopts a populist, pro-development stance that views regulatory bodies as barriers to national progress."
+      },
+      {
+        "outletName": "The Independent",
+        "lean": "center-left",
+        "factuality": "High",
+        "headline": "Ministers consider sweeping cull of environmental regulators to hit housing goals",
+        "url": "https://www.independent.co.uk/news/uk/politics/environmental-agency-natural-england-quangos-housing-b2871142.html",
+        "framingAnalysis": "The Independent examines the legal challenges and political backlash the government faces from backbenchers and environmental lobbies. It focuses on whether centralizing planning powers will actually expedite delivery without spurring protracted judicial reviews."
+      },
+      {
+        "outletName": "The Telegraph",
+        "lean": "right",
+        "factuality": "High",
+        "headline": "Labour targets bloated green quangos to break Britain's planning paralysis",
+        "url": "https://www.telegraph.co.uk/politics/2026/11/23/labour-quango-cull-natural-england-environment-agency/",
+        "framingAnalysis": "The Telegraph endorses the proposed reform as a necessary step to overcome planning inertia, characterizing existing arm's-length bodies as self-perpetuating bureaucracies. It urges the government to resist civil service resistance and follow through with statutory abolitions."
+      }
+    ],
+    "publishedAt": "23 Nov 2026 • 14:30 GMT"
+  },
+  {
+    "publishedAt": "23 Nov 2026 • 14:30 GMT",
+    "publishedDateIso": "2026-11-23",
+    "neutralGist": "Social Security Minister Sir Stephen Timms announced that Personal Independence Payment (PIP) assessments require a fundamental overhaul, declaring the existing standardized assessment system unfit for purpose. A forthcoming ministerial review recommends replacing generic descriptors with individual cost-based assessments tailored to specific disabilities. The overhaul seeks to rebuild trust among claimants while addressing expanding caseload volumes and administrative backlogs.",
+    "coverageSplit": {
+      "center": 40,
+      "left": 35,
+      "right": 25
+    },
+    "title": "Disability Minister Sir Stephen Timms Recommends Overhaul of Standard PIP Payments",
+    "createdAt": 1795444395607,
+    "wingPerspectives": {
+      "center": {
+        "whyThisFraming": "Focuses on bureaucratic feasibility, the evidentiary basis for individualized support, and the long-term sustainability of the social security budget.",
+        "summary": "Assesses the complex policy and operational challenge of restructuring disability evaluation frameworks against the backdrop of rapidly expanding health-related welfare expenditure.",
+        "toneKeywords": [
+          "structural overhaul",
+          "spending sustainability",
+          "assessment criteria"
+        ]
+      },
+      "right": {
+        "summary": "Scrutinizes the proposed changes over concerns that moving away from strict criteria will fail to stem rising welfare costs, arguing that reforms must focus on encouraging workforce participation.",
+        "whyThisFraming": "Driven by fiscal conservatism, taxpayer value, and apprehension regarding widening economic inactivity and expanding sickness benefit rolls.",
+        "toneKeywords": [
+          "welfare expenditure",
+          "workforce incentives",
+          "spending control"
+        ]
+      },
+      "left": {
+        "summary": "Applauds the proposed overhaul as an acknowledgment of a punitive and degrading tick-box assessment regime, insisting that reforms must safeguard benefit adequacy and claimant dignity.",
+        "whyThisFraming": "Rooted in welfare rights advocacy, disability justice, and long-standing opposition to marketized assessment frameworks run by outsourcing contractors.",
+        "toneKeywords": [
+          "claimant dignity",
+          "unfit assessment",
+          "welfare justice"
+        ]
+      }
+    },
+    "category": "welfare",
+    "blindspot": "none",
+    "totalSourcesCount": 24,
+    "id": "live-2026-11-23-disability-minister-sir-stephen-timms-reco",
+    "outletReports": [
+      {
+        "outletName": "BBC News",
+        "lean": "center",
+        "factuality": "Very High",
+        "headline": "Pip assessments need 'fundamental overhaul', report to say",
+        "url": "https://www.bbc.co.uk/news/articles/cvlyj3rn201xo?at_medium=RSS&at_campaign=rss",
+        "framingAnalysis": "BBC News delivers an impartial breakdown of Sir Stephen Timms's findings, highlighting systemic criticisms of the existing framework alongside the logistical complexities of switching to personalized assessments. It avoids editorial bias, focusing on official timelines and stakeholder perspectives."
+      },
+      {
+        "outletName": "Daily Mirror",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Standard PIP payments should be replaced and system not fit for purpose, warns minister",
+        "url": "https://www.mirror.co.uk/news/politics/stephen-timms-pip-disability-benefit-37905282",
+        "framingAnalysis": "The Mirror spotlights claimant hardship and the stress caused by existing medical assessments, framing the minister's announcement as an admission of state failure. It advocates strongly for an empathetic, individualized welfare model that protects vulnerable families."
+      },
+      {
+        "outletName": "The Guardian",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Ministers prepare to scrap standard PIP tests in radical disability benefit reset",
+        "url": "https://www.theguardian.com/politics/2026/nov/23/pip-disability-benefit-reform-stephen-timms",
+        "framingAnalysis": "The Guardian examines the systemic failures of outsourced private assessment providers and emphasizes demands from disability advocates for statutory protections against benefit cuts. It focuses heavily on preventing reforms from becoming a vehicle for Treasury retrenchment."
+      },
+      {
+        "outletName": "Daily Mail",
+        "lean": "right",
+        "factuality": "High",
+        "headline": "Labour's PIP shake-up must not become an open chequebook for soaring sick-note Britain",
+        "url": "https://www.dailymail.co.uk/news/article-13988201/pip-reform-timms-disability-bill.html",
+        "framingAnalysis": "The Daily Mail warns that dismantling standardized eligibility benchmarks could exacerbate the national welfare bill and encourage economic inactivity. It insists that reforms must prioritize rigorous medical verification and return-to-work pathways."
       }
     ]
+  },
+  {
+    "title": "Inspection Report Finds 'Unnecessary and Intimidating' Force in Asylum Removals",
+    "createdAt": 1795444394607,
+    "blindspot": "right_blindspot",
+    "neutralGist": "An official inspection report revealed that asylum seekers removed under the UK's 'one in, one out' scheme were subjected to 'unnecessary and intimidating' physical force. The findings highlighted specific incidents, including a suicidal and distressed individual carried onto an aircraft in waist, leg, and ankle restraints. The Home Office maintained that safe and secure removals remain essential to border control but affirmed that escort protocols are under departmental review.",
+    "category": "immigration",
+    "coverageSplit": {
+      "center": 20,
+      "left": 65,
+      "right": 15
+    },
+    "id": "live-2026-11-23-inspection-report-finds-unnecessary-and-in",
+    "totalSourcesCount": 16,
+    "publishedDateIso": "2026-11-23",
+    "outletReports": [
+      {
+        "outletName": "The Guardian",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Asylum seekers removed from UK subjected to ‘unnecessary and intimidating’ force",
+        "url": "https://www.theguardian.com/uk-news/2026/nov/23/asylum-seekers-removed-from-uk-unnecessary-and-intimidating-force",
+        "framingAnalysis": "The Guardian provides prominent, detailed reporting on the inspectorate's findings, highlighting the mistreatment of vulnerable and suicidal individuals. It uses the report to challenge the moral legitimacy and administrative cruelty of the government's returns framework."
+      },
+      {
+        "outletName": "The Independent",
+        "lean": "center-left",
+        "factuality": "High",
+        "headline": "Inspectors condemn Home Office over 'intimidating' force during asylum deportations",
+        "url": "https://www.independent.co.uk/news/uk/home-news/asylum-seekers-force-restraint-home-office-deportations-b2871190.html",
+        "framingAnalysis": "The Independent focuses on the legal liabilities and ethical condemnations issued by civil liberties watchdogs. It interrogates the lack of supervisory accountability over private security staff tasked with forced removals."
+      },
+      {
+        "outletName": "BBC News",
+        "lean": "center",
+        "factuality": "Very High",
+        "headline": "Deportation escort teams used unnecessary force, inspector finds",
+        "url": "https://www.bbc.co.uk/news/articles/cw0e8x9r101ko",
+        "framingAnalysis": "The BBC outlines the specific findings of the independent monitor while detailing the Home Office's official reply. Its coverage remains strictly procedural, explaining the rules governing mechanical restraints during deportation flights."
+      },
+      {
+        "outletName": "The Telegraph",
+        "lean": "right",
+        "factuality": "High",
+        "headline": "Home Office reviews escort rules after watchdog raises concerns over deportation flights",
+        "url": "https://www.telegraph.co.uk/news/2026/11/23/home-office-reviews-escort-rules-deportation-flights/",
+        "framingAnalysis": "The Telegraph frames the development briefly through the lens of departmental administrative reviews, noting that enforcement officers encounter complex, resistant subjects during lawful expulsions."
+      }
+    ],
+    "blindspotNote": "This critical inspection report on asylum removals receives prominent investigative coverage from left-leaning media while right-leaning outlets largely bypass it.",
+    "wingPerspectives": {
+      "right": {
+        "summary": "Gives minimal coverage to the report, framing physical restraints as routine, lawful security measures required when dealing with non-compliant individuals undergoing court-mandated deportation.",
+        "whyThisFraming": "Prioritizes firm border control, deterrence, and the enforcement of removal orders, treating restraint complaints as secondary operational frictions.",
+        "toneKeywords": [
+          "lawful removal",
+          "border enforcement",
+          "operational security"
+        ]
+      },
+      "center": {
+        "toneKeywords": [
+          "inspection findings",
+          "contractor oversight",
+          "protocol review"
+        ],
+        "whyThisFraming": "Emphasizes public administration standards, adherence to statutory guidelines, and balanced contractual oversight of Home Office contractors.",
+        "summary": "Focuses on the regulatory compliance breaches identified by the independent monitoring body, contrasting statutory duty-of-care requirements with the operational challenges of enforced expulsions."
+      },
+      "left": {
+        "toneKeywords": [
+          "human rights breach",
+          "deportation cruelty",
+          "excessive restraint"
+        ],
+        "summary": "Condemns the reported restraint practices as systemic human rights violations, demanding an immediate halt to aggressive deportation quotas and accountability for private security contractors.",
+        "whyThisFraming": "Grounded in universal human rights advocacy, refugee protection principles, and ongoing scrutiny of privatized enforcement within the immigration detention system."
+      }
+    },
+    "publishedAt": "23 Nov 2026 • 14:30 GMT"
+  },
+  {
+    "neutralGist": "Downing Street faced sharp political criticism after footage circulated online showing an internet influencer performing a popular dance routine inside No 10 following a podcast interview. Opposition politicians accused the Prime Minister of devaluing the dignity of the historic building during a period of serious domestic challenges. Number 10 defended the engagement as part of an ongoing communications effort to reach younger demographics through non-traditional media channels.",
+    "totalSourcesCount": 15,
+    "id": "live-2026-11-23-downing-street-faces-criticism-after-socia",
+    "title": "Downing Street Faces Criticism After Social Media Influencer Records Video Inside No 10",
+    "coverageSplit": {
+      "right": 70,
+      "left": 10,
+      "center": 20
+    },
+    "createdAt": 1795444393607,
+    "wingPerspectives": {
+      "left": {
+        "toneKeywords": [
+          "manufactured outrage",
+          "tabloid distraction",
+          "digital outreach"
+        ],
+        "whyThisFraming": "Reluctant to amplify optics-focused controversies that lack legislative consequence, while viewing modern digital outreach as standard political communication.",
+        "summary": "Largely ignores the episode, dismissing opposition outrage as manufactured tabloid triviality aimed at distracting from substantive policy debates."
+      },
+      "center": {
+        "toneKeywords": [
+          "comms misstep",
+          "political optics",
+          "office dignity"
+        ],
+        "summary": "Assesses the incident as a communications misstep that highlights the delicate tension between engaging youth audiences online and maintaining traditional executive dignity.",
+        "whyThisFraming": "Focuses on strategic communications analysis, public relations management, and the cultural boundary between social media culture and public office."
+      },
+      "right": {
+        "toneKeywords": [
+          "number 10 circus",
+          "undignified spectacle",
+          "frivolous leadership"
+        ],
+        "summary": "Harshly attacks the Prime Minister for turning Downing Street into a circus, framing the video as evidence of an unserious, superficial administration out of touch with public standards.",
+        "whyThisFraming": "Draws on cultural conservatism, reverence for established national institutions, and sharp political opposition to Burnham's media presentation."
+      }
+    },
+    "publishedAt": "23 Nov 2026 • 14:30 GMT",
+    "blindspotNote": "Right-leaning outlets heavily criticize Downing Street's dignity and optics, a story largely ignored by left-leaning titles.",
+    "outletReports": [
+      {
+        "outletName": "Daily Express",
+        "lean": "right",
+        "factuality": "Mixed",
+        "headline": "Andy Burnham slammed for 'turning No10 into circus' - 'it’s jarring'",
+        "url": "https://www.express.co.uk/news/politics/2268565/andy-burnham-slammed-cringe-video",
+        "framingAnalysis": "The Express delivers a fierce critique of the Prime Minister, featuring scathing quotes from opposition figures and highlighting public embarrassment at viral stunts inside the corridors of power. It presents the video as symbolic of executive decay."
+      },
+      {
+        "outletName": "Daily Mail",
+        "lean": "right",
+        "factuality": "High",
+        "headline": "Dignity dancing out the door: Fury as TikTok influencer gyrates inside Number 10",
+        "url": "https://www.dailymail.co.uk/news/article-13988421/tiktok-influencer-dance-downing-street-burnham.html",
+        "framingAnalysis": "The Daily Mail frames the incident as an undignified lapse in prime ministerial judgment that trivializes Britain's highest political office. It contrasts the influencer's antics with real-world economic pressures faced by taxpayers."
+      },
+      {
+        "outletName": "GB News",
+        "lean": "right",
+        "factuality": "Mixed",
+        "headline": "'Disrespectful and shameful!' Burnham under fire as No10 used for cringe internet stunt",
+        "url": "https://www.gbnews.com/politics/downing-street-influencer-dance-video-burnham-backlash",
+        "framingAnalysis": "GB News focuses on conservative cultural indignation, framing the dance as an insult to British statecraft and national heritage. It uses the row to question the seriousness and competence of the Downing Street operation."
+      },
+      {
+        "outletName": "Sky News",
+        "lean": "center",
+        "factuality": "High",
+        "headline": "Downing Street defends youth outreach after criticism over influencer video in No 10",
+        "url": "https://news.sky.com/story/downing-street-influencer-tiktok-video-backlash-13615602",
+        "framingAnalysis": "Sky News covers the controversy evenly, reporting the political attacks from the opposition alongside Downing Street's justification regarding new media strategy. It evaluates the growing role of influencer culture in Westminster PR without overt editorial bias."
+      }
+    ],
+    "blindspot": "left_blindspot",
+    "category": "westminster",
+    "publishedDateIso": "2026-11-23"
+  },
+  {
+    "wingPerspectives": {
+      "right": {
+        "summary": "Welcomes the formal rejection of state expropriation as a concession to economic reality, but warns that heavy-handed ministerial controls and profit caps will deter necessary investment.",
+        "whyThisFraming": "Grounded in free-market philosophy advocating capital investment and private enterprise, alongside scepticism toward government micromanagement of utilities.",
+        "toneKeywords": [
+          "nationalisation rejected",
+          "investor risk",
+          "heavy regulation"
+        ]
+      },
+      "center": {
+        "summary": "Describes the public control model as a pragmatic middle ground designed to enforce regulatory standards without burdening public finances with billions in utility debt.",
+        "whyThisFraming": "Prioritizes balance-sheet prudence, legal feasibility, and the maintenance of private infrastructure investment alongside robust state oversight.",
+        "toneKeywords": [
+          "hybrid model",
+          "fiscal caution",
+          "regulatory intervention"
+        ]
+      },
+      "left": {
+        "toneKeywords": [
+          "missed opportunity",
+          "privatisation failure",
+          "sewage scandal"
+        ],
+        "summary": "Expresses profound disappointment at the abandonment of full public ownership, arguing that maintaining private water monopolies preserves profiteering and fails to address sewage pollution.",
+        "whyThisFraming": "Reflects trade union and socialist economic principles that view water infrastructure as a fundamental public good that should operate free from private equity dividends."
+      }
+    },
+    "publishedAt": "23 Nov 2026 • 14:30 GMT",
+    "id": "live-2026-11-23-government-rejects-full-fat-nationalisatio",
+    "category": "energy",
+    "createdAt": 1795444392607,
+    "totalSourcesCount": 18,
+    "neutralGist": "First Secretary of State Louise Haigh announced that the government has ruled out full nationalisation of England's privatized water companies, choosing instead to implement an enhanced 'public control' model. The policy maintains private operator concessions while introducing statutory performance directives, strict dividend caps, and expanded powers to sanction failing executives. Campaign groups pushing for complete public ownership criticized the compromise, while utility share prices stabilized following the announcement.",
+    "blindspot": "none",
+    "title": "Government Rejects 'Full Fat Nationalisation' of Water in Favour of Public Control Model",
+    "outletReports": [
+      {
+        "outletName": "Daily Mirror",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Louise Haigh pulls plug on 'full fat nationalisation' of the country's water industry",
+        "url": "https://www.mirror.co.uk/news/politics/water-industry-nationalisation-public-private-37905712",
+        "framingAnalysis": "The Mirror channels consumer and environmentalist frustration over the decision not to nationalize the sector completely, spotlighting ongoing anger over sewage pollution and executive payouts. It questions whether partial control will suffice to clean up Britain's waterways."
+      },
+      {
+        "outletName": "The Guardian",
+        "lean": "left",
+        "factuality": "High",
+        "headline": "Labour rules out full water nationalisation in favour of hybrid regulatory model",
+        "url": "https://www.theguardian.com/environment/2026/nov/23/water-industry-nationalisation-louise-haigh-public-control",
+        "framingAnalysis": "The Guardian analyzes internal party tensions and disappointment among grassroots activists who viewed public ownership as an essential environmental mandate. It assesses the policy compromise through the lens of climate accountability and corporate governance."
+      },
+      {
+        "outletName": "Financial Times",
+        "lean": "center",
+        "factuality": "Very High",
+        "headline": "UK chooses public control model over water nationalisation to preserve private investment",
+        "url": "https://www.ft.com/content/water-industry-public-control-regulation-haigh",
+        "framingAnalysis": "The Financial Times evaluates the capital market implications, noting investor relief that the state avoided equity expropriation while analyzing how strict performance mandates will affect utility borrowing costs. It approaches the story through infrastructure finance and regulatory economics."
+      },
+      {
+        "outletName": "The Telegraph",
+        "lean": "right",
+        "factuality": "High",
+        "headline": "Common sense prevails as Labour ditches disastrous water nationalisation fantasy",
+        "url": "https://www.telegraph.co.uk/business/2026/11/23/labour-ditches-water-nationalisation-louise-haigh/",
+        "framingAnalysis": "The Telegraph portrays the retreat from nationalisation as an overdue admission of economic reality that averts catastrophic borrowing. However, it cautions that punitive caps on returns risk drying up the private capital required to modernize outdated infrastructure."
+      }
+    ],
+    "publishedDateIso": "2026-11-23",
+    "coverageSplit": {
+      "right": 20,
+      "left": 45,
+      "center": 35
+    }
   }
 ]

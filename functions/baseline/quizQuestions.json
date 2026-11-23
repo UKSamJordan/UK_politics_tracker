@@ -1,0 +1,407 @@
+[
+  {
+    "id": 1,
+    "category": "Economy & Tax",
+    "question": "How should the UK manage taxation and public services?",
+    "options": [
+      {
+        "text": "Raise taxes significantly on wealth and corporations to massively expand public services.",
+        "affinities": { "green": 3, "plaid": 2 },
+        "ideologicalVector": { "economic": -3, "social": 1 }
+      },
+      {
+        "text": "Maintain current tax rates but reform fiscal rules to borrow for capital investment in state infrastructure.",
+        "affinities": { "labour": 3 },
+        "ideologicalVector": { "economic": -1.5, "social": 1 }
+      },
+      {
+        "text": "Reduce income tax slightly but keep essential services funded; focus on localized growth.",
+        "affinities": { "libdem": 3 },
+        "ideologicalVector": { "economic": 0, "social": -2 }
+      },
+      {
+        "text": "Slashing taxes aggressively and cutting the size of the state to promote private enterprise.",
+        "affinities": { "conservative": 3, "reform": 3 },
+        "ideologicalVector": { "economic": 3, "social": 1 }
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "category": "Immigration & Borders",
+    "question": "What is the best approach to immigration policy?",
+    "options": [
+      {
+        "text": "Halt all non-essential immigration and leave international human rights treaties if necessary to enforce deportations.",
+        "affinities": { "reform": 3, "restore": 3 },
+        "ideologicalVector": { "economic": 1, "social": 3 }
+      },
+      {
+        "text": "Cap legal migration strictly and implement tough border enforcement to deter illegal crossings.",
+        "affinities": { "conservative": 3 },
+        "ideologicalVector": { "economic": 2, "social": 2 }
+      },
+      {
+        "text": "Create an elite border command to smash gangs, whilst requiring employers to train domestic workers instead of relying on visas.",
+        "affinities": { "labour": 3 },
+        "ideologicalVector": { "economic": -1, "social": 1 }
+      },
+      {
+        "text": "Embrace the economic and cultural benefits of migration, allowing asylum seekers to work and increasing legal routes.",
+        "affinities": { "green": 3, "libdem": 3, "snp": 2 },
+        "ideologicalVector": { "economic": -1, "social": -3 }
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "category": "NHS & Healthcare",
+    "question": "How do we solve the crisis in the NHS?",
+    "options": [
+      {
+        "text": "Ban all private healthcare involvement, dramatically increase funding through wealth taxes, and restore full pay for doctors.",
+        "affinities": { "green": 3 },
+        "ideologicalVector": { "economic": -3, "social": 0 }
+      },
+      {
+        "text": "Utilise private hospital capacity to clear backlogs free at the point of use, whilst expanding weekend/evening clinics.",
+        "affinities": { "labour": 3 },
+        "ideologicalVector": { "economic": -1, "social": 0 }
+      },
+      {
+        "text": "Introduce a legal right to see a GP within 7 days, expanding free personal social care funded by fairer taxes.",
+        "affinities": { "libdem": 3 },
+        "ideologicalVector": { "economic": -0.5, "social": -1.5 }
+      },
+      {
+        "text": "Move towards a voucher or insurance-based system where patients can go private if the NHS fails to treat them quickly.",
+        "affinities": { "reform": 3, "restore": 2 },
+        "ideologicalVector": { "economic": 3, "social": 1 }
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "category": "Energy & Climate",
+    "question": "What should the UK's timeline for Net Zero be?",
+    "options": [
+      {
+        "text": "Scrap Net Zero entirely to cut bills and aggressively extract more British oil, gas, and shale.",
+        "affinities": { "reform": 3, "restore": 3 },
+        "ideologicalVector": { "economic": 2, "social": 2 }
+      },
+      {
+        "text": "Keep the 2050 target but prioritize consumer costs; maintain some oil and gas licensing alongside nuclear energy.",
+        "affinities": { "conservative": 3 },
+        "ideologicalVector": { "economic": 1, "social": 1 }
+      },
+      {
+        "text": "Drive a pragmatic transition via a publicly owned Great British Energy company, aiming for clean power by 2030.",
+        "affinities": { "labour": 3 },
+        "ideologicalVector": { "economic": -1.5, "social": 0 }
+      },
+      {
+        "text": "Accelerate Net Zero to 2040 or earlier, nationalize utilities, and implement strict carbon pricing.",
+        "affinities": { "green": 3 },
+        "ideologicalVector": { "economic": -2.5, "social": -1 }
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "category": "Military & Defence",
+    "question": "How should the UK approach its military and nuclear deterrent?",
+    "options": [
+      {
+        "text": "Surge spending to 3% of GDP immediately, vastly expand the regular army, and focus on national border defence.",
+        "affinities": { "reform": 3, "restore": 3 },
+        "ideologicalVector": { "economic": 1, "social": 3 }
+      },
+      {
+        "text": "Commit firmly to 2.5% of GDP by 2030 and maintain a strong global presence and independent nuclear deterrent.",
+        "affinities": { "conservative": 3 },
+        "ideologicalVector": { "economic": 1, "social": 2 }
+      },
+      {
+        "text": "Responsibly reach 2.5% of GDP when economic conditions allow, prioritizing NATO, the nuclear deterrent, and European pacts.",
+        "affinities": { "labour": 3 },
+        "ideologicalVector": { "economic": -0.5, "social": 1 }
+      },
+      {
+        "text": "Scrap the Trident nuclear weapons system entirely and redirect the billions into diplomacy and climate resilience.",
+        "affinities": { "green": 3, "snp": 2, "plaid": 2 },
+        "ideologicalVector": { "economic": -2, "social": -3 }
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "category": "Housing & Planning",
+    "question": "How can we solve the housing crisis?",
+    "options": [
+      {
+        "text": "Abolish right-to-buy, implement strict rent controls, and launch a massive state-led social housing building program.",
+        "affinities": { "green": 3 },
+        "ideologicalVector": { "economic": -3, "social": 1 }
+      },
+      {
+        "text": "Override local objections to build 1.5 million homes, updating green belt rules and strengthening renter protections.",
+        "affinities": { "labour": 3 },
+        "ideologicalVector": { "economic": -1, "social": 1 }
+      },
+      {
+        "text": "Give local communities more power to block inappropriate developments while encouraging housing on brownfield sites.",
+        "affinities": { "libdem": 3 },
+        "ideologicalVector": { "economic": 0, "social": -1.5 }
+      },
+      {
+        "text": "Deregulation of planning laws to allow developers to build faster, while prioritizing social housing for UK nationals.",
+        "affinities": { "reform": 3, "conservative": 2 },
+        "ideologicalVector": { "economic": 2, "social": 2 }
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "category": "Law & Order",
+    "question": "What should the priority be for the justice system?",
+    "options": [
+      {
+        "text": "Expand stop-and-search, build more prisons, and enforce much harsher mandatory sentences for all repeat offenders.",
+        "affinities": { "reform": 3, "conservative": 3 },
+        "ideologicalVector": { "economic": 1, "social": 3 }
+      },
+      {
+        "text": "Introduce new powers to tackle anti-social behaviour quickly and recruit more neighbourhood police officers.",
+        "affinities": { "labour": 3 },
+        "ideologicalVector": { "economic": -0.5, "social": 1.5 }
+      },
+      {
+        "text": "Focus heavily on rehabilitation, community sentences, and treating drug addiction primarily as a health issue.",
+        "affinities": { "libdem": 3, "green": 2 },
+        "ideologicalVector": { "economic": -0.5, "social": -2.5 }
+      },
+      {
+        "text": "Decriminalize minor drug offences and fundamentally reform the justice system to focus on restorative justice.",
+        "affinities": { "green": 3 },
+        "ideologicalVector": { "economic": -1, "social": -3 }
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "category": "Education & Tuition",
+    "question": "How should higher education be funded?",
+    "options": [
+      {
+        "text": "Scrap tuition fees entirely and fund universities fully through progressive state taxation.",
+        "affinities": { "green": 3, "plaid": 3 },
+        "ideologicalVector": { "economic": -3, "social": 0 }
+      },
+      {
+        "text": "Retain the current fee system but reform repayment terms to make it fairer for low-earning graduates.",
+        "affinities": { "labour": 3 },
+        "ideologicalVector": { "economic": -0.5, "social": 0 }
+      },
+      {
+        "text": "Reintroduce maintenance grants for poorer students and push for lifelong learning entitlements.",
+        "affinities": { "libdem": 3 },
+        "ideologicalVector": { "economic": -1, "social": -1 }
+      },
+      {
+        "text": "Maintain fees and defund 'woke' or low-value degrees, heavily incentivizing STEM and apprenticeships instead.",
+        "affinities": { "reform": 3, "conservative": 2 },
+        "ideologicalVector": { "economic": 2, "social": 2.5 }
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "category": "Welfare & Work",
+    "question": "What is the best approach to the welfare state?",
+    "options": [
+      {
+        "text": "Introduce a Universal Basic Income (UBI) for all citizens, removing cruel sanctions and lifting benefits significantly.",
+        "affinities": { "green": 3 },
+        "ideologicalVector": { "economic": -3, "social": -2 }
+      },
+      {
+        "text": "Reform Universal Credit to remove the two-child limit, ensuring a strong safety net while supporting people into work.",
+        "affinities": { "libdem": 3, "snp": 2 },
+        "ideologicalVector": { "economic": -1.5, "social": -1.5 }
+      },
+      {
+        "text": "Maintain strict conditionality on benefits to encourage work, whilst introducing a genuine living wage.",
+        "affinities": { "labour": 3 },
+        "ideologicalVector": { "economic": -0.5, "social": 1 }
+      },
+      {
+        "text": "Cut the welfare bill drastically and impose strict time limits on unemployment benefits to force people back into work.",
+        "affinities": { "conservative": 3, "reform": 3 },
+        "ideologicalVector": { "economic": 2.5, "social": 2 }
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "category": "Trade & Europe",
+    "question": "What should the UK's relationship with Europe look like?",
+    "options": [
+      {
+        "text": "Commit to rejoining the EU at the earliest opportunity, starting with the Single Market and Customs Union.",
+        "affinities": { "libdem": 3, "snp": 3, "green": 2 },
+        "ideologicalVector": { "economic": -1, "social": -2.5 }
+      },
+      {
+        "text": "Do not rejoin the Single Market or Customs Union, but negotiate bespoke security and veterinary pacts to reduce friction.",
+        "affinities": { "labour": 3 },
+        "ideologicalVector": { "economic": 0, "social": 0.5 }
+      },
+      {
+        "text": "Capitalize on Brexit by fully diverging from EU regulations to strike free trade deals globally.",
+        "affinities": { "conservative": 3 },
+        "ideologicalVector": { "economic": 2, "social": 1 }
+      },
+      {
+        "text": "Scrap the Windsor Framework and any residual EU laws, prioritizing total national sovereignty over trade alignment.",
+        "affinities": { "reform": 3, "restore": 3 },
+        "ideologicalVector": { "economic": 2.5, "social": 3 }
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "category": "Constitutional Reform",
+    "question": "Should the UK change its voting system and constitution?",
+    "options": [
+      {
+        "text": "Introduce Proportional Representation, abolish the House of Lords, and lower the voting age to 16.",
+        "affinities": { "libdem": 3, "green": 3, "plaid": 2 },
+        "ideologicalVector": { "economic": -1, "social": -3 }
+      },
+      {
+        "text": "Keep First-Past-The-Post for stability, but gradually reform the House of Lords to remove hereditary peers.",
+        "affinities": { "labour": 3 },
+        "ideologicalVector": { "economic": 0, "social": 0 }
+      },
+      {
+        "text": "Maintain the current First-Past-The-Post system and protect the traditional institutions of the UK.",
+        "affinities": { "conservative": 3 },
+        "ideologicalVector": { "economic": 1, "social": 2 }
+      },
+      {
+        "text": "Hold referendums on major constitutional issues and radically decentralize power from Whitehall, bypassing traditional establishment norms.",
+        "affinities": { "reform": 2, "restore": 2 },
+        "ideologicalVector": { "economic": 1, "social": 2.5 }
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "category": "Social Issues & Equality",
+    "question": "How should the state approach cultural and social rights?",
+    "options": [
+      {
+        "text": "Vigorously push back against 'woke' ideology, defend traditional values, and ban gender identity teaching in all schools.",
+        "affinities": { "reform": 3, "conservative": 2, "restore": 3 },
+        "ideologicalVector": { "economic": 1.5, "social": 3 }
+      },
+      {
+        "text": "Protect women's single-sex spaces clearly in law whilst maintaining a compassionate, medically-led approach to gender.",
+        "affinities": { "conservative": 3, "labour": 2 },
+        "ideologicalVector": { "economic": 0.5, "social": 1.5 }
+      },
+      {
+        "text": "Implement a full, inclusive ban on conversion therapy and strengthen the Equality Act to better protect minorities.",
+        "affinities": { "labour": 3, "libdem": 2 },
+        "ideologicalVector": { "economic": -0.5, "social": -1.5 }
+      },
+      {
+        "text": "Embrace self-identification for gender, aggressively tackle systemic racism, and mandate diversity reporting everywhere.",
+        "affinities": { "green": 3 },
+        "ideologicalVector": { "economic": -2, "social": -3 }
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "category": "Transport & Infrastructure",
+    "question": "How should the UK's transport network be managed?",
+    "options": [
+      {
+        "text": "Fully nationalize all rail, bus, and water networks immediately without compensation to shareholders.",
+        "affinities": { "green": 3 },
+        "ideologicalVector": { "economic": -3, "social": 0 }
+      },
+      {
+        "text": "Bring passenger railways into public ownership as contracts expire and give local mayors control of bus routes.",
+        "affinities": { "labour": 3 },
+        "ideologicalVector": { "economic": -1.5, "social": 0.5 }
+      },
+      {
+        "text": "Keep railways privatized but reform the ticketing system, whilst heavily investing in localized active travel (cycling).",
+        "affinities": { "libdem": 3 },
+        "ideologicalVector": { "economic": 0.5, "social": -1.5 }
+      },
+      {
+        "text": "End the war on motorists by scrapping Low Emission Zones and halting complex, expensive rail projects like HS2.",
+        "affinities": { "reform": 3, "conservative": 2 },
+        "ideologicalVector": { "economic": 2, "social": 1.5 }
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "category": "Foreign Policy",
+    "question": "What should the UK's role in the world be?",
+    "options": [
+      {
+        "text": "An 'America First' style approach: prioritize national interest strictly, cut foreign aid to zero, and ignore globalist institutions.",
+        "affinities": { "reform": 3, "restore": 3 },
+        "ideologicalVector": { "economic": 2, "social": 3 }
+      },
+      {
+        "text": "A strong, independent power projecting military influence globally while maintaining strategic economic alliances.",
+        "affinities": { "conservative": 3 },
+        "ideologicalVector": { "economic": 1.5, "social": 1.5 }
+      },
+      {
+        "text": "A responsible global partner focused on international law, NATO integration, and leading on international development.",
+        "affinities": { "labour": 3 },
+        "ideologicalVector": { "economic": -0.5, "social": 0 }
+      },
+      {
+        "text": "A strictly peaceful nation focused on conflict resolution, human rights, and aggressively dismantling the arms trade.",
+        "affinities": { "green": 3, "plaid": 2 },
+        "ideologicalVector": { "economic": -2, "social": -2.5 }
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "category": "Environment & Nature",
+    "question": "How should we protect the UK's environment?",
+    "options": [
+      {
+        "text": "Implement a new Rights of Nature act, ban all new fossil fuel extraction, and strictly penalize polluting corporations.",
+        "affinities": { "green": 3 },
+        "ideologicalVector": { "economic": -2.5, "social": -1.5 }
+      },
+      {
+        "text": "Place water companies under severe special measures with automatic criminal liability for bosses allowing sewage dumps.",
+        "affinities": { "labour": 3, "libdem": 2 },
+        "ideologicalVector": { "economic": -1, "social": 0.5 }
+      },
+      {
+        "text": "Incentivize farmers and landowners to protect nature via market-driven grants without heavily expanding state regulation.",
+        "affinities": { "conservative": 3 },
+        "ideologicalVector": { "economic": 1.5, "social": 0.5 }
+      },
+      {
+        "text": "Scrap environmental red tape that holds back British farming and industry; nature preservation is secondary to economic growth.",
+        "affinities": { "reform": 3, "restore": 2 },
+        "ideologicalVector": { "economic": 2.5, "social": 1.5 }
+      }
+    ]
+  }
+]
